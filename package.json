@@ -1,0 +1,14 @@
+{
+  "name": "club-calimera-backend",
+  "version": "1.0.0",
+  "description": "Club Calimera Hotel Flow AI - Backend (50+ es zamanli kullanici)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5",
+    "node-sqlite3-wasm": "^0.8.45"
+  }
+}
