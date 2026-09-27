@@ -6,7 +6,7 @@ import { dlg } from './panels.js';
 const row = (ok, label, hint) => `<li>${ok ? '✅' : '⚪'} <strong>${label}</strong> — <span class="muted">${hint}</span></li>`;
 
 export async function openSettings(me) {
-  const s = await api('/settings/integrations');
+  const [s, brand] = await Promise.all([api('/settings/integrations'), api('/settings/brand')]);
   const d = dlg();
   const url = `${location.origin}${s.ingestPath}`;
   d.innerHTML = `<div class="dlg-head"><h2 id="dlg-title">⚙️ Ayarlar ve entegrasyonlar</h2><button class="btn btn-sm" type="button" data-close>Kapat</button></div>
@@ -17,6 +17,14 @@ export async function openSettings(me) {
         ${row(me.publishEnabled, 'Yayın köprüsü', me.publishEnabled ? 'Açık' : 'MOS_PUBLISH_WEBHOOK_URL gerekli')}
         ${row(s.hasIngestToken, 'Otomatik ölçüm alımı', s.hasIngestToken ? 'Anahtar tanımlı' : 'Anahtar oluşturun')}
       </ul>
+      <section class="card"><h3>🏷️ Marka kimliği</h3>
+        <p class="muted">Ekip her kampanyada bu notları “marka kimliği” olarak kullanır (rakamları aynen, kaynağıyla).
+          ${brand.fetchedAt ? `Son güncelleme: ${new Date(brand.fetchedAt).toLocaleDateString('tr-TR')}.` : ''}</p>
+        <div class="field inline"><label for="br-url">Site</label><input id="br-url" type="url" value="${esc(brand.url)}" style="flex:1">
+          <button class="btn btn-sm" type="button" data-brand>🌐 Siteden yenile</button></div>
+        <details><summary>Notları gör</summary><pre class="code" data-brand-notes>${esc(brand.notes)}</pre></details>
+        <p class="error" role="alert" data-brand-err></p>
+      </section>
       <section class="card"><h3>📥 Zapier / Make / n8n ile ölçüm gönderme</h3>
         <p class="muted">Reklam platformundan gelen günlük veriyi bu adrese POST edin. Anahtar yalnızca bir kez gösterilir; sunucuda özeti saklanır.</p>
         <pre class="code">POST ${esc(url)}
@@ -35,6 +43,15 @@ Content-Type: application/json
     </div>`;
   d.showModal();
   d.querySelector('[data-close]').onclick = () => d.close();
+  d.querySelector('[data-brand]').addEventListener('click', async (e) => {
+    e.target.disabled = true; e.target.textContent = '🌐 Okunuyor…'; d.querySelector('[data-brand-err]').textContent = '';
+    try {
+      const r = await api('/settings/brand/import', { method: 'POST', body: { url: d.querySelector('#br-url').value } });
+      d.querySelector('[data-brand-notes]').textContent = r.notes;
+      e.target.textContent = '✅ Güncellendi';
+    } catch (err) { d.querySelector('[data-brand-err]').textContent = err.message; e.target.textContent = '🌐 Siteden yenile'; }
+    e.target.disabled = false;
+  });
   d.querySelector('[data-rotate]').addEventListener('click', async (e) => {
     if (s.hasIngestToken && !confirm('Eski anahtar hemen geçersiz olacak. Devam edilsin mi?')) return;
     const { token } = await api('/settings/integrations/rotate', { method: 'POST' });

@@ -134,3 +134,20 @@ test('yedek: yalnızca sahip indirir, geçerli SQLite dosyası döner', async ()
   t.server.close();
   fs.rmSync(file, { force: true });
 });
+
+test('marka kimliği: siteden tohumlanır, istemlere girer, boş olmayan alanların üzerine yazılmaz', async () => {
+  const { seedProjects } = require('../server/seed');
+  const t = await setup();
+  const { cookie } = await t.login('kurucu', 'test-parola-123');
+  const brand = (await t.call(cookie, '/settings/brand')).data;
+  assert.strictEqual(brand.url, 'https://www.myinovatifzeka.com');
+  assert.match(brand.notes, /350\+ yönetilen otel/);
+  const org = t.db.one('SELECT * FROM organizations');
+  const p = t.db.one("SELECT * FROM projects WHERE name = 'DurakAI'");
+  assert.match(t.pipeline.buildPrompt({ p, c: { title: 'x', languages: 'tr' }, prior: [], brand: org }), /<marka_kimligi kaynak="https:\/\/www.myinovatifzeka.com">/);
+  t.db.run("UPDATE projects SET description = 'Benim metnim' WHERE name = 'DurakAI'");
+  seedProjects(t.db, org.id);
+  assert.strictEqual(t.db.one("SELECT description FROM projects WHERE name = 'DurakAI'").description, 'Benim metnim');
+  assert.strictEqual(t.db.one("SELECT COUNT(*) AS n FROM projects").n, 7, 'tekrar tohumlama çoğaltmaz');
+  t.server.close();
+});

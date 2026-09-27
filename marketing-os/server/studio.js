@@ -76,6 +76,26 @@ function buildStudioRouter({ db, cfg, client, fetchImpl, lookup }) {
     }
   });
 
+  // Ajans marka kimliği (tüm kampanyalarda ajanlara veri olarak verilir).
+  r.get('/settings/brand', need, (req, res) => {
+    const o = db.one('SELECT brand_url, brand_notes, brand_fetched_at FROM organizations WHERE id = ?', [req.orgId]);
+    res.json({ url: o.brand_url || '', notes: o.brand_notes || '', fetchedAt: o.brand_fetched_at || null });
+  });
+
+  r.post('/settings/brand/import', need, async (req, res) => {
+    const url = String(req.body?.url || '').trim();
+    if (!url) return res.status(400).json({ error: 'Sitenizin adresini girin.' });
+    try {
+      const { notes } = await importSite(url, { fetchImpl, lookup, timeoutMs: cfg.siteFetchTimeoutMs });
+      db.run('UPDATE organizations SET brand_url = ?, brand_notes = ?, brand_fetched_at = ? WHERE id = ?', [url, notes, Date.now(), req.orgId]);
+      audit(db, { orgId: req.orgId, username: req.user.username, action: 'brand.import', target: url, ip: req.ip });
+      res.json({ ok: true, notes });
+    } catch (err) {
+      audit(db, { orgId: req.orgId, username: req.user.username, action: 'brand.import', target: url, result: 'fail', ip: req.ip });
+      res.status(err.status || 500).json({ error: err.status ? err.message : 'Site okunamadı. Tekrar deneyin.' });
+    }
+  });
+
   r.get('/campaigns/:id/image', need, (req, res) => {
     const a = latestImage(db, req.orgId, Number(req.params.id));
     if (!a) return res.status(404).json({ error: 'Bu kampanya için üretilmiş görsel yok.' });

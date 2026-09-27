@@ -42,8 +42,8 @@ export function characterSVG(agent) {
   <ellipse cx="60" cy="146" rx="30" ry="4" fill="rgba(0,0,0,.15)"/>
   <g class="body-g">
     ${hairBack}
-    <rect x="46" y="118" width="11" height="26" rx="4" fill="#334155"/>
-    <rect x="63" y="118" width="11" height="26" rx="4" fill="#334155"/>
+    <rect class="leg leg-l" x="46" y="118" width="11" height="26" rx="4" fill="#334155"/>
+    <rect class="leg leg-r" x="63" y="118" width="11" height="26" rx="4" fill="#334155"/>
     <path d="M34 124 Q32 86 60 84 Q88 86 86 124Z" fill="${shirt}"/>
     <rect class="arm arm-l" x="28" y="90" width="11" height="32" rx="5.5" fill="${shirt}" style="filter:brightness(.9)"/>
     <rect class="arm arm-r" x="81" y="90" width="11" height="32" rx="5.5" fill="${shirt}" style="filter:brightness(.9)"/>

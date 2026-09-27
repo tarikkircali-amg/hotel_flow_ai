@@ -43,3 +43,6 @@ module.exports.imageTimeoutMs = Number(process.env.MOS_IMAGE_TIMEOUT_MS) || 1200
 module.exports.currency = process.env.MOS_CURRENCY || 'TRY';
 module.exports.siteFetchTimeoutMs = Number(process.env.MOS_SITE_TIMEOUT_MS) || 10000;
 module.exports.trustProxy = process.env.MOS_TRUST_PROXY || ''; // Hostinger/Nginx arkasında "1"
+
+// Ofiste karakterin evrakı yürüyerek teslim etmesi için adım arası bekleme (ms)
+module.exports.handoffMs = Number(process.env.MOS_HANDOFF_MS ?? 3800);

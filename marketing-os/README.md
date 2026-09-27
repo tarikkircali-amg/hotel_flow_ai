@@ -30,8 +30,21 @@ Yeni brif (+ diller) → Kaan planlar → Selin → Kerem → Pelin → Ali → 
          → 🚀 Yayın aracına gönder (sizin tıklamanız + teyit) → Zapier/Make/n8n → Meta/Buffer/Google Ads TASLAĞI
 ```
 
-Ekranda: sıradaki karakter düşünür (…), klavyede yazar, işini bitirince zıplayıp konuşur ve
-📄 evrakı bir sonraki masaya fırlatır. Onay beklerken müdür el sallar. Boştaki karakterler kendi kendine konuşur.
+## Canlı ofis
+
+Karakterler ofiste **serbestçe dolaşır**:
+
+- İşini bitiren karakter zıplar, evrakı 📄 eline alır, masaların önündeki koridordan ve masalar arasındaki
+  geçitlerden **yürüyerek** bir sonraki ekip arkadaşının masasına gider, "Buyur, hazır!" der ve evrakı bırakır.
+  Alıcı "Aldım! 📥" der ve **evrak eline geçince** işe başlar; teslim eden masasına döner.
+- Boştakiler dinlenme alanına uğrar (☕ kahve, 🚰 su sebili, 📋 iş panosu, 🛋️ kanepe, 🖨️ yazıcı) ya da
+  birbirinin masasına sohbete gider. Görev gelince ne yapıyorsa bırakıp masasına döner.
+- Masadaki etiket her zaman metinle durumu söyler (Düşünüyor / Çalışıyor / Teslim etti / Onay bekliyor /
+  Masada değil); onay beklerken müdür el sallar.
+- "Hareketi azalt" tercihinde karakterler yürümez, yerlerine anında geçer. Mobilde düzen iki sütundur.
+- Yürüyüş için sunucu her teslimde kısa bir süre bekler: `MOS_HANDOFF_MS` (varsayılan 3800 ms).
+
+![Teslim sırası](docs/handoff-sequence.png)
 Sağ panelde onay kutusu, kampanyalar, projeler ve canlı akış.
 
 ## Kurulum (yerel / Windows / Mac)
@@ -82,7 +95,19 @@ Claude görsel üretmez; ayrı bir servis gerekir. `MOS_IMAGE_PROVIDER=openai` (
 `MOS_IMAGE_PROVIDER=fal` (+ `FAL_KEY`) tanımlayın. Kampanyada **🖼️ AI görsel üret** (teyitli, ücretli olabilir)
 Pelin'in görsel komutundan yazısız bir görsel üretir; kreatiflere metnin üstüne binmeyecek şekilde yerleşir.
 
-## Web sitesinden marka bilgisi
+## Marka kimliği (myinovatifzeka.com)
+
+Ajans, her kampanyada **My İnovatif Zeka marka kimliğini** veri olarak kullanır. Başlangıç notları
+[www.myinovatifzeka.com](https://www.myinovatifzeka.com) adresinden alındı: slogan ("Turizmi biz de yönettik.
+Çözümünü biz üretiyoruz."), üç durak yaklaşımı, sitedeki rakamlar (30+ yıl saha deneyimi, 350+ yönetilen otel,
+6 akıllı ürün), İzmir, ton. Ajanlar bu rakamları yalnızca **aynen ve kaynağıyla** kullanır.
+⚙️ **Ayarlar → Marka kimliği → 🌐 Siteden yenile** ile güncellenir.
+
+Portföy de siteden tohumlandı: Hotel Flow AI, WhatsApp Rezervasyon Asistanı, ZEKAI Travel AI, MediTour,
+DurakAI, Clinician OS (+ FinFlow; sitede yok, bilgi girilmeli). Mevcut kurulumlarda yalnızca **boş** alanlar
+doldurulur ve eksik ürünler eklenir; sizin yazdıklarınızın üzerine yazılmaz.
+
+## Web sitesinden proje bilgisi
 
 **Projeler → Düzenle → 🌐 Siteden bilgi al**: sitenizin (ör. Hostinger'daki) başlık, açıklama, başlık ve
 metinleri okunur ve ajansa **veri** olarak verilir; boş alanlara öneri yazılır, kaydetmek size kalır.

@@ -9,7 +9,7 @@ const { publish } = require('./events');
 const { createClient } = require('./llm');
 const { createPipeline } = require('./pipeline');
 const { buildRouter } = require('./routes');
-const { seedProjects } = require('./seed');
+const { seedProjects, seedBrand } = require('./seed');
 const { buildReleaseRouter } = require('./release');
 const { buildStudioRouter } = require('./studio');
 const { buildMetricsRouter } = require('./metrics');
@@ -17,6 +17,7 @@ const { buildMetricsRouter } = require('./metrics');
 function createApp({ config = cfg, db = open(config.dbFile), client = createClient(config), sleep, log = console.log, fetchImpl, lookup } = {}) {
   const org = auth.bootstrap(db, config, log);
   seedProjects(db, org.id);
+  seedBrand(db, org.id);
   const pipeline = createPipeline({ db, cfg: config, client, publish, sleep });
 
   const app = express();

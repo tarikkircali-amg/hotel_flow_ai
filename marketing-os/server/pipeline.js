@@ -29,7 +29,7 @@ function createPipeline({ db, cfg, client, publish, sleep = (ms) => new Promise(
   const agentState = (orgId, agentId, state, line, campaignId) =>
     publish(orgId, 'agent', { agentId, state, line, campaignId });
 
-  function buildPrompt({ p, c, prior }) {
+  function buildPrompt({ p, c, prior, brand }) {
     const project = [
       `Ad: ${p.name}`, `Açıklama: ${p.description || '[yok]'}`, `Hedef kitle: ${p.audience || '[yok]'}`,
       `Web: ${p.url || '[yok]'}`, `Ton: ${p.tone || '[yok]'}`,
@@ -44,7 +44,9 @@ function createPipeline({ db, cfg, client, publish, sleep = (ms) => new Promise(
     ].filter(Boolean).join('\n');
     const team = prior.map((d) =>
       `### ${byId(agentOf(d.agent_id)).role}: ${d.title}\n${String(d.body).slice(0, cfg.contextCharsPerDeliverable)}`).join('\n\n');
-    return `<proje_bilgisi>\n${project}\n</proje_bilgisi>${site}\n\n<brif>\n${brief}\n</brif>\n\n` +
+    const org = brand?.brand_notes
+      ? `<marka_kimligi kaynak="${brand.brand_url || ''}">\n${String(brand.brand_notes).slice(0, 3000)}\n</marka_kimligi>\n\n` : '';
+    return `${org}<proje_bilgisi>\n${project}\n</proje_bilgisi>${site}\n\n<brif>\n${brief}\n</brif>\n\n` +
       `<ekip_ciktilari>\n${team || 'Henüz yok — ilk adım sensin.'}\n</ekip_ciktilari>`;
   }
 
@@ -89,8 +91,13 @@ function createPipeline({ db, cfg, client, publish, sleep = (ms) => new Promise(
     ctx.prior.push({ agent_id: stepId, title: out.title, body: out.body_markdown });
     agentState(orgId, agentId, 'done', out.status_line, ctx.c.id);
     log(orgId, ctx.c.id, agentId, 'deliverable', `${byId(agentId).name}: ${out.title}`);
-    if (next) publish(orgId, 'handoff', { from: agentId, to: next, title: out.title, campaignId: ctx.c.id });
-    await sleep(Math.min(1200, cfg.demoDelayMs));
+    if (next && next !== agentId) {
+      // Karakter evrakı yürüyerek götürür; alıcı evrak eline geçince işe başlasın.
+      publish(orgId, 'handoff', { from: agentId, to: next, title: out.title, campaignId: ctx.c.id });
+      await sleep(cfg.handoffMs);
+    } else {
+      await sleep(Math.min(1200, cfg.demoDelayMs));
+    }
   }
 
   async function execute(orgId, campaignId) {
@@ -101,7 +108,8 @@ function createPipeline({ db, cfg, client, publish, sleep = (ms) => new Promise(
     db.run('UPDATE campaigns SET mode = ? WHERE id = ?', [mode, c.id]);
     setStatus(orgId, c.id, 'calisiyor');
     log(orgId, c.id, 'mudur', 'start', `“${c.title}” (${p.name}) üzerinde çalışma başladı — tur ${c.round}${mode === 'demo' ? ' · demo modu' : ''}`);
-    const ctx = { p, c, prior: [], steps: buildSteps(parseLanguages(c.languages)) };
+    const brand = db.one('SELECT brand_url, brand_notes FROM organizations WHERE id = ?', [orgId]);
+    const ctx = { p, c, brand, prior: [], steps: buildSteps(parseLanguages(c.languages)) };
     try {
       for (let i = 0; i < ctx.steps.length; i++) await runStep(orgId, ctx.steps[i], i, ctx);
       setStatus(orgId, c.id, 'onay_bekliyor');
@@ -152,7 +160,7 @@ function createPipeline({ db, cfg, client, publish, sleep = (ms) => new Promise(
         const agent = byId('analist');
         const system = `Sen ${agent.name}, ajansın ${agent.role}.\n${COMMON_RULES}\n\n${REPORT_TASK}`;
         out = await runAgent(client, cfg, { agentId: 'analist', system,
-          prompt: `${buildPrompt({ p, c, prior: [] })}\n\n<olcum_verisi>\n${dataText}\n</olcum_verisi>` });
+          prompt: `${buildPrompt({ p, c, prior: [], brand: db.one('SELECT brand_url, brand_notes FROM organizations WHERE id = ?', [orgId]) })}\n\n<olcum_verisi>\n${dataText}\n</olcum_verisi>` });
       } else {
         await sleep(cfg.demoDelayMs);
         out = { status_line: 'Haftalık rapor hazır 📊', title: 'Performans raporu', body_markdown: demoBody,

@@ -65,6 +65,7 @@ const COLUMNS = [
   ['projects', 'site_notes', 'TEXT'], ['projects', 'site_fetched_at', 'INTEGER'],
   ['campaigns', 'languages', "TEXT DEFAULT 'tr'"],
   ['organizations', 'ingest_token', 'TEXT'],
+  ['organizations', 'brand_url', 'TEXT'], ['organizations', 'brand_notes', 'TEXT'], ['organizations', 'brand_fetched_at', 'INTEGER'],
 ];
 function migrate(db) {
   for (const [table, col, type] of COLUMNS) {
