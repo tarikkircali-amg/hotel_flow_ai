@@ -7,10 +7,10 @@ const cfg = {
   demoDelayMs: 0, anthropicKey: '',
 };
 
-async function setup({ config: over = {}, fetchImpl } = {}) {
-  const db = open(':memory:');
-  const { app, pipeline } = createApp({ config: { ...cfg, ...over }, db, client: null, sleep: async () => {}, log: () => {}, fetchImpl });
+async function setup({ config: over = {}, fetchImpl, lookup, db = open(':memory:') } = {}) {
+  const { app, pipeline } = createApp({ config: { ...cfg, ...over }, db, client: null, sleep: async () => {}, log: () => {}, fetchImpl, lookup });
   const server = app.listen(0);
+  server.unref(); // başarısız bir test süreci askıda bırakmasın
   const base = `http://127.0.0.1:${server.address().port}/api`;
   const login = async (username, pass) => {
     const r = await fetch(`${base}/login`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username, pass }) });

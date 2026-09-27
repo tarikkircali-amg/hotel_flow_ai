@@ -1,6 +1,38 @@
 // Demo modu: ANTHROPIC_API_KEY yokken ofisin ve onay akışının denenebilmesi için
 // şablon çıktı üretir. Çıktılar açıkça "DEMO" etiketlidir; gerçek içerik değildir.
 
+const { byCode } = require('./languages');
+
+// Demo için elle doğrulanmış örnek ifadeler: "X ile daha akıllı çalış / Yapay zekâ destekli, kurulumu kolay / Ücretsiz dene"
+const SAMPLE = {
+  en: (n) => [`Work smarter with ${n}`, 'AI-powered and easy to set up.', 'Try it free'],
+  de: (n) => [`Arbeite smarter mit ${n}`, 'KI-gestützt und einfach einzurichten.', 'Kostenlos testen'],
+  fr: (n) => [`Travaillez plus intelligemment avec ${n}`, 'Propulsé par l’IA, facile à installer.', 'Essai gratuit'],
+  it: (n) => [`Lavora in modo più smart con ${n}`, 'Basato sull’IA, facile da configurare.', 'Prova gratis'],
+  es: (n) => [`Trabaja de forma más inteligente con ${n}`, 'Con IA y fácil de configurar.', 'Pruébalo gratis'],
+  ru: (n) => [`Работайте умнее с ${n}`, 'На базе ИИ, легко настроить.', 'Попробовать бесплатно'],
+  nl: (n) => [`Slimmer werken met ${n}`, 'AI-gestuurd en eenvoudig in te stellen.', 'Gratis proberen'],
+  pl: (n) => [`Pracuj mądrzej z ${n}`, 'Oparte na AI, łatwe w konfiguracji.', 'Wypróbuj za darmo'],
+  ar: (n) => [`اعمل بذكاء أكبر مع ${n}`, 'مدعوم بالذكاء الاصطناعي وسهل الإعداد.', 'جرّبه مجانًا'],
+  fa: (n) => [`با ${n} هوشمندانه‌تر کار کنید`, 'مبتنی بر هوش مصنوعی و با راه‌اندازی آسان.', 'رایگان امتحان کنید'],
+  zh: (n) => [`用 ${n} 更聪明地工作`, '人工智能驱动，轻松上手。', '免费试用'],
+  ja: (n) => [`${n}で、もっとスマートに働こう`, 'AI搭載で、かんたん導入。', '無料で試す'],
+  ko: (n) => [`${n}로 더 스마트하게 일하세요`, 'AI 기반, 손쉬운 설정.', '무료로 체험하기'],
+};
+
+function localized(code, p) {
+  const lang = byCode(code);
+  const [headline, subline, cta] = (SAMPLE[code] || SAMPLE.en)(p.name);
+  return {
+    status_line: `${lang.native} sürümü hazır 🌍`,
+    title: `Yerelleştirme — ${lang.name}`,
+    body_markdown: `## Başlıklar\n1. ${headline}\n\n## CTA\n- ${cta}\n\n## Kültürel notlar\nDemo modunda yalnızca örnek ifade gösterilir; tam transcreation AI modunda üretilir.`,
+    highlights: [lang.native], open_questions: [],
+    visual: { headline, subline, cta },
+    back_translation: `Başlık: ${p.name} ile daha akıllı çalış · Alt başlık: Yapay zekâ destekli, kurulumu kolay · CTA: Ücretsiz dene`,
+  };
+}
+
 const NOTE = '> ⚠️ **Demo modu:** Bu içerik şablondan üretildi, AI tarafından yazılmadı. Gerçek çıktı için `ANTHROPIC_API_KEY` tanımlayın.\n\n';
 
 function missing(p) {
@@ -76,7 +108,7 @@ const writers = {
 };
 
 function demoOutput(stepId, ctx) {
-  const out = writers[stepId](ctx);
+  const out = stepId.startsWith('lokal:') ? localized(stepId.split(':')[1], ctx.p) : writers[stepId](ctx);
   const low = missing(ctx.p).length >= 2;
   return { ...out, body_markdown: NOTE + out.body_markdown, confidence: low ? 'low' : 'medium' };
 }

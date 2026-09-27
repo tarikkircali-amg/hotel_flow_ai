@@ -1,0 +1,47 @@
+# MİZ Marketing OS — test + Hostinger dağıtım dalı
+# Hostinger'ın Node.js web app kurulumunda kök klasör seçilemediği için, main'e her
+# birleştirmede marketing-os/ klasörü kökte olacak şekilde "deploy/marketing-os" dalına aktarılır.
+# Hostinger bu dalı izler ve her güncellemede otomatik yeniden kurar.
+name: Marketing OS
+
+on:
+  push:
+    branches: [main]
+    paths: ['marketing-os/**', '.github/workflows/marketing-os.yml']
+  pull_request:
+    paths: ['marketing-os/**', '.github/workflows/marketing-os.yml']
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: marketing-os
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: marketing-os/package-lock.json
+      - run: npm ci
+      - run: npm test
+
+  deploy-branch:
+    needs: test
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency: hostinger-deploy-branch
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: marketing-os klasörünü deploy/marketing-os dalına aktar
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git subtree split --prefix marketing-os -b hostinger-build
+          git push --force origin hostinger-build:refs/heads/deploy/marketing-os

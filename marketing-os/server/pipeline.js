@@ -1,11 +1,13 @@
 // Ajans iş hattı (supervisor → uzmanlar → supervisor → İNSAN ONAYI).
 // Organizasyon başına kampanyalar sırayla işlenir ki ofisteki karakterler
 // aynı anda tek bir işe odaklansın ve ekranda takip edilebilsin.
-const { PIPELINE, COMMON_RULES, REVIEW_TASK, byId } = require('./agents');
+const { buildSteps, COMMON_RULES, REVIEW_TASK, REPORT_TASK, localizeTask, byId } = require('./agents');
+const { parseLanguages, byCode } = require('./languages');
 const { runAgent } = require('./llm');
 const { demoOutput } = require('./demo-writer');
 
 const agentOf = (stepId) => stepId.split(':')[0];
+const langOf = (stepId) => (stepId.startsWith('lokal:') ? byCode(stepId.split(':')[1]) : null);
 
 function createPipeline({ db, cfg, client, publish, sleep = (ms) => new Promise((r) => setTimeout(r, ms)) }) {
   const queues = new Map(); // orgId -> { running, items: [] }
@@ -32,14 +34,17 @@ function createPipeline({ db, cfg, client, publish, sleep = (ms) => new Promise(
       `Ad: ${p.name}`, `Açıklama: ${p.description || '[yok]'}`, `Hedef kitle: ${p.audience || '[yok]'}`,
       `Web: ${p.url || '[yok]'}`, `Ton: ${p.tone || '[yok]'}`,
     ].join('\n');
+    const site = p.site_notes
+      ? `\n\n<web_sitesi_notlari kaynak="${p.url}">\n${String(p.site_notes).slice(0, 4000)}\n</web_sitesi_notlari>` : '';
+    const langs = parseLanguages(c.languages).map((x) => byCode(x).name).join(', ');
     const brief = [
       `Kampanya: ${c.title}`, `Amaç: ${c.goal || '[yok]'}`, `Kanallar: ${c.channels || '[yok]'}`,
-      `Bütçe notu (kullanıcı girdisi): ${c.budget_note || '[yok]'}`,
+      `Bütçe notu (kullanıcı girdisi): ${c.budget_note || '[yok]'}`, `Yayın dilleri: ${langs}`,
       c.revision_note ? `KURUCUDAN REVİZYON NOTU (öncelikli uygula): ${c.revision_note}` : '',
     ].filter(Boolean).join('\n');
     const team = prior.map((d) =>
       `### ${byId(agentOf(d.agent_id)).role}: ${d.title}\n${String(d.body).slice(0, cfg.contextCharsPerDeliverable)}`).join('\n\n');
-    return `<proje_bilgisi>\n${project}\n</proje_bilgisi>\n\n<brif>\n${brief}\n</brif>\n\n` +
+    return `<proje_bilgisi>\n${project}\n</proje_bilgisi>${site}\n\n<brif>\n${brief}\n</brif>\n\n` +
       `<ekip_ciktilari>\n${team || 'Henüz yok — ilk adım sensin.'}\n</ekip_ciktilari>`;
   }
 
@@ -49,13 +54,19 @@ function createPipeline({ db, cfg, client, publish, sleep = (ms) => new Promise(
       await sleep(cfg.demoDelayMs);
       return demoOutput(stepId, ctx);
     }
-    const task = stepId === 'mudur:review' ? REVIEW_TASK : agent.task;
+    const lang = langOf(stepId);
+    const task = stepId === 'mudur:review' ? REVIEW_TASK : lang ? localizeTask(lang) : agent.task;
     const system = `Sen ${agent.name}, ajansın ${agent.role}. ${agent.purpose}\n${COMMON_RULES}\n\n${task}`;
-    return runAgent(client, cfg, { agentId: agent.id, system, prompt: buildPrompt(ctx) });
+    // Yerelleştirme yalnızca ana (Türkçe) işi görür; diğer dillerin çıktıları bağlamı şişirmesin.
+    const prior = lang ? ctx.prior.filter((d) => !d.agent_id.startsWith('lokal:')) : ctx.prior;
+    return runAgent(client, cfg, { agentId: agent.id, system, prompt: buildPrompt({ ...ctx, prior }) });
   }
 
   function saveDeliverable(orgId, c, stepId, out) {
-    const data = out.visual ? JSON.stringify({ visual: out.visual }) : null;
+    const lang = langOf(stepId);
+    const payload = { ...(out.visual && { visual: out.visual }), ...(lang && { lang: lang.code, dir: lang.dir }),
+      ...(out.back_translation && { back_translation: out.back_translation }) };
+    const data = Object.keys(payload).length ? JSON.stringify(payload) : null;
     const extra = [
       out.highlights?.length ? `\n\n**Öne çıkanlar:** ${out.highlights.join(' · ')}` : '',
       out.open_questions?.length ? `\n\n**Açık sorular:**\n${out.open_questions.map((q) => `- ${q}`).join('\n')}` : '',
@@ -67,8 +78,10 @@ function createPipeline({ db, cfg, client, publish, sleep = (ms) => new Promise(
 
   async function runStep(orgId, stepId, i, ctx) {
     const agentId = agentOf(stepId);
-    const next = PIPELINE[i + 1] ? agentOf(PIPELINE[i + 1]) : null;
-    agentState(orgId, agentId, 'thinking', stepId === 'mudur:review' ? 'Son kontrolü yapıyorum 🔍' : 'Brifi okuyorum…', ctx.c.id);
+    const next = ctx.steps[i + 1] ? agentOf(ctx.steps[i + 1]) : null;
+    const lang = langOf(stepId);
+    const opening = stepId === 'mudur:review' ? 'Son kontrolü yapıyorum 🔍' : lang ? `${lang.native} sürümü geliyor 🌍` : 'Brifi okuyorum…';
+    agentState(orgId, agentId, 'thinking', opening, ctx.c.id);
     await sleep(Math.min(800, cfg.demoDelayMs));
     agentState(orgId, agentId, 'working', 'Çalışıyorum…', ctx.c.id);
     const out = await produce(stepId, ctx);
@@ -88,9 +101,9 @@ function createPipeline({ db, cfg, client, publish, sleep = (ms) => new Promise(
     db.run('UPDATE campaigns SET mode = ? WHERE id = ?', [mode, c.id]);
     setStatus(orgId, c.id, 'calisiyor');
     log(orgId, c.id, 'mudur', 'start', `“${c.title}” (${p.name}) üzerinde çalışma başladı — tur ${c.round}${mode === 'demo' ? ' · demo modu' : ''}`);
-    const ctx = { p, c, prior: [] };
+    const ctx = { p, c, prior: [], steps: buildSteps(parseLanguages(c.languages)) };
     try {
-      for (let i = 0; i < PIPELINE.length; i++) await runStep(orgId, PIPELINE[i], i, ctx);
+      for (let i = 0; i < ctx.steps.length; i++) await runStep(orgId, ctx.steps[i], i, ctx);
       setStatus(orgId, c.id, 'onay_bekliyor');
       agentState(orgId, 'mudur', 'waiting', 'Onayınızı bekliyoruz 🙌', c.id);
       log(orgId, c.id, 'mudur', 'approval', `“${c.title}” onayınıza sunuldu.`);
@@ -126,7 +139,40 @@ function createPipeline({ db, cfg, client, publish, sleep = (ms) => new Promise(
 
   const busy = (orgId) => Boolean(queues.get(orgId)?.running);
 
-  return { enqueue, recover, busy, mode, buildPrompt };
+  // Deniz'in performans raporu: GERÇEK ölçüm verisinden. Önceki raporun yerine geçer.
+  async function report(orgId, campaignId, { dataText, demoBody }) {
+    const c = db.one('SELECT * FROM campaigns WHERE id = ? AND organization_id = ?', [campaignId, orgId]);
+    const p = db.one('SELECT * FROM projects WHERE id = ? AND organization_id = ?', [c.project_id, orgId]);
+    agentState(orgId, 'analist', 'thinking', 'Rakamlara bakıyorum 📈', c.id);
+    await sleep(Math.min(800, cfg.demoDelayMs));
+    agentState(orgId, 'analist', 'working', 'Rapor yazıyorum…', c.id);
+    let out;
+    try {
+      if (client) {
+        const agent = byId('analist');
+        const system = `Sen ${agent.name}, ajansın ${agent.role}.\n${COMMON_RULES}\n\n${REPORT_TASK}`;
+        out = await runAgent(client, cfg, { agentId: 'analist', system,
+          prompt: `${buildPrompt({ p, c, prior: [] })}\n\n<olcum_verisi>\n${dataText}\n</olcum_verisi>` });
+      } else {
+        await sleep(cfg.demoDelayMs);
+        out = { status_line: 'Haftalık rapor hazır 📊', title: 'Performans raporu', body_markdown: demoBody,
+          highlights: [], confidence: 'medium', open_questions: [] };
+      }
+    } catch (err) {
+      agentState(orgId, 'analist', 'idle');
+      throw err;
+    }
+    db.run("DELETE FROM deliverables WHERE campaign_id = ? AND agent_id = 'analist:rapor' AND organization_id = ?", [c.id, orgId]);
+    saveDeliverable(orgId, c, 'analist:rapor', out);
+    agentState(orgId, 'analist', 'done', out.status_line, c.id);
+    log(orgId, c.id, 'analist', 'report', `Deniz: “${c.title}” için performans raporu hazır.`);
+    publish(orgId, 'campaign', { id: c.id, status: c.status });
+    return out;
+  }
+
+  const logError = (orgId, campaignId, agentId, text) => log(orgId, campaignId, agentId, 'error', text);
+
+  return { enqueue, recover, busy, mode, buildPrompt, report, logError };
 }
 
 module.exports = { createPipeline };

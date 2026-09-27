@@ -9,6 +9,7 @@ const LOOKS = {
   yonetmen:   { skin: 'var(--skin-4)', hair: '#111827', style: 'short' },
   sosyal:     { skin: 'var(--skin-2)', hair: '#1d4ed8', style: 'spiky' },
   analist:    { skin: 'var(--skin-3)', hair: '#4b5563', style: 'bob' },
+  lokal:      { skin: 'var(--skin-2)', hair: '#9a3412', style: 'long' },
 };
 
 const HAIR = {
@@ -27,6 +28,7 @@ const ACCESSORY = {
   cap: () => `<path d="M34 36 Q36 16 60 16 Q84 16 86 36Z" fill="#111827"/><rect x="60" y="32" width="36" height="6" rx="3" fill="#111827"/>`,
   compass: () => `<circle cx="92" cy="112" r="9" fill="#fef3c7" stroke="#92400e" stroke-width="2"/><path d="M92 105 L95 112 L92 119 L89 112Z" fill="#dc2626"/>`,
   phone: () => `<rect x="86" y="100" width="12" height="20" rx="2" fill="#111827"/><rect x="88" y="103" width="8" height="13" fill="#38bdf8"/>`,
+  globe: () => `<g><circle cx="94" cy="110" r="11" fill="#99f6e4" stroke="#0f766e" stroke-width="2"/><path d="M83 110 H105 M94 99 Q86 110 94 121 Q102 110 94 99" stroke="#0f766e" stroke-width="1.6" fill="none"/></g>`,
   chart: () => `<g><rect x="80" y="98" width="24" height="20" rx="2" fill="#fff" stroke="#7c3aed" stroke-width="2"/><path d="M84 114 L90 108 L95 111 L100 102" stroke="#7c3aed" stroke-width="2" fill="none"/></g>`,
 };
 

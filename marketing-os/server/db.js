@@ -36,16 +36,41 @@ function open(file) {
     CREATE TABLE IF NOT EXISTS audit (
       id INTEGER PRIMARY KEY AUTOINCREMENT, organization_id INTEGER, username TEXT,
       action TEXT, target TEXT, result TEXT, ip TEXT, at INTEGER);
+    CREATE TABLE IF NOT EXISTS assets (
+      id INTEGER PRIMARY KEY AUTOINCREMENT, organization_id INTEGER NOT NULL,
+      campaign_id INTEGER NOT NULL, kind TEXT, mime TEXT, data TEXT, prompt TEXT, provider TEXT, created_at INTEGER);
+    CREATE TABLE IF NOT EXISTS metrics (
+      id INTEGER PRIMARY KEY AUTOINCREMENT, organization_id INTEGER NOT NULL,
+      campaign_id INTEGER NOT NULL, day TEXT NOT NULL, channel TEXT NOT NULL, lang TEXT DEFAULT '',
+      impressions INTEGER DEFAULT 0, clicks INTEGER DEFAULT 0, conversions INTEGER DEFAULT 0,
+      spend REAL DEFAULT 0, source TEXT, updated_at INTEGER,
+      UNIQUE(campaign_id, day, channel, lang));
     CREATE INDEX IF NOT EXISTS ix_camp_org ON campaigns(organization_id, status);
+    CREATE INDEX IF NOT EXISTS ix_metrics_camp ON metrics(campaign_id, day);
+    CREATE INDEX IF NOT EXISTS ix_assets_camp ON assets(campaign_id, id);
     CREATE INDEX IF NOT EXISTS ix_deliv_camp ON deliverables(campaign_id, round);
     CREATE INDEX IF NOT EXISTS ix_act_org ON activity(organization_id, id);
   `);
+  migrate(db);
   return {
     raw: db,
     one: (sql, p = []) => db.get(sql, p),
     many: (sql, p = []) => db.all(sql, p),
     run: (sql, p = []) => db.run(sql, p),
   };
+}
+
+// Eski veritabanlarına yeni sütunları ekler (veri kaybı olmadan).
+const COLUMNS = [
+  ['projects', 'site_notes', 'TEXT'], ['projects', 'site_fetched_at', 'INTEGER'],
+  ['campaigns', 'languages', "TEXT DEFAULT 'tr'"],
+  ['organizations', 'ingest_token', 'TEXT'],
+];
+function migrate(db) {
+  for (const [table, col, type] of COLUMNS) {
+    const has = db.all(`PRAGMA table_info(${table})`).some((c) => c.name === col);
+    if (!has) db.exec(`ALTER TABLE ${table} ADD COLUMN ${col} ${type}`);
+  }
 }
 
 function audit(db, { orgId, username, action, target, result = 'ok', ip = '' }) {

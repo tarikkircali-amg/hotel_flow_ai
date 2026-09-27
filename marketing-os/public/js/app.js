@@ -1,10 +1,12 @@
 // Uygulama girişi: oturum, canlı olaylar, sekmeler.
 import { api } from './api.js';
 import { createOffice, esc } from './office.js';
-import { renderCampaigns, renderProjects, openBrief, openProject, openCampaign, toast } from './panels.js';
+import { renderCampaigns, renderProjects, openBrief, openProject, toast } from './panels.js';
+import { openCampaign } from './campaign.js';
+import { openSettings } from './settings.js';
 
 const $ = (s) => document.querySelector(s);
-const ICON = { publish: '🚀', deliverable: '📄', start: '🚀', approval: '🟠', error: '⚠️', decision: '👑' };
+const ICON = { report: '📊', publish: '🚀', deliverable: '📄', start: '🚀', approval: '🟠', error: '⚠️', decision: '👑' };
 const state = { roster: [], projects: [], office: null, es: null, me: null };
 
 async function boot() {
@@ -91,6 +93,14 @@ function connectEvents() {
   es.onerror = () => { $('#now-working').textContent = '🔌 Canlı bağlantı koptu, yeniden bağlanılıyor…'; };
 }
 
+// Vekil sunucu canlı akışı engellerse (bazı paylaşımlı barındırmalar) listeler yine de güncel kalsın.
+setInterval(() => {
+  if (state.me && state.es?.readyState !== EventSource.OPEN && !document.hidden) {
+    refresh().catch(() => {});
+    loadFeed().catch(() => {});
+  }
+}, 15000);
+
 // Sekmeler (klavye: sol/sağ ok)
 const tabs = [...document.querySelectorAll('[role=tab]')];
 function select(tab) {
@@ -111,11 +121,12 @@ tabs.forEach((t, i) => {
 
 document.addEventListener('click', (e) => {
   const open = e.target.closest('[data-open]');
-  if (open) openCampaign(Number(open.dataset.open), state.roster, refresh, { publishEnabled: state.me.publishEnabled }).catch((err) => toast(err.message));
+  if (open) openCampaign(Number(open.dataset.open), { roster: state.roster, me: state.me }, refresh).catch((err) => toast(err.message));
   const proj = e.target.closest('[data-project]');
   if (proj) openProject(state.projects.find((p) => String(p.id) === proj.dataset.project), refresh);
 });
-$('#new-brief').addEventListener('click', () => openBrief(state.projects, refresh));
+$('#new-brief').addEventListener('click', () => openBrief(state.projects, state.me.languages, refresh));
+$('#settings').addEventListener('click', () => openSettings(state.me).catch((err) => toast(err.message)));
 $('#logout').addEventListener('click', async () => { await api('/logout', { method: 'POST' }).catch(() => {}); state.es?.close(); location.reload(); });
 
 function applyTheme() {

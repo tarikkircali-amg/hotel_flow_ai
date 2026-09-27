@@ -2,22 +2,24 @@
 // Kritik eylem → yalnızca "onaylandi" durumunda, açık teyitle, denetim kaydıyla.
 // Gönderilen içerik hedef araçta TASLAK olarak açılmalıdır; nihai "yayınla" yine insandadır.
 const crypto = require('crypto');
-const { renderCreative } = require('./creative');
+const { parseLanguages, byCode } = require('./languages');
 
-function buildPayload(c, project) {
+// creatives: { [lang]: { square: svg, story: svg, wide: svg } } — SVG metni gömülü (alıcının oturumu gerekmez).
+function buildPayload(c, project, creatives = {}) {
   const byAgent = (id) => c.deliverables.find((d) => d.agent_id === id);
   const visual = byAgent('tasarimci')?.data?.visual || null;
   return {
     type: 'miz.campaign.approved',
     sent_at: new Date().toISOString(),
-    campaign: { id: c.id, title: c.title, round: c.round, goal: c.goal, channels: c.channels, mode: c.mode },
+    campaign: { id: c.id, title: c.title, round: c.round, goal: c.goal, channels: c.channels, mode: c.mode,
+      languages: parseLanguages(c.languages).map((code) => ({ code, dir: byCode(code).dir })) },
     project: { name: project.name, url: project.url || null },
     publish_as: 'draft',
-    // Kreatifler SVG metni olarak gömülü: alıcının sunucumuza erişmesi (ve oturum) gerekmez.
-    creatives: visual ? Object.fromEntries(['square', 'story', 'wide']
-      .map((f) => [f, { mime: 'image/svg+xml', svg: renderCreative(visual, { format: f, brand: project.name }) }])) : {},
+    creatives: Object.fromEntries(Object.entries(creatives).map(([lang, set]) =>
+      [lang, Object.fromEntries(Object.entries(set).map(([f, svg]) => [f, { mime: 'image/svg+xml', svg }]))])),
     visual,
-    deliverables: c.deliverables.map((d) => ({ agent: d.agent_id, title: d.title, confidence: d.confidence, body_markdown: d.body })),
+    deliverables: c.deliverables.map((d) => ({ agent: d.agent_id, lang: d.data?.lang || 'tr', title: d.title,
+      confidence: d.confidence, body_markdown: d.body, ...(d.data?.visual && { visual: d.data.visual }) })),
   };
 }
 

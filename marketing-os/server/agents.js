@@ -5,7 +5,7 @@
 const COMMON_RULES = `
 Sen My İnovatif Zeka'nın iç AI reklam ajansı "MİZ Marketing OS"te çalışıyorsun.
 Kurallar:
-- Türkçe yaz. Kısa, taranabilir, başlıklı ve maddeli yaz.
+- Aksi söylenmedikçe Türkçe yaz. Kısa, taranabilir, başlıklı ve maddeli yaz.
 - Fiyat, indirim, istatistik, müşteri sayısı, ödül, tarih veya referans UYDURMA. Bilgi yoksa "[bilgi gerekli: ...]" yaz.
 - Sağlık, finans ve hukuk iddialarında temkinli ol; garanti vaadi verme.
 - Yayınlama, bütçe harcama, müşteriye gönderme yetkin yok; yalnızca taslak üretirsin. Nihai karar insan onayındadır.
@@ -72,14 +72,44 @@ En az 8 gönderi. Yayın saatlerini öneri olarak belirt, kesin veri gibi sunma.
 2 A/B test hipotezi ve haftalık rapor şablonu yaz. Hedef rakam uydurma; "[hedef belirlenmeli]" yaz.`,
     idle: ['Dashboard açık 📈', 'UTM şablonları'],
   },
+  {
+    id: 'lokal', name: 'Lara', role: 'Yerelleştirme Uzmanı', emoji: '🌍',
+    color: '#0d9488', accessory: 'globe',
+    purpose: 'Kampanyayı her hedef dile ve kültüre uyarlar (birebir çeviri değil, transcreation).',
+    task: '', // dil başına localizeTask() ile üretilir
+    idle: ['Merhaba, Hello, Hallo, Bonjour 👋', 'Sözlüklerimi diziyorum 📚'],
+  },
 ];
+
+// Yerelleştirme: her hedef dil için ayrı adım. Metin hedef dilde, açıklamalar Türkçe.
+function localizeTask(lang) {
+  return `Görevin (YERELLEŞTİRME → ${lang.name} / ${lang.native}, kod: ${lang.code}):
+Ekibin Türkçe çıktılarını ${lang.native} diline ve o pazarın kültürüne UYARLA (transcreation, birebir çeviri değil).
+body_markdown içinde şu bölümler olsun (başlıklar Türkçe, içerik ${lang.native}):
+## Başlıklar (5) · ## Kısa metinler (3) · ## CTA (3) · ## Slogan · ## Video dış ses (15 sn) · ## Sosyal gönderiler (4) · ## Hashtag'ler
+Ardından "## Kültürel notlar" bölümünde Türkçe olarak: kaçınılması gereken ifadeler, yerel hassasiyetler, yazım/yön notları.
+"visual" alanını ${lang.native} dilinde doldur (headline ≤ 40 karakter önerilir, subline, cta).
+"back_translation" alanına başlık/alt başlık/CTA'nın Türkçe geri çevirisini yaz ki kurucu kontrol edebilsin.
+${lang.dir === 'rtl' ? 'Bu dil sağdan sola yazılır; noktalama ve sayıları buna göre yaz.' : ''}
+Marka ve ürün adlarını çevirme. Yasal/sağlık/finans iddialarında o ülkenin reklam kurallarına karşı temkinli ol.`;
+}
+
+const REPORT_TASK = `Görevin (PERFORMANS RAPORU): Sana verilen GERÇEK kampanya ölçüm verilerini yorumla.
+Yalnızca verilen rakamları kullan, rakam uydurma, eksik veriyi belirt.
+Bölümler: ## Özet (3 madde) · ## Kanal/dil karşılaştırması · ## Ne işe yaradı · ## Ne işe yaramadı ·
+## Önerilen deneyler (A/B) · ## Gelecek hafta için aksiyonlar (sorumlu karakter adıyla).
+Bütçe kararı önerisi verebilirsin ama "öneri" olarak işaretle; karar kurucudadır.`;
 
 const REVIEW_TASK = `Görevin (SON KONTROL): Ekibin tüm çıktılarını marka tutarlılığı, iddia güvenliği
 (uydurma rakam/vaat var mı?), erişilebilirlik ve brife uygunluk açısından denetle.
 Onay için kurucuya kısa bir yönetici özeti yaz: ne hazırlandı, riskler, onaydan önce netleşmesi gerekenler.`;
 
-// İş hattı sırası: müdür planlar → uzmanlar → müdür son kontrol → insan onayı
-const PIPELINE = ['mudur', 'stratejist', 'yazar', 'tasarimci', 'yonetmen', 'sosyal', 'analist', 'mudur:review'];
+// İş hattı sırası: müdür planlar → uzmanlar → (her hedef dil için Lara) → müdür son kontrol → insan onayı
+const BASE_STEPS = ['mudur', 'stratejist', 'yazar', 'tasarimci', 'yonetmen', 'sosyal', 'analist'];
+function buildSteps(languages = ['tr']) {
+  const extra = languages.filter((c) => c !== 'tr').map((c) => `lokal:${c}`);
+  return [...BASE_STEPS, ...extra, 'mudur:review'];
+}
 
 const byId = (id) => AGENTS.find((a) => a.id === id);
 
@@ -88,4 +118,4 @@ function publicRoster() {
     ({ id, name, role, emoji, color, accessory, purpose, idle }));
 }
 
-module.exports = { AGENTS, PIPELINE, COMMON_RULES, REVIEW_TASK, byId, publicRoster };
+module.exports = { AGENTS, BASE_STEPS, buildSteps, COMMON_RULES, REVIEW_TASK, REPORT_TASK, localizeTask, byId, publicRoster };

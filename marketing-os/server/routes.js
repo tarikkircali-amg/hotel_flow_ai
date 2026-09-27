@@ -4,6 +4,8 @@ const { audit } = require('./db');
 const auth = require('./auth');
 const { subscribe } = require('./events');
 const { publicRoster, byId } = require('./agents');
+const { LANGUAGES, parseLanguages } = require('./languages');
+const { imageEnabled } = require('./images');
 
 const clean = (v, max = 2000) => String(v ?? '').trim().slice(0, max);
 const COLOR = /^#[0-9a-fA-F]{6}$/;
@@ -35,11 +37,12 @@ function campaignWithDeliverables(db, orgId, id) {
 }
 
 function exportMarkdown(c) {
-  const parts = [`# ${c.title}\n`, `Proje: ${c.project_name} · Tur: ${c.round} · Durum: ${c.status} · Mod: ${c.mode}\n`];
+  const parts = [`# ${c.title}\n`, `Proje: ${c.project_name} · Tur: ${c.round} · Durum: ${c.status} · Mod: ${c.mode} · Diller: ${parseLanguages(c.languages).join(', ')}\n`];
   for (const d of c.deliverables) {
     const a = byId(d.agent_id.split(':')[0]);
     parts.push(`\n---\n\n## ${a.emoji} ${a.role} (${a.name}) — ${d.title}\n\nGüven: ${d.confidence}\n\n${d.body}\n`);
     if (d.data?.visual) parts.push(`\n**Maket:** ${JSON.stringify(d.data.visual, null, 2)}\n`);
+    if (d.data?.back_translation) parts.push(`\n**Türkçe geri çeviri:** ${d.data.back_translation}\n`);
   }
   return parts.join('');
 }
@@ -67,11 +70,12 @@ function buildRouter({ db, cfg, pipeline }) {
 
   r.get('/me', need, (req, res) => res.json({
     user: req.user, mode: pipeline.mode, model: pipeline.mode === 'ai' ? cfg.model : null, roster: publicRoster(),
-    publishEnabled: Boolean(cfg.publishWebhookUrl),
+    publishEnabled: Boolean(cfg.publishWebhookUrl), imageEnabled: imageEnabled(cfg), languages: LANGUAGES, currency: cfg.currency,
   }));
 
   r.get('/events', need, (req, res) => {
-    res.set({ 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache', Connection: 'keep-alive' });
+    // X-Accel-Buffering: Hostinger/LiteSpeed/Nginx gibi vekillerin olayları tamponlamasını engeller.
+    res.set({ 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache, no-transform', Connection: 'keep-alive', 'X-Accel-Buffering': 'no' });
     res.flushHeaders();
     res.write(`event: hello\ndata: {"busy":${pipeline.busy(req.orgId)}}\n\n`);
     const off = subscribe(req.orgId, res);
@@ -105,7 +109,7 @@ function buildRouter({ db, cfg, pipeline }) {
 
   // --- Kampanyalar ---
   r.get('/campaigns', need, (req, res) => res.json(db.many(
-    `SELECT c.id, c.title, c.status, c.round, c.mode, c.updated_at, p.name AS project_name, p.color AS project_color
+    `SELECT c.id, c.title, c.status, c.round, c.mode, c.languages, c.updated_at, p.name AS project_name, p.color AS project_color
      FROM campaigns c JOIN projects p ON p.id = c.project_id WHERE c.organization_id = ? ORDER BY c.updated_at DESC LIMIT 100`,
     [req.orgId])));
 
@@ -116,9 +120,10 @@ function buildRouter({ db, cfg, pipeline }) {
     const title = clean(b.title, 120);
     if (!title) return res.status(400).json({ error: 'Kampanya adı zorunludur.' });
     const now = Date.now();
-    const info = db.run(`INSERT INTO campaigns (organization_id, project_id, title, goal, channels, budget_note, status, round, created_at, updated_at)
-                         VALUES (?,?,?,?,?,?,?,?,?,?)`,
-      [req.orgId, project.id, title, clean(b.goal), clean(b.channels, 300), clean(b.budget_note, 300), 'sirada', 1, now, now]);
+    const languages = parseLanguages(b.languages).join(',');
+    const info = db.run(`INSERT INTO campaigns (organization_id, project_id, title, goal, channels, budget_note, languages, status, round, created_at, updated_at)
+                         VALUES (?,?,?,?,?,?,?,?,?,?,?)`,
+      [req.orgId, project.id, title, clean(b.goal), clean(b.channels, 300), clean(b.budget_note, 300), languages, 'sirada', 1, now, now]);
     const id = Number(info.lastInsertRowid);
     audit(db, { ...who(req), action: 'campaign.create', target: id });
     pipeline.enqueue(req.orgId, id);

@@ -24,9 +24,17 @@ const VISUAL = {
   },
 };
 
+const LOCAL_VISUAL = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['headline', 'subline', 'cta'],
+  properties: { headline: str, subline: str, cta: str },
+};
+
 function schemaFor(agentId) {
   const props = { ...BASE_PROPS };
   if (agentId === 'tasarimci') props.visual = VISUAL;
+  if (agentId === 'lokal') { props.visual = LOCAL_VISUAL; props.back_translation = str; }
   return { type: 'object', additionalProperties: false, required: Object.keys(props), properties: props };
 }
 
@@ -36,14 +44,18 @@ function createClient(cfg) {
 }
 
 // Tek ajan adımı. Hata olursa anlaşılır bir Error fırlatır (iç ayrıntı sızdırmadan).
-async function runAgent(client, cfg, { agentId, system, prompt }) {
+const runAgent = (client, cfg, { agentId, system, prompt }) =>
+  runJSON(client, cfg, { system, prompt, schema: schemaFor(agentId) });
+
+// Yapılandırılmış JSON çıktılı genel çağrı.
+async function runJSON(client, cfg, { system, prompt, schema }) {
   let response;
   try {
     response = await client.messages.create({
       model: cfg.model,
       max_tokens: cfg.maxTokens,
       system,
-      output_config: { effort: cfg.effort, format: { type: 'json_schema', schema: schemaFor(agentId) } },
+      output_config: { effort: cfg.effort, format: { type: 'json_schema', schema } },
       messages: [{ role: 'user', content: prompt }],
     });
   } catch (err) {
@@ -72,4 +84,4 @@ function friendly(err) {
   return new Error('AI adımı beklenmedik şekilde başarısız oldu. Yeniden deneyin.');
 }
 
-module.exports = { createClient, runAgent, schemaFor };
+module.exports = { createClient, runAgent, runJSON, schemaFor };

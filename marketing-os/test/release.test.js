@@ -52,7 +52,7 @@ test('yayın: imzalı taslak paketi gönderilir, durum ve denetim güncellenir',
   const body = JSON.parse(sent[0].body);
   assert.strictEqual(body.publish_as, 'draft');
   assert.strictEqual(body.deliverables.length, 8);
-  assert.match(body.creatives.wide.svg, /width="1920"/);
+  assert.match(body.creatives.tr.wide.svg, /width="1920"/);
   const expected = 'sha256=' + crypto.createHmac('sha256', 'gizli').update(sent[0].body).digest('hex');
   assert.strictEqual(sent[0].headers['X-MOS-Signature'], expected);
   assert.strictEqual((await t.call(cookie, `/campaigns/${id}`)).data.status, 'yayina_gonderildi');

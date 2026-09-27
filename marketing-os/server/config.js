@@ -31,3 +31,15 @@ module.exports = {
 module.exports.publishWebhookUrl = process.env.MOS_PUBLISH_WEBHOOK_URL || '';
 module.exports.publishSecret = process.env.MOS_PUBLISH_SECRET || '';
 module.exports.publishTimeoutMs = Number(process.env.MOS_PUBLISH_TIMEOUT_MS) || 15000;
+
+// AI görsel üretimi (isteğe bağlı). Claude görsel üretmez; ayrı bir sağlayıcı gerekir.
+module.exports.imageProvider = (process.env.MOS_IMAGE_PROVIDER || '').toLowerCase(); // openai | fal | ''
+module.exports.openaiKey = process.env.OPENAI_API_KEY || '';
+module.exports.falKey = process.env.FAL_KEY || '';
+module.exports.imageModel = process.env.MOS_IMAGE_MODEL || '';
+module.exports.imageTimeoutMs = Number(process.env.MOS_IMAGE_TIMEOUT_MS) || 120000;
+
+// Ölçüm ve web sitesi
+module.exports.currency = process.env.MOS_CURRENCY || 'TRY';
+module.exports.siteFetchTimeoutMs = Number(process.env.MOS_SITE_TIMEOUT_MS) || 10000;
+module.exports.trustProxy = process.env.MOS_TRUST_PROXY || ''; // Hostinger/Nginx arkasında "1"

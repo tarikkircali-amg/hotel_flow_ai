@@ -11,21 +11,26 @@ const { createPipeline } = require('./pipeline');
 const { buildRouter } = require('./routes');
 const { seedProjects } = require('./seed');
 const { buildReleaseRouter } = require('./release');
+const { buildStudioRouter } = require('./studio');
+const { buildMetricsRouter } = require('./metrics');
 
-function createApp({ config = cfg, db = open(config.dbFile), client = createClient(config), sleep, log = console.log, fetchImpl } = {}) {
+function createApp({ config = cfg, db = open(config.dbFile), client = createClient(config), sleep, log = console.log, fetchImpl, lookup } = {}) {
   const org = auth.bootstrap(db, config, log);
   seedProjects(db, org.id);
   const pipeline = createPipeline({ db, cfg: config, client, publish, sleep });
 
   const app = express();
   app.disable('x-powered-by');
-  app.use(express.json({ limit: '200kb' }));
+  if (config.trustProxy) app.set('trust proxy', Number(config.trustProxy) || config.trustProxy);
+  app.use(express.json({ limit: '1mb' }));
   app.use((req, res, next) => {
     res.set({ 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'same-origin', 'X-Frame-Options': 'DENY' });
     next();
   });
   app.use('/api', buildRouter({ db, cfg: config, pipeline }));
   app.use('/api', buildReleaseRouter({ db, cfg: config, fetchImpl }));
+  app.use('/api', buildStudioRouter({ db, cfg: config, client, fetchImpl, lookup }));
+  app.use('/api', buildMetricsRouter({ db, cfg: config, pipeline }));
   app.use(express.static(path.join(__dirname, '..', 'public')));
   // Beklenmeyen hatalar: kullanıcıya iç ayrıntı sızdırmadan anlaşılır mesaj
   app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
@@ -42,6 +47,10 @@ if (require.main === module) {
     console.log(pipeline.mode === 'ai'
       ? `   AI modu açık (model: ${cfg.model}).`
       : '   Demo modu: ANTHROPIC_API_KEY tanımlı değil, şablon çıktılar üretilecek.');
+    if (process.env.NODE_ENV === 'production' && path.resolve(cfg.dbFile).startsWith(path.resolve(__dirname, '..'))) {
+      console.warn('⚠️  Veritabanı uygulama klasörünün içinde. Barındırıcı yeniden dağıtımda bu klasörü silebilir;');
+      console.warn('   MOS_DB_FILE ile uygulama dışında kalıcı bir yol verin (ör. ~/domains/<alan-adı>/mos-data/marketing-os.db).');
+    }
     const n = pipeline.recover();
     if (n) console.log(`   Yarım kalan ${n} kampanya kuyruğa geri alındı.`);
   });

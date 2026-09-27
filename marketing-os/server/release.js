@@ -6,6 +6,27 @@ const { publish } = require('./events');
 const { renderCreative, FORMATS } = require('./creative');
 const { buildPayload, sendWebhook } = require('./publish');
 const { campaignWithDeliverables } = require('./routes');
+const { latestImage } = require('./studio');
+const { byCode, parseLanguages } = require('./languages');
+
+// Bir dil için maket: tasarımcının renkleri + (varsa) Lara'nın o dildeki metinleri.
+function visualFor(c, lang) {
+  const base = c.deliverables.find((d) => d.agent_id === 'tasarimci')?.data?.visual;
+  if (!base) return null;
+  if (!lang || lang === 'tr') return base;
+  const loc = c.deliverables.find((d) => d.agent_id === `lokal:${lang}`)?.data?.visual;
+  return loc ? { ...base, ...loc } : null;
+}
+
+function creativeFor(db, orgId, c, format, lang) {
+  const visual = visualFor(c, lang);
+  if (!visual) return null;
+  const img = latestImage(db, orgId, c.id);
+  return renderCreative(visual, {
+    format, brand: c.project_name, lang: lang || 'tr', dir: byCode(lang || 'tr')?.dir,
+    image: img ? `data:${img.mime};base64,${img.data}` : '',
+  });
+}
 
 function buildReleaseRouter({ db, cfg, fetchImpl }) {
   const r = express.Router();
@@ -21,12 +42,13 @@ function buildReleaseRouter({ db, cfg, fetchImpl }) {
   r.get('/campaigns/:id/creative/:format.svg', need, (req, res) => {
     const c = load(req, res);
     if (!c) return;
-    const visual = c.deliverables.find((d) => d.agent_id === 'tasarimci')?.data?.visual;
-    if (!visual) return res.status(404).json({ error: 'Bu kampanyada henüz tasarım maketi yok.' });
     if (!FORMATS[req.params.format]) return res.status(400).json({ error: 'Format square, story veya wide olmalı.' });
+    const lang = byCode(String(req.query.lang || 'tr')) ? String(req.query.lang || 'tr') : 'tr';
+    const svg = creativeFor(db, req.orgId, c, req.params.format, lang);
+    if (!svg) return res.status(404).json({ error: 'Bu dil için henüz tasarım/yerelleştirme yok.' });
     res.set('Content-Type', 'image/svg+xml; charset=utf-8');
-    if (req.query.download) res.set('Content-Disposition', `attachment; filename="kampanya-${c.id}-${req.params.format}.svg"`);
-    res.send(renderCreative(visual, { format: req.params.format, brand: c.project_name }));
+    if (req.query.download) res.set('Content-Disposition', `attachment; filename="kampanya-${c.id}-${lang}-${req.params.format}.svg"`);
+    res.send(svg);
   });
 
   // Kritik eylem: yalnızca onaylı kampanya + açık teyit. Denetime yazılır.
@@ -40,7 +62,12 @@ function buildReleaseRouter({ db, cfg, fetchImpl }) {
     if (inFlight.has(c.id)) return res.status(409).json({ error: 'Bu kampanya şu an gönderiliyor, lütfen bekleyin.' });
     inFlight.add(c.id);
     try {
-      await sendWebhook(cfg, buildPayload(c, project), fetchImpl);
+      const creatives = {};
+      for (const lang of parseLanguages(c.languages)) {
+        const set = Object.fromEntries(Object.keys(FORMATS).map((f) => [f, creativeFor(db, req.orgId, c, f, lang)]).filter(([, v]) => v));
+        if (Object.keys(set).length) creatives[lang] = set;
+      }
+      await sendWebhook(cfg, buildPayload(c, project, creatives), fetchImpl);
     } catch (err) {
       audit(db, { ...who, action: 'campaign.publish', result: 'fail' });
       return res.status(err.status || 502).json({ error: err.message });

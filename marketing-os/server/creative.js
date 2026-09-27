@@ -6,7 +6,8 @@ const FORMATS = {
   wide: { w: 1920, h: 1080, label: '16:9 (YouTube/web)' },
 };
 const HEX = /^#[0-9a-fA-F]{6}$/;
-const FONT = "Nunito, 'Segoe UI', Arial, sans-serif";
+const FONT = "Nunito, 'Segoe UI', 'Noto Sans', 'Noto Sans Arabic', Vazirmatn, 'Noto Sans SC', 'Noto Sans JP', 'Noto Sans KR', 'PingFang SC', 'Hiragino Sans', 'Microsoft YaHei', Tahoma, Arial, sans-serif";
+const CJK = /[\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]/;
 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -30,57 +31,94 @@ function palette(v = {}) {
   return { bg, fg, accent, ctaText: bestText(accent) };
 }
 
-// Basit satır kırma: ortalama karakter genişliği ≈ 0.55 × punto.
+// Basit satır kırma: Latin/Arap/Kiril ≈ 0.55 × punto; Çince/Japonca/Korece ≈ 1 × punto
+// ve boşluksuz metinde karakter bazında kırılır.
 function wrap(text, fontSize, width, maxLines) {
-  const perLine = Math.max(6, Math.floor(width / (fontSize * 0.55)));
+  const src = String(text || '');
+  const cjk = CJK.test(src);
+  const perLine = Math.max(4, Math.floor(width / (fontSize * (cjk ? 1.05 : 0.55))));
+  // CJK: Latin kelimeler bütün kalır, CJK karakterleri tek tek kırılabilir.
+  const tokens = cjk ? src.replace(/\s+/g, ' ').match(/[A-Za-z0-9@#&.'’-]+|\s|./gu) : src.split(/\s+/).filter(Boolean);
+  const join = cjk ? '' : ' ';
   const lines = [];
   let cur = '';
-  for (const word of String(text || '').split(/\s+/).filter(Boolean)) {
-    const next = cur ? `${cur} ${word}` : word;
-    if (next.length > perLine && cur) { lines.push(cur); cur = word; } else cur = next;
+  for (const word of tokens) {
+    if (cjk && !cur && word === ' ') continue;
+    const next = cur ? `${cur}${join}${word}` : word;
+    const len = cjk ? [...next].reduce((n, ch) => n + (CJK.test(ch) ? 1 : 0.55), 0) : next.length;
+    const closing = cjk && /^[、。，．！？）」』】〉》!?,.)]$/.test(word); // satır başına noktalama gelmesin
+    if (len > perLine && cur && !closing) { lines.push(cur.trimEnd()); cur = word === ' ' ? '' : word; } else cur = next;
   }
   if (cur) lines.push(cur);
   if (lines.length > maxLines) {
     const kept = lines.slice(0, maxLines);
-    kept[maxLines - 1] = kept[maxLines - 1].replace(/\s*\S*$/, '') + '…';
+    kept[maxLines - 1] = (cjk ? kept[maxLines - 1].slice(0, -1) : kept[maxLines - 1].replace(/\s*\S*$/, '')) + '…';
     return kept;
   }
   return lines;
 }
 
-function textBlock(lines, { x, y, size, weight, fill, lh = 1.12 }) {
+// rtl: metin sağa hizalanır (x = sağ kenar), yön sağdan sola.
+function textBlock(lines, { x, y, size, weight, fill, lh = 1.12, rtl = false }) {
+  const dirAttr = rtl ? ' direction="rtl" unicode-bidi="embed" text-anchor="start"' : '';
   return lines.map((l, i) =>
-    `<text x="${x}" y="${Math.round(y + i * size * lh)}" font-family="${FONT}" font-size="${size}" font-weight="${weight}" fill="${fill}">${esc(l)}</text>`).join('');
+    `<text x="${x}" y="${Math.round(y + i * size * lh)}" font-family="${FONT}" font-size="${size}" font-weight="${weight}" fill="${fill}"${dirAttr}>${esc(l)}</text>`).join('');
 }
 
-function layout(fmt, w, h) {
-  if (fmt === 'wide') return { pad: 120, textW: w * 0.55, hs: 104, ss: 44, top: h * 0.32, maxH: 3 };
-  if (fmt === 'story') return { pad: 96, textW: w - 192, hs: 118, ss: 50, top: h * 0.42, maxH: 5 };
-  return { pad: 96, textW: w - 192, hs: 96, ss: 44, top: h * 0.36, maxH: 4 };
+function layout(fmt, w, h, withImage) {
+  if (fmt === 'wide') return { pad: 120, textW: w * 0.5, hs: 100, ss: 42, top: h * 0.32, maxH: 3 };
+  if (fmt === 'story') return { pad: 96, textW: w - 192, hs: 110, ss: 48, top: h * (withImage ? 0.56 : 0.42), maxH: withImage ? 4 : 5 };
+  return { pad: 96, textW: w - 192, hs: withImage ? 78 : 96, ss: withImage ? 38 : 44, top: h * (withImage ? 0.56 : 0.36), maxH: withImage ? 2 : 4 };
 }
 
-function renderCreative(visual, { format = 'square', brand = '' } = {}) {
+// Görsel (AI üretimi) varsa metnin üstüne binmeyecek bir alana yerleşir; metin hep düz zemin üzerinde
+// kalır, böylece kontrast garantisi bozulmaz.
+function imageLayer(format, w, h, image, rtl) {
+  if (!image) return '';
+  const href = esc(image);
+  if (format === 'wide') {
+    const x = rtl ? 0 : w * 0.58;
+    return `<clipPath id="ci"><rect x="${x}" y="0" width="${w * 0.42}" height="${h}"/></clipPath>
+<image href="${href}" x="${x}" y="0" width="${w * 0.42}" height="${h}" preserveAspectRatio="xMidYMid slice" clip-path="url(#ci)"/>`;
+  }
+  const ih = h * (format === 'story' ? 0.48 : 0.46);
+  return `<image href="${href}" x="0" y="0" width="${w}" height="${ih}" preserveAspectRatio="xMidYMid slice"/>`;
+}
+
+function decoration(format, w, h, c, { rtl, image }) {
+  if (image) return '';
+  const edge = rtl ? 0 : w;
+  if (format === 'wide') {
+    const cx = rtl ? w * 0.14 : w * 0.86;
+    return `<circle cx="${cx}" cy="${h * 0.5}" r="${h * 0.42}" fill="${c.accent}" opacity=".9"/><circle cx="${rtl ? w * 0.1 : w * 0.9}" cy="${h * 0.2}" r="${h * 0.12}" fill="${c.fg}" opacity=".12"/>`;
+  }
+  return `<circle cx="${edge}" cy="0" r="${format === 'story' ? w * 0.34 : w * 0.28}" fill="${c.accent}" opacity=".9"/><circle cx="${rtl ? w * 0.9 : w * 0.1}" cy="${h * 0.95}" r="${w * 0.22}" fill="${c.fg}" opacity=".08"/>`;
+}
+
+// visual: {headline, subline, cta, bg, fg, accent}; opts: format, brand, dir ('rtl'), lang, image (data URI)
+function renderCreative(visual, { format = 'square', brand = '', dir = 'ltr', lang = '', image = '' } = {}) {
   const f = FORMATS[format];
   if (!f) throw new Error('Geçersiz format');
   const { w, h } = f;
+  const rtl = dir === 'rtl';
   const c = palette(visual);
-  const L = layout(format, w, h);
+  const L = layout(format, w, h, Boolean(image));
+  const x = rtl ? w - L.pad : L.pad;
   const head = wrap(visual?.headline, L.hs, L.textW, L.maxH);
-  const sub = wrap(visual?.subline, L.ss, L.textW, 3);
+  const sub = wrap(visual?.subline, L.ss, L.textW, image && format === 'square' ? 2 : 3);
   const subY = L.top + head.length * L.hs * 1.12 + L.ss * 0.8;
   const ctaY = subY + sub.length * L.ss * 1.3 + 40;
-  const cta = String(visual?.cta || '').slice(0, 30);
-  const ctaW = Math.max(260, cta.length * L.ss * 0.62 + 96);
-  const blob = format === 'wide'
-    ? `<circle cx="${w * 0.86}" cy="${h * 0.5}" r="${h * 0.42}" fill="${c.accent}" opacity=".9"/><circle cx="${w * 0.9}" cy="${h * 0.2}" r="${h * 0.12}" fill="${c.fg}" opacity=".12"/>`
-    : `<circle cx="${w}" cy="0" r="${format === 'story' ? w * 0.34 : w * 0.28}" fill="${c.accent}" opacity=".9"/><circle cx="${w * 0.1}" cy="${h * 0.95}" r="${w * 0.22}" fill="${c.fg}" opacity=".08"/>`;
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(visual?.headline)}">
-<rect width="${w}" height="${h}" fill="${c.bg}"/>${blob}
-${brand ? textBlock([brand.toUpperCase()], { x: L.pad, y: L.pad + 30, size: 34, weight: 800, fill: c.fg }) : ''}
-${textBlock(head, { x: L.pad, y: L.top, size: L.hs, weight: 900, fill: c.fg })}
-${textBlock(sub, { x: L.pad, y: subY, size: L.ss, weight: 600, fill: c.fg, lh: 1.3 })}
-${cta ? `<rect x="${L.pad}" y="${Math.round(ctaY)}" width="${Math.round(ctaW)}" height="${Math.round(L.ss * 2.1)}" rx="${Math.round(L.ss * 1.05)}" fill="${c.accent}"/>
-${textBlock([cta], { x: L.pad + 48, y: ctaY + L.ss * 1.4, size: L.ss, weight: 800, fill: c.ctaText })}` : ''}
+  const cta = [...String(visual?.cta || '')].slice(0, 30).join('');
+  const ctaW = Math.max(260, [...cta].length * L.ss * (CJK.test(cta) ? 1.05 : 0.62) + 96);
+  const ctaX = rtl ? x - ctaW : x;
+  const brandY = image ? h - L.pad + 10 : L.pad + 30;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(visual?.headline)}"${lang ? ` xml:lang="${esc(lang)}"` : ''}>
+<rect width="${w}" height="${h}" fill="${c.bg}"/>${decoration(format, w, h, c, { rtl, image })}${imageLayer(format, w, h, image, rtl)}
+${brand ? textBlock([brand.toUpperCase()], { x, y: brandY, size: 34, weight: 800, fill: c.fg, rtl }) : ''}
+${textBlock(head, { x, y: L.top, size: L.hs, weight: 900, fill: c.fg, rtl })}
+${textBlock(sub, { x, y: subY, size: L.ss, weight: 600, fill: c.fg, lh: 1.3, rtl })}
+${cta ? `<rect x="${Math.round(ctaX)}" y="${Math.round(ctaY)}" width="${Math.round(ctaW)}" height="${Math.round(L.ss * 2.1)}" rx="${Math.round(L.ss * 1.05)}" fill="${c.accent}"/>
+${textBlock([cta], { x: rtl ? ctaX + ctaW - 48 : ctaX + 48, y: ctaY + L.ss * 1.4, size: L.ss, weight: 800, fill: c.ctaText, rtl })}` : ''}
 </svg>`;
 }
 
