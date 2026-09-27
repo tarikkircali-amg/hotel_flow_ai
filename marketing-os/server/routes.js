@@ -67,6 +67,7 @@ function buildRouter({ db, cfg, pipeline }) {
 
   r.get('/me', need, (req, res) => res.json({
     user: req.user, mode: pipeline.mode, model: pipeline.mode === 'ai' ? cfg.model : null, roster: publicRoster(),
+    publishEnabled: Boolean(cfg.publishWebhookUrl),
   }));
 
   r.get('/events', need, (req, res) => {
@@ -179,4 +180,4 @@ function buildRouter({ db, cfg, pipeline }) {
   return r;
 }
 
-module.exports = { buildRouter, exportMarkdown };
+module.exports = { buildRouter, exportMarkdown, campaignWithDeliverables };

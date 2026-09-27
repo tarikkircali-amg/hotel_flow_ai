@@ -25,3 +25,9 @@ module.exports = {
   // Bir ajanın önceki çıktılardan göreceği azami karakter (bağlam şişmesin)
   contextCharsPerDeliverable: num(process.env.MOS_CONTEXT_CHARS, 3500),
 };
+
+// Yayın köprüsü (isteğe bağlı): onaylı paket, kurucu "Yayına gönder" dediğinde
+// bu webhook'a imzalı JSON olarak gider (Zapier / Make / n8n → Meta, Buffer, Google Ads taslakları).
+module.exports.publishWebhookUrl = process.env.MOS_PUBLISH_WEBHOOK_URL || '';
+module.exports.publishSecret = process.env.MOS_PUBLISH_SECRET || '';
+module.exports.publishTimeoutMs = Number(process.env.MOS_PUBLISH_TIMEOUT_MS) || 15000;

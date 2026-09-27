@@ -21,6 +21,8 @@ My İnovatif Zeka'nın tüm projeleri (HotelFlow, DurakAI, ZEKAI Travel, MediTou
 Yeni brif → Kaan planlar → Selin → Kerem → Pelin → Ali → Tuna → Deniz → Kaan son kontrol
          → 🟠 Onay kutusu → Siz: ✅ Onayla | 🔁 Revize iste (notla, yeni tur) | ❌ Reddet
          → Onaylanan paket .md olarak indirilir
+         → 🎨 Kreatifler: 1:1, 9:16, 16:9 (SVG/PNG)
+         → 🚀 Yayın aracına gönder (sizin tıklamanız + teyit) → Zapier/Make/n8n → Meta/Buffer/Google Ads TASLAĞI
 ```
 
 Ekranda: sıradaki karakter düşünür (…), klavyede yazar, işini bitirince zıplayıp konuşur ve
@@ -48,10 +50,34 @@ $env:MOS_ADMIN_PASSWORD='güçlü-bir-parola'; $env:ANTHROPIC_API_KEY='sk-ant-..
 - Anahtar **varsa → AI modu**: her karakter Claude ile gerçek içerik üretir (varsayılan model `claude-opus-5`, `MOS_MODEL` ile değişir).
 - Tüm ayarlar: `.env.example`.
 
+## Kreatifler
+
+Pelin'in maketinden sunucuda 3 format üretilir: **1:1** (1080×1080), **9:16** (1080×1920), **16:9** (1920×1080).
+Kampanya ekranında önizlenir; **SVG** (sunucudan) veya **PNG** (tarayıcıda) indirilir.
+Metin rengi arka planla WCAG AA (4,5:1) kontrastı sağlamıyorsa otomatik okunur renge çekilir.
+
+## Yayın köprüsü (Zapier / Make / n8n)
+
+Onaylanan kampanyada **🚀 Yayın aracına gönder (taslak)** düğmesi çıkar. Tıklayıp teyit edince paket
+`MOS_PUBLISH_WEBHOOK_URL` adresine JSON olarak gider:
+
+```json
+{ "type": "miz.campaign.approved", "publish_as": "draft",
+  "campaign": {}, "project": {}, "visual": {},
+  "creatives": { "square": { "mime": "image/svg+xml", "svg": "<svg…>" }, "story": {}, "wide": {} },
+  "deliverables": [ { "agent": "yazar", "title": "...", "confidence": "high", "body_markdown": "..." } ] }
+```
+
+- `MOS_PUBLISH_SECRET` verilirse `X-MOS-Signature: sha256=<HMAC-SHA256(gövde)>` başlığıyla imzalanır; alıcıda doğrulayın.
+- Zapier örneği: *Webhooks by Zapier → Catch Hook* → *Buffer: Create Idea* veya Facebook Pages taslak gönderi.
+- Hedef araçta **taslak** olarak açın; son "yayınla" yine sizde kalsın.
+- Yalnızca **onaylı** kampanya gönderilebilir, aynı kampanya iki kez gönderilemez, her deneme denetime yazılır.
+  Hata olursa durum değişmez, ekranda anlaşılır mesaj çıkar.
+
 ## Railway / sunucuya kurulum
 
 1. Root directory: `marketing-os`, start komutu: `npm start`.
-2. Değişkenler: `MOS_ADMIN_PASSWORD`, `ANTHROPIC_API_KEY`, `MOS_COOKIE_SECURE=1`.
+2. Değişkenler: `MOS_ADMIN_PASSWORD`, `ANTHROPIC_API_KEY`, `MOS_COOKIE_SECURE=1`, isteğe bağlı `MOS_PUBLISH_WEBHOOK_URL` + `MOS_PUBLISH_SECRET`.
 3. Kalıcı disk bağlayıp `MOS_DB_FILE=/data/marketing-os.db` verin (yoksa yeniden dağıtımda veriler silinir).
 4. Sağlık kontrolü: `/api/health`.
 
@@ -68,11 +94,11 @@ $env:MOS_ADMIN_PASSWORD='güçlü-bir-parola'; $env:ANTHROPIC_API_KEY='sk-ant-..
 ## Test
 
 ```bash
-npm test   # demo modunda uçtan uca akış, revizyon turu, onay kuralları, kiracı izolasyonu
+npm test   # uçtan uca akış, revizyon, onay kuralları, kiracı izolasyonu, kreatif kontrastı, yayın izinleri + imza
 ```
 
 ## Sonraki adımlar (bilinçli olarak dışarıda bırakıldı)
 
-- Onaylanan paketi Meta/Google Ads/Buffer'a **taslak** olarak gönderen entegrasyon (yine onay sonrası).
-- Pelin'in `image_prompt`'undan gerçek görsel üretimi.
+- Pelin'in `image_prompt`'undan fotoğraf/illüstrasyon üretimi (bir görsel üretim API'si seçilince).
+- Yayın sonrası performans verisini geri alıp Deniz'in haftalık raporuna bağlamak.
 - Çoklu kullanıcı / rol yönetimi arayüzü, otomatik yedekleme.

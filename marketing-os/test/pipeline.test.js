@@ -1,35 +1,8 @@
 // Demo modunda uçtan uca akış + kiracı izolasyonu + onay kuralları.
 const test = require('node:test');
 const assert = require('node:assert');
-const { createApp } = require('../server/index');
-const { open } = require('../server/db');
+const { setup, waitFor } = require('./helpers');
 const { hashPassword } = require('../server/auth');
-
-const cfg = {
-  ...require('../server/config'), dbFile: ':memory:', adminUser: 'kurucu', adminPassword: 'test-parola-123',
-  demoDelayMs: 0, anthropicKey: '',
-};
-
-async function setup() {
-  const db = open(':memory:');
-  const { app, pipeline } = createApp({ config: cfg, db, client: null, sleep: async () => {}, log: () => {} });
-  const server = app.listen(0);
-  const base = `http://127.0.0.1:${server.address().port}/api`;
-  const login = async (username, pass) => {
-    const r = await fetch(`${base}/login`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username, pass }) });
-    return { status: r.status, cookie: (r.headers.get('set-cookie') || '').split(';')[0] };
-  };
-  const call = (cookie, path, method = 'GET', body) => fetch(`${base}${path}`, {
-    method, headers: { cookie, ...(body ? { 'Content-Type': 'application/json' } : {}) }, body: body ? JSON.stringify(body) : undefined,
-  }).then(async (r) => ({ status: r.status, data: await r.json().catch(() => null) }));
-  return { db, server, pipeline, login, call };
-}
-
-const waitFor = async (fn, ms = 3000) => {
-  const end = Date.now() + ms;
-  while (Date.now() < end) { if (await fn()) return true; await new Promise((r) => setTimeout(r, 20)); }
-  return false;
-};
 
 test('yanlış parola reddedilir, API oturumsuz kapalıdır', async () => {
   const t = await setup();

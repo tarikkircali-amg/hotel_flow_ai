@@ -46,7 +46,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
 
 .status { font-size: var(--fs-s); font-weight: 800; }
 .status[data-s="onay_bekliyor"] { color: var(--warn); }
-.status[data-s="onaylandi"] { color: var(--ok); }
+.status[data-s="onaylandi"], .status[data-s="yayina_gonderildi"] { color: var(--ok); }
 .status[data-s="reddedildi"], .status[data-s="hata"] { color: var(--danger); }
 .status[data-s="calisiyor"], .status[data-s="sirada"] { color: var(--info); }
 
@@ -97,3 +97,9 @@ dialog::backdrop { background: rgba(10,10,20,.55); }
 .approve-box { border: 2px dashed var(--warn); border-radius: var(--radius-m); padding: var(--space-4); display: grid; gap: var(--space-3); }
 .toast { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); background: var(--text); color: var(--bg); padding: 12px 18px;
   border-radius: var(--radius-s); font-weight: 700; z-index: 100; max-width: calc(100vw - 32px); }
+
+.creatives { display: grid; grid-template-columns: 1fr .56fr 1.6fr; gap: var(--space-3); align-items: end; margin: var(--space-3) 0; }
+@media (max-width: 640px) { .creatives { grid-template-columns: 1fr 1fr; } }
+.creative { margin: 0; display: grid; gap: var(--space-1); }
+.creative img { width: 100%; border-radius: var(--radius-s); border: 1px solid var(--border); background: var(--surface-2); }
+.creative figcaption { display: flex; justify-content: space-between; align-items: center; gap: var(--space-1); flex-wrap: wrap; font-size: var(--fs-s); font-weight: 700; }

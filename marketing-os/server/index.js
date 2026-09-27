@@ -10,8 +10,9 @@ const { createClient } = require('./llm');
 const { createPipeline } = require('./pipeline');
 const { buildRouter } = require('./routes');
 const { seedProjects } = require('./seed');
+const { buildReleaseRouter } = require('./release');
 
-function createApp({ config = cfg, db = open(config.dbFile), client = createClient(config), sleep, log = console.log } = {}) {
+function createApp({ config = cfg, db = open(config.dbFile), client = createClient(config), sleep, log = console.log, fetchImpl } = {}) {
   const org = auth.bootstrap(db, config, log);
   seedProjects(db, org.id);
   const pipeline = createPipeline({ db, cfg: config, client, publish, sleep });
@@ -24,6 +25,7 @@ function createApp({ config = cfg, db = open(config.dbFile), client = createClie
     next();
   });
   app.use('/api', buildRouter({ db, cfg: config, pipeline }));
+  app.use('/api', buildReleaseRouter({ db, cfg: config, fetchImpl }));
   app.use(express.static(path.join(__dirname, '..', 'public')));
   // Beklenmeyen hatalar: kullanıcıya iç ayrıntı sızdırmadan anlaşılır mesaj
   app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars

@@ -2,10 +2,11 @@
 import { api } from './api.js';
 import { esc } from './office.js';
 import { renderMarkdown } from './markdown.js';
+import { creativesHTML, downloadPng } from './creatives.js';
 
 const STATUS = {
   sirada: '⏳ Sırada', calisiyor: '⚙️ Ekip çalışıyor', onay_bekliyor: '🟠 Onayınızı bekliyor',
-  onaylandi: '✅ Onaylandı', reddedildi: '❌ Reddedildi', hata: '⚠️ Hata — yeniden deneyin',
+  onaylandi: '✅ Onaylandı', yayina_gonderildi: '🚀 Yayın aracına gönderildi', reddedildi: '❌ Reddedildi', hata: '⚠️ Hata — yeniden deneyin',
 };
 const CONF = { high: 'Güven: yüksek', medium: 'Güven: orta', low: 'Güven: düşük' };
 const HEX = /^#[0-9a-fA-F]{6}$/;
@@ -112,7 +113,7 @@ function mockup(v) {
     <p class="muted"><strong>Görsel üretim komutu:</strong> ${esc(v.image_prompt)}</p>`;
 }
 
-export async function openCampaign(id, roster, onDone) {
+export async function openCampaign(id, roster, onDone, { publishEnabled = false } = {}) {
   const c = await api(`/campaigns/${id}`);
   const who = (aid) => roster.find((a) => a.id === aid.split(':')[0]);
   const d = dlg();
@@ -121,7 +122,7 @@ export async function openCampaign(id, roster, onDone) {
     return `<details class="deliv" ${i === c.deliverables.length - 1 ? 'open' : ''}>
       <summary><span aria-hidden="true">${a.emoji}</span><span><span class="who">${esc(a.name)}</span> · ${esc(a.role)}<br><span class="muted">${esc(x.title)}</span></span>
       <span class="conf" data-c="${x.confidence}">${CONF[x.confidence] || ''}</span></summary>
-      <div class="md">${x.data?.visual ? mockup(x.data.visual) : ''}${renderMarkdown(x.body)}</div></details>`;
+      <div class="md">${x.data?.visual ? mockup(x.data.visual) + creativesHTML(c.id) : ''}${renderMarkdown(x.body)}</div></details>`;
   }).join('');
   const decide = c.status === 'onay_bekliyor' ? `<div class="approve-box">
       <strong>Karar sizin 👑</strong>
@@ -141,9 +142,19 @@ export async function openCampaign(id, roster, onDone) {
     <div class="dlg-foot">
       ${c.deliverables.length ? `<a class="btn" href="/api/campaigns/${c.id}/export" download>⬇️ Paketi indir (.md)</a>` : ''}
       ${c.status === 'hata' ? '<button class="btn btn-primary" type="button" data-retry>🔄 Yeniden dene</button>' : ''}
+      ${c.status === 'onaylandi' ? (publishEnabled
+        ? '<button class="btn btn-primary" type="button" data-publish>🚀 Yayın aracına gönder (taslak)</button>'
+        : '<span class="muted">🚀 Yayına göndermek için sunucuda <code>MOS_PUBLISH_WEBHOOK_URL</code> tanımlayın (Zapier/Make/n8n).</span>') : ''}
     </div>`;
   d.showModal();
   d.querySelector('[data-close]').onclick = () => d.close();
+  d.querySelectorAll('[data-png]').forEach((b) => b.addEventListener('click', () => downloadPng(c.id, b.dataset.png)));
+  d.querySelector('[data-publish]')?.addEventListener('click', async (e) => {
+    if (!confirm('Onaylı paket ve kreatifler, yayın aracınıza TASLAK olarak gönderilecek. Devam edilsin mi?')) return;
+    e.target.disabled = true;
+    try { await api(`/campaigns/${id}/publish`, { method: 'POST', body: { confirm: true } }); d.close(); toast('Taslaklar yayın aracına gönderildi 🚀'); onDone(); }
+    catch (err) { e.target.disabled = false; toast(err.message); }
+  });
   d.querySelector('[data-retry]')?.addEventListener('click', async () => { await api(`/campaigns/${id}/retry`, { method: 'POST' }); d.close(); onDone(); });
   d.querySelectorAll('[data-d]').forEach((b) => b.addEventListener('click', async () => {
     const decision = b.dataset.d;

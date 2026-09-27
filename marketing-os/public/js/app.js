@@ -4,8 +4,8 @@ import { createOffice, esc } from './office.js';
 import { renderCampaigns, renderProjects, openBrief, openProject, openCampaign, toast } from './panels.js';
 
 const $ = (s) => document.querySelector(s);
-const ICON = { deliverable: '📄', start: '🚀', approval: '🟠', error: '⚠️', decision: '👑' };
-const state = { roster: [], projects: [], office: null, es: null };
+const ICON = { publish: '🚀', deliverable: '📄', start: '🚀', approval: '🟠', error: '⚠️', decision: '👑' };
+const state = { roster: [], projects: [], office: null, es: null, me: null };
 
 async function boot() {
   applyTheme();
@@ -36,6 +36,7 @@ function startApp(me) {
   $('#login-view').hidden = true;
   $('#app-view').hidden = false;
   state.roster = me.roster;
+  state.me = me;
   const badge = $('#mode-badge');
   badge.className = `badge ${me.mode === 'ai' ? 'badge-ai' : 'badge-demo'}`;
   badge.textContent = me.mode === 'ai' ? '✨ AI modu' : '🧪 Demo modu';
@@ -110,7 +111,7 @@ tabs.forEach((t, i) => {
 
 document.addEventListener('click', (e) => {
   const open = e.target.closest('[data-open]');
-  if (open) openCampaign(Number(open.dataset.open), state.roster, refresh).catch((err) => toast(err.message));
+  if (open) openCampaign(Number(open.dataset.open), state.roster, refresh, { publishEnabled: state.me.publishEnabled }).catch((err) => toast(err.message));
   const proj = e.target.closest('[data-project]');
   if (proj) openProject(state.projects.find((p) => String(p.id) === proj.dataset.project), refresh);
 });
