@@ -151,3 +151,24 @@ test('marka kimliği: siteden tohumlanır, istemlere girer, boş olmayan alanlar
   assert.strictEqual(t.db.one("SELECT COUNT(*) AS n FROM projects").n, 7, 'tekrar tohumlama çoğaltmaz');
   t.server.close();
 });
+
+test('yayın paketi: AI görsel bir kez eklenir, SVGler yer tutucu kullanır', async () => {
+  const png = Buffer.alloc(3000, 7).toString('base64');
+  const sent = [];
+  const fetchImpl = async (url, opts) => {
+    if (String(url).includes('openai')) return new Response(JSON.stringify({ data: [{ b64_json: png }] }), { status: 200 });
+    sent.push(opts.body); return new Response('ok', { status: 200 });
+  };
+  const t = await setup({ config: { imageProvider: 'openai', openaiKey: 'k', publishWebhookUrl: 'https://hooks.example.test/x' }, fetchImpl });
+  const { cookie, id } = await campaign(t, { languages: ['en', 'ar'] });
+  await t.call(cookie, `/campaigns/${id}/image`, 'POST');
+  await t.call(cookie, `/campaigns/${id}/decision`, 'POST', { decision: 'approve' });
+  assert.strictEqual((await t.call(cookie, `/campaigns/${id}/publish`, 'POST', { confirm: true })).status, 200);
+  const body = sent[0];
+  assert.strictEqual(body.split(png).length - 1, 1, 'görsel pakette tam bir kez');
+  const p = JSON.parse(body);
+  assert.strictEqual(p.hero_image.placeholder, '{{HERO_IMAGE}}');
+  assert.match(p.creatives.ar.square.svg, /href="\{\{HERO_IMAGE\}\}"/);
+  assert.deepStrictEqual(Object.keys(p.creatives), ['tr', 'en', 'ar']);
+  t.server.close();
+});

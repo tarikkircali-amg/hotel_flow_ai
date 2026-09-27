@@ -5,7 +5,9 @@ const crypto = require('crypto');
 const { parseLanguages, byCode } = require('./languages');
 
 // creatives: { [lang]: { square: svg, story: svg, wide: svg } } — SVG metni gömülü (alıcının oturumu gerekmez).
-function buildPayload(c, project, creatives = {}) {
+// hero: AI görseli (varsa) pakete BİR KEZ eklenir; SVG'lerdeki {{HERO_IMAGE}} yer tutucusu
+// alıcı tarafta data:<mime>;base64,<base64> ile değiştirilir.
+function buildPayload(c, project, creatives = {}, hero = null) {
   const byAgent = (id) => c.deliverables.find((d) => d.agent_id === id);
   const visual = byAgent('tasarimci')?.data?.visual || null;
   return {
@@ -18,6 +20,7 @@ function buildPayload(c, project, creatives = {}) {
     creatives: Object.fromEntries(Object.entries(creatives).map(([lang, set]) =>
       [lang, Object.fromEntries(Object.entries(set).map(([f, svg]) => [f, { mime: 'image/svg+xml', svg }]))])),
     visual,
+    hero_image: hero,
     deliverables: c.deliverables.map((d) => ({ agent: d.agent_id, lang: d.data?.lang || 'tr', title: d.title,
       confidence: d.confidence, body_markdown: d.body, ...(d.data?.visual && { visual: d.data.visual }) })),
   };

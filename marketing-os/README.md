@@ -138,6 +138,9 @@ Onaylanan kampanyada **🚀 Yayın aracına gönder (taslak)** düğmesi çıkar
   "deliverables": [ { "agent": "yazar", "title": "...", "confidence": "high", "body_markdown": "..." } ] }
 ```
 
+- AI görsel varsa pakete **bir kez** `hero_image: { mime, base64, placeholder: "{{HERO_IMAGE}}" }` olarak eklenir;
+  SVG'lerdeki `{{HERO_IMAGE}}` yer tutucusunu alıcı tarafta `data:<mime>;base64,<base64>` ile değiştirin
+  (ör. Zapier Formatter → Text → Replace). Böylece paket her dil/format için görseli tekrar taşımaz.
 - `MOS_PUBLISH_SECRET` verilirse `X-MOS-Signature: sha256=<HMAC-SHA256(gövde)>` başlığıyla imzalanır; alıcıda doğrulayın.
 - Zapier örneği: *Webhooks by Zapier → Catch Hook* → *Buffer: Create Idea* veya Facebook Pages taslak gönderi.
 - Hedef araçta **taslak** olarak açın; son "yayınla" yine sizde kalsın.

@@ -9,6 +9,8 @@ const { campaignWithDeliverables } = require('./routes');
 const { latestImage } = require('./studio');
 const { byCode, parseLanguages } = require('./languages');
 
+const HERO_PLACEHOLDER = '{{HERO_IMAGE}}';
+
 // Bir dil için maket: tasarımcının renkleri + (varsa) Lara'nın o dildeki metinleri.
 function visualFor(c, lang) {
   const base = c.deliverables.find((d) => d.agent_id === 'tasarimci')?.data?.visual;
@@ -18,13 +20,13 @@ function visualFor(c, lang) {
   return loc ? { ...base, ...loc } : null;
 }
 
-function creativeFor(db, orgId, c, format, lang) {
+// imageHref: yayın paketinde görsel her SVG'ye gömülmesin diye yer tutucu verilir (görsel pakete bir kez eklenir).
+function creativeFor(db, orgId, c, format, lang, { img = latestImage(db, orgId, c.id), imageHref } = {}) {
   const visual = visualFor(c, lang);
   if (!visual) return null;
-  const img = latestImage(db, orgId, c.id);
   return renderCreative(visual, {
     format, brand: c.project_name, lang: lang || 'tr', dir: byCode(lang || 'tr')?.dir,
-    image: img ? `data:${img.mime};base64,${img.data}` : '',
+    image: img ? imageHref || `data:${img.mime};base64,${img.data}` : '',
   });
 }
 
@@ -62,12 +64,15 @@ function buildReleaseRouter({ db, cfg, fetchImpl }) {
     if (inFlight.has(c.id)) return res.status(409).json({ error: 'Bu kampanya şu an gönderiliyor, lütfen bekleyin.' });
     inFlight.add(c.id);
     try {
+      const img = latestImage(db, req.orgId, c.id);
       const creatives = {};
       for (const lang of parseLanguages(c.languages)) {
-        const set = Object.fromEntries(Object.keys(FORMATS).map((f) => [f, creativeFor(db, req.orgId, c, f, lang)]).filter(([, v]) => v));
+        const set = Object.fromEntries(Object.keys(FORMATS)
+          .map((f) => [f, creativeFor(db, req.orgId, c, f, lang, { img, imageHref: HERO_PLACEHOLDER })]).filter(([, v]) => v));
         if (Object.keys(set).length) creatives[lang] = set;
       }
-      await sendWebhook(cfg, buildPayload(c, project, creatives), fetchImpl);
+      const hero = img ? { mime: img.mime, base64: img.data, placeholder: HERO_PLACEHOLDER } : null;
+      await sendWebhook(cfg, buildPayload(c, project, creatives, hero), fetchImpl);
     } catch (err) {
       audit(db, { ...who, action: 'campaign.publish', result: 'fail' });
       return res.status(err.status || 502).json({ error: err.message });
