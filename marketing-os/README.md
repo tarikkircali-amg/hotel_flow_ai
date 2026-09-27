@@ -1,6 +1,6 @@
 # 🏢 MİZ Marketing OS
 
-My İnovatif Zeka'nın tüm projeleri (HotelFlow, DurakAI, ZEKAI Travel, MediTour, FinFlow ve yenileri) için
+My İnovatif Zeka'nın tüm projeleri (Hotel Flow AI, WhatsApp Rezervasyon Asistanı, ZEKAI Travel AI, MediTour, DurakAI, Clinician OS ve yenileri) için
 **AI reklam ajansı**. Ekip çalışır, siz ekranda çizgi film karakterleri olarak izlersiniz, **sadece onaylarsınız**.
 
 ![Ajans ofisi](docs/office-preview.png)
@@ -104,8 +104,8 @@ Ajans, her kampanyada **My İnovatif Zeka marka kimliğini** veri olarak kullan�
 ⚙️ **Ayarlar → Marka kimliği → 🌐 Siteden yenile** ile güncellenir.
 
 Portföy de siteden tohumlandı: Hotel Flow AI, WhatsApp Rezervasyon Asistanı, ZEKAI Travel AI, MediTour,
-DurakAI, Clinician OS (+ FinFlow; sitede yok, bilgi girilmeli). Mevcut kurulumlarda yalnızca **boş** alanlar
-doldurulur ve eksik ürünler eklenir; sizin yazdıklarınızın üzerine yazılmaz.
+DurakAI, Clinician OS. Mevcut kurulumlarda yalnızca **boş** alanlar doldurulur ve eksik ürünler eklenir;
+sizin yazdıklarınızın üzerine yazılmaz. Portföyden çıkarılan FinFlow, eski kurulumlarda kampanyası yoksa silinir.
 
 ## Web sitesinden proje bilgisi
 

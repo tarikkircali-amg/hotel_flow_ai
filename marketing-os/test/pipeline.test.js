@@ -15,7 +15,8 @@ test('brif → 8 teslimat → onay bekliyor → onay', async () => {
   const t = await setup();
   const { cookie } = await t.login('kurucu', 'test-parola-123');
   const projects = (await t.call(cookie, '/projects')).data;
-  assert.strictEqual(projects.length, 7, "sitedeki 6 ürün + FinFlow");
+  assert.strictEqual(projects.length, 6, "sitedeki 6 ürün");
+  assert.ok(!projects.some((p) => p.name === "FinFlow"));
   assert.match(projects.find((p) => p.name === "Clinician OS").description, /randevu/);
   const hotel = projects.find((p) => p.name === 'HotelFlow');
   const created = await t.call(cookie, '/campaigns', 'POST', { project_id: hotel.id, title: 'Sonbahar', goal: 'Demo talebi' });

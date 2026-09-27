@@ -16,7 +16,7 @@ const { buildMetricsRouter } = require('./metrics');
 
 function createApp({ config = cfg, db = open(config.dbFile), client = createClient(config), sleep, log = console.log, fetchImpl, lookup } = {}) {
   const org = auth.bootstrap(db, config, log);
-  seedProjects(db, org.id);
+  seedProjects(db, org.id, log);
   seedBrand(db, org.id);
   const pipeline = createPipeline({ db, cfg: config, client, publish, sleep });
 

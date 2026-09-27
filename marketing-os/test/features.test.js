@@ -148,7 +148,7 @@ test('marka kimliği: siteden tohumlanır, istemlere girer, boş olmayan alanlar
   t.db.run("UPDATE projects SET description = 'Benim metnim' WHERE name = 'DurakAI'");
   seedProjects(t.db, org.id);
   assert.strictEqual(t.db.one("SELECT description FROM projects WHERE name = 'DurakAI'").description, 'Benim metnim');
-  assert.strictEqual(t.db.one("SELECT COUNT(*) AS n FROM projects").n, 7, 'tekrar tohumlama çoğaltmaz');
+  assert.strictEqual(t.db.one("SELECT COUNT(*) AS n FROM projects").n, 6, 'tekrar tohumlama çoğaltmaz');
   t.server.close();
 });
 
@@ -170,5 +170,22 @@ test('yayın paketi: AI görsel bir kez eklenir, SVGler yer tutucu kullanır', a
   assert.strictEqual(p.hero_image.placeholder, '{{HERO_IMAGE}}');
   assert.match(p.creatives.ar.square.svg, /href="\{\{HERO_IMAGE\}\}"/);
   assert.deepStrictEqual(Object.keys(p.creatives), ['tr', 'en', 'ar']);
+  t.server.close();
+});
+
+test('FinFlow eski kurulumlardan kaldırılır; kampanyası varsa veri korunur', async () => {
+  const { seedProjects } = require('../server/seed');
+  const t = await setup();
+  const org = t.db.one('SELECT id FROM organizations').id;
+  t.db.run("INSERT INTO projects (organization_id, name) VALUES (?, 'FinFlow')", [org]);
+  seedProjects(t.db, org);
+  assert.strictEqual(t.db.one("SELECT COUNT(*) AS n FROM projects WHERE name = 'FinFlow'").n, 0);
+  t.db.run("INSERT INTO projects (organization_id, name) VALUES (?, 'FinFlow')", [org]);
+  const pid = t.db.one("SELECT id FROM projects WHERE name = 'FinFlow'").id;
+  t.db.run("INSERT INTO campaigns (organization_id, project_id, title, status) VALUES (?, ?, 'eski', 'onaylandi')", [org, pid]);
+  const logs = [];
+  seedProjects(t.db, org, (m) => logs.push(m));
+  assert.strictEqual(t.db.one("SELECT COUNT(*) AS n FROM projects WHERE name = 'FinFlow'").n, 1);
+  assert.match(logs[0], /silinmedi/);
   t.server.close();
 });
