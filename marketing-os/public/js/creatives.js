@@ -1,5 +1,5 @@
 // Kreatif önizleme ve indirme (SVG sunucudan, PNG tarayıcıda canvas ile), dile göre.
-import { toast } from './panels.js';
+import { toast, askConfirm } from './panels.js';
 
 export const FORMATS = [
   { id: 'square', label: '1:1 Feed', w: 1080, h: 1080 },
@@ -7,7 +7,9 @@ export const FORMATS = [
   { id: 'wide', label: '16:9 Web', w: 1920, h: 1080 },
 ];
 
-const src = (id, f, lang, bust = '') => `/api/campaigns/${id}/creative/${f}.svg?lang=${lang}${bust}`;
+// MOS_CREATIVE_SRC: yalnızca sunucusuz tarayıcı demosunda tanımlıdır (görseli doğrudan üretir).
+const src = (id, f, lang, bust = '') => window.MOS_CREATIVE_SRC?.(id, f, lang)
+  ?? `/api/campaigns/${id}/creative/${f}.svg?lang=${lang}${bust}`;
 
 // langs: [{code, native, name}] — bu kampanyanın dilleri
 export function creativesHTML(campaignId, langs, { imageEnabled }) {
@@ -39,7 +41,7 @@ export function bindCreatives(root, campaignId, api) {
   langSel.addEventListener('change', () => refresh());
   box.querySelectorAll('[data-png]').forEach((b) => b.addEventListener('click', () => downloadPng(campaignId, b.dataset.png, langSel.value)));
   box.querySelector('[data-gen-image]')?.addEventListener('click', async (e) => {
-    if (!confirm('Görsel üretim servisi kullanılacak (ücretli olabilir). Devam edilsin mi?')) return;
+    if (!await askConfirm('Görsel üretim servisi kullanılacak; ücretli olabilir.', { title: 'AI görsel üretilsin mi?', ok: '🖼️ Üret' })) return;
     e.target.disabled = true; e.target.textContent = '🖌️ Pelin boyuyor…';
     try { await api(`/campaigns/${campaignId}/image`, { method: 'POST' }); refresh(`&t=${Date.now()}`); toast('Görsel hazır ve kreatiflere eklendi 🖼️'); }
     catch (err) { toast(err.message); }

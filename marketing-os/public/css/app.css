@@ -133,3 +133,8 @@ dialog::backdrop { background: rgba(10,10,20,.55); }
 .grid-perf { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: var(--space-2); align-items: end; margin: var(--space-3) 0; }
 .code { background: var(--surface-2); padding: var(--space-3); border-radius: var(--radius-s); overflow-x: auto; font-size: var(--fs-s); white-space: pre-wrap; word-break: break-all; }
 .token { display: inline-block; margin-top: 4px; padding: 6px 10px; background: var(--surface-2); border-radius: 6px; word-break: break-all; user-select: all; }
+
+.confirm-dlg { width: min(440px, calc(100vw - 32px)); }
+.confirm-dlg h2 { margin: 0; font-size: var(--fs-l); }
+.confirm-dlg p { margin: 0; }
+.confirm-actions { display: flex; gap: var(--space-2); justify-content: flex-end; flex-wrap: wrap; }

@@ -2,7 +2,7 @@
 import { api } from './api.js';
 import { esc } from './office.js';
 import { renderMarkdown } from './markdown.js';
-import { STATUS, HEX, dlg, toast } from './panels.js';
+import { STATUS, HEX, dlg, toast, askConfirm } from './panels.js';
 import { creativesHTML, bindCreatives } from './creatives.js';
 import { performanceHTML, bindPerformance } from './performance.js';
 
@@ -73,14 +73,14 @@ export async function openCampaign(id, ctx, onDone) {
   if (released) bindPerformance(d, c.id, me);
   d.querySelector('[data-retry]')?.addEventListener('click', async () => { await api(`/campaigns/${id}/retry`, { method: 'POST' }); d.close(); onDone(); });
   d.querySelector('[data-publish]')?.addEventListener('click', async (e) => {
-    if (!confirm(`Onaylı paket ve ${langs.length} dildeki kreatifler, yayın aracınıza TASLAK olarak gönderilecek. Devam edilsin mi?`)) return;
+    if (!await askConfirm(`Onaylı paket ve ${langs.length} dildeki kreatifler, yayın aracınıza TASLAK olarak gönderilecek.`, { title: 'Yayın aracına gönderilsin mi?', ok: '🚀 Gönder' })) return;
     e.target.disabled = true;
     try { await api(`/campaigns/${id}/publish`, { method: 'POST', body: { confirm: true } }); d.close(); toast('Taslaklar yayın aracına gönderildi 🚀'); onDone(); }
     catch (err) { e.target.disabled = false; toast(err.message); }
   });
   d.querySelectorAll('[data-d]').forEach((b) => b.addEventListener('click', async () => {
     const decision = b.dataset.d;
-    if (decision === 'reject' && !confirm('Bu kampanyayı reddetmek istediğinize emin misiniz?')) return;
+    if (decision === 'reject' && !await askConfirm('Kampanya reddedilir ve ekip bu iş üzerinde çalışmayı bırakır.', { title: 'Kampanya reddedilsin mi?', ok: '❌ Reddet', danger: true })) return;
     try {
       await api(`/campaigns/${id}/decision`, { method: 'POST', body: { decision, note: d.querySelector('#d-note').value } });
       d.close();

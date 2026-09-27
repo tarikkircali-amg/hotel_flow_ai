@@ -1,7 +1,7 @@
 // Ayarlar: sistem durumu ve Zapier/Make ile otomatik ölçüm alımı anahtarı.
 import { api } from './api.js';
 import { esc } from './office.js';
-import { dlg } from './panels.js';
+import { dlg, askConfirm } from './panels.js';
 
 const row = (ok, label, hint) => `<li>${ok ? '✅' : '⚪'} <strong>${label}</strong> — <span class="muted">${hint}</span></li>`;
 
@@ -53,7 +53,7 @@ Content-Type: application/json
     e.target.disabled = false;
   });
   d.querySelector('[data-rotate]').addEventListener('click', async (e) => {
-    if (s.hasIngestToken && !confirm('Eski anahtar hemen geçersiz olacak. Devam edilsin mi?')) return;
+    if (s.hasIngestToken && !await askConfirm('Eski anahtar hemen geçersiz olur; Zapier/Make senaryolarınızı yeni anahtarla güncellemeniz gerekir.', { title: 'Yeni anahtar üretilsin mi?', ok: '🔄 Üret', danger: true })) return;
     const { token } = await api('/settings/integrations/rotate', { method: 'POST' });
     e.target.remove();
     d.querySelector('[data-token]').innerHTML = `Anahtarınız (şimdi kopyalayın, tekrar gösterilmeyecek):<br><code class="token">${esc(token)}</code>`;

@@ -170,6 +170,15 @@ ortam değişkenleri, kalıcı veritabanı yolu, VPS alternatifi).
 - **Yedek:** ⚙️ Ayarlar → veritabanı yedeğini indir (tutarlı anlık kopya, yalnızca hesap sahibi).
 - **Erişilebilirlik:** klavyeyle sekmeler, ekran okuyucu için canlı durum duyurusu, durumlar renk + metinle, hareket azaltma tercihine uyum, açık/koyu tema.
 
+## Sunucusuz demo
+
+```bash
+npm run demo   # dist/demo.html — gerçek arayüz + tarayıcı içi sahte sunucu, tek dosya
+```
+Kurulum ve anahtar olmadan arayüzü göstermek için: örnek kampanyalar hazır gelir, açılıştan birkaç saniye sonra
+canlı bir kampanya başlar. İçerikler şablondur; hiçbir şey kaydedilmez veya gönderilmez. Dosyayı herhangi bir
+statik barındırmaya (ör. Hostinger `public_html/demo.html`) koyabilirsiniz.
+
 ## Test
 
 ```bash

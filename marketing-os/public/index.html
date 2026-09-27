@@ -67,6 +67,13 @@
   </div>
 
   <dialog id="dlg" aria-labelledby="dlg-title"></dialog>
+  <dialog id="confirm-dlg" class="confirm-dlg" aria-labelledby="confirm-title" aria-describedby="confirm-text">
+    <form method="dialog" class="dlg-body">
+      <h2 id="confirm-title">Emin misiniz?</h2>
+      <p id="confirm-text"></p>
+      <div class="confirm-actions"><button class="btn" value="cancel">Vazgeç</button><button class="btn btn-primary" value="ok" id="confirm-ok">Devam</button></div>
+    </form>
+  </dialog>
   <script type="module" src="js/app.js"></script>
 </body>
 </html>

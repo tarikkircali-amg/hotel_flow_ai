@@ -10,6 +10,20 @@ const CONF = { high: 'Güven: yüksek', medium: 'Güven: orta', low: 'Güven: d�
 export const HEX = /^#[0-9a-fA-F]{6}$/;
 export const dlg = () => document.getElementById('dlg');
 
+// Tarayıcının confirm() penceresi yerine erişilebilir, uygulama içi onay penceresi.
+export function askConfirm(text, { title = 'Emin misiniz?', ok = 'Devam', danger = false } = {}) {
+  const d = document.getElementById('confirm-dlg');
+  d.querySelector('#confirm-title').textContent = title;
+  d.querySelector('#confirm-text').textContent = text;
+  const okBtn = d.querySelector('#confirm-ok');
+  okBtn.textContent = ok;
+  okBtn.className = `btn ${danger ? 'btn-danger' : 'btn-primary'}`;
+  d.returnValue = '';
+  d.showModal();
+  okBtn.focus();
+  return new Promise((resolve) => d.addEventListener('close', () => resolve(d.returnValue === 'ok'), { once: true }));
+}
+
 export function toast(msg) {
   const t = document.createElement('div');
   t.className = 'toast'; t.setAttribute('role', 'status'); t.textContent = msg;

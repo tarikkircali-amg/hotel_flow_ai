@@ -6,12 +6,18 @@
   "main": "server/index.js",
   "scripts": {
     "start": "node server/index.js",
-    "test": "node --test --test-timeout=30000 test/*.test.js"
+    "test": "node --test --test-timeout=30000 test/*.test.js",
+    "demo": "node demo/build.mjs"
   },
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.128.0",
     "express": "^4.19.2",
     "node-sqlite3-wasm": "^0.8.45"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.12"
   }
 }
