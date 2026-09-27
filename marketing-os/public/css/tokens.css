@@ -1,0 +1,41 @@
+/* Tasarım token'ları — renk, boşluk, tipografi, hareket. Değerler yalnızca burada. */
+:root {
+  --bg: #f6f5f1; --surface: #ffffff; --surface-2: #f0eee8; --border: #dedad0;
+  --text: #1c1b18; --text-muted: #5f5b52; --focus: #2563eb;
+  --brand: #4f46e5; --brand-contrast: #ffffff;
+  --ok: #15803d; --warn: #b45309; --danger: #b91c1c; --info: #0369a1;
+  --ai: #7c3aed; --ai-soft: #ede9fe;
+  --floor-a: #e9e3d6; --floor-b: #e2dbcc; --wall: #cfe0e8; --desk: #b08968; --desk-top: #c9a27e;
+  --glass: rgba(147, 197, 253, .25); --bubble: #ffffff; --bubble-text: #1c1b18;
+  --skin-1: #f5d0b5; --skin-2: #e0a883; --skin-3: #c68642; --skin-4: #8d5524;
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 24px; --space-6: 32px;
+  --radius-s: 8px; --radius-m: 12px; --radius-l: 20px;
+  --font: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --fs-s: .8125rem; --fs-m: .9375rem; --fs-l: 1.125rem; --fs-xl: 1.5rem;
+  --shadow: 0 1px 2px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.06);
+  --dur-fast: 150ms; --dur: 300ms; --dur-slow: 900ms;
+  --touch: 48px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15151a; --surface: #1e1e25; --surface-2: #26262f; --border: #363642;
+    --text: #f1f0ec; --text-muted: #a8a6a0; --focus: #60a5fa;
+    --brand: #818cf8; --brand-contrast: #111;
+    --ok: #4ade80; --warn: #fbbf24; --danger: #f87171; --info: #38bdf8;
+    --ai: #c4b5fd; --ai-soft: #2e2645;
+    --floor-a: #2b2a30; --floor-b: #27262c; --wall: #23303a; --desk: #6b4f3a; --desk-top: #85644a;
+    --glass: rgba(96, 165, 250, .12); --bubble: #f8f8f8; --bubble-text: #111;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15151a; --surface: #1e1e25; --surface-2: #26262f; --border: #363642;
+  --text: #f1f0ec; --text-muted: #a8a6a0; --focus: #60a5fa;
+  --brand: #818cf8; --brand-contrast: #111;
+  --ok: #4ade80; --warn: #fbbf24; --danger: #f87171; --info: #38bdf8;
+  --ai: #c4b5fd; --ai-soft: #2e2645;
+  --floor-a: #2b2a30; --floor-b: #27262c; --wall: #23303a; --desk: #6b4f3a; --desk-top: #85644a;
+  --glass: rgba(96, 165, 250, .12); --bubble: #f8f8f8; --bubble-text: #111;
+  color-scheme: dark;
+}
