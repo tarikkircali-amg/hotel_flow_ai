@@ -37,6 +37,8 @@ module.exports.imageProvider = (process.env.MOS_IMAGE_PROVIDER || '').toLowerCas
 module.exports.openaiKey = process.env.OPENAI_API_KEY || '';
 module.exports.falKey = process.env.FAL_KEY || '';
 module.exports.imageModel = process.env.MOS_IMAGE_MODEL || '';
+// OpenAI görsel kalitesi: low | medium | high (maliyeti doğrudan belirler; varsayılan medium)
+module.exports.imageQuality = process.env.MOS_IMAGE_QUALITY || 'medium';
 module.exports.imageTimeoutMs = Number(process.env.MOS_IMAGE_TIMEOUT_MS) || 120000;
 
 // Ölçüm ve web sitesi

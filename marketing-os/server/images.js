@@ -14,7 +14,7 @@ async function viaOpenAI(cfg, prompt, fetchImpl) {
   const res = await fetchImpl('https://api.openai.com/v1/images/generations', {
     method: 'POST',
     headers: { Authorization: `Bearer ${cfg.openaiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ model: cfg.imageModel || DEFAULT_MODEL.openai, prompt, size: '1024x1024', n: 1 }),
+    body: JSON.stringify({ model: cfg.imageModel || DEFAULT_MODEL.openai, prompt, size: '1024x1024', n: 1, quality: cfg.imageQuality || 'medium' }),
     signal: AbortSignal.timeout(cfg.imageTimeoutMs),
   });
   if (!res.ok) throw fail(`Görsel servisi isteği reddetti (HTTP ${res.status}). Anahtarı ve modeli kontrol edin.`);

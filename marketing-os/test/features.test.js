@@ -79,6 +79,7 @@ test('AI görsel: kapalıyken anlaşılır hata; açıkken üretilir ve kreatife
   assert.strictEqual((await t.call(cookie, `/campaigns/${id}/image`, 'POST')).status, 200);
   assert.match(calls[0].url, /api\.openai\.com/);
   assert.match(JSON.parse(calls[0].opts.body).prompt, /no text/);
+  assert.strictEqual(JSON.parse(calls[0].opts.body).quality, 'medium', 'maliyet kontrolü: varsayılan orta kalite');
   const img = await fetch(`${t.base}/campaigns/${id}/image`, { headers: { cookie } });
   assert.strictEqual(img.headers.get('content-type'), 'image/png');
   const svg = await (await fetch(`${t.base}/campaigns/${id}/creative/wide.svg`, { headers: { cookie } })).text();
