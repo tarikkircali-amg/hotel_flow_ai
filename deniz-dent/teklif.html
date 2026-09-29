@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Deniz Dent — AI Klinik Asistanı Teklifi</title>
+<style>
+:root{
+  --brand-900:#06282e; --brand-800:#0a3d47; --brand-700:#0e5464; --brand-600:#137285;
+  --brand-500:#1b8fa6; --brand-100:#d8eef2; --brand-50:#eef8fa;
+  --ai-600:#5b4bd6; --ai-500:#7a6bf0; --ai-50:#eeebfe;
+  --n-900:#0f1720; --n-800:#1c2631; --n-700:#36434f; --n-600:#5a6874;
+  --n-500:#7d8a95; --n-300:#c3ccd4; --n-200:#e0e6ea; --n-100:#f0f4f6; --n-0:#ffffff;
+  --ok-600:#177245; --ok-50:#e7f4ec;
+  --warn-600:#96610a; --warn-50:#fdf3e2;
+  --danger-600:#a32020; --danger-50:#fdeceb;
+  --s4:4px; --s6:6px; --s8:8px; --s12:12px; --s16:16px; --s20:20px;
+  --s24:24px; --s32:32px; --s40:40px; --s48:48px;
+}
+@page{ size:A4; margin:14mm 13mm 14mm 13mm; }
+@page cover{ size:A4; margin:0; }
+.page-cover{ page:cover; page-break-after:always; }
+*{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; }
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:9.8pt; line-height:1.48; color:var(--n-800);
+  background:var(--n-0);
+  -webkit-print-color-adjust:exact; print-color-adjust:exact;
+}
+h1,h2,h3,h4{ margin:0; line-height:1.25; color:var(--brand-900); font-weight:700; }
+p{ margin:0 0 var(--s12); }
+ul,ol{ margin:0 0 var(--s12); padding-left:18px; }
+li{ margin-bottom:var(--s6); }
+strong{ color:var(--n-900); }
+.page{ page-break-after:always; }
+.page:last-child{ page-break-after:auto; }
+.avoid{ page-break-inside:avoid; }
+
+/* ---------- Kapak ---------- */
+.cover{
+  background:linear-gradient(150deg,var(--brand-900) 0%,var(--brand-700) 58%,var(--brand-600) 100%);
+  color:#fff; height:297mm; padding:30mm 22mm 24mm;
+  display:flex; flex-direction:column; justify-content:space-between;
+}
+.cover h1{ color:#fff; font-size:34pt; letter-spacing:-.6px; margin-bottom:var(--s16); }
+.cover .sub{ font-size:14pt; color:var(--brand-100); font-weight:400; }
+.cover .eyebrow{
+  font-size:9pt; letter-spacing:2.4px; text-transform:uppercase;
+  color:var(--brand-100); margin-bottom:var(--s24); font-weight:600;
+}
+.cover-meta{ border-top:1px solid rgba(255,255,255,.28); padding-top:var(--s20);
+  display:flex; gap:var(--s40); flex-wrap:wrap; font-size:10pt; }
+.cover-meta div span{ display:block; color:var(--brand-100); font-size:8.5pt;
+  text-transform:uppercase; letter-spacing:1.2px; margin-bottom:3px; }
+.cover-pills{ display:flex; gap:var(--s8); flex-wrap:wrap; margin-top:var(--s24); }
+.pill{ border:1px solid rgba(255,255,255,.4); border-radius:999px;
+  padding:5px 13px; font-size:9pt; color:#fff; }
+
+/* ---------- Bölüm başlıkları ---------- */
+.sec{ margin-bottom:var(--s24); }
+.sec-head{ border-bottom:2px solid var(--brand-600); padding-bottom:var(--s8);
+  margin-bottom:var(--s20); display:flex; align-items:baseline; gap:var(--s12); }
+.sec-num{ font-size:9pt; font-weight:700; color:var(--brand-600);
+  letter-spacing:1.6px; }
+.sec-head h2{ font-size:17pt; }
+h3{ font-size:11.5pt; margin:var(--s20) 0 var(--s8); }
+.lede{ font-size:11pt; color:var(--n-700); margin-bottom:var(--s16); }
+
+/* ---------- Tablolar ---------- */
+table{ width:100%; border-collapse:collapse; margin:var(--s12) 0 var(--s16);
+  font-size:9pt; page-break-inside:avoid; }
+th{ background:var(--brand-800); color:#fff; text-align:left;
+  padding:7px 10px; font-weight:600; font-size:9pt; }
+td{ padding:6px 10px; border-bottom:1px solid var(--n-200); vertical-align:top; }
+tr:nth-child(even) td{ background:var(--n-100); }
+td.num{ text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+th.num{ text-align:right; }
+.yes{ color:var(--ok-600); font-weight:700; }
+.no{ color:var(--danger-600); font-weight:700; }
+.part{ color:var(--warn-600); font-weight:700; }
+
+/* ---------- Kartlar ---------- */
+.grid{ display:grid; grid-template-columns:1fr 1fr; gap:var(--s16); margin-bottom:var(--s20); }
+.grid-3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:var(--s12); margin-bottom:var(--s20); }
+.card{ border:1px solid var(--n-200); border-radius:10px; padding:var(--s12);
+  background:var(--n-0); page-break-inside:avoid; }
+.card h4{ font-size:10.5pt; margin-bottom:var(--s8); }
+.card p{ font-size:9.5pt; color:var(--n-700); margin:0; }
+.card .kicker{ font-size:8pt; letter-spacing:1.4px; text-transform:uppercase;
+  color:var(--brand-600); font-weight:700; display:block; margin-bottom:var(--s6); }
+.card-ai{ border-color:var(--ai-500); background:var(--ai-50); }
+.card-ai .kicker{ color:var(--ai-600); }
+
+.note{ border-left:3px solid var(--brand-600); background:var(--brand-50);
+  padding:var(--s12) var(--s16); border-radius:0 8px 8px 0; margin:var(--s12) 0;
+  font-size:9.2pt; page-break-inside:avoid; }
+.note-warn{ border-left-color:var(--warn-600); background:var(--warn-50); }
+.note-ok{ border-left-color:var(--ok-600); background:var(--ok-50); }
+.note strong{ display:block; margin-bottom:4px; }
+
+/* ---------- Akış ---------- */
+.flow{ border:1px solid var(--n-200); border-radius:12px; overflow:hidden;
+  margin:var(--s16) 0 var(--s20); page-break-inside:avoid; }
+.flow-row{ padding:9px var(--s16); border-bottom:1px solid var(--n-200);
+  display:flex; gap:var(--s16); align-items:flex-start; }
+.flow-row:last-child{ border-bottom:0; }
+.flow-row.alt{ background:var(--n-100); }
+.flow-row.ai{ background:var(--ai-50); }
+.flow-step{ flex:0 0 26px; height:26px; border-radius:50%;
+  background:var(--brand-700); color:#fff; font-size:9pt; font-weight:700;
+  display:flex; align-items:center; justify-content:center; }
+.flow-row.ai .flow-step{ background:var(--ai-600); }
+.flow-body b{ display:block; font-size:10pt; color:var(--brand-900); margin-bottom:2px; }
+.flow-body span{ font-size:9.5pt; color:var(--n-700); }
+
+/* ---------- Zaman çizelgesi ---------- */
+.phase{ border:1px solid var(--n-200); border-left:5px solid var(--brand-600);
+  border-radius:0 10px 10px 0; padding:9px var(--s16); margin-bottom:var(--s6);
+  page-break-inside:avoid; }
+.phase li{ margin-bottom:3px; }
+.phase-head{ display:flex; justify-content:space-between; align-items:baseline;
+  gap:var(--s16); margin-bottom:var(--s6); }
+.phase-head h4{ font-size:11.5pt; }
+.phase-when{ font-size:9pt; color:var(--brand-600); font-weight:700; white-space:nowrap; }
+.phase ul{ margin:0; font-size:9pt; color:var(--n-700); }
+.phase-3{ border-left-color:var(--ai-600); }
+.phase-3 .phase-when{ color:var(--ai-600); }
+
+/* ---------- Fiyat ---------- */
+.price-hero{ background:var(--brand-900); color:#fff; border-radius:12px;
+  padding:var(--s20); margin-bottom:var(--s16); page-break-inside:avoid; }
+.price-hero h3{ color:#fff; margin:0 0 var(--s12); font-size:13pt; }
+.price-hero .row{ display:flex; justify-content:space-between; align-items:baseline;
+  padding:9px 0; border-bottom:1px solid rgba(255,255,255,.18); font-size:10pt; }
+.price-hero .row:last-child{ border-bottom:0; }
+.price-hero .row b{ font-size:14pt; color:#fff; font-variant-numeric:tabular-nums; }
+.price-hero .was{ text-decoration:line-through; color:var(--brand-100);
+  font-size:10pt; margin-right:8px; font-weight:400; }
+.price-hero small{ color:var(--brand-100); font-size:8.5pt; }
+
+.trade{ display:grid; grid-template-columns:1fr 1fr; gap:0;
+  border:1px solid var(--n-200); border-radius:10px; overflow:hidden;
+  page-break-inside:avoid; margin:var(--s16) 0; }
+.trade > div{ padding:var(--s16); }
+.trade > div:first-child{ background:var(--brand-50); border-right:1px solid var(--n-200); }
+.trade h4{ font-size:10pt; margin-bottom:var(--s8); }
+.trade ul{ margin:0; font-size:9.5pt; }
+
+.footer{ position:running(footer); }
+.sig{ margin-top:var(--s24); padding-top:var(--s16); border-top:1px solid var(--n-200);
+  display:flex; justify-content:space-between; gap:var(--s32); font-size:9.5pt; }
+.sig div{ flex:1; }
+.sig b{ display:block; color:var(--brand-900); margin-bottom:2px; }
+.sig .line{ margin-top:var(--s32); border-top:1px solid var(--n-300);
+  padding-top:6px; font-size:8.5pt; color:var(--n-500); }
+.brandline{ text-align:center; font-size:8.5pt; color:var(--n-500);
+  margin-top:var(--s20); padding-top:var(--s12); border-top:1px solid var(--n-200); }
+</style>
+</head>
+<body>
+
+<!-- ============ KAPAK ============ -->
+<section class="page-cover">
+  <div class="cover">
+    <div>
+      <div class="eyebrow">My İnovatif Zeka · İzmir</div>
+      <h1>Deniz Dent<br>AI Klinik Asistanı</h1>
+      <div class="sub">Teklif ve Uygulama Yol Haritası</div>
+      <div class="cover-pills">
+        <span class="pill">Omnichannel randevu</span>
+        <span class="pill">Sesli karşılama</span>
+        <span class="pill">Hasta hafızası</span>
+        <span class="pill">Otomatik hekim ataması</span>
+        <span class="pill">9 dil</span>
+        <span class="pill">KVKK uyumlu</span>
+      </div>
+    </div>
+    <div class="cover-meta">
+      <div><span>Hazırlayan</span>My İnovatif Zeka · Tarık Kırcalı</div>
+      <div><span>Hazırlanan</span>Deniz Dent Diş Polikliniği · Karşıyaka</div>
+      <div><span>Tarih</span>29 Eylül 2026</div>
+      <div><span>Geçerlilik</span>29 Ekim 2026</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 1. YÖNETİCİ ÖZETİ ============ -->
+<section class="page">
+  <div class="sec">
+    <div class="sec-head"><span class="sec-num">01</span><h2>Yönetici Özeti</h2></div>
+    <p class="lede">Deniz Dent'in kaybettiği hasta, tedavi edemediği hasta değil — <strong>ulaşamadığı hasta.</strong> Çalan ama cevaplanamayan telefon, gece 23:00'te gelen Instagram mesajı, Almanca yazan ve cevap alamayınca başka kliniğe giden hasta. Bu teklif tam olarak o boşluğu kapatıyor.</p>
+
+    <p>29 Eylül'deki görüşmemizde beş ihtiyaç belirlediniz. Biz üç madde daha ekledik — çünkü İzmir'de bir diş polikliniği için sağlık turizmi ve fiyat iletişimi, randevu kadar belirleyici.</p>
+
+    <div class="grid">
+      <div class="card">
+        <span class="kicker">Sizin talebiniz</span>
+        <h4>Beş temel ihtiyaç</h4>
+        <p>1. Sosyal medyadan randevu toplama<br>
+        2. Otomatik hekim ataması<br>
+        3. Hastayı hatırlayan sistem<br>
+        4. Otomatik randevu oluşturma<br>
+        5. Sesli telefon karşılama</p>
+      </div>
+      <div class="card card-ai">
+        <span class="kicker">Bizim eklediğimiz</span>
+        <h4>Üç ticari kaldıraç</h4>
+        <p>6. Dokuz dilde tam bilgilendirme<br>
+        7. Fiyat bilgisine hâkim, asla uydurmayan asistan<br>
+        8. Kliniği rakiplerinden ayıran konumlandırma</p>
+      </div>
+    </div>
+
+    <h3>Bu bir sohbet botu değil</h3>
+    <p>Piyasadaki çözümlerin neredeyse tamamı kliniğinize bir <em>mesaj katmanı</em> bağlıyor. Hasta kaydı, hekim takvimi, tahsilat ve bakiye takibi hâlâ ayrı bir yazılımda kalıyor — ya da hiç yok.</p>
+
+    <div class="note note-ok">
+      <strong>Bizim yaklaşımımız</strong>
+      Kliniğin işletim sistemini kuruyoruz, asistanı onun <em>içine</em> koyuyoruz. Asistan hasta ile konuşurken aynı anda hastanın geçmişini okuyor, hekimin takvimini görüyor, randevuyu doğrudan sisteme yazıyor. Aracı katman yok.
+    </div>
+
+    <h3>Dört fazda, kontrollü ilerleme</h3>
+    <p>Her şeyi aynı anda kurmuyoruz. Her faz kendi başına çalışır ve kendi değerini üretir; bir sonrakine geçme kararı sizindir. İlk faz <strong>yaklaşık 6 hafta</strong> içinde canlıya çıkar.</p>
+
+    <table>
+      <tr><th>Faz</th><th>Ne kazanırsınız</th><th class="num">Ne zaman</th></tr>
+      <tr><td><b>Faz 1</b></td><td>WhatsApp asistanı, hasta CRM, otomatik randevu, hekim ataması, canlı panel</td><td class="num">6. hafta</td></tr>
+      <tr><td><b>Faz 2</b></td><td>Instagram + Facebook, 9 dil, fiyat yönetimi, no-show geri kazanım</td><td class="num">9. hafta</td></tr>
+      <tr><td><b>Faz 3</b></td><td>Sesli telefon karşılama</td><td class="num">13. hafta</td></tr>
+      <tr><td><b>Faz 4</b></td><td>Sağlık turizmi modülü ve raporlama</td><td class="num">16. hafta</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ============ 2. DÜRÜSTLÜK SAYFASI ============ -->
+<section class="page">
+  <div class="sec">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Ne Yapıyoruz</h2></div>
+    <p class="lede">Görüşmemizde belirlediğiniz beş ihtiyacın ve eklediğimiz üç maddenin sistemde tam olarak nasıl karşılandığı.</p>
+    <table>
+      <tr><th>Talep</th><th>Nasıl karşılanıyor</th></tr>
+      <tr><td><b>WhatsApp'tan randevu</b></td><td>Resmî WhatsApp Business API. Numaranızın kapanma riski yok, doğrulanmış işletme rozeti alınabilir.</td></tr>
+      <tr><td><b>Instagram &amp; Facebook</b></td><td>Meta resmî mesajlaşma altyapısı üzerinden DM ve Messenger.</td></tr>
+      <tr><td><b>Otomatik randevu</b></td><td>Takvim bizim sistemimizde. Üçüncü bir yazılıma bağımlı değiliz, randevu doğrudan yazılır.</td></tr>
+      <tr><td><b>Hekim ataması</b></td><td>İşlem türü, hekim uzmanlığı, devam eden tedavi, müsaitlik, hasta dili ve yük dengesine göre kural motoru.</td></tr>
+      <tr><td><b>Hasta hafızası</b></td><td>Kalıcı hasta kaydı, tedavi geçmişi, konuşma geçmişi, tercihler. Hasta tekrar yazdığında tanınır.</td></tr>
+      <tr><td><b>Dokuz dil</b></td><td>Türkçe, İngilizce, Almanca, Fransızca, İtalyanca, Arapça, Farsça, Çince, Japonca. Hasta kendi dilinde yazar, ekibiniz Türkçe görür.</td></tr>
+      <tr><td><b>Sesli karşılama</b></td><td>Gelen çağrıyı asistan karşılar, bilgi verir, randevu oluşturur, gerektiğinde ekibe aktarır.</td></tr>
+    </table>
+
+  </div>
+</section>
+
+<section class="page">
+  <div class="sec">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Ne Yapmıyoruz — ve Nedeni</h2></div>
+    <p class="lede">Bir teklifte en değerli sayfa, yapılamayacakları yazan sayfadır. Sonradan hayal kırıklığı yaşamamanız için sınırları baştan koyuyoruz.</p>
+
+    <div class="note note-warn">
+      <strong>LinkedIn üzerinden otomatik mesajlaşma — teknik olarak mümkün değil</strong>
+      LinkedIn'in mesajlaşma API'si yalnızca finansal düzenlemeye tabi kurumların yazışma arşivlemesi için açılıyor. Bir kliniğin randevu asistanı bu kapsama girmiyor. Bunu "yaparız" diyen bir firma varsa, tarayıcı taklidi yapan ve <strong>hesabınızın kapatılmasına yol açabilecek</strong> bir yöntem kullanıyordur.
+      <br><br><b>Alternatifimiz:</b> LinkedIn sayfanızdaki bağlantılar WhatsApp'a yönlendirilir, gelen hasta "LinkedIn kaynaklı" olarak sistemde etiketlenir. Sonuç aynı, risk yok.
+    </div>
+
+    <div class="note note-warn">
+      <strong>X (Twitter) DM — mümkün ama ekonomik değil</strong>
+      X, 2026 başında API erişimini kullanım başına ödemeli modele geçirdi; ücretsiz katmanda mesajlaşma yok. Bir diş polikliniğine X üzerinden gelecek randevu talebi sayısı düşünüldüğünde, altyapı maliyeti randevu başına anlamsız hale geliyor.
+      <br><br><b>Alternatifimiz:</b> Faz 4'te ölçeriz. X profilinizdeki bağlantı WhatsApp'a yönlendirilir; gerçekten hasta geldiğini görürsek maliyeti o zaman konuşuruz. Ölçmeden altyapı kurmayız.
+    </div>
+
+    <div class="note note-warn">
+      <strong>Asistan teşhis koymayacak, tedavi önermeyecek</strong>
+      Bu teknik bir kısıt değil, bilinçli bir karar. Asistan bilgi verir, yönlendirir, randevu oluşturur. "Bu ağrı kanal tedavisi gerektirir" demez, gönderilen fotoğrafı yorumlamaz. Tıbbi değerlendirme hekiminizde kalır — aksi hâlde sorumluluk kliniğe döner.
+    </div>
+
+    <div class="note note-warn">
+      <strong>Asistan kesin fiyat taahhüdü vermeyecek</strong>
+      Ağız içi görülmeden implant fiyatı söylemek klinik açısından risklidir. Asistan sizin onayladığınız <em>bandı</em> verir, neden değiştiğini açıklar ve muayeneye yönlendirir. Bandın dışına çıkamaz, pazarlık yapamaz, indirim veremez.
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. SİSTEM NASIL ÇALIŞIR ============ -->
+<section class="page">
+  <div class="sec">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Sistem Nasıl Çalışır</h2></div>
+    <p class="lede">Almanya'dan gece 23:40'ta gelen bir Instagram mesajının randevuya dönüşme yolculuğu.</p>
+
+    <div class="flow">
+      <div class="flow-row"><div class="flow-step">1</div><div class="flow-body"><b>Mesaj gelir</b><span>WhatsApp, Instagram, Facebook, web veya telefon — hepsi tek gelen kutusuna düşer.</span></div></div>
+      <div class="flow-row alt"><div class="flow-step">2</div><div class="flow-body"><b>Hasta tanınır</b><span>Numara veya hesap eşleşir. Daha önce gelmişse geçmişi, tedavisi ve hekimi anında yüklenir.</span></div></div>
+      <div class="flow-row ai"><div class="flow-step">3</div><div class="flow-body"><b>Dil algılanır</b><span>Hasta Almanca yazdı — asistan Almanca yanıtlar. Ekibiniz panelde Türkçe görür.</span></div></div>
+      <div class="flow-row ai"><div class="flow-step">4</div><div class="flow-body"><b>Asistan yanıtlar</b><span>Sizin onayladığınız bilgi bankasından cevap verir. Bilmediğini uydurmaz — sorar veya devreder.</span></div></div>
+      <div class="flow-row"><div class="flow-step">5</div><div class="flow-body"><b>Hekim atanır</b><span>İşlem türü, uzmanlık, devam eden tedavi, müsaitlik ve dil kuralları çalışır.</span></div></div>
+      <div class="flow-row alt"><div class="flow-step">6</div><div class="flow-body"><b>Randevu oluşur</b><span>Doğrudan kliniğin takvimine yazılır. Çakışma kontrolü otomatik.</span></div></div>
+      <div class="flow-row"><div class="flow-step">7</div><div class="flow-body"><b>Panelde görünür</b><span>Sabah ekibiniz masaya oturduğunda randevu hazır, geçmişiyle birlikte.</span></div></div>
+      <div class="flow-row alt"><div class="flow-step">8</div><div class="flow-body"><b>Hatırlatma gider</b><span>Randevudan bir gün önce otomatik. Gelmeyen hastaya yeniden kazanım mesajı.</span></div></div>
+    </div>
+
+    <div class="note">
+      <strong>Kontrol her zaman sizde</strong>
+      Asistan emin olamadığında, hasta bir insanla konuşmak istediğinde, konu şikâyet veya acil olduğunda görüşmeyi <strong>anında personelinize devreder</strong> — konuşmanın özetiyle birlikte. Ekibiniz istediği an araya girebilir.
+    </div>
+
+    <h3>Rakiplerin vermediği iki parça</h3>
+    <div class="grid">
+      <div class="card">
+        <span class="kicker">Farklılaştırıcı 1</span>
+        <h4>Hekim atama motoru</h4>
+        <p>Kanal tedavisinin ikinci seansı <strong>aynı hekime</strong> gider. Ortodonti ortodontiste, implant cerrahi yetkinliği olana. Almanca hasta, Almanca bilen hekime öncelikli. Kurallar panelden değiştirilebilir — koda gömülü değil.</p>
+      </div>
+      <div class="card">
+        <span class="kicker">Farklılaştırıcı 2</span>
+        <h4>Fiyat yönetişimi</h4>
+        <p>Asistan sadece sizin onayladığınız fiyat tablosundan okur. Listede olmayan işleme fiyat <strong>uyduramaz</strong>. Her fiyat yanıtı kayda geçer — "asistan ne söyledi" sorusunu kanıtla cevaplarsınız.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. YOL HARİTASI ============ -->
+<section class="page">
+  <div class="sec">
+    <div class="sec-head"><span class="sec-num">04</span><h2>Yol Haritası</h2></div>
+    <p class="lede" style="margin-bottom:var(--s12)">Dört faz, on altı hafta. Her fazın sonunda çalışan bir sistem var — yarım kalmış bir proje değil.</p>
+
+    <div class="phase">
+      <div class="phase-head"><h4>Faz 0 · Keşif</h4><span class="phase-when">1. hafta</span></div>
+      <ul>
+        <li>Hizmet listesi ve onaylı fiyat bantlarının çıkarılması</li>
+        <li>Hekim uzmanlıkları, yabancı dilleri, çalışma saatleri</li>
+        <li>En sık sorulan 30 hasta sorusu ve onaylı cevapları</li>
+        <li>KVKK aydınlatma ve açık rıza metinlerinin hazırlanması</li>
+      </ul>
+    </div>
+
+    <div class="phase">
+      <div class="phase-head"><h4>Faz 1 · Çekirdek sistem ve WhatsApp</h4><span class="phase-when">2.–6. hafta</span></div>
+      <ul>
+        <li>Veritabanı, API ve <strong>Deniz Dent panelinin canlıya alınması</strong> (demo veri yerine gerçek veri)</li>
+        <li>WhatsApp asistanı — Türkçe ve İngilizce</li>
+        <li>Hasta CRM: kayıt, tedavi geçmişi, konuşma geçmişi, bakiye</li>
+        <li>Otomatik randevu oluşturma, çakışma kontrolü ve hekim atama motoru</li>
+        <li>Personele devir ve müdahale modu · KVKK rıza modülü ve denetim kaydı</li>
+      </ul>
+    </div>
+
+    <div class="phase">
+      <div class="phase-head"><h4>Faz 2 · Omnichannel ve dokuz dil</h4><span class="phase-when">7.–9. hafta</span></div>
+      <ul>
+        <li>Instagram DM ve Facebook Messenger</li>
+        <li>Dokuz dilde tam bilgilendirme (TR, EN, DE, FR, IT, AR, FA, ZH, JA)</li>
+        <li>Fiyat yönetişimi: onaylı bantlar, uydurma koruması, kayıt altına alma</li>
+        <li>Randevu hatırlatma, gelmeyen hasta geri kazanımı, bekleme listesiyle iptal doldurma</li>
+      </ul>
+    </div>
+
+    <div class="phase phase-3">
+      <div class="phase-head"><h4>Faz 3 · Sesli telefon karşılama</h4><span class="phase-when">10.–13. hafta</span></div>
+      <ul>
+        <li><strong>İlk hafta teknik doğrulama:</strong> Türkçe ses kalitesi ve yanıt gecikmesi ölçülür, ses sağlayıcısı kesinleştirilir</li>
+        <li>Gelen çağrıyı karşılama, bilgilendirme, randevu oluşturma</li>
+        <li>Kritik bilgide geri okuma teyidi ("14 Ekim Salı 14:00, doğru mu?")</li>
+        <li>Acil durum anahtar kelimeleri → anında insana yönlendirme</li>
+        <li>Panelde canlı dakika ve maliyet sayacı</li>
+      </ul>
+    </div>
+
+    <div class="phase">
+      <div class="phase-head"><h4>Faz 4 · Sağlık turizmi ve raporlama</h4><span class="phase-when">14.–16. hafta</span></div>
+      <ul>
+        <li>Sağlık turizmi akışı: tedavi paketi, teklif, koordinasyon (MediTour bağlantısı)</li>
+        <li>Yönetim raporları: kanal performansı, dönüşüm, doluluk, kaçırılan talep</li>
+        <li>X (Twitter) değerlendirmesi — ölçüme dayalı karar</li>
+      </ul>
+    </div>
+
+    <div class="note note-warn">
+      <strong>Takvimi etkileyebilecek üç şey</strong>
+      Meta işletme hesabı doğrulaması evrak sürecine bağlıdır (1–2 hafta, bizim kontrolümüzde değil) · Fiyat bantları ve hizmet içeriği onayı klinikten gelmelidir · Dokuz dildeki içeriğin tıbbi doğruluk onayı hekimlerinizde olmalıdır.
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5. VERİ GÜVENLİĞİ ============ -->
+<section class="page">
+  <div class="sec">
+    <div class="sec-head"><span class="sec-num">05</span><h2>Hasta Verisi ve KVKK</h2></div>
+    <p class="lede">Hasta verisi, KVKK'nın <strong>özel nitelikli kişisel veri</strong> kategorisindedir — kanunun en ağır koruma rejimi. Bu projede en pahalı hata teknik değil, hukuki olur. Bu yüzden veri güvenliği bir "özellik" değil, sistemin temeli.</p>
+
+    <table>
+      <tr><th>Konu</th><th>Uygulama</th></tr>
+      <tr><td><b>Açık rıza</b></td><td>İlk temasta, konuşmanın içinde, ayrı ve anlaşılır metinle alınır. Zaman, kanal ve metin versiyonu kayıt altındadır. Rıza yoksa hasta hafızası oluşturulmaz.</td></tr>
+      <tr><td><b>Aydınlatma metni</b></td><td>Klinik adına, dokuz dilde, konuşmanın başında erişilebilir.</td></tr>
+      <tr><td><b>Veri minimizasyonu</b></td><td>Yapay zekâya giden metinde TC kimlik, tam adres ve ödeme bilgisi <strong>maskelenir</strong>. Model kliniğin bilgisini görür, hastanın kimlik verisini görmez.</td></tr>
+      <tr><td><b>Şifreleme</b></td><td>Veriler hem saklanırken hem aktarılırken şifreli. Kanal erişim anahtarları ayrı kasada tutulur.</td></tr>
+      <tr><td><b>Saklama süresi</b></td><td>Konuşmalar varsayılan 24 ay, denetim kayıtları en az 12 ay, mali kayıtlar yasal süre. Silme zamanlanmış görevle <em>uygulanır</em>, niyete bırakılmaz.</td></tr>
+      <tr><td><b>Silme hakkı</b></td><td>Hasta talebinde verisi silinir; yedeklerden de belgelenmiş döngü içinde temizlenir.</td></tr>
+      <tr><td><b>Ses kaydı</b></td><td><strong>Önerimiz: ses kaydı tutmamak.</strong> Yalnızca yazılı döküm saklanır — rıza yükü ve risk belirgin şekilde azalır. Kayıt istenirse ayrı rıza alınır.</td></tr>
+      <tr><td><b>Denetim kaydı</b></td><td>Giriş, yetki değişikliği, veri değişikliği, dışa aktarım ve her yapay zekâ eylemi: kim, ne, ne zaman, nereden, sonuç.</td></tr>
+      <tr><td><b>Yetkilendirme</b></td><td>Rol bazlı erişim. Resepsiyonun gördüğü ile hekimin gördüğü ayrıdır.</td></tr>
+    </table>
+
+    <div class="note">
+      <strong>Şeffaf olmamız gereken bir nokta</strong>
+      Yapay zekâ modelleri yurt dışındaki sağlayıcılarda çalışır; bu bir yurt dışı veri aktarımı sayılır. Bunu gizlemiyoruz. Riski üç şekilde yönetiyoruz: veri işleyen sözleşmesi, kimlik verisinin maskelenmesi, ve sunucularımızın Avrupa Birliği veya Türkiye'de konumlandırılması. Bu konuyu kurulum öncesinde hukuk danışmanınızla birlikte netleştirmenizi öneriyoruz.
+    </div>
+
+    <h3>Asistan canlıya çıkmadan geçtiği beş test</h3>
+    <div class="grid-3">
+      <div class="card"><h4>Doğruluk</h4><p>Bilinen cevabı olan soruya bilgi bankasından doğru yanıt verir.</p></div>
+      <div class="card"><h4>Dürüstlük</h4><p>Cevabını bilmediği soruda uydurmaz — sorar ya da bilmediğini söyler.</p></div>
+      <div class="card"><h4>Gizlilik</h4><p>Başka bir hastanın bilgisi istendiğinde reddeder.</p></div>
+      <div class="card"><h4>İzolasyon</h4><p>Klinik dışı veri erişimi denemesi engellenir.</p></div>
+      <div class="card"><h4>Fiyat bütünlüğü</h4><p>Baskı altında bile listede olmayan fiyatı uydurmayı reddeder.</p></div>
+      <div class="card card-ai"><h4>Sürekli ölçüm</h4><p>Yanlış bilgi oranı birinci sınıf kalite metriği olarak izlenir.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6. YATIRIM ============ -->
+<section class="page">
+  <div class="sec">
+    <div class="sec-head"><span class="sec-num">06</span><h2>Yatırım</h2></div>
+    <p class="lede">Üç kalem: kurulum, aylık abonelik ve kullanım aşımı. Gizli kalem yoktur.</p>
+
+    <div class="price-hero">
+      <h3>İlk müşteri koşulları</h3>
+      <div class="row"><span>Faz 1 kurulumu <small>— çekirdek sistem, panel, WhatsApp asistanı</small></span><b><span class="was">48.000 ₺</span>29.000 ₺</b></div>
+      <div class="row"><span>Faz 1 aylık abonelik</span><b>7.900 ₺</b></div>
+      <div class="row"><span><small>Deniz Dent, Clinician OS'un ilk klinik kurulumudur. %40 kurulum indirimi, referans ve vaka çalışması karşılığıdır.</small></span><b></b></div>
+    </div>
+
+    <h3>Faz bazlı kurulum — tek seferlik</h3>
+    <table>
+      <tr><th>Faz</th><th>Kapsam</th><th class="num">Kurulum</th><th class="num">Aylık (kümülatif)</th></tr>
+      <tr><td><b>Faz 1</b></td><td>Çekirdek sistem, panel, hasta CRM, WhatsApp, hekim ataması</td><td class="num"><b>29.000 ₺</b></td><td class="num">7.900 ₺</td></tr>
+      <tr><td><b>Faz 2</b></td><td>Instagram, Facebook, 9 dil, fiyat yönetişimi, geri kazanım</td><td class="num">28.000 ₺</td><td class="num">10.900 ₺</td></tr>
+      <tr><td><b>Faz 3</b></td><td>Sesli telefon karşılama</td><td class="num">55.000 ₺</td><td class="num">15.900 ₺</td></tr>
+      <tr><td><b>Faz 4</b></td><td>Sağlık turizmi modülü, raporlama</td><td class="num">32.000 ₺</td><td class="num">18.900 ₺</td></tr>
+      <tr><td colspan="2"><b>Tümü</b></td><td class="num"><b>144.000 ₺</b></td><td class="num"><b>18.900 ₺/ay</b></td></tr>
+    </table>
+
+    <h3>Aylık ücrete dahil olanlar</h3>
+    <p>Sunucu ve barındırma · yapay zekâ kullanımı (adil kullanım içinde) · WhatsApp ve Meta kanal ücretleri · bakım ve güvenlik güncellemeleri · günlük yedekleme · sınırsız kullanıcı · panel erişimi · mesai içi destek · ayda bir optimizasyon oturumu.</p>
+
+    <h3>Adil kullanım sınırları</h3>
+    <table>
+      <tr><th>Aşama</th><th class="num">Dahil hasta konuşması</th><th class="num">Dahil sesli dakika</th></tr>
+      <tr><td>Faz 1</td><td class="num">500 / ay</td><td class="num">—</td></tr>
+      <tr><td>Faz 2</td><td class="num">1.000 / ay</td><td class="num">—</td></tr>
+      <tr><td>Faz 3</td><td class="num">1.000 / ay</td><td class="num">500 / ay</td></tr>
+      <tr><td>Faz 4</td><td class="num">1.500 / ay</td><td class="num">750 / ay</td></tr>
+    </table>
+
+  </div>
+</section>
+
+<section class="page">
+  <div class="sec">
+    <div class="sec-head"><span class="sec-num">06</span><h2>Kullanım Sınırları ve Ödeme</h2></div>
+
+    <h3>Aşım ve ek hizmetler</h3>
+    <table>
+      <tr><th>Kalem</th><th class="num">Birim fiyat</th></tr>
+      <tr><td>Ek hasta konuşması</td><td class="num">12 ₺ / konuşma</td></tr>
+      <tr><td>Ek sesli dakika</td><td class="num">9 ₺ / dakika</td></tr>
+      <tr><td>Dokuz dilin dışında ek dil</td><td class="num">8.000 ₺ tek seferlik</td></tr>
+      <tr><td>Beş hekimden sonraki her hekim</td><td class="num">900 ₺ / ay</td></tr>
+      <tr><td>Kapsam dışı geliştirme (yazılı onayla)</td><td class="num">2.200 ₺ / saat</td></tr>
+    </table>
+
+    <h3>Ödeme koşulları</h3>
+    <ul>
+      <li><strong>Kurulum:</strong> %50 sözleşmede, %50 ilgili faz canlıya çıkışta. Tamamını peşin istemiyoruz.</li>
+      <li><strong>Aylık:</strong> fazın canlıya çıktığı aydan itibaren, aylık peşin.</li>
+      <li><strong>Yıllık peşin ödemede 12 ay yerine 10 ay ücreti</strong> — yaklaşık %17 tasarruf.</li>
+      <li><strong>30 gün çıkış hakkı:</strong> Faz 1 canlıya çıktıktan sonraki 30. günde devam etmeme kararı alırsanız aylık ücret alınmaz, sistem kapatılır ve <strong>tüm hasta verileriniz eksiksiz teslim edilir.</strong></li>
+      <li><strong>Sözleşme süresi:</strong> 12 ay. Aylık ücretler bu süre boyunca sabittir.</li>
+    </ul>
+
+    <div class="note">
+      <strong>Kur maddesi</strong>
+      Yapay zekâ, telefon ve mesajlaşma sağlayıcıları dövizle faturalandırır. Sağlayıcı maliyetlerinde %20'yi aşan bir değişim olursa yalnızca <em>aşım birim fiyatları</em> 30 gün önceden bildirimle güncellenir. Sabit aylık ücret sözleşme yılı içinde değişmez.
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7. İLK MÜŞTERİ TAKASI + SONRAKİ ADIM ============ -->
+<section class="page">
+  <div class="sec">
+    <div class="sec-head"><span class="sec-num">07</span><h2>İlk Müşteri Ortaklığı</h2></div>
+    <p class="lede">Kurulum indirimi bir jest değil, açıkça konuşulmuş bir takastır. Deniz Dent bu sistemin ilk kurulumu — bizim için referans değeri, gelirden fazla.</p>
+
+    <div class="trade">
+      <div>
+        <h4>Biz veriyoruz</h4>
+        <ul>
+          <li>Faz 1 kurulumunda <strong>%40 indirim</strong> (48.000 → 29.000 ₺)</li>
+          <li>12 ay boyunca <strong>aylık ücret kilidi</strong></li>
+          <li>Yol haritasına <strong>öncelik hakkı</strong> — istediğiniz geliştirme sıraya girer</li>
+          <li>Aynı şehirde, <strong>yüz yüze destek</strong></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Sizden beklediğimiz</h4>
+        <ul>
+          <li>Kliniğin adıyla <strong>referans</strong> verme izni</li>
+          <li>Gerçek sayılarla <strong>yazılı vaka çalışması</strong></li>
+          <li>Diğer kliniklere <strong>canlı demo izni</strong> (hasta verisi görünmeden)</li>
+          <li>Pilot boyunca haftada 30 dakika <strong>dürüst geri bildirim</strong></li>
+        </ul>
+      </div>
+    </div>
+    <p style="font-size:9pt;color:var(--n-600);margin-bottom:var(--s16);">İndirim 12 aylık sözleşmeye bağlıdır; süre dolmadan ayrılma hâlinde indirim farkı faturalanır.</p>
+
+    <h3>Sizden beklediğimiz altı girdi</h3>
+    <p style="font-size:9.2pt;">Projenin takvimde kalması bunlara bağlı. Hiçbiri teknik bilgi gerektirmiyor.</p>
+    <table>
+      <tr><th class="num" style="width:36px">#</th><th>Girdi</th><th>Ne zaman</th></tr>
+      <tr><td class="num">1</td><td>Hizmet listesi ve onaylı fiyat bantları</td><td>Faz 0</td></tr>
+      <tr><td class="num">2</td><td>Hekim listesi: uzmanlık, yabancı dil, çalışma saatleri</td><td>Faz 0</td></tr>
+      <tr><td class="num">3</td><td>En sık 30 hasta sorusu ve onaylı cevapları</td><td>Faz 0</td></tr>
+      <tr><td class="num">4</td><td>Aydınlatma ve açık rıza metinlerinin onayı</td><td>Faz 0</td></tr>
+      <tr><td class="num">5</td><td>Meta işletme hesabı doğrulama evrakı</td><td>Faz 1 başı</td></tr>
+      <tr><td class="num">6</td><td>Tek yetkili irtibat kişisi ve haftada 30 dakika</td><td>Proje boyunca</td></tr>
+    </table>
+
+  </div>
+</section>
+
+<section class="page">
+  <div class="sec">
+    <div class="sec-head"><span class="sec-num">08</span><h2>Kapsam ve Sonraki Adım</h2></div>
+
+    <h3>Özetle ne alıyorsunuz</h3>
+    <div class="grid-3">
+      <div class="card"><span class="kicker">Kanal</span><h4>Tek gelen kutusu</h4><p>WhatsApp, Instagram, Facebook, web ve telefon aynı ekranda. Hiçbir talep kaybolmuyor.</p></div>
+      <div class="card"><span class="kicker">Operasyon</span><h4>Canlı klinik paneli</h4><p>Hasta kaydı, hekim takvimi, randevu, bakiye ve tahsilat — demo değil, gerçek veriyle.</p></div>
+      <div class="card card-ai"><span class="kicker">Asistan</span><h4>7/24 dijital resepsiyon</h4><p>Dokuz dilde yanıtlar, hastayı hatırlar, hekimi atar, randevuyu yazar, gerektiğinde devreder.</p></div>
+    </div>
+
+    <h3>Fiyata dahil olmayanlar</h3>
+    <p style="font-size:9pt;">Meta hesap doğrulama evrakı · numara taşıma veya yeni hat maliyeti · dokuz dildeki içeriğin tıbbi doğruluk onayı (klinik sorumluluğunda) · sağlık turizmi yetki belgesi süreçleri · mevcut yazılımdan veri göçü (ayrı değerlendirilir) · donanım.</p>
+
+    <div class="note note-ok">
+      <strong>Sonraki adım</strong>
+      Onayınızla birlikte Faz 0 keşif toplantısını aynı hafta kliniğinizde yapıyoruz (yaklaşık iki saat). <strong>Faz 1, keşiften itibaren beş hafta içinde canlıya çıkıyor.</strong>
+    </div>
+
+    <div class="avoid">
+    <div class="sig">
+      <div>
+        <b>My İnovatif Zeka</b>
+        Tarık Kırcalı<br>
+        İzmir<br>
+        myinovatifzeka.com
+        <div class="line">Tarih / İmza</div>
+      </div>
+      <div>
+        <b>Deniz Dent Diş Polikliniği</b>
+        Karşıyaka, İzmir<br>
+        Yetkili<br>
+        &nbsp;
+        <div class="line">Tarih / İmza</div>
+      </div>
+    </div>
+
+    <div class="brandline">
+      Bu teklif 29 Eylül 2026 tarihinde hazırlanmıştır ve 29 Ekim 2026 tarihine kadar geçerlidir.<br>
+      My İnovatif Zeka · Turizmi biz de yönettik, çözümünü biz üretiyoruz.
+    </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
