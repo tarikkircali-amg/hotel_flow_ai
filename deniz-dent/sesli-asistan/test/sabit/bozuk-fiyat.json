@@ -1,0 +1,13 @@
+{
+  "_not": "TEST DOSYASI: onayli isaretli ama bandi bos bir fiyat kaydi iceriyor. Sunucunun acilmamasi beklenir.",
+  "klinik": { "ad": "Test Kliniği", "adres": "Test", "zaman_dilimi": "Europe/Istanbul" },
+  "mesai": { "haftalik": [{ "gun": 1, "acilis": "09:00", "kapanis": "18:00" }], "kapali_gunler": [] },
+  "hizmetler": ["Muayene"],
+  "fiyatlar": [{ "islem": "İmplant", "onayli": true, "alt": null, "ust": null }],
+  "fiyat_politikasi": { "onaysiz_yanit": "Muayeneye bekleriz.", "pazarlik_yanit": "Yetkim yok." },
+  "sik_sorulanlar": [],
+  "acil": { "anahtar_kelimeler": ["kanama"], "yanit": "Bağlıyorum." },
+  "karsilama": { "mesai_disi": "Merhaba.", "mesai_ici": "Merhaba." },
+  "kvkk": { "metin_versiyonu": "test" },
+  "uslup": {}
+}

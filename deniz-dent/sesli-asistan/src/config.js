@@ -45,21 +45,26 @@ function telefonDogrula(ad, deger) {
   return deger;
 }
 
+/** Goreceli yollar proje kokune gore cozulur; mutlak yollar oldugu gibi kullanilir. */
+function tamYol(yol) {
+  return path.isAbsolute(yol) ? yol : path.join(KOK, yol);
+}
+
 function klinikYukle(gorecelYol) {
-  const tamYol = path.isAbsolute(gorecelYol) ? gorecelYol : path.join(KOK, gorecelYol);
-  if (!fs.existsSync(tamYol)) {
+  const tam = tamYol(gorecelYol);
+  if (!fs.existsSync(tam)) {
     throw new Error(
-      `Klinik bilgi dosyasi bulunamadi: ${tamYol}\n` +
+      `Klinik bilgi dosyasi bulunamadi: ${tam}\n` +
         `config/klinik.ornek.json dosyasini kopyalayip doldurun.`
     );
   }
   let veri;
   try {
-    veri = JSON.parse(fs.readFileSync(tamYol, 'utf8'));
+    veri = JSON.parse(fs.readFileSync(tam, 'utf8'));
   } catch (err) {
-    throw new Error(`Klinik bilgi dosyasi gecerli JSON degil (${tamYol}): ${err.message}`);
+    throw new Error(`Klinik bilgi dosyasi gecerli JSON degil (${tam}): ${err.message}`);
   }
-  klinikDogrula(veri, tamYol);
+  klinikDogrula(veri, tam);
   return veri;
 }
 
@@ -99,10 +104,25 @@ const demoMod = mantik('DEMO_MOD', false);
 // ayaga kalkip sesi duyurmak. Uretimde hepsi zorunlu.
 const gerekli = (ad) => (demoMod ? istege(ad, '') : zorunlu(ad));
 
-const klinikYolu = istege(
-  'KLINIK_CONFIG',
-  demoMod ? 'config/klinik.demo.json' : 'config/klinik.json'
-);
+function klinikYoluSec() {
+  const varsayilan = demoMod ? 'config/klinik.demo.json' : 'config/klinik.json';
+  const secilen = istege('KLINIK_CONFIG', varsayilan);
+
+  // Demo modunda, elle verilen dosya yoksa demo dosyasina duseriz.
+  // Aksi halde .env'de kalmis bir KLINIK_CONFIG satiri demoyu acilmaz hale getiriyor.
+  if (demoMod && !fs.existsSync(tamYol(secilen))) {
+    const yedek = 'config/klinik.demo.json';
+    if (fs.existsSync(tamYol(yedek))) {
+      if (secilen !== yedek) {
+        console.warn(`[config] ${secilen} bulunamadi, demo dosyasina duruldu: ${yedek}`);
+      }
+      return yedek;
+    }
+  }
+  return secilen;
+}
+
+const klinikYolu = klinikYoluSec();
 
 const config = {
   port: sayi('PORT', 3000),
