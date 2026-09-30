@@ -29,14 +29,14 @@ const K = {
 };
 
 test('SMS KAPALIYKEN karsilama SMS teklif ETMEZ', () => {
-  const m = karsilamaKur(K, false, false);
+  const m = karsilamaKur(K, false, { sms: false });
   assert.ok(!m.includes('SMS'), `kapaliyken SMS teklif edilmis: ${m}`);
   // Bilgilendirmenin kendisi yine de yapiliyor.
   assert.ok(m.includes('Gorusme yazili kaydediliyor.'), m);
 });
 
 test('SMS ACIKKEN karsilama SMS teklif EDER', () => {
-  const m = karsilamaKur(K, false, true);
+  const m = karsilamaKur(K, false, { sms: true });
   assert.ok(m.includes('SMS ile gonderebilirim'), m);
 });
 
@@ -46,7 +46,7 @@ test('smsAktif varsayilani kapali - unutulursa soz verilmemis olur', () => {
 });
 
 test('SMS teklifi bilgilendirme cumlesine bitisik gider, davetten once', () => {
-  const m = karsilamaKur(K, false, true);
+  const m = karsilamaKur(K, false, { sms: true });
   assert.ok(m.indexOf('SMS') < m.indexOf('Nasil yardimci'), m);
 });
 

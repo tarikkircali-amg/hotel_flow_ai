@@ -97,6 +97,7 @@ const kirmizi = (s) => `\x1b[31m${s}\x1b[0m`;
 const soluk = (s) => `\x1b[90m${s}\x1b[0m`;
 
 const SENARYO = [
+  { tus: '7', beklenen: "7'YE BASTI - AYDINLATMA METNI" },
   { soz: 'Merhaba, dis etimde kanama var ve durmuyor', beklenen: 'ACIL' },
   { soz: 'Tedaviden memnun degilim, sikayetci olacagim', beklenen: 'ZORUNLU AKTARIM' },
   { soz: 'Kisisel verilerimi silmenizi istiyorum', beklenen: 'ZORUNLU AKTARIM (KVKK)' },
@@ -269,12 +270,16 @@ async function main() {
     console.log(soluk('─'.repeat(80)));
     console.log(mavi(`  ${adim}. ${s.beklenen}`));
     console.log('');
-    console.log('  ' + yesil('HASTA:') + ' ' + s.soz);
+    console.log('  ' + yesil('HASTA:') + ' ' + (s.tus ? `[${s.tus} tusuna basti]` : s.soz));
     console.log('');
     process.stdout.write('  ' + yesil('ASİSTAN:') + ' ');
 
     const yanit = yanitBekle(25);
-    ws.send(JSON.stringify({ tip: 'soz', metin: s.soz }));
+    ws.send(
+      s.tus
+        ? JSON.stringify({ tip: 'tus', deger: s.tus })
+        : JSON.stringify({ tip: 'soz', metin: s.soz })
+    );
     await yanit;
     console.log('\n');
     await bekle(300);

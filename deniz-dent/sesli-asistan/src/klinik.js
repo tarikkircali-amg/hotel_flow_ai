@@ -226,7 +226,12 @@ function bilgiHavuzuGecerli(klinik, simdi = new Date()) {
  * ('kapali' yalnizca yazili kanallar icin dusunulmustur; sesli kanalda
  *  kullanilmasi onerilmez ve uyari uretilir.)
  */
-function karsilamaKur(klinik, mesaiAcik, smsAktif = false) {
+/**
+ * @param {object} yetenekler {sms, tus} - VARSAYILAN OLARAK IKISI DE KAPALI.
+ *   Cagri yerinde unutulursa asistan soz vermemis olur, fazladan vermez.
+ */
+function karsilamaKur(klinik, mesaiAcik, yetenekler = {}) {
+  const { sms: smsAktif = false, tus: tusAktif = false } = yetenekler;
   const k = klinik?.karsilama ?? {};
   const kv = klinik?.kvkk ?? {};
 
@@ -239,10 +244,21 @@ function karsilamaKur(klinik, mesaiAcik, smsAktif = false) {
   const p = k.parcalar;
   const kapsam = mesaiAcik ? p.kapsam_mesai_ici : p.kapsam_mesai_disi;
 
-  // SMS teklifi yalnizca ozellik GERCEKTEN acikken cumleye giriyor.
-  // Kapaliyken teklif etmek, hasta "gonderin" dediginde gonderemeyecegimiz
-  // anlamina gelir; bu da aydinlatma yukumlulugunu karsilamaz.
-  const teklif = smsAktif ? (kv.sms_teklifi ?? '') : '';
+  // KISA BILDIRIM HER ZAMAN SOYLENIR. Tusun arkasina saklanamaz: 7'ye hic
+  // basmayan hasta da bilgilendirilmis olmali. Tusun cozdugu sey AYRINTILI
+  // metni okumak yerine isteyene sunmak.
+  //
+  // Teklifler yalnizca ozellik GERCEKTEN acikken cumleye giriyor. Kapaliyken
+  // teklif etmek, hasta istedi diye yapamamak demek.
+  // Karsilamada EN FAZLA BIR teklif yer alir. Ikisini birden soylemek
+  // karsilamayi 16 saniyeye cikariyor ve hasta ikisini de duymuyor.
+  // Tus oncelikli: telefonda daha dogal ve numara gerektirmiyor.
+  // SMS kaybolmuyor - tusa basinca okunan ayrintili metnin sonunda
+  // zaten teklif ediliyor, ayrica hasta isterse asistan gonderiyor.
+  let teklif = '';
+  if (tusAktif && kv.tus_teklifi) teklif = kv.tus_teklifi;
+  else if (smsAktif && kv.sms_teklifi) teklif = kv.sms_teklifi;
+
   const kvkkCumlesi = [kv.sozlu_bilgilendirme ?? '', teklif].filter(Boolean).join(' ');
   const konum = (kv.konum ?? 'ortada').toLowerCase();
 

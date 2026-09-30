@@ -155,13 +155,16 @@
     }
   },
   "kvkk": {
-    "metin_versiyonu": "demo-v4",
+    "metin_versiyonu": "demo-v5",
     "sozlu_bilgilendirme": "Görüşme yazılı kaydediliyor, ses kaydı alınmıyor.",
     "ses_kaydi_aliniyor": false,
     "konum": "ortada",
-    "not": "konum: basta | ortada | sonda. sms_teklifi yalnizca SMS ozelligi acikken karsilamaya eklenir. aydinlatma_sms_metni'ndeki baglantiyi klinigin gercek aydinlatma metni adresiyle degistirin.",
+    "not": "Kisa bildirim HER ZAMAN sesli soylenir; tusun arkasina saklanamaz. tus_teklifi yalnizca telefon/demo kanalinda, sms_teklifi yalnizca SMS acikken karsilamaya eklenir. ayrintili_metin klinik tarafindan onaylanmalidir - asistan bu metni uretmez, oldugu gibi okur.",
     "sms_teklifi": "Detaylı aydınlatma metnini SMS ile gönderebilirim.",
-    "aydinlatma_sms_metni": "Deniz Dent Diş Polikliniği — Kişisel verilerin korunmasına ilişkin aydınlatma metnimiz: <KLINIK_AYDINLATMA_LINKI>"
+    "aydinlatma_sms_metni": "Deniz Dent Diş Polikliniği — Kişisel verilerin korunmasına ilişkin aydınlatma metnimiz: <KLINIK_AYDINLATMA_LINKI>",
+    "tus": "7",
+    "tus_teklifi": "Ayrıntılı bilgilendirme için 7'ye basabilirsiniz.",
+    "ayrintili_metin": "Deniz Dent Diş Polikliniği olarak kişisel verilerinizi, randevu oluşturmak ve size bilgi vermek amacıyla işliyoruz. Görüşmemiz yazılı olarak kaydediliyor; ses kaydı alınmıyor. Kayıtlar yalnızca klinik ekibimizin erişimine açıktır ve belirlenen saklama süresi sonunda silinir. Verilerinize erişme, düzeltme ve silinmesini isteme haklarınız bulunuyor; bu talepleriniz için klinik ekibimize ulaşabilirsiniz. Metnin tamamını SMS ile de gönderebiliriz. Görüşmeye devam etmek için lütfen sorunuzu söyleyin."
   },
   "uslup": {
     "hitap": "siz",

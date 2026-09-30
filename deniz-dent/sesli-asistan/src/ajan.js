@@ -45,12 +45,13 @@ class Gorusme {
    * @param {string} p.arayanNo
    * @param {Array}  p.gecmis      onceki gorusme ozetleri
    */
-  constructor({ klinik, aramaId, callSid, arayanNo, gecmis = [] }) {
+  constructor({ klinik, aramaId, callSid, arayanNo, gecmis = [], kanal = 'telefon' }) {
     this.klinik = klinik;
     this.aramaId = aramaId;
     this.callSid = callSid;
     this.arayanNo = arayanNo;
     this.gecmis = gecmis;
+    this.kanal = kanal;
     this.mesajlar = [];
     this.iptal = false;
     this.aktarim = null; // { hedef, sebep } - doldugunda relay oturumu kapatir
@@ -64,9 +65,48 @@ class Gorusme {
     });
   }
 
+  /** Tus (DTMF) yalnizca telefon hattinda var; yazili kanallarda yok. */
+  get tusDestegi() {
+    return this.kanal === 'telefon' || this.kanal === 'demo';
+  }
+
+  /**
+   * Hasta tusa bastu (DTMF). Spesifikasyon §4.
+   *
+   * Yalnizca YAPILANDIRILMIS tusa cevap veriyoruz; baska tuslar sessizce
+   * yok sayiliyor. Model devreye GIRMIYOR - okunacak metin klinik
+   * tarafindan onaylanmis sabit metin, asistanin uretimi degil.
+   *
+   * @returns {Promise<string|null>} okunacak metin, yoksa null
+   */
+  async tusaBasildi(tus, onParca) {
+    const kv = this.klinik.kvkk ?? {};
+    if (!kv.tus || String(tus) !== String(kv.tus)) return null;
+
+    const metin = kv.ayrintili_metin;
+    if (!metin) return null;
+
+    onParca?.(metin);
+    await db.mesajEkle(this.aramaId, 'asistan', metin);
+
+    await db.denetim({
+      aktor: 'sistem',
+      eylem: 'aydinlatma_dinletildi',
+      kaynak: 'arama',
+      kaynakId: this.aramaId,
+      detay: { tus: String(tus), surum: kv.metin_versiyonu ?? null },
+      sonuc: 'okundu',
+    });
+
+    return metin;
+  }
+
   /** Cagri baslarken calinacak karsilama. */
   karsilama() {
-    return karsilamaKur(this.klinik, mesaiIcinde(this.klinik), sms.aktifMi());
+    return karsilamaKur(this.klinik, mesaiIcinde(this.klinik), {
+      sms: sms.aktifMi(),
+      tus: this.tusDestegi,
+    });
   }
 
   /** Suren uretimi durdur (hasta sozu kesti). */

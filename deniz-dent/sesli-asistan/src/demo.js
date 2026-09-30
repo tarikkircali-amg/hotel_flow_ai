@@ -148,6 +148,16 @@ function wsKur() {
 
       try {
         if (m.tip === 'baslat') return await baslat(m, durum, yolla);
+        if (m.tip === 'tus') {
+          if (!durum.gorusme) return yolla({ tip: 'hata', mesaj: 'Önce görüşmeyi başlatın.' });
+          const metin = await durum.gorusme.tusaBasildi(m.deger, (p) =>
+            yolla({ tip: 'parca', metin: p })
+          );
+          if (!metin) return yolla({ tip: 'bitti' });
+          const s2 = await ses.seslendir(metin);
+          if (s2) yolla({ tip: 'ses', yol: s2.yol, cumle: metin, ms: s2.ms });
+          return yolla({ tip: 'bitti' });
+        }
         if (m.tip === 'soz') {
           if (!durum.gorusme) return yolla({ tip: 'hata', mesaj: 'Önce görüşmeyi başlatın.' });
           // Onceki yanit (ozellikle ses uretimi) surerken gelen sozu
@@ -209,6 +219,7 @@ async function baslat(m, durum, yolla) {
     callSid,
     arayanNo,
     gecmis,
+    kanal: 'demo',
   });
 
   const karsilama = durum.gorusme.karsilama();

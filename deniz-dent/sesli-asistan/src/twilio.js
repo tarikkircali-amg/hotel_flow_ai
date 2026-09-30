@@ -186,6 +186,12 @@ function relayKur() {
             }
             break;
 
+          case 'dtmf':
+            // Hasta tusa basti. Model devreye girmiyor; okunacak metin
+            // klinik tarafindan onaylanmis sabit metin.
+            await tusIsle(oturum, mesaj.digit ?? mesaj.digits);
+            break;
+
           case 'interrupt':
             oturum.gorusme?.kes();
             oturum.yazici.iptal();
@@ -255,6 +261,16 @@ async function kurulum(oturum, mesaj) {
   });
 
   await db.mesajEkle(arama.id, 'sistem', `Karşılama: ${oturum.gorusme.karsilama()}`);
+}
+
+/**
+ * Tus basimini isler (DTMF). Yapilandirilmamis tuslar sessizce yok sayilir.
+ * Model devreye GIRMEZ: okunan metin klinikce onaylanmis sabit metindir.
+ */
+async function tusIsle(oturum, tus) {
+  if (!oturum?.gorusme || !tus) return;
+  const metin = await oturum.gorusme.tusaBasildi(tus, (parca) => oturum.yazici.yaz(parca));
+  if (metin) oturum.yazici.bitir();
 }
 
 async function konus(oturum, soz, ws) {
