@@ -104,6 +104,14 @@ CREATE TABLE IF NOT EXISTS rizalar (
   olusturma       TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
+-- Aydinlatma ve acik riza AYRI kavramlar (spesifikasyon §4). Bu sutunlar
+-- hangi faaliyetin hangi hukuki sebebe dayandigini kayda gecirir.
+-- Degerleri KOD UYDURMAZ - klinigin KVKK metninden gelir.
+ALTER TABLE rizalar ADD COLUMN IF NOT EXISTS legal_basis_code       TEXT;
+ALTER TABLE rizalar ADD COLUMN IF NOT EXISTS processing_purpose_code TEXT;
+ALTER TABLE rizalar ADD COLUMN IF NOT EXISTS retention_policy_id    UUID;
+ALTER TABLE rizalar ADD COLUMN IF NOT EXISTS riza_alindi            BOOLEAN NOT NULL DEFAULT FALSE;
+
 -- ------------------------------------------------------------------
 -- Denetim kaydi: kim, ne, ne zaman, sonuc
 -- ------------------------------------------------------------------
@@ -147,13 +155,44 @@ CREATE TABLE IF NOT EXISTS aktarim_niyetleri (
 );
 
 -- ------------------------------------------------------------------
--- Saklama suresi temizligi
--- Zamanlanmis gorevle (pg_cron veya harici scheduler) gunde bir calistirin.
--- Silme niyete degil, uygulamaya baglidir.
+-- Saklama politikalari (spesifikasyon §12)
+--
+-- Sureler KOD ICINDE SABIT DEGIL. "5 yil sakla" gibi bir hukuki sure
+-- uydurulmaz; her satiri klinigin KVKK sorumlusu onaylar ve onaylayan
+-- kisi kayda gecer. Onaysiz satir temizlik gorevinde CALISTIRILMAZ.
 -- ------------------------------------------------------------------
--- DELETE FROM mesajlar m USING aramalar a
---   WHERE m.arama_id = a.id AND a.baslangic < now() - INTERVAL '24 months';
--- DELETE FROM aramalar WHERE baslangic < now() - INTERVAL '24 months';
--- DELETE FROM denetim  WHERE olusturma < now() - INTERVAL '12 months';
--- DELETE FROM oturumlar WHERE gecerlilik < now();
--- DELETE FROM aktarim_niyetleri WHERE olusturma < now() - INTERVAL '1 hour';
+CREATE TABLE IF NOT EXISTS saklama_politikalari (
+  id             UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  veri_kategorisi TEXT NOT NULL,
+    -- gorusme_dokumu | arama_kaydi | denetim | acil_olay | randevu_talebi | oturum
+  amac           TEXT NOT NULL,
+  legal_basis_code TEXT,
+  saklama_gun    INTEGER NOT NULL CHECK (saklama_gun > 0),
+  eylem          TEXT NOT NULL DEFAULT 'sil',   -- sil | anonimlestir | hukuki_muhafaza
+  onaylayan      TEXT,
+  onay_zamani    TIMESTAMPTZ,
+  aktif          BOOLEAN NOT NULL DEFAULT FALSE,
+  olusturma      TIMESTAMPTZ NOT NULL DEFAULT now(),
+  UNIQUE (veri_kategorisi)
+);
+
+-- Silme islemlerinin kaydi. Silinen SAGLIK ICERIGI buraya kopyalanmaz -
+-- sadece kac satirin silindigi yazilir (spesifikasyon §12).
+CREATE TABLE IF NOT EXISTS saklama_calismalari (
+  id            BIGSERIAL PRIMARY KEY,
+  politika_id   UUID REFERENCES saklama_politikalari(id) ON DELETE SET NULL,
+  kategori      TEXT NOT NULL,
+  etkilenen     INTEGER NOT NULL,
+  kuru_calisma  BOOLEAN NOT NULL,
+  olusturma     TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- ------------------------------------------------------------------
+-- Temizlik artik scripts/saklama.js tarafindan, saklama_politikalari
+-- tablosundaki ONAYLI satirlara gore yapilir. Buraya sabit sure
+-- yazilmiyor - hangi verinin ne kadar saklanacagi hukuki bir karardir.
+--
+-- Gunluk zamanlanmis gorev:
+--   node scripts/saklama.js            (kuru calisma - sadece raporlar)
+--   node scripts/saklama.js --uygula   (gercekten siler)
+-- ------------------------------------------------------------------
