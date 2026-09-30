@@ -84,25 +84,65 @@ async function anthropicDene(anahtar) {
 
 async function elevenDene(anahtar) {
   if (!anahtar) return;
+
+  // ASIL testi yapiyoruz: kisa bir metni seslendirmeyi deniyoruz.
+  // Abonelik/kullanici uclari ayri izin ister; anahtar ses uretebiliyor olsa
+  // bile oralardan "izin yok" doner ve yanlis alarm verir.
+  const voiceId = process.env.ELEVENLABS_VOICE_ID || 'fnJjHAY6lhrGd5hWLRyU';
+  const model = process.env.ELEVENLABS_MODEL || 'eleven_flash_v2_5';
+
   try {
-    const yanit = await fetch('https://api.elevenlabs.io/v1/user/subscription', {
-      headers: { 'xi-api-key': anahtar },
-      signal: AbortSignal.timeout(20_000),
-    });
+    const yanit = await fetch(
+      `https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(voiceId)}?output_format=mp3_22050_32`,
+      {
+        method: 'POST',
+        headers: { 'xi-api-key': anahtar, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: 'Merhaba.', model_id: model, language_code: 'tr' }),
+        signal: AbortSignal.timeout(30_000),
+      }
+    );
 
     if (yanit.ok) {
-      const v = await yanit.json();
-      const kalan = (v.character_limit ?? 0) - (v.character_count ?? 0);
-      console.log(`    sonuc        : ${yesil('CALISIYOR')} (kalan karakter: ${kalan})`);
-      if (kalan <= 0) console.log(sari('    -> Karakter kotasi bitmis, ses uretilemez.'));
+      const bayt = (await yanit.arrayBuffer()).byteLength;
+      console.log(`    sonuc        : ${yesil('CALISIYOR')} (${bayt} baytlik ses uretildi)`);
+      await kotaYaz(anahtar);
       return;
     }
 
     const govde = await yanit.text();
-    console.log(`    sonuc        : ${kirmizi('REDDEDILDI')} (HTTP ${yanit.status})`);
-    console.log(`    saglayici der: ${govde.slice(0, 300)}`);
+    console.log(`    sonuc        : ${kirmizi('SES URETILEMEDI')} (HTTP ${yanit.status})`);
+    console.log(`    saglayici der: ${govde.slice(0, 400)}`);
+
+    if (govde.includes('missing_permissions')) {
+      console.log(sari('    -> Anahtar taniniyor ama ses uretme izni yok.'));
+      console.log(sari('       ElevenLabs > profil > API Keys: anahtari duzenleyip'));
+      console.log(sari('       "Text to Speech" iznini acin veya tam yetkili yeni anahtar uretin.'));
+    } else if (yanit.status === 401) {
+      console.log(sari('    -> Anahtar gecersiz. ElevenLabs profilinden yeni anahtar alin.'));
+    } else if (yanit.status === 404) {
+      console.log(sari(`    -> ${voiceId} sesi hesabinizda yok. ELEVENLABS_VOICE_ID degerini degistirin.`));
+    } else if (yanit.status === 429) {
+      console.log(sari('    -> Kota doldu veya istek limiti asildi.'));
+    }
   } catch (err) {
     console.log(`    sonuc        : ${kirmizi('BAGLANILAMADI')} - ${err.message}`);
+  }
+}
+
+/** Kota bilgisi ek bilgi; izin yoksa sorun degil, sessizce geciyoruz. */
+async function kotaYaz(anahtar) {
+  try {
+    const y = await fetch('https://api.elevenlabs.io/v1/user/subscription', {
+      headers: { 'xi-api-key': anahtar },
+      signal: AbortSignal.timeout(15_000),
+    });
+    if (!y.ok) return;
+    const v = await y.json();
+    const kalan = (v.character_limit ?? 0) - (v.character_count ?? 0);
+    console.log(`    kalan kota   : ${kalan} karakter`);
+    if (kalan <= 0) console.log(sari('    -> Kota bitmis, demoda ses cikmaz.'));
+  } catch {
+    /* kota okunamadi - onemli degil */
   }
 }
 
@@ -114,6 +154,7 @@ async function elevenDene(anahtar) {
   await anthropicDene(ant);
 
   console.log('\n  --- ElevenLabs (ses - istege bagli) ---');
+  console.log('  (kisa bir metin seslendirilerek gercek test yapilir)');
   const ele = sekilRaporu('ELEVENLABS_API_KEY', process.env.ELEVENLABS_API_KEY);
   await elevenDene(ele);
 
