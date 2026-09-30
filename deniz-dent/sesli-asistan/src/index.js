@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: false }));
 app.get('/saglik', async (_req, res) => {
   try {
     await db.sorgu('SELECT 1');
-    res.json({ durum: 'ok', zaman: new Date().toISOString() });
+    res.json({ durum: 'ok', demo: config.demoMod, zaman: new Date().toISOString() });
   } catch (err) {
     res.status(503).json({ durum: 'veritabani-yok', hata: err.message });
   }
@@ -31,10 +31,17 @@ app.get('/saglik', async (_req, res) => {
 app.post(tw.YOL_GELEN, tw.imzaDogrula, tw.gelenCagri);
 app.post(tw.YOL_BITTI, tw.imzaDogrula, tw.relayBitti);
 
+// --- Demo (yalnizca DEMO_MOD acikken) ---
+let demo = null;
+if (config.demoMod) {
+  demo = require('./demo');
+  app.use('/demo', demo.yonlendirici());
+}
+
 // --- Panel ---
 app.use('/panel', panel.yonlendirici());
 
-app.get('/', (_req, res) => res.redirect('/panel/'));
+app.get('/', (_req, res) => res.redirect(config.demoMod ? '/demo/' : '/panel/'));
 
 // --- Hata zarfi ---
 // Ic detay disari sizmaz; referans numarasi ile log'a baglanir.
@@ -51,19 +58,54 @@ app.use((err, req, res, _next) => {
 });
 
 const sunucu = http.createServer(app);
-tw.relayKur(sunucu);
+
+// --- WebSocket yonlendirmesi (tek elden) ---
+const wsYollari = new Map();
+const relay = tw.relayKur();
+wsYollari.set(relay.yol, relay.upgrade);
+if (demo) {
+  const demoWs = demo.wsKur();
+  wsYollari.set(demoWs.yol, demoWs.upgrade);
+}
+
+sunucu.on('upgrade', (req, socket, head) => {
+  let yol;
+  try {
+    yol = new URL(req.url, 'http://x').pathname;
+  } catch {
+    socket.destroy();
+    return;
+  }
+  const isle = wsYollari.get(yol);
+  if (!isle) {
+    socket.destroy();
+    return;
+  }
+  isle(req, socket, head);
+});
 
 sunucu.listen(config.port, () => {
   console.log('');
   console.log(`  ${config.klinik.klinik.ad} - sesli asistan`);
   console.log(`  dinleniyor      : http://localhost:${config.port}`);
-  console.log(`  genel adres     : ${config.genelAdres}`);
   console.log(`  model           : ${config.claude.model} (effort: ${config.claude.effort})`);
-  console.log(`  ses dili        : ${config.twilio.dil} / ${config.twilio.ttsSaglayici}`);
   console.log(`  klinik dosyasi  : ${config.klinikYolu}`);
-  console.log('');
-  console.log('  Twilio numara ayari:');
-  console.log(`    A CALL COMES IN -> Webhook (HTTP POST) -> ${config.genelAdres}${tw.YOL_GELEN}`);
+
+  if (config.demoMod) {
+    console.log('');
+    console.log('  ┌──────────────────────────────────────────────┐');
+    console.log(`  │  DEMO:  http://localhost:${String(config.port).padEnd(20)}│`);
+    console.log('  └──────────────────────────────────────────────┘');
+    console.log(`  ses             : ${config.ses.apiKey ? config.ses.model : 'KAPALI (anahtar yok)'}`);
+    if (config.ses.apiKey) console.log(`  ses kimligi     : ${config.ses.voiceId}`);
+  } else {
+    console.log(`  genel adres     : ${config.genelAdres}`);
+    console.log(`  ses dili        : ${config.twilio.dil} / ${config.twilio.ttsSaglayici}`);
+    console.log('');
+    console.log('  Twilio numara ayari:');
+    console.log(`    A CALL COMES IN -> Webhook (HTTP POST) -> ${config.genelAdres}${tw.YOL_GELEN}`);
+  }
+
   console.log('');
   for (const u of config.uyarilar) console.warn(`  ! UYARI: ${u}`);
 
@@ -73,6 +115,7 @@ sunucu.listen(config.port, () => {
       `  ! ${onaysiz} islem icin fiyat onayi yok - asistan bunlarda rakam soylemeyecek.`
     );
   }
+  console.log('');
 });
 
 // Bosta duran oturum ve aktarim kayitlarini saatte bir temizle.

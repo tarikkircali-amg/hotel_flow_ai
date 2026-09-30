@@ -1,6 +1,10 @@
 # B) Fizibilite ve Mimari — Deniz Dent 7/24 Klinik Asistanı
 
-**Revizyon 2 · 30.09.2026**
+**Revizyon 3 · 30.09.2026**
+
+> **Kapsam kararı:** Yabancı dil desteği çıkarıldı. Sistem Türkçe-tek dil.
+> Ayrıca sunum için **çalışan bir demo** eklendi: Postgres ve telefon numarası
+> gerektirmeden, ElevenLabs sesiyle tarayıcıda çalışıyor (`sesli-asistan/` klasörü).
 **Değişiklik sebebi:** Deniz Dent'te klinik yönetim sistemine benzer bir yapı **zaten var.** Talep, yeni bir klinik yazılımı değil; **mesai dışı ve 7/24 hizmet veren bir katman.**
 
 Revizyon 1 (29.09) geçersizdir. Bu doküman iç kullanım içindir.
@@ -122,7 +126,7 @@ Kapsam daraldığı için yeniden kullanım oranı yükseldi.
 
 | Bileşen | Hazır | Yeni | Not |
 |---|---|---|---|
-| Dil algılama + çeviri katmanı | **%80** | %20 | Otel botundan |
+| ~~Dil algılama + çeviri katmanı~~ | — | — | **Kapsam dışı (30.09 kararı)** |
 | Konuşma akışı motoru | **%50** | %50 | Otel botundan desen |
 | Ajan katmanı + bilgi bankası | %20 | %80 | Fiyat yönetişimi yeni |
 | Kanal ağ geçidi (WhatsApp) | %10 | %90 | WhatsApp deneyimi var |
@@ -175,7 +179,7 @@ Değişmeyen zorunluluklar: açık rıza, aydınlatma metni, veri minimizasyonu 
 | 2–4 | WhatsApp asistanı, bilgi bankası, sabah onay kuyruğu, insana devir, entegrasyon | **Gece WhatsApp kapandı** |
 | 5 | **Sesli teknik doğrulama** (Türkçe kalite + gecikme ölçümü) | Ses sağlayıcısı kesinleşti |
 | 6–8 | Sesli karşılama, geri okuma teyidi, acil aktarım, dakika sayacı | **7/24 tam kapsama** |
-| +9–11 | Ek modül: 9 dil, Instagram, Facebook, fiyat yönetimi | Sağlık turizmi hazır |
+| +9–10 | Ek modül: Instagram, Facebook | Tüm kanallar tek kuyrukta |
 
 **Takvimi kaydırabilecekler:** Meta hesap doğrulaması (1–2 hafta, bizim elimizde değil) · fiyat bantları ve acil kurallarının klinikten gelmesi · ses doğrulaması olumsuz çıkarsa +1 hafta.
 

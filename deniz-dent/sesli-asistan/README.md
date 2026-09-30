@@ -3,8 +3,13 @@
 Klinik kapalıyken gelen telefon çağrılarını karşılayan yapay zekâ asistanı.
 Twilio ConversationRelay + Claude üzerine kurulu.
 
-**Durum:** çalışır iskelet. Gerçek bir telefon çağrısıyla henüz test edilmedi
-(bkz. [Türkçe ses doğrulaması](#türkçe-ses-doğrulaması-i̇lk-i̇ş)).
+**Dil:** yalnızca Türkçe (30.09 kapsam kararı).
+
+**Durum:**
+- ✅ **Demo çalışıyor** — Postgres ve telefon numarası olmadan, ElevenLabs sesiyle
+  tarayıcıda. Sunum için hazır: [Demo](#demo--sunum-için)
+- ⏳ Gerçek telefon çağrısı ile henüz test edilmedi
+  (bkz. [Türkçe ses doğrulaması](#türkçe-ses-doğrulaması-i̇lk-i̇ş))
 
 ---
 
@@ -13,6 +18,7 @@ Twilio ConversationRelay + Claude üzerine kurulu.
 **Yapar**
 - Gelen çağrıyı karşılar, kendini dijital asistan olarak tanıtır
 - Kliniğin onayladığı bilgileri verir (adres, saatler, hizmetler, SSS)
+- Türkçe konuşur — yabancı dil bu sürümün kapsamında değil
 - **Onaylı fiyat bandını** söyler — onaysız işlemde rakam söylemez
 - Randevu talebini alır, tarih/saat/telefonu **geri okuyarak** teyit eder
 - Acil ifadelerde bilgi vermeye çalışmaz, doğrudan yönlendirir
@@ -68,7 +74,58 @@ pozitif (acil olmayana acil demek) kabul edilebilir; yanlış negatif değildir.
 
 ---
 
-## Kurulum
+## Demo — sunum için
+
+Kliniğe göstermek için tasarlandı. **Postgres, Twilio hesabı ve telefon numarası
+gerekmez.** Veriler bellekte tutulur, süreç kapanınca silinir.
+
+```bash
+cd deniz-dent/sesli-asistan
+npm install
+cp .env.example .env
+```
+
+`.env` içinde sadece şu üçü yeterli:
+
+```
+DEMO_MOD=true
+ANTHROPIC_API_KEY=sk-ant-...
+ELEVENLABS_API_KEY=...        # boş bırakılırsa ses çıkmaz, metin çalışır
+```
+
+```bash
+npm start
+```
+
+Tarayıcıda `http://localhost:3000` — demo ekranı açılır.
+
+**Ekranda ne var:**
+
+| Bölüm | Ne gösterir |
+|---|---|
+| **Görüşme** | Telefon çalmış gibi asistan karşılar, siz hasta olarak konuşursunuz. Ses otomatik çalar. |
+| **Senaryo düğmeleri** | Tek tıkla hazır senaryolar: fiyat sorusu, onaysız fiyat, randevu, **ACİL**, pazarlık, yetkiliye bağlan, bilmediği soru |
+| **Perde arkası** | Asistanın her kararı canlı: acil taraması, hangi fiyat bandını okudu, hangi aracı çağırdı |
+| **Ölçüm** | İlk sesin kaç ms'de geldiği — sunumda en çok sorulan şey |
+| **Sabah teslim kuyruğu** | Görüşmeden doğan randevu talepleri ve acil kayıtları anlık düşer |
+
+Mikrofon düğmesi Chrome'da çalışır (tarayıcının Türkçe konuşma tanıması).
+
+**Ses:** varsayılan `eleven_flash_v2_5` (~75 ms, Türkçe destekli) ve
+**"Şevval - Call Center"** sesi — ElevenLabs'in sesli asistanlar için hazırladığı
+Türkçe ses. `.env` içindeki `ELEVENLABS_VOICE_ID` ile değiştirilir.
+
+**Sunumda dikkat:**
+- Demo fiyatları `config/klinik.demo.json` içindedir ve **temsilîdir**. Ekranın altında
+  bu uyarı yazılı — klinik yanlış anlamasın.
+- Bilerek bazı işlemlerde onaylı fiyat var (implant, zirkonyum), bazılarında yok
+  (beyazlatma, ortodonti). "Onaysız fiyat" senaryosu asistanın rakam uydurmadığını
+  canlı gösterir — **en ikna edici an bu.**
+- Sunumdan önce bir kez baştan sona çalıştırın.
+
+---
+
+## Kurulum — gerçek telefon hattı için
 
 ### 1. Gereksinimler
 - Node.js 20+
@@ -218,8 +275,6 @@ Bilerek kapsam dışı bırakıldı, teklifin sonraki adımlarında:
   `randevuAraci` bunun bağlanacağı yer.
 - **WhatsApp kanalı.** `src/ajan.js` kanal bağımsız yazıldı; WhatsApp webhook'u
   aynı `Gorusme` sınıfını kullanabilir.
-- **Dokuz dil.** Altyapı hazır (ConversationRelay `language` mesajı ile oturum
-  içinde dil değişebiliyor), içerik ve akış yazılmadı.
 - **Giden arama** (hatırlatma, gelmeyen hasta geri kazanımı).
 - **Panel rol ayrımı** — şu an tek kullanıcı. Hekim/resepsiyon ayrımı gerekecek.
 

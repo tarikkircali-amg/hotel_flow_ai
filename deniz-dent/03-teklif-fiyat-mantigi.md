@@ -1,6 +1,10 @@
 # C) Teklif ve Fiyat Mantığı — İÇ DOKÜMAN
 
-**Revizyon 2 · 30.09.2026**
+**Revizyon 3 · 30.09.2026**
+
+> **Kapsam kararı:** Yabancı dil çıkarıldı → ek modül 24.000 ₺'den **14.000 ₺'ye**,
+> aylık eki 3.000 ₺'den **2.000 ₺'ye** indi. Ana paket (55.000 ₺ + 12.900 ₺/ay) değişmedi;
+> yabancı dil zaten ana pakette değildi.
 **Uyarı:** Marj, maliyet ve pazarlık sınırları içerir. **Deniz Dent'e verilmez.** Müşteriye giden sürüm PDF'tir.
 
 ---
@@ -53,7 +57,7 @@ Hafif paket sadece şu durumda masaya konur: klinik bütçe için net biçimde g
 |---|---|---|---|
 | Hafif giriş (sadece WhatsApp, 4 hafta) | 17.000 ₺ | 5.900 ₺ | 400 görüşme |
 | → sonradan sesli ekleme | +45.000 ₺ | 12.900 ₺ | 800 + 400 dk |
-| Ek modül (9 dil + IG + FB + fiyat yönetimi) | 24.000 ₺ | +3.000 ₺ | 1.200 + 600 dk |
+| Ek modül (Instagram + Facebook) | 14.000 ₺ | +2.000 ₺ | 1.200 + 500 dk |
 
 **Not:** Hafif girişten ana pakete geçiş toplamı 62.000 ₺ — doğrudan ana paketi almaktan 7.000 ₺ pahalı. Bu kasıtlı; parçalı alım bize daha çok kurulum emeği çıkarıyor. Sorarlarsa açıkça söyle.
 
@@ -63,7 +67,7 @@ Hafif paket sadece şu durumda masaya konur: klinik bütçe için net biçimde g
 |---|---|
 | Ek görüşme | 12 ₺ |
 | Ek sesli dakika | 9 ₺ |
-| Ek dil (9'un dışında) | 8.000 ₺ tek seferlik |
+
 | Kapsam dışı geliştirme | 2.200 ₺/saat, yazılı onayla |
 
 **Kur maddesi** sözleşmede: sağlayıcı maliyetinde %20'yi aşan değişimde sadece aşım birim fiyatları 30 gün bildirimle güncellenir. Sabit aylık değişmez.
@@ -135,4 +139,5 @@ Hafif paket sadece şu durumda masaya konur: klinik bütçe için net biçimde g
 1. **Sistemlerinin adını öğren** — mümkünse toplantıdan önce telefonla sor. Mimarinin tamamı buna bağlı.
 2. **AiTakvim'e 10 dakika bak** — rakip incelemesinde sitesi açılmadı, tek doğrulanamayan oyuncu.
 3. **Güncel kurla marjı kontrol et** (§4).
+4. **Demoyu bir kez baştan sona çalıştır** — sunumda ilk kez açmak en kötü senaryo.
 4. **Paneli sunuma koyma.** Onlarda zaten var; göstermek bizi dinlememiş gösterir.

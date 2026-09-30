@@ -14,7 +14,9 @@ const { TANIMLAR, calistirici } = require('./araclar');
 const { mesaiIcinde, sonrakiAcilis, mesaiMetni } = require('./klinik');
 const { acilMi, acilYanit } = require('./acil');
 
-const istemci = new Anthropic({ apiKey: config.claude.apiKey });
+// Anahtar verilmediyse SDK kendi cozumleme sirasini kullanir
+// (ANTHROPIC_API_KEY ortam degiskeni, ANTHROPIC_AUTH_TOKEN, ant profili).
+const istemci = new Anthropic(config.claude.apiKey ? { apiKey: config.claude.apiKey } : {});
 
 const AZAMI_TUR = 6; // sonsuz arac dongusune karsi emniyet
 

@@ -140,15 +140,12 @@ async function relayBitti(req, res) {
 // ---------------------------------------------------------------------------
 // 2) WebSocket relay
 // ---------------------------------------------------------------------------
-function relayKur(httpSunucu) {
+function relayKur() {
   const wss = new WebSocketServer({ noServer: true });
 
-  httpSunucu.on('upgrade', (req, socket, head) => {
-    const yol = new URL(req.url, 'http://x').pathname;
-    if (yol !== YOL_RELAY) {
-      socket.destroy();
-      return;
-    }
+  // Upgrade yonlendirmesi index.js'te tek elden yapilir; burada sadece
+  // bu yola gelen baglantiyi kabul ediyoruz.
+  const upgrade = (req, socket, head) => {
     if (!wsImzaGecerli(req)) {
       console.warn('[relay] imza dogrulanamadi, baglanti reddedildi');
       socket.write('HTTP/1.1 403 Forbidden\r\n\r\n');
@@ -156,7 +153,7 @@ function relayKur(httpSunucu) {
       return;
     }
     wss.handleUpgrade(req, socket, head, (ws) => wss.emit('connection', ws, req));
-  });
+  };
 
   wss.on('connection', (ws) => {
     /** @type {{gorusme: Gorusme|null, yazici: SesYazici, callSid: string|null, arama: object|null}} */
@@ -229,7 +226,7 @@ function relayKur(httpSunucu) {
     ws.on('error', (err) => console.error('[relay] soket hatasi:', err.message));
   });
 
-  return wss;
+  return { yol: YOL_RELAY, upgrade };
 }
 
 async function kurulum(oturum, mesaj) {

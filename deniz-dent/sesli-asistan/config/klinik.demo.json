@@ -1,0 +1,186 @@
+{
+  "_DEMO_UYARISI": [
+    "BU DOSYA SUNUM İÇİNDİR. İçindeki fiyatlar TEMSİLİ örneklerdir,",
+    "Deniz Dent'in gerçek fiyatları değildir. Canlı kurulumda",
+    "config/klinik.json kullanılır ve içeriği klinik tarafından onaylanır.",
+    "",
+    "Bilerek hem onaylı hem onaysız fiyat bırakıldı: sunumda asistanın",
+    "onaysız işlemde rakam söylemediği canlı gösterilebilsin diye."
+  ],
+
+  "klinik": {
+    "ad": "Deniz Dent Diş Polikliniği",
+    "kisa_ad": "Deniz Dent",
+    "sehir": "İzmir",
+    "ilce": "Karşıyaka",
+    "adres": "Bostanlı Mahallesi, Karşıyaka / İzmir",
+    "adres_tarifi": "Bostanlı vapur iskelesine yürüme mesafesinde. Binanın altında kapalı otopark mevcut, hastalarımız için ilk iki saat ücretsiz.",
+    "web": "",
+    "zaman_dilimi": "Europe/Istanbul"
+  },
+
+  "mesai": {
+    "haftalik": [
+      { "gun": 1, "acilis": "09:00", "kapanis": "18:00" },
+      { "gun": 2, "acilis": "09:00", "kapanis": "18:00" },
+      { "gun": 3, "acilis": "09:00", "kapanis": "18:00" },
+      { "gun": 4, "acilis": "09:00", "kapanis": "18:00" },
+      { "gun": 5, "acilis": "09:00", "kapanis": "18:00" },
+      { "gun": 6, "acilis": "09:00", "kapanis": "13:00" }
+    ],
+    "kapali_gunler": []
+  },
+
+  "hizmetler": [
+    "Muayene ve teşhis",
+    "Dolgu",
+    "Kanal tedavisi",
+    "Diş taşı temizliği",
+    "Diş beyazlatma",
+    "İmplant",
+    "Zirkonyum ve porselen kaplama",
+    "Ortodonti (tel tedavisi, şeffaf plak)",
+    "Diş çekimi",
+    "Çocuk diş hekimliği",
+    "Protez"
+  ],
+
+  "fiyatlar": [
+    {
+      "islem": "Muayene",
+      "onayli": true,
+      "alt": 0,
+      "ust": 0,
+      "birim": "TL",
+      "aciklama": "DEMO: İlk muayene ve panoramik röntgen ücretsizdir."
+    },
+    {
+      "islem": "Diş taşı temizliği",
+      "onayli": true,
+      "alt": 1500,
+      "ust": 2500,
+      "birim": "TL",
+      "aciklama": "DEMO DEĞERİ. Diş taşı yoğunluğuna göre değişir."
+    },
+    {
+      "islem": "Dolgu",
+      "onayli": true,
+      "alt": 2000,
+      "ust": 4000,
+      "birim": "TL",
+      "aciklama": "DEMO DEĞERİ. Dolgunun yüzey sayısına ve malzemeye göre değişir."
+    },
+    {
+      "islem": "İmplant",
+      "onayli": true,
+      "alt": 18000,
+      "ust": 26000,
+      "birim": "TL",
+      "aciklama": "DEMO DEĞERİ. Kemik durumu, implant markası ve gerekirse kemik tozu / sinüs işlemine göre değişir. Kesin bedel muayene sonrası."
+    },
+    {
+      "islem": "Zirkonyum kaplama",
+      "onayli": true,
+      "alt": 6000,
+      "ust": 9000,
+      "birim": "TL",
+      "aciklama": "DEMO DEĞERİ. Diş başına fiyattır."
+    },
+    {
+      "islem": "Diş beyazlatma",
+      "onayli": false,
+      "alt": null,
+      "ust": null,
+      "birim": "TL",
+      "aciklama": "Klinik onayı bekleniyor - asistan bu işlemde rakam söylemez."
+    },
+    {
+      "islem": "Ortodonti",
+      "onayli": false,
+      "alt": null,
+      "ust": null,
+      "birim": "TL",
+      "aciklama": "Tedavi süresi kişiye göre çok değiştiği için bant verilmedi."
+    }
+  ],
+
+  "fiyat_politikasi": {
+    "onaysiz_yanit": "Bu tedavinin ücreti ağız yapınıza göre değişiyor, telefonda kesin rakam vermek doğru olmaz. Ücretsiz muayene ve röntgenle bakalım, hekimimiz görüp net fiyatı söylesin.",
+    "pazarlik_yanit": "İndirim konusunda karar yetkim yok, bunu ekibimize aktarayım, size dönsünler.",
+    "muayene_ucretsiz_mi": true
+  },
+
+  "sik_sorulanlar": [
+    {
+      "soru": "Adresiniz nerede, park sorunu var mı?",
+      "cevap": "Bostanlı Mahallesi, Karşıyaka'dayız. Bostanlı vapur iskelesine yürüme mesafesinde. Binanın altında kapalı otopark var, hastalarımıza ilk iki saat ücretsiz."
+    },
+    {
+      "soru": "Hangi günler açıksınız?",
+      "cevap": "Hafta içi 09:00-18:00, cumartesi 09:00-13:00 arası hizmet veriyoruz. Pazar kapalıyız."
+    },
+    {
+      "soru": "Muayene ücretli mi?",
+      "cevap": "İlk muayene ve panoramik röntgen ücretsizdir."
+    },
+    {
+      "soru": "Randevusuz gelebilir miyim?",
+      "cevap": "Randevulu çalışıyoruz, ancak acil durumlarda gelmeden önce bizi aramanızı rica ediyoruz, size en kısa sürede yer açmaya çalışıyoruz."
+    },
+    {
+      "soru": "Kredi kartına taksit yapıyor musunuz?",
+      "cevap": "Kredi kartına taksit imkânımız bulunuyor. Taksit sayısı tedavi tutarına göre değişiyor, detayı muayene sonrası ekibimiz paylaşıyor."
+    },
+    {
+      "soru": "Anlaşmalı olduğunuz sigorta var mı?",
+      "cevap": "Özel sigorta anlaşmalarımız hakkında güncel bilgiyi ekibimiz veriyor. Sigorta şirketinizin adını not alayım, mesai başında size dönelim."
+    },
+    {
+      "soru": "Çocuk hastaya bakıyor musunuz?",
+      "cevap": "Evet, çocuk diş hekimliği hizmetimiz var."
+    },
+    {
+      "soru": "İmplant ne kadar sürede biter?",
+      "cevap": "İmplant tedavisi genellikle birkaç seansa yayılır ve kemiğin iyileşme süresine bağlıdır. Size özel süreyi hekimimiz muayenede söyleyecek."
+    },
+    {
+      "soru": "Hangi hekimler çalışıyor?",
+      "cevap": "Kliniğimizde birden fazla hekim görev yapıyor. Hangi hekime randevu istediğinizi belirtirseniz not düşeyim, ekibimiz uygunluğa göre planlasın."
+    },
+    {
+      "soru": "Hafta sonu acil durumda ne yapmalıyım?",
+      "cevap": "Acil bir durumda vakit kaybetmeden yetkilimize bağlanmanızı sağlıyorum, gerekirse en yakın acil servise yönlendiriyoruz."
+    }
+  ],
+
+  "acil": {
+    "anahtar_kelimeler": [
+      "kanama", "kanıyor", "kan durmuyor",
+      "kırıldı", "kırık", "koptu",
+      "şişti", "şişlik", "apse", "iltihap",
+      "dayanılmaz", "çok şiddetli", "uyuyamıyorum",
+      "kaza", "darbe", "çarptı",
+      "nefes", "yutkunamıyorum", "ateşim"
+    ],
+    "yanit": "Anladım, bu acil bir durum olabilir. Sizi hemen yetkilimize bağlıyorum, lütfen hatta kalın.",
+    "yanit_aktarim_yoksa": "Anladım, bu acil bir durum olabilir. Lütfen vakit kaybetmeden en yakın acil servise veya nöbetçi diş hekimine başvurun. Durumunuzu kliniğimize not düşüyorum, sabah ilk iş sizi arayacaklar.",
+    "her_zaman_aktar": true
+  },
+
+  "karsilama": {
+    "mesai_disi": "Deniz Dent Diş Polikliniği'ne hoş geldiniz. Ben kliniğin dijital asistanıyım, şu anda mesai saatleri dışındayız. Size bilgi verebilir, randevu talebinizi alabilirim. Görüşmemiz metin olarak kaydediliyor. Nasıl yardımcı olabilirim?",
+    "mesai_ici": "Deniz Dent Diş Polikliniği'ne hoş geldiniz. Ben kliniğin dijital asistanıyım. Size bilgi verebilir, randevu oluşturabilir ya da yetkiliye bağlayabilirim. Görüşmemiz metin olarak kaydediliyor. Nasıl yardımcı olabilirim?"
+  },
+
+  "kvkk": {
+    "metin_versiyonu": "demo-v1",
+    "sozlu_bilgilendirme": "Görüşmemiz metin olarak kaydediliyor ve randevu işlemleriniz için kullanılıyor.",
+    "ses_kaydi_aliniyor": false
+  },
+
+  "uslup": {
+    "hitap": "siz",
+    "ton": "sıcak, sakin, kısa cümleli",
+    "azami_cumle": 3
+  }
+}

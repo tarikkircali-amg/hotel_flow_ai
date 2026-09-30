@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sesli Asistan Demo — Deniz Dent</title>
+<style>
+:root{
+  --brand-900:#06282e; --brand-800:#0a3d47; --brand-700:#0e5464; --brand-600:#137285;
+  --brand-500:#1b8fa6; --brand-100:#d8eef2; --brand-50:#eef8fa;
+  --ai-600:#5b4bd6; --ai-500:#7a6bf0; --ai-50:#eeebfe;
+  --n-900:#0f1720; --n-700:#36434f; --n-600:#5a6874; --n-400:#8d99a4;
+  --n-300:#c3ccd4; --n-200:#e0e6ea; --n-100:#f0f4f6; --n-0:#fff;
+  --ok-600:#177245; --ok-50:#e7f4ec; --ok-300:#8fcfab;
+  --warn-600:#96610a; --warn-50:#fdf3e2; --warn-300:#e8c383;
+  --danger-600:#a32020; --danger-50:#fdeceb; --danger-300:#f0b4b1;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --n-900:#eef2f5; --n-700:#c2ccd4; --n-600:#9aa7b1; --n-400:#76838e;
+    --n-300:#3d4a55; --n-200:#2a343d; --n-100:#1b232b; --n-0:#121920;
+    --brand-50:#12303a; --brand-100:#1d4854; --ai-50:#1c1838;
+    --ok-50:#10291c; --danger-50:#2e1615; --warn-50:#2d2312;
+  }
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--n-100); color:var(--n-900);
+  font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+}
+button{font:inherit;cursor:pointer;border-radius:8px;min-height:40px}
+button:focus-visible{outline:3px solid var(--brand-500);outline-offset:2px}
+
+/* ---------- Üst şerit ---------- */
+header{
+  background:var(--brand-900); color:#fff; padding:12px 20px;
+  display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+}
+header h1{margin:0;font-size:17px;font-weight:700}
+header h1 small{display:block;font-size:12px;font-weight:400;opacity:.7;margin-top:2px}
+.etiketler{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.etiket{
+  font-size:12px;font-weight:600;padding:5px 11px;border-radius:999px;
+  background:rgba(255,255,255,.12); color:#fff; border:1px solid rgba(255,255,255,.22);
+  display:inline-flex;align-items:center;gap:6px;
+}
+.etiket.acik{background:var(--ok-600);border-color:transparent}
+.etiket.kapali{background:var(--warn-600);border-color:transparent}
+.etiket.ses-yok{background:var(--danger-600);border-color:transparent}
+.nokta{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block}
+
+/* ---------- Yerleşim ---------- */
+.kabuk{
+  max-width:1280px;margin:0 auto;padding:20px 16px 48px;
+  display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:20px;align-items:start;
+}
+@media (max-width:980px){.kabuk{grid-template-columns:1fr}}
+.kutu{background:var(--n-0);border:1px solid var(--n-200);border-radius:14px;overflow:hidden}
+.kutu>h2{
+  margin:0;padding:12px 18px;font-size:13px;font-weight:700;letter-spacing:.4px;
+  text-transform:uppercase;color:var(--n-600);border-bottom:1px solid var(--n-200);
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+}
+
+/* ---------- Konuşma ---------- */
+#konusma{padding:18px;min-height:340px;max-height:52vh;overflow:auto;display:flex;flex-direction:column;gap:12px}
+.balon{max-width:82%;padding:11px 15px;border-radius:14px;font-size:14.5px;white-space:pre-wrap;word-break:break-word}
+.balon.asistan{background:var(--brand-50);border:1px solid var(--brand-100);align-self:flex-start;border-bottom-left-radius:4px}
+.balon.hasta{background:var(--brand-700);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.balon.sistem{
+  align-self:center;background:transparent;color:var(--n-600);font-size:12.5px;
+  text-align:center;max-width:100%;padding:2px
+}
+.balon.acil{background:var(--danger-50);border:1px solid var(--danger-300);color:var(--danger-600);font-weight:600}
+.balon .kim{display:block;font-size:11px;font-weight:700;opacity:.65;margin-bottom:3px;text-transform:uppercase;letter-spacing:.4px}
+.yaziyor{align-self:flex-start;color:var(--n-600);font-size:13px;display:flex;gap:5px;align-items:center}
+.yaziyor i{width:6px;height:6px;border-radius:50%;background:var(--n-400);animation:zipla 1.1s infinite}
+.yaziyor i:nth-child(2){animation-delay:.15s}.yaziyor i:nth-child(3){animation-delay:.3s}
+@keyframes zipla{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-4px);opacity:1}}
+
+/* ---------- Giriş ---------- */
+.girisAlani{border-top:1px solid var(--n-200);padding:14px 18px;background:var(--n-100)}
+.satir{display:flex;gap:8px}
+#metin{
+  flex:1;font:inherit;padding:11px 14px;border:1px solid var(--n-300);
+  border-radius:8px;background:var(--n-0);color:var(--n-900);min-height:44px
+}
+.btn{padding:10px 18px;border:1px solid var(--n-300);background:var(--n-0);color:var(--n-900)}
+.btn:hover{background:var(--n-100)}
+.btn.ana{background:var(--brand-700);border-color:var(--brand-700);color:#fff}
+.btn.ana:hover{background:var(--brand-600)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.mini{min-height:34px;padding:6px 12px;font-size:13px}
+
+/* ---------- Senaryolar ---------- */
+.senaryolar{padding:14px 18px;display:flex;flex-wrap:wrap;gap:8px;border-top:1px solid var(--n-200)}
+.senaryo{
+  text-align:left;padding:9px 13px;border:1px solid var(--n-300);background:var(--n-0);
+  color:var(--n-900);font-size:13px;line-height:1.3
+}
+.senaryo:hover:not(:disabled){border-color:var(--brand-600);background:var(--brand-50)}
+.senaryo b{display:block;font-size:13px}
+.senaryo span{display:block;font-size:11.5px;color:var(--n-600);margin-top:2px}
+.senaryo.acil{border-color:var(--danger-300)}
+.senaryo.acil b{color:var(--danger-600)}
+
+/* ---------- Perde arkası ---------- */
+#olaylar{padding:14px 18px;max-height:34vh;overflow:auto;display:flex;flex-direction:column;gap:8px}
+.olay{
+  font-size:12.5px;border-left:3px solid var(--n-300);padding:7px 12px;
+  background:var(--n-100);border-radius:0 8px 8px 0
+}
+.olay b{display:block;font-size:12px;margin-bottom:2px}
+.olay.ok{border-left-color:var(--ok-600);background:var(--ok-50)}
+.olay.uyari{border-left-color:var(--warn-600);background:var(--warn-50)}
+.olay.acil{border-left-color:var(--danger-600);background:var(--danger-50)}
+.olay.ai{border-left-color:var(--ai-600);background:var(--ai-50)}
+.olay code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px}
+
+/* ---------- Kuyruk ---------- */
+#kuyruk{padding:14px 18px;display:flex;flex-direction:column;gap:10px;max-height:34vh;overflow:auto}
+.kart{border:1px solid var(--n-200);border-radius:var(--r);padding:11px 13px;font-size:13px;background:var(--n-0)}
+.kart.acil{border-color:var(--danger-300);background:var(--danger-50)}
+.kart b{display:block;margin-bottom:3px}
+.kart .alt{color:var(--n-600);font-size:12px}
+.bos{color:var(--n-600);font-size:13px;text-align:center;padding:18px;border:1px dashed var(--n-300);border-radius:var(--r)}
+
+/* ---------- Ölçüm ---------- */
+.olcum{display:flex;gap:8px;flex-wrap:wrap;padding:0 18px 14px}
+.olcumKart{flex:1;min-width:110px;border:1px solid var(--n-200);border-radius:var(--r);padding:10px 12px}
+.olcumKart b{display:block;font-size:20px;line-height:1.15;font-variant-numeric:tabular-nums}
+.olcumKart span{font-size:11.5px;color:var(--n-600)}
+
+.dipnot{
+  max-width:1280px;margin:0 auto;padding:0 16px 40px;font-size:12px;color:var(--n-600)
+}
+.gizle{display:none!important}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Sesli Asistan — Canlı Demo <small id="klinikAd">Deniz Dent Diş Polikliniği</small></h1>
+  <div class="etiketler">
+    <span class="etiket" id="etMesai"><span class="nokta"></span><span>yükleniyor</span></span>
+    <span class="etiket" id="etSes">ses</span>
+    <span class="etiket" id="etModel">model</span>
+  </div>
+</header>
+
+<div class="kabuk">
+
+  <!-- SOL: görüşme -->
+  <section class="kutu">
+    <h2>
+      <span>Görüşme</span>
+      <span style="display:flex;gap:8px">
+        <button class="btn mini" id="btnSifirla">Sıfırla</button>
+        <button class="btn mini ana" id="btnBaslat">Görüşmeyi başlat</button>
+      </span>
+    </h2>
+
+    <div id="konusma">
+      <div class="balon sistem">Başlamak için <strong>“Görüşmeyi başlat”</strong>a basın. Telefon çalmış gibi asistan sizi karşılayacak.</div>
+    </div>
+
+    <div class="girisAlani">
+      <form class="satir" id="form">
+        <input id="metin" placeholder="Hasta olarak siz konuşun…" autocomplete="off" disabled>
+        <button class="btn mini" type="button" id="btnMik" title="Mikrofonla konuş" disabled>🎙</button>
+        <button class="btn ana" type="submit" id="btnGonder" disabled>Gönder</button>
+      </form>
+    </div>
+
+    <div class="senaryolar" id="senaryolar"></div>
+  </section>
+
+  <!-- SAĞ: perde arkası + kuyruk -->
+  <div style="display:flex;flex-direction:column;gap:20px">
+
+    <section class="kutu">
+      <h2>Perde arkası <span style="font-weight:400;text-transform:none;letter-spacing:0">asistan ne yaptı</span></h2>
+      <div class="olcum">
+        <div class="olcumKart"><b id="mIlkSes">—</b><span>ilk ses (ms)</span></div>
+        <div class="olcumKart"><b id="mToplam">—</b><span>toplam yanıt (ms)</span></div>
+        <div class="olcumKart"><b id="mTur">0</b><span>soru sayısı</span></div>
+      </div>
+      <div id="olaylar">
+        <div class="bos">Görüşme başlayınca asistanın her kararı burada görünecek.</div>
+      </div>
+    </section>
+
+    <section class="kutu">
+      <h2>Sabah teslim kuyruğu</h2>
+      <div id="kuyruk"><div class="bos">Henüz kayıt yok.</div></div>
+    </section>
+
+  </div>
+</div>
+
+<p class="dipnot">
+  Bu ekran sunum içindir. Gösterilen fiyatlar <strong>temsilî demo değerleridir</strong>, kliniğin gerçek fiyatları değildir.
+  Veriler bellekte tutulur, sunucu kapanınca silinir. Asistanın kararları (acil tarama, fiyat sorgusu, araç çağrıları) gerçek sistemin aynısıdır.
+</p>
+
+<audio id="oynatici"></audio>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const kacir = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+let ws = null, hazir = false, mesgul = false, turSayisi = 0;
+let aktifBalon = null, yaziyorEl = null;
+
+// ---------- Ses kuyruğu: sıra bozulmadan çalsın ----------
+const sesKuyrugu = [];
+let caliyor = false;
+const oynatici = $('oynatici');
+
+function sesEkle(yol){ sesKuyrugu.push(yol); if(!caliyor) sonraki(); }
+function sonraki(){
+  const y = sesKuyrugu.shift();
+  if(!y){ caliyor = false; return; }
+  caliyor = true;
+  oynatici.src = y;
+  oynatici.play().catch(() => { caliyor = false; sonraki(); });
+}
+oynatici.addEventListener('ended', sonraki);
+oynatici.addEventListener('error', () => { caliyor = false; sonraki(); });
+
+// ---------- Konuşma balonları ----------
+function balon(kim, metin, sinif=''){
+  const d = document.createElement('div');
+  d.className = 'balon ' + (kim === 'hasta' ? 'hasta' : kim === 'sistem' ? 'sistem' : 'asistan') + (sinif ? ' '+sinif : '');
+  if(kim !== 'sistem'){
+    const e = document.createElement('span');
+    e.className = 'kim';
+    e.textContent = kim === 'hasta' ? 'Hasta' : 'Asistan';
+    d.appendChild(e);
+  }
+  const g = document.createElement('span');
+  g.textContent = metin;
+  d.appendChild(g);
+  $('konusma').appendChild(d);
+  kaydir();
+  return g;
+}
+function kaydir(){ const k = $('konusma'); k.scrollTop = k.scrollHeight; }
+
+function yaziyorAc(){
+  yaziyorAc_kapat();
+  yaziyorEl = document.createElement('div');
+  yaziyorEl.className = 'yaziyor';
+  yaziyorEl.innerHTML = '<i></i><i></i><i></i><span>asistan düşünüyor…</span>';
+  $('konusma').appendChild(yaziyorEl); kaydir();
+}
+function yaziyorAc_kapat(){ if(yaziyorEl){ yaziyorEl.remove(); yaziyorEl = null; } }
+
+// ---------- Perde arkası ----------
+const EYLEM_ADI = {
+  cagri_basladi:   ['Görüşme açıldı', ''],
+  acil_tespit:     ['ACİL yakalandı', 'acil'],
+  fiyat_sorgu:     ['Fiyat bandı sorgulandı', 'ai'],
+  randevu_talebi_olustur: ['Randevu talebi kaydedildi', 'ok'],
+  insana_aktar:    ['İnsana aktarım istendi', 'uyari'],
+  arac_hata:       ['Araç hatası', 'uyari'],
+};
+function olayEkle(eylem, detay, sonuc){
+  const kutu = $('olaylar');
+  if(kutu.querySelector('.bos')) kutu.innerHTML = '';
+  const [ad, sinif] = EYLEM_ADI[eylem] || [eylem, ''];
+  const d = document.createElement('div');
+  d.className = 'olay ' + sinif;
+  let alt = '';
+  if(eylem === 'fiyat_sorgu' && detay){
+    const s = detay.sonuc || {};
+    alt = s.onayli
+      ? `“${kacir(detay.islem)}” → onaylı bant: ${s.alt}–${s.ust} ${s.birim||'TL'}`
+      : `“${kacir(detay.islem)}” → <strong>onaylı bant yok, rakam söylenmeyecek</strong>`;
+  } else if(eylem === 'acil_tespit' && detay){
+    alt = `tetikleyen: <code>${kacir(detay.tetikleyen)}</code> · ${detay.aktarildi ? 'yetkiliye aktarılıyor' : 'sözlü yönlendirme'}`;
+  } else if(eylem === 'insana_aktar' && detay){
+    alt = kacir(detay.sebep || '');
+  } else if(sonuc){
+    alt = kacir(sonuc);
+  }
+  d.innerHTML = `<b>${kacir(ad)}</b>${alt}`;
+  kutu.appendChild(d);
+  kutu.scrollTop = kutu.scrollHeight;
+}
+
+// ---------- Kuyruk ----------
+async function kuyrukYenile(){
+  try{
+    const r = await fetch('/demo/api/kuyruk');
+    const { randevular, aciller } = await r.json();
+    const k = $('kuyruk');
+    if(!randevular.length && !aciller.length){
+      k.innerHTML = '<div class="bos">Henüz kayıt yok.</div>'; return;
+    }
+    k.innerHTML = [
+      ...aciller.map(a => `<div class="kart acil"><b>⚠ ACİL — ${kacir(a.arayan_no||'')}</b>
+        <div class="alt">tetikleyen: ${kacir(a.tetikleyen)} · “${kacir(a.hasta_sozu)}”</div></div>`),
+      ...randevular.map(r => `<div class="kart"><b>${kacir(r.hasta_adi)}</b>
+        <div class="alt">${kacir(r.telefon)} · ${kacir(r.islem||'muayene')}
+        ${r.tercih_tarih ? '· '+kacir(r.tercih_tarih) : ''} ${kacir(r.tercih_saat||'')}
+        <br>durum: onay bekliyor</div></div>`),
+    ].join('');
+  }catch(e){ /* sessiz geç */ }
+}
+
+// ---------- WebSocket ----------
+function bagla(){
+  return new Promise((coz, red) => {
+    const p = location.protocol === 'https:' ? 'wss://' : 'ws://';
+    ws = new WebSocket(p + location.host + '/demo/ws');
+    ws.onopen = () => coz();
+    ws.onerror = () => red(new Error('Sunucuya bağlanılamadı'));
+    ws.onclose = () => { hazir = false; kilit(true); };
+    ws.onmessage = (e) => mesajGeldi(JSON.parse(e.data));
+  });
+}
+
+function mesajGeldi(m){
+  if(m.tip === 'hazir'){
+    hazir = true; kilit(false);
+    balon('sistem', `📞 ${m.arayanNo} numarasından arama — klinik şu anda ${m.mesaiIcinde ? 'AÇIK' : 'KAPALI'}`);
+    balon('asistan', m.karsilama);
+    olayEkle('cagri_basladi', null, m.mesaiIcinde ? 'mesai içi' : 'mesai dışı');
+    kuyrukYenile();
+    return;
+  }
+  if(m.tip === 'parca'){
+    yaziyorAc_kapat();
+    if(!aktifBalon) aktifBalon = balon('asistan', '');
+    aktifBalon.textContent += m.metin;
+    kaydir();
+    return;
+  }
+  if(m.tip === 'ses'){ sesEkle(m.yol); return; }
+  if(m.tip === 'olay'){ olayEkle(m.eylem, m.detay, m.sonuc); return; }
+  if(m.tip === 'bitti'){
+    yaziyorAc_kapat();
+    if(m.acil && aktifBalon) aktifBalon.parentElement.classList.add('acil');
+    if(m.aktarim) balon('sistem', `↪ Görüşme yetkiliye aktarılıyor — sebep: ${m.aktarim.sebep}`);
+    if(typeof m.ilkSesMs === 'number') $('mIlkSes').textContent = m.ilkSesMs;
+    if(typeof m.toplamMs === 'number') $('mToplam').textContent = m.toplamMs;
+    aktifBalon = null; mesgul = false; kilit(false);
+    kuyrukYenile();
+    return;
+  }
+  if(m.tip === 'hata'){
+    yaziyorAc_kapat();
+    balon('sistem', '⚠ ' + m.mesaj);
+    mesgul = false; kilit(false);
+  }
+}
+
+function kilit(kapali){
+  $('metin').disabled = kapali || !hazir;
+  $('btnGonder').disabled = kapali || !hazir;
+  $('btnMik').disabled = kapali || !hazir || !tanima;
+  document.querySelectorAll('.senaryo').forEach(b => b.disabled = kapali || !hazir);
+}
+
+// ---------- Gönderim ----------
+async function gonder(metin){
+  if(!hazir || mesgul || !metin.trim()) return;
+  mesgul = true; kilit(true);
+  balon('hasta', metin);
+  turSayisi += 1; $('mTur').textContent = turSayisi;
+  $('mIlkSes').textContent = '…'; $('mToplam').textContent = '…';
+  yaziyorAc();
+  ws.send(JSON.stringify({ tip:'soz', metin }));
+}
+
+function bekleBitti(){
+  return new Promise(coz => {
+    const say = setInterval(() => { if(!mesgul){ clearInterval(say); coz(); } }, 120);
+  });
+}
+
+$('form').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const v = $('metin').value; $('metin').value = '';
+  gonder(v);
+});
+
+$('btnBaslat').addEventListener('click', async () => {
+  $('btnBaslat').disabled = true;
+  try{
+    if(!ws || ws.readyState !== WebSocket.OPEN) await bagla();
+    $('konusma').innerHTML = '';
+    turSayisi = 0; $('mTur').textContent = '0';
+    ws.send(JSON.stringify({ tip:'baslat' }));
+  }catch(err){
+    balon('sistem', '⚠ ' + err.message);
+  }finally{
+    $('btnBaslat').disabled = false;
+    $('btnBaslat').textContent = 'Yeniden başlat';
+  }
+});
+
+$('btnSifirla').addEventListener('click', async () => {
+  await fetch('/demo/api/sifirla', { method:'POST' });
+  $('konusma').innerHTML = '<div class="balon sistem">Temizlendi. “Görüşmeyi başlat”a basın.</div>';
+  $('olaylar').innerHTML = '<div class="bos">Görüşme başlayınca asistanın her kararı burada görünecek.</div>';
+  $('mIlkSes').textContent = '—'; $('mToplam').textContent = '—'; $('mTur').textContent = '0';
+  turSayisi = 0; hazir = false; kilit(true);
+  kuyrukYenile();
+});
+
+// ---------- Mikrofon (tarayıcı desteği varsa) ----------
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let tanima = null;
+if(SR){
+  tanima = new SR();
+  tanima.lang = 'tr-TR'; tanima.interimResults = false; tanima.maxAlternatives = 1;
+  tanima.onresult = (e) => gonder(e.results[0][0].transcript);
+  tanima.onerror = () => { $('btnMik').textContent = '🎙'; };
+  tanima.onend = () => { $('btnMik').textContent = '🎙'; };
+  $('btnMik').addEventListener('click', () => {
+    try{ tanima.start(); $('btnMik').textContent = '● dinliyor'; }catch(e){ /* zaten açık */ }
+  });
+}else{
+  $('btnMik').title = 'Tarayıcınız konuşma tanımayı desteklemiyor (Chrome önerilir)';
+}
+
+// ---------- Açılış ----------
+(async function basla(){
+  const d = await (await fetch('/demo/api/durum')).json();
+  $('klinikAd').textContent = d.klinik;
+
+  const em = $('etMesai');
+  em.className = 'etiket ' + (d.mesaiIcinde ? 'acik' : 'kapali');
+  em.innerHTML = `<span class="nokta"></span><span>${d.mesaiIcinde ? 'Klinik açık' : 'Mesai dışı'}</span>`;
+
+  const es = $('etSes');
+  es.className = 'etiket' + (d.sesAcik ? '' : ' ses-yok');
+  es.textContent = d.sesAcik ? 'ElevenLabs sesi açık' : 'Ses kapalı — sadece metin';
+
+  $('etModel').textContent = d.model;
+
+  $('senaryolar').innerHTML = d.senaryolar.map((s, i) =>
+    `<button class="senaryo${s.ad.includes('ACİL') ? ' acil' : ''}" data-s="${i}" disabled>
+       <b>${kacir(s.ad)}</b><span>${kacir(s.aciklama)}</span></button>`).join('');
+
+  document.querySelectorAll('.senaryo').forEach(b => {
+    b.addEventListener('click', async () => {
+      const s = d.senaryolar[Number(b.dataset.s)];
+      for(const adim of s.adimlar){
+        await gonder(adim);
+        await bekleBitti();
+        await new Promise(r => setTimeout(r, 400));
+      }
+    });
+  });
+
+  kuyrukYenile();
+})();
+</script>
+</body>
+</html>

@@ -185,15 +185,23 @@ function yonlendirici() {
 
   r.get('/api/aramalar/:id', oturumGerekli, async (req, res, next) => {
     try {
-      const { rows: arama } = await db.sorgu(`SELECT * FROM aramalar WHERE id = $1`, [
-        req.params.id,
-      ]);
-      if (!arama[0]) return res.status(404).json({ hata: 'Arama bulunamadı.' });
+      let arama;
+      let mesajlar;
 
-      const { rows: mesajlar } = await db.sorgu(
-        `SELECT yon, metin, olusturma FROM mesajlar WHERE arama_id = $1 ORDER BY id`,
-        [req.params.id]
-      );
+      if (db.aramaGetir) {
+        // Bellek modu (demo)
+        const k = await db.aramaGetir(req.params.id);
+        if (!k) return res.status(404).json({ hata: 'Arama bulunamadı.' });
+        arama = [k.arama];
+        mesajlar = k.mesajlar;
+      } else {
+        ({ rows: arama } = await db.sorgu(`SELECT * FROM aramalar WHERE id = $1`, [req.params.id]));
+        if (!arama[0]) return res.status(404).json({ hata: 'Arama bulunamadı.' });
+        ({ rows: mesajlar } = await db.sorgu(
+          `SELECT yon, metin, olusturma FROM mesajlar WHERE arama_id = $1 ORDER BY id`,
+          [req.params.id]
+        ));
+      }
       await db.denetim({
         aktor: `panel:${req.kullanici}`,
         eylem: 'dokum_goruntule',

@@ -1,5 +1,8 @@
 > ## ⚠ REVİZYON 2 — 30.09.2026
 >
+> **30.09 kararı — yabancı dil kapsam dışı.** Sistem Türkçe-tek dil kuruluyor.
+> Dil desteği ileride eklenebilir ama teklifin ve fiyatın parçası değil.
+>
 > **Deniz Dent'te klinik yönetim sistemine benzer bir yapı zaten var.** Talep, yeni bir klinik
 > yazılımı değil; **mesai dışı / 7/24 çalışan bir iletişim katmanı.**
 >
@@ -50,7 +53,7 @@ Kendini "Türkiye'nin ilk ve tek LLM tabanlı klinik asistanı" olarak konumland
 **Diğer zaafları:**
 - **Klinik yönetim yazılımı değil, sadece iletişim katmanı.** Kendi karşılaştırma tablolarında rakip olarak DoktorTakvimi / Klinik365 / Randevum'u gösteriyorlar — yani hasta kaydı, hekim takvimi, tahsilat, bakiye takibi onların ürününde yok; mevcut yazılıma "bağlanıyorlar".
 - **6 branşa aynı anda hizmet ediyorlar** → diş derinliği yok. Diyetisyen ve dermatolog aynı motorla çalışıyor.
-- Çok dil iddiası blog seviyesinde ("otomatik dil algılama, 20+ dil") — bu LLM'in doğal yeteneği, ürünleştirilmiş 9 dilde onaylı tedavi/fiyat içeriği değil.
+- Çok dil iddiası blog seviyesinde ("otomatik dil algılama, 20+ dil") — bu LLM'in doğal yeteneği, ürünleştirilmiş onaylı içerik değil. (Bizim kapsamımızda da dil yok; bu satır sadece iddialarının değerlendirmesi.)
 - **Hekim atama motoru yok** — hiçbir yerde iddia etmiyorlar.
 - Hazır SaaS şablonu: klinik ürüne uyar, ürün kliniğe uymaz.
 
@@ -96,7 +99,7 @@ Yapay zeka destekli otomatik **çağrı ve kampanya** platformu. Diş kliniği s
 Yıllık abonelikte 3 ay hediye + kurulum ücretsiz.
 
 **Zaafları:**
-- **Dil, satılan bir eklenti.** "Asistana ikinci dil atama" Profesyonel pakette başlıyor. 9 dil bu mimaride ya çok pahalı ya imkansız. Sağlık turizmi için yanlış araç.
+- **Dil, satılan bir eklenti.** "Asistana ikinci dil atama" Profesyonel pakette başlıyor — yani her dil ayrı maliyet.
 - **Outbound kampanya odaklı** (kampanya oluşturma, aynı anda 200 arama, ses klonlama) — bu bir çağrı merkezi aracı, klinik resepsiyonisti değil.
 - **WhatsApp en üst pakette** ($519,99/ay ≈ 21.000 ₺/ay kurdan bağımsız olarak pahalı) → Deniz Dent'in 1. isteği için ekonomik değil.
 - Hasta kaydı, hekim takvimi, hekim atama, hasta hafızası: **hiçbiri yok.**
@@ -138,7 +141,7 @@ Satırlar Deniz Dent'in kendi istediği 5 madde + benim eklediğim 3 madde.
 | **3. Hasta hafızası / CRM** | 6 ay AI hafızası | İddia yok | ✗ | ✗ | **Kalıcı hasta CRM + süresiz konuşma geçmişi + tedavi geçmişi** |
 | **4. Otomatik randevu oluşturma** | ✓ (Google Takvim) | "Bağlantı kurulunca eklenebilir" | ✗ | Talep toplar | **✓ Kendi takvimimize doğrudan yazar** |
 | **5. Sesli telefon karşılama** | **"YAKINDA"** | ✓ | ✓ (kampanya odaklı) | ✗ | **✓ Faz 3'te canlı** |
-| **6. Çok dilli (9 dil) derin bilgilendirme** | Blog seviyesi dil algılama | Net değil | 2. dil ücretli eklenti | ✗ | **9 dilde onaylı tedavi + fiyat + süreç içeriği** |
+| ~~6. Çok dilli bilgilendirme~~ | Blog seviyesi dil algılama | Net değil | 2. dil ücretli eklenti | ✗ | **KAPSAM DIŞI — 30.09 kararı, Türkçe-tek dil** |
 | **7. Fiyat bilgisine hakim, uydurmayan asistan** | Fiyat bilgisi verir | Paylaşılacak ücret bilgisi | ✗ | ✗ | **Onaylı fiyat bandı + "uydurma yasağı" kuralı + iyi/kötü senaryo yönetimi** |
 | **Klinik yönetim paneli (hasta, tahsilat, bakiye)** | ✗ (iletişim katmanı) | ✗ (görüşme paneli) | ✗ | Basit panel | **✓ Clinician OS + Deniz Dent'e özel panel** |
 | **Ürün tipi** | Hazır SaaS, 6 branş | Proje bazlı, kurumsal | Genel amaçlı araç | Tek kişilik proje | **Tek kliniğe özel (custom)** |

@@ -93,29 +93,48 @@ function klinikDogrula(k, yol) {
   }
 }
 
-const klinikYolu = istege('KLINIK_CONFIG', 'config/klinik.json');
+const demoMod = mantik('DEMO_MOD', false);
+
+// Demo modunda Twilio, Postgres ve panel parolasi gerekmez - amac tek komutla
+// ayaga kalkip sesi duyurmak. Uretimde hepsi zorunlu.
+const gerekli = (ad) => (demoMod ? istege(ad, '') : zorunlu(ad));
+
+const klinikYolu = istege(
+  'KLINIK_CONFIG',
+  demoMod ? 'config/klinik.demo.json' : 'config/klinik.json'
+);
 
 const config = {
   port: sayi('PORT', 3000),
-  genelAdres: zorunlu('GENEL_ADRES').replace(/\/+$/, ''),
+  demoMod,
+  genelAdres: (demoMod ? istege('GENEL_ADRES', `http://localhost:${sayi('PORT', 3000)}`) : zorunlu('GENEL_ADRES')).replace(/\/+$/, ''),
 
   db: {
-    url: zorunlu('DATABASE_URL'),
+    url: gerekli('DATABASE_URL'),
     ssl: mantik('DB_SSL', false) ? { rejectUnauthorized: false } : false,
   },
 
   claude: {
-    apiKey: zorunlu('ANTHROPIC_API_KEY'),
+    apiKey: istege('ANTHROPIC_API_KEY', ''),
     model: istege('ASISTAN_MODEL', 'claude-opus-5-5'),
     effort: istege('ASISTAN_EFFORT', 'low'),
     maxTokens: sayi('ASISTAN_MAX_TOKENS', 800),
   },
 
   twilio: {
-    authToken: zorunlu('TWILIO_AUTH_TOKEN'),
+    authToken: gerekli('TWILIO_AUTH_TOKEN'),
     dil: istege('SES_DILI', 'tr-TR'),
     ttsSaglayici: istege('TTS_SAGLAYICI', 'ElevenLabs'),
     ttsSes: istege('TTS_SES', ''),
+  },
+
+  ses: {
+    apiKey: istege('ELEVENLABS_API_KEY', ''),
+    // "Sevval - Call Center" - sesli asistanlar icin hazirlanmis Turkce ses.
+    voiceId: istege('ELEVENLABS_VOICE_ID', 'fnJjHAY6lhrGd5hWLRyU'),
+    // flash_v2_5 Turkce destekliyor ve en dusuk gecikmeli model.
+    model: istege('ELEVENLABS_MODEL', 'eleven_flash_v2_5'),
+    format: istege('ELEVENLABS_FORMAT', 'mp3_22050_32'),
   },
 
   numaralar: {
@@ -125,7 +144,7 @@ const config = {
 
   panel: {
     kullanici: istege('PANEL_KULLANICI', 'klinik'),
-    parolaHash: zorunlu('PANEL_PAROLA_HASH'),
+    parolaHash: gerekli('PANEL_PAROLA_HASH'),
     oturumSaat: sayi('PANEL_OTURUM_SAAT', 12),
   },
 
@@ -135,13 +154,24 @@ const config = {
 
 // Uyarilar: engelleyici degil ama gozden kacmamali.
 const uyarilar = [];
-if (!config.numaralar.nobetci) {
+if (!config.numaralar.nobetci && !demoMod) {
   uyarilar.push(
     'NOBETCI_NUMARA bos. Acil durumda asistan aktarim yapamaz, sadece sozlu yonlendirme verir.'
   );
 }
-if (!config.genelAdres.startsWith('https://')) {
+if (!demoMod && !config.genelAdres.startsWith('https://')) {
   uyarilar.push('GENEL_ADRES https olmali - Twilio wss baglantisi icin sart.');
+}
+if (!config.claude.apiKey) {
+  uyarilar.push(
+    'ANTHROPIC_API_KEY yok - asistan cevap uretemez. Anahtari .env dosyasina ekleyin.'
+  );
+}
+if (demoMod) {
+  uyarilar.push('DEMO MODU acik: veriler bellekte tutuluyor, surec kapaninca silinir.');
+  if (!config.ses.apiKey) {
+    uyarilar.push('ELEVENLABS_API_KEY yok - demo calisir ama ses cikmaz, sadece metin gorunur.');
+  }
 }
 config.uyarilar = uyarilar;
 
