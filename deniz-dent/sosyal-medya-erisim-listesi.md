@@ -1,6 +1,7 @@
 # Deniz Dent — Dijital Kanal Erişim Listesi
 
 **Hazırlayan:** MİZ / My İnovatif Zeka
+
 **Tarih:** 30.09.2026
 
 Merhaba,
@@ -340,6 +341,69 @@ verebilmeniz için bunu böyle kurduk.
 ```
 [ ] Anladım
 ```
+
+---
+
+## 8. Şimdilik kapsam dışı bıraktığımız kanallar
+
+Bu iki kanalı bilerek listeye almadık. Sebeplerini yazıyoruz ki
+"unutulmuş" sanılmasın — ikisi de değerlendirildi ve elendi.
+
+### 8.1 — X (eski adıyla Twitter)
+
+**Önerimiz: şimdilik eklemeyelim. Hesabınız varsa dursun, elle
+yönetilsin.**
+
+İki sebep var:
+
+**Maliyet.** X, mesajlaşma için gereken API erişimini Şubat 2026'dan
+beri kullanım başına ücretlendiriyor. Bir diş kliniğinin X üzerinden
+aldığı mesaj sayısı düşük; ödenecek ücret, sağlanan faydanın çok
+üzerinde kalıyor. Aynı bütçeyi WhatsApp'a koymak çok daha fazla hasta
+demek.
+
+**Hasta davranışı.** Hastalar randevu için X kullanmıyor. Türkiye'de
+klinik iletişimi ezici çoğunlukla WhatsApp, telefon ve Instagram
+üzerinden yürüyor.
+
+İleride X'ten anlamlı sayıda mesaj gelirse yeniden değerlendiririz;
+sistem kanal eklemeye hazır.
+
+```
+[ ] Anladık, şimdilik X'i kapsam dışı bırakalım
+[ ] Yine de X eklensin istiyoruz → maliyeti konuşalım
+```
+
+### 8.2 — LinkedIn
+
+**Önerimiz: eklemeyelim. Bu bir tercih değil, teknik bir sınır.**
+
+**LinkedIn, mesajlara otomatik erişim izni vermiyor.** Mesajlaşma
+verisine erişim yalnızca "Compliance Partner Program" adlı özel bir
+programla mümkün ve bu program finansal kuruluşların yasal arşivleme
+yükümlülükleri için tasarlanmış. Bir diş kliniğinin bu programa
+girmesi söz konusu değil.
+
+Yani LinkedIn mesajlarını asistanın cevaplaması **teknik olarak
+mümkün değil** — bütçeyle çözülebilecek bir konu da değil.
+
+Ayrıca kitle de uymuyor: LinkedIn profesyonel bir ağ, hasta randevusu
+alınan bir yer değil. Kliniğinizin LinkedIn'i kurumsal görünürlük ve
+personel alımı için değerli olabilir, ama hasta iletişimi kanalı değil.
+
+```
+[ ] Anladık
+```
+
+### 8.3 — Özet
+
+| Kanal | Durum | Sebep |
+|---|---|---|
+| WhatsApp | **Öncelikli** | Hastaların ilk tercihi |
+| Instagram | **Ekliyoruz** | Yaygın kullanım |
+| Facebook | **Ekliyoruz** | Instagram'la aynı altyapı |
+| X | Kapsam dışı | Ücretli API, düşük hacim |
+| LinkedIn | Kapsam dışı | Teknik olarak mümkün değil |
 
 ---
 
