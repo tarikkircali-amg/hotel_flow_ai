@@ -4,7 +4,11 @@
 // Eksik/hatali ayar varsa sunucu ACILMAZ - yarim calisan bir sesli asistan,
 // calismayandan daha kotudur.
 
-require('dotenv').config();
+// override: true -> .env dosyasi, kabuk/isletim sisteminde kalmis eski
+// ortam degiskenlerini ezer. Varsayilan davranis tam tersi ve sinsi bir
+// tuzak: .env'i guncellersiniz ama uygulama eski degeri kullanmaya devam eder.
+// Sunucuda .env dosyasi olmadigi icin orada ortam degiskenleri gecerli kalir.
+require('dotenv').config({ override: true });
 
 const fs = require('node:fs');
 const path = require('node:path');

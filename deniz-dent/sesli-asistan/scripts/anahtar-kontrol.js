@@ -12,7 +12,36 @@
 // Token harcamaz: Anthropic'te model listesi, ElevenLabs'te kullanici
 // bilgisi ucu cagrilir.
 
-require('dotenv').config();
+const fs = require('node:fs');
+const path = require('node:path');
+
+// .env dosyasi ortam degiskenini ezsin (bkz. src/config.js'teki aciklama).
+require('dotenv').config({ override: true });
+
+/**
+ * Kabukta/isletim sisteminde kalmis eski bir degisken, .env'i ezip
+ * "guncelledim ama degismedi" tablosuna yol aciyordu. Artik ezmiyor ama
+ * boyle bir catisma varsa kullaniciyi uyariyoruz - temizlemesi gerekir.
+ */
+function catismaUyar(ad) {
+  const dosya = path.resolve(__dirname, '..', '.env');
+  if (!fs.existsSync(dosya)) return;
+
+  const satir = fs
+    .readFileSync(dosya, 'utf8')
+    .split(/\r?\n/)
+    .find((l) => l.startsWith(`${ad}=`));
+  if (!satir) return;
+
+  const dosyadaki = satir.slice(ad.length + 1).trim();
+  const kullanilan = String(process.env[ad] ?? '').trim();
+  if (!dosyadaki || !kullanilan || dosyadaki === kullanilan) return;
+
+  console.log(kirmizi(`    ! .env dosyasindaki deger (...${dosyadaki.slice(-4)}) ile`));
+  console.log(kirmizi(`      kullanilan deger (...${kullanilan.slice(-4)}) FARKLI.`));
+  console.log(sari(`      Kabukta eski bir ${ad} kalmis olabilir. Temizlemek icin:`));
+  console.log(sari(`      Remove-Item Env:\\${ad}  ve PowerShell'i kapatip acin.`));
+}
 
 const yesil = (s) => `\x1b[32m${s}\x1b[0m`;
 const kirmizi = (s) => `\x1b[31m${s}\x1b[0m`;
@@ -125,6 +154,12 @@ async function elevenDene(anahtar) {
       console.log(sari('    -> Anahtar gecersiz. ElevenLabs profilinden yeni anahtar alin.'));
     } else if (yanit.status === 404) {
       console.log(sari(`    -> ${voiceId} sesi hesabinizda yok. ELEVENLABS_VOICE_ID degerini degistirin.`));
+    } else if (yanit.status === 402 || govde.includes('paid_plan_required')) {
+      console.log(sari('    -> Bu ses ElevenLabs kutuphanesinden ve ucretsiz hesaplar'));
+      console.log(sari('       kutuphane seslerini API uzerinden kullanamiyor. Iki secenek:'));
+      console.log(sari('       1) ElevenLabs aboneligini yukseltin (Turkce klinik sesi icin onerilen)'));
+      console.log(sari('       2) Kendi hesabinizdaki bir sesi kullanin:'));
+      console.log(sari('          .env > ELEVENLABS_VOICE_ID degerini degistirin'));
     } else if (yanit.status === 429) {
       console.log(sari('    -> Kota doldu veya istek limiti asildi.'));
     }
@@ -155,11 +190,13 @@ async function kotaYaz(anahtar) {
 
   console.log('  --- Anthropic (asistanin beyni - ZORUNLU) ---');
   const ant = sekilRaporu('ANTHROPIC_API_KEY', process.env.ANTHROPIC_API_KEY);
+  catismaUyar('ANTHROPIC_API_KEY');
   await anthropicDene(ant);
 
   console.log('\n  --- ElevenLabs (ses - istege bagli) ---');
   console.log('  (kisa bir metin seslendirilerek gercek test yapilir)');
   const ele = sekilRaporu('ELEVENLABS_API_KEY', process.env.ELEVENLABS_API_KEY);
+  catismaUyar('ELEVENLABS_API_KEY');
   await elevenDene(ele);
 
   console.log('\n  --- Diger ayarlar ---');
