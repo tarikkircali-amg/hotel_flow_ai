@@ -91,6 +91,20 @@ function sonDort(d) {
   return d ? `...${d.slice(-4)}` : kirmizi('bos');
 }
 
+/** --zorla verildiyse onek kontrolu atlanir (saglayici onek degistirirse). */
+function zorla() {
+  return process.argv.includes('--zorla');
+}
+
+/**
+ * Panodaki metni sizdirmadan tarif eder: uzunluk + ilk 8 karakter.
+ * Ilk 8 karakter anahtarlarda zaten herkese acik onek kismidir.
+ */
+function panoOzeti(metin) {
+  const bas = metin.slice(0, 8);
+  return `panodaki metin: "${bas}..." (${metin.length} karakter)`;
+}
+
 function anahtariDogrula(ham, hedef) {
   if (ham === null) {
     return { hata: 'Pano okunamadi. Anahtari kopyaladiginizdan emin olun.' };
@@ -106,14 +120,19 @@ function anahtariDogrula(ham, hedef) {
     };
   }
   if (anahtar.length < 20) {
-    return { hata: `Panodaki metin cok kisa (${anahtar.length} karakter). Anahtar degil gibi.` };
+    return {
+      hata: `Panodaki metin cok kisa. ${panoOzeti(anahtar)}\n    Anahtar degil gibi gorunuyor.`,
+    };
   }
   if (anahtar.length > 300) {
     return { hata: 'Panodaki metin cok uzun. Anahtar yerine baska bir sey kopyalanmis.' };
   }
-  if (hedef.onek && !anahtar.startsWith(hedef.onek)) {
+  if (hedef.onek && !anahtar.startsWith(hedef.onek) && !zorla()) {
     return {
-      hata: `${hedef.ad} anahtari "${hedef.onek}" ile baslamali. Panodaki metin baslamiyor.`,
+      hata:
+        `${hedef.ad} anahtari "${hedef.onek}" ile baslamali, panodaki metin baslamiyor.\n` +
+        `    ${panoOzeti(anahtar)}\n` +
+        '    Saglayici gercekten baska bir onek kullaniyorsa: --zorla ekleyin.',
     };
   }
   return { anahtar };
