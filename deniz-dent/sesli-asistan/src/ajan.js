@@ -11,7 +11,13 @@ const Anthropic = require('@anthropic-ai/sdk');
 const config = require('./config');
 const db = require('./db');
 const { TANIMLAR, calistirici } = require('./araclar');
-const { mesaiIcinde, sonrakiAcilis, mesaiMetni, bilgiHavuzuGecerli } = require('./klinik');
+const {
+  mesaiIcinde,
+  sonrakiAcilis,
+  mesaiMetni,
+  bilgiHavuzuGecerli,
+  karsilamaKur,
+} = require('./klinik');
 const { acilMi, acilYanit } = require('./acil');
 const { aktarimGerekli, aktarimMetni } = require('./aktarim');
 const gizlilik = require('./gizlilik');
@@ -59,9 +65,7 @@ class Gorusme {
 
   /** Cagri baslarken calinacak karsilama. */
   karsilama() {
-    return mesaiIcinde(this.klinik)
-      ? this.klinik.karsilama.mesai_ici
-      : this.klinik.karsilama.mesai_disi;
+    return karsilamaKur(this.klinik, mesaiIcinde(this.klinik));
   }
 
   /** Suren uretimi durdur (hasta sozu kesti). */
@@ -164,7 +168,8 @@ class Gorusme {
     const hedef = config.numaralar.nobetci || config.numaralar.resepsiyon;
     const metin =
       this.klinik.karsilama?.teknik_aktarim ??
-      'Sizi klinik ekibimize aktariyorum, lutfen hatta kalin.';
+      // Hastaya sesli okunuyor - duzgun Turkce karakterli olmali.
+      'Sizi klinik ekibimize aktarıyorum, lütfen hatta kalın.';
 
     onParca(metin);
     await db.denetim({

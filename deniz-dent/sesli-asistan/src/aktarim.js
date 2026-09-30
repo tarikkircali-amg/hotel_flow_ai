@@ -54,8 +54,10 @@ function aktarimMetni(klinik, sebep) {
 
   return (
     klinik?.insana_aktar?.varsayilan_metin ??
-    'Bu konuyu klinik ekibimizin degerlendirmesi gerekiyor. Sizi ekibimize aktariyorum; ' +
-      'ulasilamazsa en kisa surede size donus yapilacak.'
+    // Bu metin HASTAYA SESLI OKUNUYOR: kod yorumlarindan farkli olarak
+    // duzgun Turkce karakterli olmali, yoksa seslendirme yanlis telaffuz eder.
+    'Bu konuyu klinik ekibimizin değerlendirmesi gerekiyor. Sizi ekibimize aktarıyorum; ' +
+      'ulaşılamazsa en kısa sürede size dönüş yapılacak.'
   );
 }
 

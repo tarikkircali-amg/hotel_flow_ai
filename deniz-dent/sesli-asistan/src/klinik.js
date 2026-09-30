@@ -156,6 +156,7 @@ function tarihNormalize(ham) {
 }
 
 module.exports = {
+  karsilamaKur,
   bilgiHavuzuGecerli,
   mesaiIcinde,
   tarihNormalize,
@@ -203,4 +204,52 @@ function bilgiHavuzuGecerli(klinik, simdi = new Date()) {
   }
 
   return { gecerli: true, sebep: null, surum: b.surum ?? null };
+}
+
+/**
+ * KARSILAMA METNI - parcalardan kurulur (spesifikasyon §4)
+ *
+ * Neden tek parca metin degil: KVKK bilgilendirmesinin metnin NERESINDE
+ * duracagi bir karar ve bu karar test edilebilir olmali. Tek parca metinde
+ * bu cumle elle gomulu duruyordu ve kvkk.sozlu_bilgilendirme alani
+ * yapilandirmada olmasina ragmen hic kullanilmiyordu.
+ *
+ * Varsayilan konum "ortada": hasta once kiminle konustugunu ve ne
+ * yapabilecegini ogreniyor, SONRA veri bilgilendirmesini duyuyor, en son
+ * konusmaya davet ediliyor.
+ *
+ * Gerekce: telefonda ilk cumle hukuki metin olursa insanlar kapatiyor.
+ * Ama bilgilendirme, hasta HENUZ HICBIR SEY ANLATMADAN once bitmeli -
+ * yani davet cumlesinden once. "ortada" tam olarak bu iki sarti karsilar.
+ *
+ * konum secenekleri: 'basta' | 'ortada' | 'sonda' | 'kapali'
+ * ('kapali' yalnizca yazili kanallar icin dusunulmustur; sesli kanalda
+ *  kullanilmasi onerilmez ve uyari uretilir.)
+ */
+function karsilamaKur(klinik, mesaiAcik) {
+  const k = klinik?.karsilama ?? {};
+  const kv = klinik?.kvkk ?? {};
+
+  // Parcali yapilandirma yoksa eski tek parca metne duseriz - mevcut
+  // kurulumlar bozulmasin.
+  if (!k.parcalar) {
+    return mesaiAcik ? (k.mesai_ici ?? '') : (k.mesai_disi ?? '');
+  }
+
+  const p = k.parcalar;
+  const kapsam = mesaiAcik ? p.kapsam_mesai_ici : p.kapsam_mesai_disi;
+
+  const kvkkCumlesi = kv.sozlu_bilgilendirme ?? '';
+  const konum = (kv.konum ?? 'ortada').toLowerCase();
+
+  const oncesi = [p.selam, p.kimlik, kapsam].filter(Boolean);
+  const sonrasi = [p.secenek, p.davet].filter(Boolean);
+
+  let sira;
+  if (konum === 'kapali' || !kvkkCumlesi) sira = [...oncesi, ...sonrasi];
+  else if (konum === 'basta') sira = [kvkkCumlesi, ...oncesi, ...sonrasi];
+  else if (konum === 'sonda') sira = [...oncesi, ...sonrasi, kvkkCumlesi];
+  else sira = [...oncesi, kvkkCumlesi, ...sonrasi]; // ortada
+
+  return sira.join(' ').replace(/\s+/g, ' ').trim();
 }

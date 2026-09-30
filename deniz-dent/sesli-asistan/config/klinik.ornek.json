@@ -144,12 +144,22 @@
   "karsilama": {
     "mesai_disi": "Deniz Dent Diş Polikliniği'ne hoş geldiniz. Ben kliniğin dijital asistanıyım, şu anda mesai saatleri dışındayız. Size bilgi verebilir, randevu talebinizi alabilirim. Görüşmemiz metin olarak kaydediliyor. Nasıl yardımcı olabilirim?",
     "mesai_ici": "Deniz Dent Diş Polikliniği'ne hoş geldiniz. Ben kliniğin dijital asistanıyım. Size bilgi verebilir, randevu oluşturabilir ya da yetkiliye bağlayabilirim. Görüşmemiz metin olarak kaydediliyor. Nasıl yardımcı olabilirim?",
-    "teknik_aktarim": "Sizi klinik ekibimize aktariyorum, lutfen hatta kalin."
+    "teknik_aktarim": "Sizi klinik ekibimize aktarıyorum, lütfen hatta kalın.",
+    "parcalar": {
+      "selam": "Deniz Dent Diş Polikliniği'ne hoş geldiniz.",
+      "kimlik": "Ben kliniğin yapay zekâ asistanıyım.",
+      "kapsam_mesai_ici": "Bilgi verebilir, randevu oluşturabilir, yetkiliye bağlayabilirim.",
+      "kapsam_mesai_disi": "Şu an mesai dışındayız; bilgi verebilir, randevu talebinizi alabilirim.",
+      "secenek": "",
+      "davet": "Nasıl yardımcı olabilirim?"
+    }
   },
   "kvkk": {
-    "metin_versiyonu": "v1-2026-09",
-    "sozlu_bilgilendirme": "Görüşmemiz metin olarak kaydediliyor ve randevu işlemleriniz için kullanılıyor.",
-    "ses_kaydi_aliniyor": false
+    "metin_versiyonu": "demo-v3",
+    "sozlu_bilgilendirme": "Görüşme yazılı kaydediliyor, ses kaydı alınmıyor; detaylı metni SMS ile gönderebilirim.",
+    "ses_kaydi_aliniyor": false,
+    "konum": "ortada",
+    "not": "konum: basta | ortada | sonda. Varsayilan 'ortada' - hasta once kiminle konustugunu ogrenir, sonra bilgilendirmeyi duyar, en son konusmaya davet edilir."
   },
   "uslup": {
     "hitap": "siz",
@@ -244,10 +254,11 @@
       }
     ],
     "metinler": {
-      "sikayet": "Yasadiginiz sorun icin uzgunum. Bu konuyu klinik sorumlumuzun degerlendirmesi gerekiyor, sizi aktariyorum.",
-      "hukuki": "Bu konuda size ancak klinik yetkilimiz bilgi verebilir. Sizi aktariyorum.",
-      "kvkk": "Kisisel verilerinize iliskin talebinizi klinigimizin veri sorumlusu karsilayacak. Sizi ilgili birime aktariyorum."
+      "sikayet": "Yaşadığınız sorun için üzgünüm. Bu konuyu klinik sorumlumuzun değerlendirmesi gerekiyor, sizi aktarıyorum.",
+      "hukuki": "Bu konuda size ancak klinik yetkilimiz bilgi verebilir. Sizi aktarıyorum.",
+      "kvkk": "Kişisel verilerinize ilişkin talebinizi kliniğimizin veri sorumlusu karşılayacak. Sizi ilgili birime aktarıyorum.",
+      "malpraktis": "Bu konuyu klinik sorumlumuzun değerlendirmesi gerekiyor. Sizi aktarıyorum."
     },
-    "varsayilan_metin": "Bu konuyu klinik ekibimizin degerlendirmesi gerekiyor. Sizi ekibimize aktariyorum."
+    "varsayilan_metin": "Bu konuyu klinik ekibimizin değerlendirmesi gerekiyor. Sizi ekibimize aktarıyorum."
   }
 }
