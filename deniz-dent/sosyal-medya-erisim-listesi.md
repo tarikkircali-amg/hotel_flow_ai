@@ -207,19 +207,139 @@ Sistemde şunlar hazır:
 - İlk mesajda aydınlatma bildirimi gönderiliyor
 - Ses kaydı tutulmuyor
 
-Sizden beklediğimiz iki şey var, ikisi de hukuk tarafı:
+Sizden beklediğimiz iki şey var, ikisi de hukuk tarafı ve ikisi de
+**7. bölümde** ayrıntılı olarak yer alıyor:
 
-1. **Aydınlatma metniniz** — klinik olarak kullandığınız metni bize iletin,
-   sistemin göndereceği bildirim buna uygun olacak
-2. **Saklama süreleri** — hangi verinin ne kadar saklanacağını KVKK
-   sorumlunuzla belirlemeniz gerekiyor. Bu süreleri biz belirleyemeyiz;
-   siz yazana kadar sistem hiçbir veriyi silmez
+1. **Aydınlatma metinlerinin onayı** — taslakları hazırladık, onayınızı
+   bekliyoruz (madde 7.1–7.3)
+2. **Saklama süreleri** — hangi verinin ne kadar saklanacağı (madde 7.4).
+   Bu süreleri biz belirleyemeyiz; siz yazana kadar sistem hiçbir veriyi
+   silmez
 
 Ayrıca bilmenizi isteriz: Meta (WhatsApp/Instagram/Facebook) verileri yurt
 dışında işliyor. Bu, kullandığımız diğer servisler için de geçerli ve
 KVKK danışmanınızla değerlendirilmesi gereken bir konu. Bu konuda size
 hukuki görüş veremeyiz, ancak hangi servisin nerede veri işlediğini
 belgeleyip danışmanınıza sunabiliriz.
+
+---
+
+## 7. Aydınlatma metinleri — onayınıza sunulmuştur
+
+Bu bölüm diğerlerinden farklı: sizden bilgi değil, **onay** istiyoruz.
+
+Aşağıdaki üç metin, asistanın hastalarınıza söyleyeceği/göndereceği
+metinlerdir. Biz taslak hazırladık; **onaylamadan kullanılmayacak.**
+
+> **Önemli — lütfen atlamayın:** Bu metinler MİZ tarafından hazırlanmış
+> **taslaklardır ve hukuki görüş niteliği taşımaz.** Yayına almadan önce
+> kliniğinizin KVKK sorumlusu veya hukuk danışmanı tarafından gözden
+> geçirilmesi gerekir. Metinlerde eksik bıraktığımız yerler var; onları
+> yalnızca siz doldurabilirsiniz.
+
+### 7.1 — Karşılamada söylenecek kısa bildirim
+
+Her arayan bunu duyar. Kısa olması şart: telefonda uzun metin dinlenmiyor.
+
+```
+"Görüşme yazılı kaydediliyor, ses kaydı alınmıyor.
+ Ayrıntılı bilgilendirme için 7'ye basabilirsiniz."
+```
+
+```
+[ ] Onaylıyorum
+[ ] Değişiklik istiyorum → .....................................
+```
+
+### 7.2 — 7'ye basınca okunacak ayrıntılı metin
+
+```
+Deniz Dent Diş Polikliniği olarak kişisel verilerinizi, randevu
+oluşturmak ve size bilgi vermek amacıyla işliyoruz. Görüşmemiz yazılı
+olarak kaydediliyor; ses kaydı alınmıyor. Kayıtlar yalnızca klinik
+ekibimizin erişimine açıktır ve belirlenen saklama süresi sonunda
+silinir. Verilerinize erişme, düzeltme ve silinmesini isteme haklarınız
+bulunuyor; bu talepleriniz için klinik ekibimize ulaşabilirsiniz.
+Metnin tamamını SMS ile de gönderebiliriz. Görüşmeye devam etmek için
+lütfen sorunuzu söyleyin.
+```
+
+```
+[ ] Onaylıyorum
+[ ] Değişiklik istiyorum → .....................................
+```
+
+### 7.3 — SMS ile gönderilecek metin
+
+```
+Deniz Dent Diş Polikliniği — Kişisel verilerin korunmasına ilişkin
+aydınlatma metnimiz: [BAĞLANTI]
+```
+
+**Bu bağlantı için web sitenizde bir sayfa gerekiyor.** Zaten varsa
+adresini yazın; yoksa oluşturulması gerekiyor.
+
+```
+Aydınlatma metni sayfanızın adresi: ...........................
+
+[ ] Sayfamız var, adresi yukarıda
+[ ] Sayfamız yok, oluşturacağız
+[ ] Yardım istiyoruz
+```
+
+### 7.4 — Sadece sizin doldurabileceğiniz bilgiler
+
+Metinlerde bilerek boş bıraktığımız yerler. Bunları uydurmayız.
+
+**Veri sorumlusu bilgileri** (aydınlatma metninde yer alması gerekir):
+
+```
+Unvan (ticari unvan)  : ......................................
+Adres                 : ......................................
+Başvuru için iletişim : ......................................
+KVKK sorumlusu / irtibat kişisi : ............................
+```
+
+**Saklama süreleri** — her veri türü için ayrı ayrı belirlenmeli:
+
+> Bu süreleri biz belirleyemeyiz; hukuki bir karardır. Sistemde saklama
+> motoru hazır ve çalışıyor, ancak **siz bu süreleri yazana kadar hiçbir
+> veriyi silmez.** Yani şu anda veriler süresiz birikiyor.
+
+```
+Görüşme dökümü (yazılı kayıt)  : ............ ay
+Çağrı kaydı (üst veri)          : ............ ay
+Randevu talepleri               : ............ ay
+Acil durum kayıtları            : ............ ay
+Denetim (işlem) kayıtları       : ............ ay
+
+Bu süreleri onaylayan kişi: ..................................
+Tarih: ............................
+```
+
+**Ses kaydı tercihi:**
+
+> Sistem şu anda ses kaydı tutmuyor, yalnızca yazılı döküm çıkarıyor.
+> Ses kaydı istenirse ayrı bir hukuki değerlendirme, ayrı rıza metni ve
+> ayrı saklama kararı gerekir.
+
+```
+[ ] Ses kaydı İSTEMİYORUZ (mevcut durum, önerimiz)
+[ ] Ses kaydı istiyoruz → KVKK danışmanımızla görüşeceğiz
+```
+
+### 7.5 — Metin sürümü
+
+Her aydınlatma metninin bir sürüm numarası var ve sistem, **hangi hastaya
+hangi sürümün okunduğunu** kaydediyor. Metni ileride değiştirirseniz
+sürüm numarası artar; eski görüşmeler eski sürümle kayıtlı kalır.
+
+Denetim durumunda "bu hastaya ne söylendi" sorusuna belge ile cevap
+verebilmeniz için bunu böyle kurduk.
+
+```
+[ ] Anladım
+```
 
 ---
 
@@ -230,6 +350,9 @@ Aşağıdaki üçü diğerlerinden önce başlatılırsa proje hiç beklemez:
 1. **İşletme doğrulaması** (madde 1.4) — en uzun süren adım
 2. **WhatsApp numarası kararı** (madde 1.2) — sonradan değiştirmek zor
 3. **Hesap sahipliği kontrolü** (madde 4.1) — sürpriz çıkarsa erken bilelim
+4. **Aydınlatma metinleri onayı** (madde 7) — KVKK danışmanınıza iletin,
+   dönüş süresi size bağlı olduğu için erken başlatın
+5. **Saklama süreleri** (madde 7.4) — belirlenene kadar sistem veri silmiyor
 
 Sorularınız için bize her zaman ulaşabilirsiniz.
 
