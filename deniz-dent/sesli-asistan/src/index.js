@@ -89,6 +89,11 @@ sunucu.listen(config.port, () => {
   console.log(`  ${config.klinik.klinik.ad} - sesli asistan`);
   console.log(`  dinleniyor      : http://localhost:${config.port}`);
   console.log(`  model           : ${config.claude.model} (effort: ${config.claude.effort})`);
+  // Sunucunun GERCEKTEN kullandigi anahtarin son 4 hanesi. Kontrol betigi ile
+  // ayni cikmiyorsa sunucu eski surectir ya da baska bir .env okunuyordur.
+  console.log(
+    `  anthropic       : ${config.claude.apiKey ? `...${config.claude.apiKey.slice(-4)}` : 'YOK'}`
+  );
   console.log(`  klinik dosyasi  : ${config.klinikYolu}`);
 
   if (config.demoMod) {
@@ -108,6 +113,15 @@ sunucu.listen(config.port, () => {
 
   console.log('');
   for (const u of config.uyarilar) console.warn(`  ! UYARI: ${u}`);
+
+  // Bu iki degisken sessizce araya girer: biri istegi baska basliga cevirir,
+  // digeri baska bir sunucuya yollar. Ikisi de "anahtar gecersiz" olarak gorunur.
+  for (const ad of ['ANTHROPIC_AUTH_TOKEN', 'ANTHROPIC_BASE_URL']) {
+    if (process.env[ad]) {
+      console.warn(`  ! UYARI: ${ad} tanimli - Anthropic istegine karisiyor olabilir.`);
+      console.warn(`           Temizlemek icin: Remove-Item Env:\\${ad}`);
+    }
+  }
 
   const onaysiz = (config.klinik.fiyatlar ?? []).filter((f) => !f.onayli).length;
   if (onaysiz > 0) {

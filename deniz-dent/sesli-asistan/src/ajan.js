@@ -14,9 +14,15 @@ const { TANIMLAR, calistirici } = require('./araclar');
 const { mesaiIcinde, sonrakiAcilis, mesaiMetni } = require('./klinik');
 const { acilMi, acilYanit } = require('./acil');
 
-// Anahtar verilmediyse SDK kendi cozumleme sirasini kullanir
-// (ANTHROPIC_API_KEY ortam degiskeni, ANTHROPIC_AUTH_TOKEN, ant profili).
-const istemci = new Anthropic(config.claude.apiKey ? { apiKey: config.claude.apiKey } : {});
+// SDK, apiKey verilse bile ortamdaki ANTHROPIC_AUTH_TOKEN'i okuyup
+// Authorization basligi ekler; ikisi birden gidince istek 401 doner.
+// Bu, .env'i duzeltmis olsaniz bile "anahtar gecersiz" diye goruldugu icin
+// saatler yakan bir tuzak. authToken: null diyerek acikca kapatiyoruz.
+//
+// Anahtar hic verilmediyse SDK kendi cozumleme sirasina birakilir.
+const istemci = new Anthropic(
+  config.claude.apiKey ? { apiKey: config.claude.apiKey, authToken: null } : {}
+);
 
 const AZAMI_TUR = 6; // sonsuz arac dongusune karsi emniyet
 
