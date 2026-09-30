@@ -199,7 +199,8 @@ function relayKur() {
             break;
         }
       } catch (err) {
-        console.error('[relay] mesaj islenirken hata:', err);
+        // Hata NESNESI basilmaz: icinde hasta metni tasiyabilir (§11).
+        console.error('[relay] mesaj islenirken hata:', err.message);
         oturum.yazici.yaz(
           'Bir teknik aksaklık oldu, özür dilerim. Sizi yetkilimize aktarıyorum.'
         );

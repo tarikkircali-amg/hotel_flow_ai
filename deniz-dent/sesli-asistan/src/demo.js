@@ -160,7 +160,8 @@ function wsKur() {
         }
         return undefined;
       } catch (err) {
-        console.error('[demo] hata:', err);
+        // Hata NESNESI basilmaz: icinde hasta metni tasiyabilir (§11).
+        console.error('[demo] hata:', err.message);
         durum.mesgul = false;
         return yolla({ tip: 'hata', mesaj: err.message });
       }
