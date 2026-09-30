@@ -9,8 +9,10 @@
 // soyler. Saglayicinin dondugu hata mesajini oldugu gibi gosterir -
 // tahmin yurutmek yerine sebebi okuruz.
 //
-// Token harcamaz: Anthropic'te model listesi, ElevenLabs'te kullanici
-// bilgisi ucu cagrilir.
+// Iki saglayiciya da GERCEK istek atilir: Anthropic'e 1 tokenlik mesaj,
+// ElevenLabs'e kisa bir seslendirme. Maliyeti kurusun binde biri kadar;
+// amac "anahtar gecerli ama bakiye yok" gibi durumlari musteri
+// sunumunda degil burada yakalamak.
 
 const fs = require('node:fs');
 const path = require('node:path');
@@ -93,7 +95,11 @@ async function anthropicDene(anahtar) {
 
     if (yanit.ok) {
       const veri = await yanit.json();
-      console.log(`    sonuc        : ${yesil('CALISIYOR')} (${veri.data?.length ?? 0} model goruldu)`);
+      console.log(`    kimlik       : ${yesil('TANINDI')} (${veri.data?.length ?? 0} model goruldu)`);
+      // Model listesi kredi istemez. "Anahtar gecerli ama bakiye yok" durumu
+      // burada gorunmez, ilk gercek konusmada patlar. Bu yuzden asagida
+      // gercekten mesaj gonderiyoruz.
+      await mesajDene(anahtar);
       return;
     }
 
@@ -112,6 +118,50 @@ async function anthropicDene(anahtar) {
   } catch (err) {
     console.log(`    sonuc        : ${kirmizi('BAGLANILAMADI')} - ${err.message}`);
     console.log(sari('    -> Internet, guvenlik duvari veya kurumsal proxy engelliyor olabilir.'));
+  }
+}
+
+/**
+ * Gercek kullanim testi: 1 tokenlik bir mesaj gonderir.
+ * Maliyeti kurusun binde biri kadar ama "bakiye yok" durumunu
+ * demoyu musteriye acmadan once yakalar.
+ */
+async function mesajDene(anahtar) {
+  try {
+    const yanit = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': anahtar,
+        'anthropic-version': '2023-06-01',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 1,
+        messages: [{ role: 'user', content: 'x' }],
+      }),
+      signal: AbortSignal.timeout(30_000),
+    });
+
+    if (yanit.ok) {
+      console.log(`    sonuc        : ${yesil('CALISIYOR')} (gercek mesaj gonderildi)`);
+      return;
+    }
+
+    const govde = await yanit.text();
+    console.log(`    sonuc        : ${kirmizi('MESAJ GONDERILEMEDI')} (HTTP ${yanit.status})`);
+    console.log(`    saglayici der: ${govde.slice(0, 400)}`);
+
+    if (govde.includes('credit balance')) {
+      console.log(sari('    -> Anahtar gecerli ama hesapta KREDI YOK.'));
+      console.log(sari('       console.anthropic.com > Plans & Billing > Add funds'));
+      console.log(sari('       Kredi yukledigin hesabin, bu anahtarin ait oldugu'));
+      console.log(sari('       hesap/workspace ile ayni oldugundan emin ol.'));
+    } else if (yanit.status === 429) {
+      console.log(sari('    -> Kota veya hiz limiti doldu.'));
+    }
+  } catch (err) {
+    console.log(`    sonuc        : ${kirmizi('BAGLANILAMADI')} - ${err.message}`);
   }
 }
 
