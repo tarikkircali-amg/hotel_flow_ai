@@ -12,6 +12,32 @@
 
 ---
 
+## Uygulama durumu — 30.09.2026
+
+| Madde | Durum | Nerede |
+|---|---|---|
+| C1 Sağlık verisi güvenlik duvarı | **Bitti** | `src/gizlilik.js` + 20 test |
+| C4 Prompt injection savunması | **Bitti** | sistem metni kural 9 + `test/enjeksiyon.test.js` |
+| H1 Saklama motoru | **Bitti** | `scripts/saklama.js`, kuru çalışma varsayılan |
+| H3 Rıza kaydı alanları | **Bitti** | `db/schema.sql` |
+| H5 Log hijyeni | **Bitti** | `demo.js`, `twilio.js` |
+| M1 Tanıtım koruması | **Bitti** (tespit) | `src/soylem.js` + 9 test |
+| C2 Kiracı izolasyonu | Sırada | — |
+| C3 Ham metin ayrımı | Kısmen (duvar sonrası ham metin yazılmıyor) | — |
+| H2 Sağlayıcı kaydı | **Hukuk onayı bekliyor** | — |
+| H4 Güvenlik testi sınıfları | Kısmen (enjeksiyon bitti) | — |
+| M2–M4 | Sırada | — |
+| Faz 7 SBYS | **SBYS dokümanı bekliyor** | — |
+
+Test sayısı: 64 → **99**.
+
+M1 için not: tanıtım koruması bugün **tespit** ediyor, üretimi kesmiyor.
+Sebep `src/soylem.js` başında yazılı — yanıt akış halinde hastaya gidiyor,
+söylenmeden önce kesmek ilk ses gecikmesini artıran ayrı bir iş. Önleme
+tarafı sistem metnindeki 8. kuralda.
+
+---
+
 ## Yönetici özeti
 
 Elimizdeki sistem **tek bir kliniğe (Deniz Dent) özel, mesai dışı çalışan bir
