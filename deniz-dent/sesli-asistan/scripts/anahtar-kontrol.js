@@ -157,9 +157,11 @@ async function elevenDene(anahtar) {
     } else if (yanit.status === 402 || govde.includes('paid_plan_required')) {
       console.log(sari('    -> Bu ses ElevenLabs kutuphanesinden ve ucretsiz hesaplar'));
       console.log(sari('       kutuphane seslerini API uzerinden kullanamiyor. Iki secenek:'));
-      console.log(sari('       1) ElevenLabs aboneligini yukseltin (Turkce klinik sesi icin onerilen)'));
-      console.log(sari('       2) Kendi hesabinizdaki bir sesi kullanin:'));
-      console.log(sari('          .env > ELEVENLABS_VOICE_ID degerini degistirin'));
+      console.log(sari('       1) ElevenLabs aboneligini yukseltin - Turkce klinik sesi icin'));
+      console.log(sari('          onerilen yol, musteri sunumunda duyulacak ses budur.'));
+      console.log(sari('       2) Ucretsiz planda ses duymak icin premade bir sese gecin:'));
+      console.log(sari('          .env > ELEVENLABS_VOICE_ID=EXAVITQu4vr4xnSDxMaL'));
+      console.log(sari('          ("Sarah") Turkce okur ama aksani vardir - sistemi sinamak icin.'));
     } else if (yanit.status === 429) {
       console.log(sari('    -> Kota doldu veya istek limiti asildi.'));
     }
