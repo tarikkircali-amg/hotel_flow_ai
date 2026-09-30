@@ -1,0 +1,11 @@
+node_modules/
+.env
+.env.*
+!.env.example
+
+# Klinigin gercek bilgileri ve fiyat bantlari - depoya girmez.
+config/klinik.json
+
+npm-debug.log*
+*.log
+.DS_Store

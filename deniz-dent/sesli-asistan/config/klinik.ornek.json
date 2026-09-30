@@ -1,0 +1,127 @@
+{
+  "_okuyun": [
+    "Bu dosya asistanin bildigi HER SEYDIR. Burada olmayan bilgiyi asistan uydurmaz.",
+    "Kopyalayip config/klinik.json olarak kaydedin ve klinikle birlikte doldurun.",
+    "fiyatlar[].onayli alani false oldugu surece asistan o fiyati SOYLEMEZ,",
+    "muayeneye yonlendirir. Klinik yazili onay verdikce true yapin."
+  ],
+
+  "klinik": {
+    "ad": "Deniz Dent Diş Polikliniği",
+    "kisa_ad": "Deniz Dent",
+    "sehir": "İzmir",
+    "ilce": "Karşıyaka",
+    "adres": "ADRES GİRİLECEK",
+    "adres_tarifi": "Otopark ve toplu taşıma tarifi girilecek",
+    "web": "",
+    "zaman_dilimi": "Europe/Istanbul"
+  },
+
+  "mesai": {
+    "_not": "gun: 0=Pazar, 1=Pazartesi ... 6=Cumartesi. Saatler 24 saat formatinda.",
+    "haftalik": [
+      { "gun": 1, "acilis": "09:00", "kapanis": "18:00" },
+      { "gun": 2, "acilis": "09:00", "kapanis": "18:00" },
+      { "gun": 3, "acilis": "09:00", "kapanis": "18:00" },
+      { "gun": 4, "acilis": "09:00", "kapanis": "18:00" },
+      { "gun": 5, "acilis": "09:00", "kapanis": "18:00" },
+      { "gun": 6, "acilis": "09:00", "kapanis": "13:00" }
+    ],
+    "kapali_gunler": [],
+    "_kapali_gunler_ornek": ["2026-10-29", "2027-01-01"]
+  },
+
+  "hizmetler": [
+    "Muayene ve teşhis",
+    "Dolgu",
+    "Kanal tedavisi",
+    "Diş taşı temizliği",
+    "Diş beyazlatma",
+    "İmplant",
+    "Zirkonyum ve porselen kaplama",
+    "Ortodonti (tel tedavisi, şeffaf plak)",
+    "Diş çekimi",
+    "Çocuk diş hekimliği",
+    "Protez"
+  ],
+
+  "fiyatlar": [
+    {
+      "islem": "Muayene",
+      "onayli": false,
+      "alt": null,
+      "ust": null,
+      "birim": "TL",
+      "aciklama": "Klinik onayi bekleniyor. Onaylanana kadar asistan fiyat vermez."
+    },
+    {
+      "islem": "İmplant",
+      "onayli": false,
+      "alt": null,
+      "ust": null,
+      "birim": "TL",
+      "aciklama": "Kemik durumu, implant markasi ve ek islemlere gore degisir. Kesin bedel muayene sonrasi."
+    },
+    {
+      "islem": "Zirkonyum kaplama",
+      "onayli": false,
+      "alt": null,
+      "ust": null,
+      "birim": "TL",
+      "aciklama": "Dis basina fiyattir."
+    }
+  ],
+
+  "fiyat_politikasi": {
+    "onaysiz_yanit": "Bu tedavinin ücreti ağız yapınıza göre değişiyor, telefonda kesin rakam vermek doğru olmaz. Ücretsiz muayene ve röntgenle bakalım, hekimimiz görüp net fiyatı söylesin.",
+    "pazarlik_yanit": "İndirim konusunda karar yetkim yok, bunu ekibimize aktarayım, size dönsünler.",
+    "muayene_ucretsiz_mi": null
+  },
+
+  "sik_sorulanlar": [
+    {
+      "soru": "Adresiniz nerede, park var mı?",
+      "cevap": "ADRES VE OTOPARK BİLGİSİ GİRİLECEK"
+    },
+    {
+      "soru": "Hangi günler açıksınız?",
+      "cevap": "Hafta içi 09:00-18:00, cumartesi 09:00-13:00 arası hizmet veriyoruz. Pazar kapalıyız."
+    },
+    {
+      "soru": "Anlaşmalı olduğunuz sigorta / kurum var mı?",
+      "cevap": "KLİNİK TARAFINDAN DOLDURULACAK. Doldurulmazsa asistan bu soruyu ekibe devreder."
+    }
+  ],
+
+  "acil": {
+    "_not": "Bu kelimeler LLM'e gitmeden once taranir. Eslesme olursa asistan bilgi vermeye calismaz, dogrudan yonlendirir.",
+    "anahtar_kelimeler": [
+      "kanama", "kanıyor", "kan durmuyor",
+      "kırıldı", "kırık", "koptu", "düştü diş",
+      "şişti", "şişlik", "apse", "iltihap",
+      "dayanılmaz", "çok şiddetli", "uyuyamıyorum ağrıdan",
+      "kaza", "darbe", "çarptı",
+      "nefes", "yutkunamıyorum", "ateşim"
+    ],
+    "yanit": "Anladım, bu acil bir durum olabilir. Sizi hemen yetkilimize bağlıyorum, lütfen hatta kalın.",
+    "yanit_aktarim_yoksa": "Anladım, bu acil bir durum olabilir. Lütfen vakit kaybetmeden en yakın acil servise veya nöbetçi diş hekimine başvurun. Durumunuzu kliniğimize not düşüyorum, sabah ilk iş sizi arayacaklar.",
+    "her_zaman_aktar": true
+  },
+
+  "karsilama": {
+    "mesai_disi": "Deniz Dent Diş Polikliniği'ne hoş geldiniz. Ben kliniğin dijital asistanıyım, şu anda mesai saatleri dışındayız. Size bilgi verebilir, randevu talebinizi alabilirim. Görüşmemiz metin olarak kaydediliyor. Nasıl yardımcı olabilirim?",
+    "mesai_ici": "Deniz Dent Diş Polikliniği'ne hoş geldiniz. Ben kliniğin dijital asistanıyım. Size bilgi verebilir, randevu oluşturabilir ya da yetkiliye bağlayabilirim. Görüşmemiz metin olarak kaydediliyor. Nasıl yardımcı olabilirim?"
+  },
+
+  "kvkk": {
+    "metin_versiyonu": "v1-2026-09",
+    "sozlu_bilgilendirme": "Görüşmemiz metin olarak kaydediliyor ve randevu işlemleriniz için kullanılıyor.",
+    "ses_kaydi_aliniyor": false
+  },
+
+  "uslup": {
+    "hitap": "siz",
+    "ton": "sıcak, sakin, kısa cümleli",
+    "azami_cumle": 3
+  }
+}

@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gece Teslim — Deniz Dent</title>
+<style>
+:root{
+  --brand-900:#06282e; --brand-800:#0a3d47; --brand-700:#0e5464; --brand-600:#137285;
+  --brand-50:#eef8fa;
+  --n-900:#0f1720; --n-700:#36434f; --n-600:#5a6874; --n-300:#c3ccd4;
+  --n-200:#e0e6ea; --n-100:#f0f4f6; --n-0:#fff;
+  --ok-600:#177245; --ok-50:#e7f4ec;
+  --danger-600:#a32020; --danger-50:#fdeceb; --danger-300:#f0b4b1;
+  --warn-600:#96610a; --warn-50:#fdf3e2;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --n-900:#eef2f5; --n-700:#c2ccd4; --n-600:#9aa7b1; --n-300:#3d4a55;
+    --n-200:#2a343d; --n-100:#1b232b; --n-0:#121920;
+    --brand-50:#12303a; --ok-50:#10291c; --danger-50:#2e1615; --warn-50:#2d2312;
+  }
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--n-100); color:var(--n-900);
+  font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+}
+header{
+  background:var(--brand-900); color:#fff; padding:16px 24px;
+  display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;
+}
+header h1{margin:0; font-size:19px}
+header .alt{font-size:13px; opacity:.75; display:block; font-weight:400}
+main{max-width:1100px; margin:0 auto; padding:24px 16px 64px}
+h2{font-size:17px; margin:32px 0 12px; color:var(--n-900)}
+button{
+  font:inherit; font-size:14px; padding:12px 20px; border-radius:8px;
+  border:1px solid var(--n-300); background:var(--n-0); color:var(--n-900);
+  cursor:pointer; min-height:44px;
+}
+button:hover{background:var(--n-100)}
+button:focus-visible{outline:3px solid var(--brand-600); outline-offset:2px}
+.birincil{background:var(--brand-700); border-color:var(--brand-700); color:#fff}
+.birincil:hover{background:var(--brand-600)}
+.onay{background:var(--ok-600); border-color:var(--ok-600); color:#fff}
+.onay:hover{opacity:.9; background:var(--ok-600)}
+.ret{color:var(--danger-600); border-color:var(--danger-300)}
+.kartlar{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px}
+.kpi{background:var(--n-0); border:1px solid var(--n-200); border-radius:10px; padding:16px}
+.kpi b{display:block; font-size:28px; line-height:1.1; margin-bottom:4px}
+.kpi span{font-size:13px; color:var(--n-600)}
+.kpi.vurgu{border-color:var(--danger-300); background:var(--danger-50)}
+.kpi.vurgu b{color:var(--danger-600)}
+.satir{
+  background:var(--n-0); border:1px solid var(--n-200); border-radius:10px;
+  padding:16px; margin-bottom:12px;
+}
+.satir.acil{border-left:5px solid var(--danger-600); background:var(--danger-50)}
+.satir h3{margin:0 0 4px; font-size:16px}
+.satir .meta{font-size:13px; color:var(--n-600); margin-bottom:12px}
+.satir .eylem{display:flex; gap:8px; flex-wrap:wrap}
+.rozet{
+  display:inline-flex; align-items:center; gap:5px; font-size:12px; font-weight:600;
+  padding:3px 9px; border-radius:999px; background:var(--n-100); color:var(--n-700);
+  border:1px solid var(--n-200);
+}
+.rozet.acil{background:var(--danger-50); color:var(--danger-600); border-color:var(--danger-300)}
+.rozet.gece{background:var(--warn-50); color:var(--warn-600)}
+.bos{color:var(--n-600); background:var(--n-0); border:1px dashed var(--n-300);
+  border-radius:10px; padding:24px; text-align:center}
+.giris{max-width:360px; margin:12vh auto; background:var(--n-0);
+  border:1px solid var(--n-200); border-radius:12px; padding:24px}
+.giris label{display:block; font-size:14px; font-weight:600; margin-bottom:8px}
+.giris input{
+  width:100%; font:inherit; padding:12px; margin-bottom:16px; min-height:44px;
+  border:1px solid var(--n-300); border-radius:8px; background:var(--n-0); color:var(--n-900);
+}
+.uyari{background:var(--danger-50); color:var(--danger-600); border:1px solid var(--danger-300);
+  border-radius:8px; padding:12px; font-size:14px; margin-bottom:16px}
+dialog{border:none; border-radius:12px; padding:0; max-width:640px; width:92%;
+  background:var(--n-0); color:var(--n-900)}
+dialog::backdrop{background:rgba(0,0,0,.5)}
+.dokum{padding:24px; max-height:70vh; overflow:auto}
+.dokum p{margin:0 0 10px; padding:10px 14px; border-radius:10px; font-size:14px}
+.dokum .hasta{background:var(--n-100)}
+.dokum .asistan{background:var(--brand-50)}
+.dokum .sistem{background:transparent; color:var(--n-600); font-size:13px; padding:4px 0}
+.gizle{display:none !important}
+</style>
+</head>
+<body>
+
+<div id="girisEkrani" class="giris">
+  <h1 style="font-size:19px;margin:0 0 4px">Gece Teslim</h1>
+  <p style="font-size:14px;color:var(--n-600);margin:0 0 20px">Deniz Dent sesli asistan paneli</p>
+  <div id="girisHata" class="uyari gizle" role="alert"></div>
+  <form id="girisForm">
+    <label for="kullanici">Kullanıcı adı</label>
+    <input id="kullanici" name="kullanici" autocomplete="username" required>
+    <label for="parola">Parola</label>
+    <input id="parola" name="parola" type="password" autocomplete="current-password" required>
+    <button type="submit" class="birincil" style="width:100%">Giriş yap</button>
+  </form>
+</div>
+
+<div id="panel" class="gizle">
+  <header>
+    <h1>Gece Teslim <span class="alt">Deniz Dent · sesli asistan</span></h1>
+    <div style="display:flex;gap:8px">
+      <button id="yenile">Yenile</button>
+      <button id="cikis">Çıkış</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="kartlar" id="ozet" aria-live="polite"></div>
+
+    <h2>Acil olaylar</h2>
+    <div id="acilListe"></div>
+
+    <h2>Bekleyen randevu talepleri</h2>
+    <div id="randevuListe"></div>
+
+    <h2>Son aramalar</h2>
+    <div id="aramaListe"></div>
+  </main>
+</div>
+
+<dialog id="dokumKutu">
+  <div class="dokum">
+    <div style="display:flex;justify-content:space-between;align-items:start;gap:16px;margin-bottom:16px">
+      <h2 id="dokumBaslik" style="margin:0;font-size:17px"></h2>
+      <button onclick="document.getElementById('dokumKutu').close()">Kapat</button>
+    </div>
+    <div id="dokumGovde"></div>
+  </div>
+</dialog>
+
+<script>
+const API = '/panel/api';
+let token = null;
+try { token = sessionStorage.getItem('oturum'); } catch (e) { token = null; }
+
+const $ = (id) => document.getElementById(id);
+const kacir = (s) => String(s ?? '').replace(/[&<>"']/g, (c) =>
+  ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+
+const saat = (t) => t ? new Date(t).toLocaleString('tr-TR',
+  { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' }) : '—';
+
+async function iste(yol, secenekler = {}) {
+  const yanit = await fetch(API + yol, {
+    ...secenekler,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: 'Bearer ' + token } : {}),
+      ...(secenekler.headers || {}),
+    },
+  });
+  if (yanit.status === 401) { cikisYap(); throw new Error('Oturum sona erdi'); }
+  if (!yanit.ok) {
+    const g = await yanit.json().catch(() => ({}));
+    throw new Error(g.hata || g.hata?.mesaj || 'İşlem başarısız');
+  }
+  return yanit.json();
+}
+
+// --- Giris ---
+$('girisForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  $('girisHata').classList.add('gizle');
+  try {
+    const sonuc = await iste('/giris', {
+      method: 'POST',
+      body: JSON.stringify({ kullanici: $('kullanici').value, parola: $('parola').value }),
+    });
+    token = sonuc.token;
+    try { sessionStorage.setItem('oturum', token); } catch (err) { /* gizli sekme */ }
+    $('parola').value = '';
+    basla();
+  } catch (err) {
+    $('girisHata').textContent = err.message;
+    $('girisHata').classList.remove('gizle');
+  }
+});
+
+function cikisYap() {
+  token = null;
+  try { sessionStorage.removeItem('oturum'); } catch (e) { /* yoksay */ }
+  $('panel').classList.add('gizle');
+  $('girisEkrani').classList.remove('gizle');
+}
+
+$('cikis').addEventListener('click', async () => {
+  try { await iste('/cikis', { method: 'POST' }); } catch (e) { /* yoksay */ }
+  cikisYap();
+});
+$('yenile').addEventListener('click', yukle);
+
+// --- Yukleme ---
+async function basla() {
+  $('girisEkrani').classList.add('gizle');
+  $('panel').classList.remove('gizle');
+  await yukle();
+}
+
+async function yukle() {
+  try {
+    const [ozet, acil, randevular, aramalar] = await Promise.all([
+      iste('/ozet'), iste('/acil'), iste('/randevular?durum=beklemede'), iste('/aramalar'),
+    ]);
+    cizOzet(ozet);
+    cizAcil(acil);
+    cizRandevular(randevular);
+    cizAramalar(aramalar);
+  } catch (err) {
+    if (token) alert('Veriler alınamadı: ' + err.message);
+  }
+}
+
+function cizOzet(o) {
+  $('ozet').innerHTML = [
+    { s: o.acil, e: 'Görülmemiş acil', vurgu: Number(o.acil) > 0 },
+    { s: o.bekleyen_randevu, e: 'Bekleyen randevu' },
+    { s: o.son_24s_arama, e: 'Son 24 saat arama' },
+    { s: o.son_24s_aktarim, e: 'İnsana aktarılan' },
+  ].map((k) =>
+    `<div class="kpi${k.vurgu ? ' vurgu' : ''}"><b>${kacir(k.s)}</b><span>${k.e}</span></div>`
+  ).join('');
+}
+
+function cizAcil(liste) {
+  if (!liste.length) { $('acilListe').innerHTML = '<div class="bos">Görülmemiş acil olay yok.</div>'; return; }
+  $('acilListe').innerHTML = liste.map((a) => `
+    <div class="satir acil">
+      <h3>${kacir(a.arayan_no || 'Numara gizli')} <span class="rozet acil">acil</span></h3>
+      <div class="meta">${saat(a.olusturma)} · tetikleyen: <strong>${kacir(a.tetikleyen)}</strong> · yönlendirme: ${kacir(a.yonlendirme || '—')}</div>
+      <p style="margin:0 0 12px">“${kacir(a.hasta_sozu)}”</p>
+      <div class="eylem"><button class="birincil" data-acil="${kacir(a.id)}">Gördüm, işlem yapıldı</button></div>
+    </div>`).join('');
+}
+
+function cizRandevular(liste) {
+  if (!liste.length) { $('randevuListe').innerHTML = '<div class="bos">Bekleyen randevu talebi yok.</div>'; return; }
+  $('randevuListe').innerHTML = liste.map((r) => `
+    <div class="satir">
+      <h3>${kacir(r.hasta_adi)}</h3>
+      <div class="meta">
+        ${kacir(r.telefon)} · ${kacir(r.islem || 'muayene')}
+        · tercih: ${kacir(r.tercih_tarih || 'belirtilmedi')} ${kacir(r.tercih_saat || '')}
+        · talep: ${saat(r.olusturma)}
+      </div>
+      ${r.not_metni ? `<p style="margin:0 0 12px;font-size:14px">Not: ${kacir(r.not_metni)}</p>` : ''}
+      <div class="eylem">
+        <button class="onay" data-onay="${kacir(r.id)}">Onayla</button>
+        <button class="ret" data-ret="${kacir(r.id)}">Reddet</button>
+        ${r.arama_id ? `<button data-dokum="${kacir(r.arama_id)}">Görüşmeyi oku</button>` : ''}
+      </div>
+    </div>`).join('');
+}
+
+function cizAramalar(liste) {
+  if (!liste.length) { $('aramaListe').innerHTML = '<div class="bos">Kayıtlı arama yok.</div>'; return; }
+  $('aramaListe').innerHTML = liste.slice(0, 25).map((a) => `
+    <div class="satir">
+      <h3>${kacir(a.arayan_no || 'Numara gizli')}
+        ${a.mesai_disi ? '<span class="rozet gece">mesai dışı</span>' : ''}
+        <span class="rozet">${kacir(a.durum)}</span>
+      </h3>
+      <div class="meta">${saat(a.baslangic)}${a.aktarim_sebebi ? ' · aktarım: ' + kacir(a.aktarim_sebebi) : ''}</div>
+      ${a.ozet ? `<p style="margin:0 0 12px;font-size:14px">${kacir(a.ozet)}</p>` : ''}
+      <div class="eylem"><button data-dokum="${kacir(a.id)}">Görüşmeyi oku</button></div>
+    </div>`).join('');
+}
+
+// --- Eylemler (olay delegasyonu) ---
+document.addEventListener('click', async (e) => {
+  const d = e.target.dataset || {};
+  try {
+    if (d.onay)  { await iste(`/randevular/${d.onay}/onayla`, { method: 'POST' }); yukle(); }
+    else if (d.ret)   { await iste(`/randevular/${d.ret}/reddet`, { method: 'POST' }); yukle(); }
+    else if (d.acil)  { await iste(`/acil/${d.acil}/goruldu`, { method: 'POST' }); yukle(); }
+    else if (d.dokum) { await dokumAc(d.dokum); }
+  } catch (err) {
+    alert(err.message);
+  }
+});
+
+async function dokumAc(aramaId) {
+  const veri = await iste('/aramalar/' + aramaId);
+  $('dokumBaslik').textContent =
+    (veri.arama.arayan_no || 'Numara gizli') + ' · ' + saat(veri.arama.baslangic);
+  $('dokumGovde').innerHTML = veri.mesajlar.length
+    ? veri.mesajlar.map((m) => {
+        const kim = m.yon === 'hasta' ? 'Hasta' : m.yon === 'asistan' ? 'Asistan' : '';
+        return `<p class="${kacir(m.yon)}">${kim ? `<strong>${kim}:</strong> ` : ''}${kacir(m.metin)}</p>`;
+      }).join('')
+    : '<p class="sistem">Bu görüşmede kayıtlı mesaj yok.</p>';
+  $('dokumKutu').showModal();
+}
+
+if (token) basla();
+</script>
+</body>
+</html>
