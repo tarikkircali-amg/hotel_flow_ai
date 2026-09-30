@@ -59,9 +59,15 @@ function sunucuBaslat(port) {
 
     surec.stdout.on('data', (d) => {
       birikim += d.toString();
-      if (birikim.includes('dinleniyor')) {
+
+      // Portu TAHMIN ETMIYORUZ, sunucunun soyledigini okuyoruz.
+      // config.js .env dosyasini ortam degiskenlerine tercih ediyor
+      // (dotenv override: true). Dolayisiyla .env icinde PORT varsa
+      // sunucu bizim verdigimiz portta DEGIL, oradaki portta aciliyor.
+      const m = birikim.match(/dinleniyor\s*:\s*https?:\/\/[^:]+:(\d+)/);
+      if (m) {
         clearTimeout(zamanAsimi);
-        coz(surec);
+        coz({ surec, port: Number(m[1]) });
       }
     });
     surec.stderr.on('data', (d) => {
@@ -70,6 +76,15 @@ function sunucuBaslat(port) {
 
     surec.once('exit', (kod) => {
       clearTimeout(zamanAsimi);
+
+      // Port doluysa buyuk ihtimalle ZATEN bizim sunucumuz calisiyordur.
+      // Hata verip kullaniciyi surec avina gondermek yerine ona baglaniyoruz.
+      const dolu = birikim.match(/EADDRINUSE.*?:(\d+)/);
+      if (dolu) {
+        coz({ surec: null, port: Number(dolu[1]), zatenCalisiyor: true });
+        return;
+      }
+
       redet(new Error(`Sunucu kapandi (kod ${kod}). Ciktisi:\n${birikim.slice(-1500)}`));
     });
   });
@@ -118,9 +133,17 @@ async function main() {
     port = process.env.PORT || 8787;
     console.log(soluk(`  Calisan sunucuya baglaniliyor (port ${port})`));
   } else {
-    port = await bosPort();
-    console.log(soluk(`  Sunucu baslatiliyor (port ${port})...`));
-    sunucu = await sunucuBaslat(port);
+    const istenen = await bosPort();
+    console.log(soluk(`  Sunucu baslatiliyor...`));
+    const baslatildi = await sunucuBaslat(istenen);
+    sunucu = baslatildi.surec;
+    port = baslatildi.port;
+
+    if (baslatildi.zatenCalisiyor) {
+      console.log(soluk(`  ${port} portunda zaten bir sunucu var, ona baglaniliyor.`));
+    } else if (port !== istenen) {
+      console.log(soluk(`  (.env icindeki PORT gecerli oldu: ${port})`));
+    }
     process.on('exit', () => sunucu?.kill());
     process.on('SIGINT', () => {
       sunucu?.kill();
