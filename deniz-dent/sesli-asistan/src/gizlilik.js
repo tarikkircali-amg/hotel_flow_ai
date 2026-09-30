@@ -130,4 +130,54 @@ function gecir({ klinik, soz, tanimlayici, tuz, acil = false }) {
   };
 }
 
-module.exports = { maskele, siniflandir, hastaToken, gecir };
+/**
+ * DENETIM KAYDI SUZGECI - spesifikasyon §11
+ *
+ * "Audit log hasta konusmasinin kopyasi degildir." Ama detay alani serbest
+ * JSONB; ileride biri oraya iyi niyetle hasta_sozu koyabilir ve kimse fark
+ * etmez. Bu suzgec, denetim yazimini tek noktadan geciriyor.
+ *
+ * Uc kural:
+ *   1. Adi ham metin cagristiran anahtarlar tamamen dusurulur.
+ *   2. Kalan metinler maskeleme suzgecinden gecer (telefon, TC, e-posta).
+ *   3. Uzun metinler kirpilir - uzun bir dize buyuk ihtimalle dokumun kendisi.
+ *
+ * Denylist yaklasimi bilincli: allowlist olsaydi yeni bir alan eklendiginde
+ * sessizce dusulur ve denetim kaydi eksik kalirdi. Burada eksik kalmasi
+ * gereken tek sey ham icerik.
+ */
+const DUSURULEN_ANAHTARLAR = [
+  'metin', 'soz', 'hasta_sozu', 'icerik', 'transcript', 'dokum',
+  'konusma', 'mesaj', 'not', 'not_metni', 'ozet', 'prompt', 'yanit',
+];
+
+const AZAMI_UZUNLUK = 200;
+
+function denetimDetayiTemizle(detay) {
+  if (detay === null || detay === undefined) return null;
+  if (typeof detay !== 'object' || Array.isArray(detay)) {
+    return { deger: kirp(String(detay)) };
+  }
+
+  const temiz = {};
+  for (const [anahtar, deger] of Object.entries(detay)) {
+    if (DUSURULEN_ANAHTARLAR.includes(anahtar.toLowerCase())) {
+      temiz[anahtar] = '[dusuruldu: ham icerik denetim kaydina yazilmaz]';
+      continue;
+    }
+    if (typeof deger === 'string') {
+      temiz[anahtar] = kirp(maskele(deger).metin);
+    } else if (deger && typeof deger === 'object' && !Array.isArray(deger)) {
+      temiz[anahtar] = denetimDetayiTemizle(deger);
+    } else {
+      temiz[anahtar] = deger;
+    }
+  }
+  return temiz;
+}
+
+function kirp(s) {
+  return s.length > AZAMI_UZUNLUK ? `${s.slice(0, AZAMI_UZUNLUK)}...[kirpildi]` : s;
+}
+
+module.exports = { maskele, siniflandir, hastaToken, gecir, denetimDetayiTemizle };

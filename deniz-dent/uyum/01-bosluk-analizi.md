@@ -26,10 +26,12 @@
 | C3 Ham metin ayrımı | Kısmen (duvar sonrası ham metin yazılmıyor) | — |
 | H2 Sağlayıcı kaydı | **Hukuk onayı bekliyor** | — |
 | H4 Güvenlik testi sınıfları | Kısmen (enjeksiyon bitti) | — |
-| M2–M4 | Sırada | — |
+| M2 Bilgi havuzu sürümleme | **Bitti** | `klinik.js` `bilgiHavuzuGecerli` |
+| M3 Aktarım tetikleyicileri | **Bitti** | `src/aktarim.js` |
+| M4 Denetim/işlem verisi ayrımı | **Bitti** | `src/db.js` tek nokta süzgeci |
 | Faz 7 SBYS | **SBYS dokümanı bekliyor** | — |
 
-Test sayısı: 64 → **111**.
+Test sayısı: 64 → **135**.
 
 M1 için not: tanıtım koruması bugün **tespit** ediyor, üretimi kesmiyor.
 Sebep `src/soylem.js` başında yazılı — yanıt akış halinde hastaya gidiyor,

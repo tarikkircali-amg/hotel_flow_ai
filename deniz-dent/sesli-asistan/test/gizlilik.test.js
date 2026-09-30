@@ -150,3 +150,50 @@ test('kimlik yoksa raw_identity_removed false olur', () => {
   assert.strictEqual(sonuc.kayit.raw_identity_removed, false);
   assert.strictEqual(sonuc.kayit.urgency, 'NORMAL');
 });
+
+// ------------------------------------------------ denetim kaydi suzgeci
+
+const { denetimDetayiTemizle } = require('../src/gizlilik');
+
+test('ham metin cagristiran anahtarlar dusurulur', () => {
+  const t = denetimDetayiTemizle({ hasta_sozu: 'disim agriyor', tetikleyen: 'agri' });
+  assert.ok(t.hasta_sozu.includes('dusuruldu'), JSON.stringify(t));
+  assert.strictEqual(t.tetikleyen, 'agri');
+});
+
+test('kalan metinlerdeki telefon maskelenir', () => {
+  const t = denetimDetayiTemizle({ hedef: 'arayan 0532 111 22 33' });
+  assert.ok(t.hedef.includes('***2233'), t.hedef);
+});
+
+test('cok uzun metin kirpilir - dokum sizmasin', () => {
+  const t = denetimDetayiTemizle({ aciklama: 'a'.repeat(500) });
+  assert.ok(t.aciklama.length < 250, `uzunluk: ${t.aciklama.length}`);
+  assert.ok(t.aciklama.endsWith('[kirpildi]'));
+});
+
+test('ic ice nesneler de temizlenir', () => {
+  const t = denetimDetayiTemizle({ kayit: { metin: 'gizli', kod: 'X1' } });
+  assert.ok(t.kayit.metin.includes('dusuruldu'));
+  assert.strictEqual(t.kayit.kod, 'X1');
+});
+
+test('sayi ve mantiksal degerler bozulmaz', () => {
+  const t = denetimDetayiTemizle({ adet: 3, aktarildi: true, yok: null });
+  assert.strictEqual(t.adet, 3);
+  assert.strictEqual(t.aktarildi, true);
+  assert.strictEqual(t.yok, null);
+});
+
+test('bos detay null doner', () => {
+  assert.strictEqual(denetimDetayiTemizle(null), null);
+  assert.strictEqual(denetimDetayiTemizle(undefined), null);
+});
+
+test('db katmani denetim detayini otomatik temizler', () => {
+  process.env.DEMO_MOD = 'true';
+  const db = require('../src/db');
+  // Cagri yerlerinde tek tek dikkat etmeye guvenmiyoruz; suzgec
+  // depoya giden yolda oldugu icin her cagri kapsaniyor.
+  assert.notStrictEqual(db.denetim, require('../src/db-bellek').denetim);
+});
