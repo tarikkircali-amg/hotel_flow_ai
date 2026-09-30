@@ -19,7 +19,13 @@
 const WebSocket = require('ws');
 
 const PORT = process.env.PORT || 8787;
-const ADRES = `ws://localhost:${PORT}/demo/ws`;
+
+// Windows'ta "localhost" once ::1 (IPv6) olarak cozuluyor ve bazi
+// kurulumlarda takiliyor. Once localhost, olmazsa 127.0.0.1 deniyoruz.
+// DEMO_WS ortam degiskeniyle elle de verilebilir.
+const ADRESLER = process.env.DEMO_WS
+  ? [process.env.DEMO_WS]
+  : [`ws://localhost:${PORT}/demo/ws`, `ws://127.0.0.1:${PORT}/demo/ws`];
 
 const mavi = (s) => `\x1b[36m${s}\x1b[0m`;
 const yesil = (s) => `\x1b[32m${s}\x1b[0m`;
@@ -56,14 +62,35 @@ async function main() {
   console.log(mavi('  Yapay zeka anahtari kullanilmiyor; bu yollarin hicbiri modele bagli degil.'));
   console.log(mavi('═'.repeat(80)));
 
-  const ws = new WebSocket(ADRES);
+  let ws = null;
+  const hatalar = [];
 
-  await new Promise((coz, redet) => {
-    ws.on('open', coz);
-    ws.on('error', () =>
-      redet(new Error(`Sunucuya baglanilamadi: ${ADRES}\n  Once: DEMO_MOD=true PORT=${PORT} npm start`))
+  for (const adres of ADRESLER) {
+    const aday = new WebSocket(adres);
+    try {
+      await new Promise((coz, redet) => {
+        aday.once('open', coz);
+        // Gercek hatayi YUTMUYORUZ: "baglanilamadi" demek sebebi gizler.
+        aday.once('error', (err) => redet(err));
+      });
+      ws = aday;
+      console.log(soluk(`  baglanti: ${adres}`));
+      break;
+    } catch (err) {
+      hatalar.push(`${adres}\n      ${err.message}`);
+      aday.terminate?.();
+    }
+  }
+
+  if (!ws) {
+    throw new Error(
+      `Sunucuya baglanilamadi.\n\n  Denenen adresler:\n    - ${hatalar.join('\n    - ')}\n\n` +
+        `  Sunucu ayri bir sekmede acik mi?\n` +
+        `    DEMO_MOD=true npm start\n\n` +
+        `  Sunucu baska bir portta ise:\n` +
+        `    $env:PORT=<port>; node scripts/demo-kvkk.js`
     );
-  });
+  }
 
   let adim = 0;
   let bekleyenYanit = null;
