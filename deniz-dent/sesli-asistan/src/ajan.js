@@ -13,6 +13,7 @@ const db = require('./db');
 const { TANIMLAR, calistirici } = require('./araclar');
 const { mesaiIcinde, sonrakiAcilis, mesaiMetni } = require('./klinik');
 const { acilMi, acilYanit } = require('./acil');
+const gizlilik = require('./gizlilik');
 
 // SDK, apiKey verilse bile ortamdaki ANTHROPIC_AUTH_TOKEN'i okuyup
 // Authorization basligi ekler; ikisi birden gidince istek 401 doner.
@@ -74,16 +75,37 @@ class Gorusme {
    */
   async yanitla(soz, onParca) {
     this.iptal = false;
-    await db.mesajEkle(this.aramaId, 'hasta', soz);
 
     // 1) ACIL TARAMA - modele gitmeden once. Bu sirayi degistirmeyin.
     const acil = acilMi(this.klinik, soz);
-    if (acil.acil) {
-      return this.acilAkis(acil, soz, onParca);
+
+    // 2) SAGLIK VERISI GUVENLIK DUVARI - spesifikasyon §5.
+    // Ham metin buradan sonra hicbir yere yazilmaz: ne veritabanina,
+    // ne loga, ne modele. FAIL-CLOSED: duvar patlarsa insana aktariyoruz,
+    // ham metinle devam etmiyoruz.
+    let suzgec;
+    try {
+      suzgec = gizlilik.gecir({
+        klinik: this.klinik,
+        soz,
+        tanimlayici: this.arayanNo,
+        tuz: config.gizlilik.tokenTuzu,
+        acil: acil.acil,
+      });
+    } catch (err) {
+      console.error('[gizlilik] duvar basarisiz, insana aktariliyor:', err.message);
+      return this.duvarPatladi(onParca);
     }
 
-    // 2) Normal akis
-    this.mesajlar.push({ role: 'user', content: soz });
+    const guvenliSoz = suzgec.llmMetni;
+    await db.mesajEkle(this.aramaId, 'hasta', guvenliSoz);
+
+    if (acil.acil) {
+      return this.acilAkis(acil, guvenliSoz, onParca, suzgec.kayit);
+    }
+
+    // 3) Normal akis
+    this.mesajlar.push({ role: 'user', content: guvenliSoz });
 
     let tamMetin = '';
     for (let tur = 0; tur < AZAMI_TUR; tur += 1) {
@@ -103,7 +125,34 @@ class Gorusme {
     return { tamMetin, acil: false, aktarim: this.aktarim };
   }
 
-  async acilAkis(acil, soz, onParca) {
+  /**
+   * Guvenlik duvari calismadiysa gorusme modele GITMEZ.
+   * Spesifikasyon §5: "Filtre basarisiz olursa fail-open YASAK."
+   */
+  async duvarPatladi(onParca) {
+    const hedef = config.numaralar.nobetci || config.numaralar.resepsiyon;
+    const metin =
+      this.klinik.karsilama?.teknik_aktarim ??
+      'Sizi klinik ekibimize aktariyorum, lutfen hatta kalin.';
+
+    onParca(metin);
+    await db.denetim({
+      aktor: 'sistem',
+      eylem: 'gizlilik_duvari_basarisiz',
+      kaynak: 'arama',
+      kaynakId: this.aramaId,
+      detay: { sebep: 'filtre_hatasi' },
+      sonuc: hedef ? 'insana_aktarildi' : 'sozlu_yonlendirme',
+    });
+
+    if (hedef) {
+      await db.aktarimNiyetiYaz(this.callSid, hedef, 'GIZLILIK DUVARI HATASI');
+      this.aktarim = { hedef, sebep: 'gizlilik duvari hatasi', acil: false };
+    }
+    return { tamMetin: metin, acil: false, aktarim: this.aktarim };
+  }
+
+  async acilAkis(acil, soz, onParca, gizlilikKaydi = null) {
     const hedef = config.numaralar.nobetci || config.numaralar.resepsiyon;
     const yanit = acilYanit(this.klinik, hedef);
 
@@ -123,7 +172,12 @@ class Gorusme {
       eylem: 'acil_tespit',
       kaynak: 'acil_olay',
       kaynakId: olay.id,
-      detay: { tetikleyen: acil.tetikleyen, aktarildi: yanit.aktar },
+      detay: {
+        tetikleyen: acil.tetikleyen,
+        aktarildi: yanit.aktar,
+        // Ham saglik metni denetim kaydina KOPYALANMAZ - spesifikasyon §11.
+        ...(gizlilikKaydi ?? {}),
+      },
       sonuc: yanit.aktar ? 'aktariliyor' : 'sozlu_yonlendirme',
     });
 

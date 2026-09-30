@@ -152,6 +152,15 @@ const config = {
     ttsSes: istege('TTS_SES', ''),
   },
 
+  gizlilik: {
+    // Hasta token'i bu tuzla uretilir. Tuz degisirse eski token'lar
+    // yeni token'larla eslesmez - bu yuzden uretimde SABIT kalmali ve
+    // sir olarak saklanmali. Demo disinda zorunlu.
+    tokenTuzu: demoMod
+      ? istege('TOKEN_TUZU', 'demo-tuzu-uretimde-kullanmayin')
+      : zorunlu('TOKEN_TUZU'),
+  },
+
   ses: {
     apiKey: istege('ELEVENLABS_API_KEY', ''),
     // "Sevval - Call Center" - sesli asistanlar icin hazirlanmis Turkce ses.

@@ -7,7 +7,6 @@
     "Bilerek hem onaylı hem onaysız fiyat bırakıldı: sunumda asistanın",
     "onaysız işlemde rakam söylemediği canlı gösterilebilsin diye."
   ],
-
   "klinik": {
     "ad": "Deniz Dent Diş Polikliniği",
     "kisa_ad": "Deniz Dent",
@@ -18,19 +17,41 @@
     "web": "",
     "zaman_dilimi": "Europe/Istanbul"
   },
-
   "mesai": {
     "haftalik": [
-      { "gun": 1, "acilis": "09:00", "kapanis": "18:00" },
-      { "gun": 2, "acilis": "09:00", "kapanis": "18:00" },
-      { "gun": 3, "acilis": "09:00", "kapanis": "18:00" },
-      { "gun": 4, "acilis": "09:00", "kapanis": "18:00" },
-      { "gun": 5, "acilis": "09:00", "kapanis": "18:00" },
-      { "gun": 6, "acilis": "09:00", "kapanis": "13:00" }
+      {
+        "gun": 1,
+        "acilis": "09:00",
+        "kapanis": "18:00"
+      },
+      {
+        "gun": 2,
+        "acilis": "09:00",
+        "kapanis": "18:00"
+      },
+      {
+        "gun": 3,
+        "acilis": "09:00",
+        "kapanis": "18:00"
+      },
+      {
+        "gun": 4,
+        "acilis": "09:00",
+        "kapanis": "18:00"
+      },
+      {
+        "gun": 5,
+        "acilis": "09:00",
+        "kapanis": "18:00"
+      },
+      {
+        "gun": 6,
+        "acilis": "09:00",
+        "kapanis": "13:00"
+      }
     ],
     "kapali_gunler": []
   },
-
   "hizmetler": [
     "Muayene ve teşhis",
     "Dolgu",
@@ -44,7 +65,6 @@
     "Çocuk diş hekimliği",
     "Protez"
   ],
-
   "fiyatlar": [
     {
       "islem": "Muayene",
@@ -103,13 +123,11 @@
       "aciklama": "Tedavi süresi kişiye göre çok değiştiği için bant verilmedi."
     }
   ],
-
   "fiyat_politikasi": {
     "onaysiz_yanit": "Bu tedavinin ücreti ağız yapınıza göre değişiyor, telefonda kesin rakam vermek doğru olmaz. Ücretsiz muayene ve röntgenle bakalım, hekimimiz görüp net fiyatı söylesin.",
     "pazarlik_yanit": "İndirim konusunda karar yetkim yok, bunu ekibimize aktarayım, size dönsünler.",
     "muayene_ucretsiz_mi": true
   },
-
   "sik_sorulanlar": [
     {
       "soru": "Adresiniz nerede, park sorunu var mı?",
@@ -152,35 +170,112 @@
       "cevap": "Acil bir durumda vakit kaybetmeden yetkilimize bağlanmanızı sağlıyorum, gerekirse en yakın acil servise yönlendiriyoruz."
     }
   ],
-
   "acil": {
     "anahtar_kelimeler": [
-      "kanama", "kanıyor", "kan durmuyor",
-      "kırıldı", "kırık", "koptu",
-      "şişti", "şişlik", "apse", "iltihap",
-      "dayanılmaz", "çok şiddetli", "uyuyamıyorum",
-      "kaza", "darbe", "çarptı",
-      "nefes", "yutkunamıyorum", "ateşim"
+      "kanama",
+      "kanıyor",
+      "kan durmuyor",
+      "kırıldı",
+      "kırık",
+      "koptu",
+      "şişti",
+      "şişlik",
+      "apse",
+      "iltihap",
+      "dayanılmaz",
+      "çok şiddetli",
+      "uyuyamıyorum",
+      "kaza",
+      "darbe",
+      "çarptı",
+      "nefes",
+      "yutkunamıyorum",
+      "ateşim"
     ],
     "yanit": "Anladım, bu acil bir durum olabilir. Sizi hemen yetkilimize bağlıyorum, lütfen hatta kalın.",
     "yanit_aktarim_yoksa": "Anladım, bu acil bir durum olabilir. Lütfen vakit kaybetmeden en yakın acil servise veya nöbetçi diş hekimine başvurun. Durumunuzu kliniğimize not düşüyorum, sabah ilk iş sizi arayacaklar.",
     "her_zaman_aktar": true
   },
-
   "karsilama": {
     "mesai_disi": "Deniz Dent Diş Polikliniği'ne hoş geldiniz. Ben kliniğin dijital asistanıyım, şu anda mesai saatleri dışındayız. Size bilgi verebilir, randevu talebinizi alabilirim. Görüşmemiz metin olarak kaydediliyor. Nasıl yardımcı olabilirim?",
-    "mesai_ici": "Deniz Dent Diş Polikliniği'ne hoş geldiniz. Ben kliniğin dijital asistanıyım. Size bilgi verebilir, randevu oluşturabilir ya da yetkiliye bağlayabilirim. Görüşmemiz metin olarak kaydediliyor. Nasıl yardımcı olabilirim?"
+    "mesai_ici": "Deniz Dent Diş Polikliniği'ne hoş geldiniz. Ben kliniğin dijital asistanıyım. Size bilgi verebilir, randevu oluşturabilir ya da yetkiliye bağlayabilirim. Görüşmemiz metin olarak kaydediliyor. Nasıl yardımcı olabilirim?",
+    "teknik_aktarim": "Sizi klinik ekibimize aktariyorum, lutfen hatta kalin."
   },
-
   "kvkk": {
     "metin_versiyonu": "demo-v1",
     "sozlu_bilgilendirme": "Görüşmemiz metin olarak kaydediliyor ve randevu işlemleriniz için kullanılıyor.",
     "ses_kaydi_aliniyor": false
   },
-
   "uslup": {
     "hitap": "siz",
     "ton": "sıcak, sakin, kısa cümleli",
     "azami_cumle": 3
-  }
+  },
+  "saglik_kategorileri": [
+    {
+      "kod": "POST_PROCEDURE_SWELLING",
+      "aciklama": "Islem sonrasi sislik/sikayet",
+      "ipuclari": [
+        "implant",
+        "sisti",
+        "sislik",
+        "sismis",
+        "operasyon sonrasi",
+        "cekim sonrasi"
+      ]
+    },
+    {
+      "kod": "DENTAL_PAIN",
+      "aciklama": "Dis agrisi",
+      "ipuclari": [
+        "agri",
+        "agriyor",
+        "sizli",
+        "zonkluyor",
+        "dayanamiyorum"
+      ]
+    },
+    {
+      "kod": "BLEEDING",
+      "aciklama": "Kanama",
+      "ipuclari": [
+        "kanama",
+        "kanyor",
+        "kan geliyor",
+        "kan durmuyor"
+      ]
+    },
+    {
+      "kod": "TRAUMA",
+      "aciklama": "Travma / kirik",
+      "ipuclari": [
+        "kirildi",
+        "carpti",
+        "dustu",
+        "travma",
+        "yerinden cikti"
+      ]
+    },
+    {
+      "kod": "PROSTHESIS_ISSUE",
+      "aciklama": "Protez / kaplama sorunu",
+      "ipuclari": [
+        "protez",
+        "kaplama",
+        "dolgu dustu",
+        "kopru",
+        "takma dis"
+      ]
+    },
+    {
+      "kod": "ORTHODONTIC",
+      "aciklama": "Ortodonti",
+      "ipuclari": [
+        "tel",
+        "braket",
+        "ortodonti",
+        "seffaf plak"
+      ]
+    }
+  ]
 }
