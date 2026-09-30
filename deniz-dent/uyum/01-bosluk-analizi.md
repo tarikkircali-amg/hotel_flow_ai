@@ -22,14 +22,14 @@
 | H3 Rıza kaydı alanları | **Bitti** | `db/schema.sql` |
 | H5 Log hijyeni | **Bitti** | `demo.js`, `twilio.js` |
 | M1 Tanıtım koruması | **Bitti** (tespit) | `src/soylem.js` + 9 test |
-| C2 Kiracı izolasyonu | Sırada | — |
+| C2 Kiracı izolasyonu | **Bitti** | `db/schema.sql` + 12 test (8'i gerçek veritabanında) |
 | C3 Ham metin ayrımı | Kısmen (duvar sonrası ham metin yazılmıyor) | — |
 | H2 Sağlayıcı kaydı | **Hukuk onayı bekliyor** | — |
 | H4 Güvenlik testi sınıfları | Kısmen (enjeksiyon bitti) | — |
 | M2–M4 | Sırada | — |
 | Faz 7 SBYS | **SBYS dokümanı bekliyor** | — |
 
-Test sayısı: 64 → **99**.
+Test sayısı: 64 → **111**.
 
 M1 için not: tanıtım koruması bugün **tespit** ediyor, üretimi kesmiyor.
 Sebep `src/soylem.js` başında yazılı — yanıt akış halinde hastaya gidiyor,
