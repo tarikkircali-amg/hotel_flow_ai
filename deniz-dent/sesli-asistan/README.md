@@ -74,6 +74,79 @@ pozitif (acil olmayana acil demek) kabul edilebilir; yanlış negatif değildir.
 
 ---
 
+## Windows'ta hızlı başlangıç
+
+> **En sık hata:** `npm error code ENOENT ... package.json` — bu, komutu yanlış klasörde
+> çalıştırdığınız anlamına gelir. `npm install` ve `npm start`, **`package.json` dosyasının
+> bulunduğu klasörde** çalışır: `...\deniz-dent\sesli-asistan`
+
+### 1. Node.js kurulu mu?
+
+PowerShell'de:
+
+```powershell
+node -v
+```
+
+`v20` veya üstü görmelisiniz. Görmüyorsanız https://nodejs.org adresinden LTS sürümünü kurun
+ve PowerShell'i kapatıp yeniden açın.
+
+### 2. Projeyi indirin
+
+**Yol A — tarayıcıdan (git gerekmez):**
+
+1. GitHub'da depoyu açın, branch olarak `claude/eloquent-einstein-b3fus0` seçin
+2. Yeşil **Code** düğmesi → **Download ZIP**
+3. ZIP'i sağ tık → **Tümünü ayıkla** → örneğin `C:\Users\info\Desktop`
+
+**Yol B — git ile:**
+
+```powershell
+cd ~\Desktop
+git clone -b claude/eloquent-einstein-b3fus0 https://github.com/tarikkircali-amg/hotel_flow_ai.git
+```
+
+### 3. Doğru klasöre girin
+
+```powershell
+cd ~\Desktop\hotel_flow_ai\deniz-dent\sesli-asistan
+```
+
+ZIP'ten çıkardıysanız klasör adı `hotel_flow_ai-claude-eloquent-einstein-b3fus0` gibi
+uzun olabilir; `dir` ile bakıp gerçek adı yazın.
+
+Doğru yerde olduğunuzu şununla doğrulayın — dosya listelenmeli:
+
+```powershell
+dir package.json
+```
+
+### 4. Kurun ve ayarlayın
+
+```powershell
+npm install
+Copy-Item .env.example .env
+notepad .env
+```
+
+Notepad'de sadece şu üç satırı doldurup kaydedin:
+
+```
+DEMO_MOD=true
+ANTHROPIC_API_KEY=sk-ant-...
+ELEVENLABS_API_KEY=...
+```
+
+### 5. Çalıştırın
+
+```powershell
+npm start
+```
+
+Tarayıcıda `http://localhost:3000` açın. Durdurmak için PowerShell'de `Ctrl+C`.
+
+---
+
 ## Demo — sunum için
 
 Kliniğe göstermek için tasarlandı. **Postgres, Twilio hesabı ve telefon numarası
