@@ -1,3 +1,12 @@
+> ## ⚠ REVİZYON 2 — 30.09.2026
+>
+> **Deniz Dent'te klinik yönetim sistemine benzer bir yapı zaten var.** Talep, yeni bir klinik
+> yazılımı değil; **mesai dışı / 7/24 çalışan bir iletişim katmanı.**
+>
+> **Rakiplerin özellik ve fiyat bilgileri (Bölüm 1 ve 2) geçerlidir — değişmedi.**
+> **Konumlandırma (Bölüm 3) yeniden yazıldı.** Eski ana mesaj ("rakiplerde klinik yazılımı yok,
+> bizde var") artık geçersizdir; Deniz Dent'te o yazılım zaten bulunuyor.
+
 # A) Rakip Analizi ve Konumlandırma — Deniz Dent AI Klinik Asistanı
 
 **Hazırlayan:** My İnovatif Zeka (MİZ) · Tarık Kırcalı, İzmir
@@ -144,32 +153,61 @@ Dört rakibi dört farklı cümleyle elemek zorundayız, çünkü dördü farkl�
 
 ### 3.1 Ana mesaj
 
-> **"Rakipler kliniğinize bir sohbet botu bağlıyor. Biz kliniğinizin işletim sistemini kuruyor, asistanı onun içine koyuyoruz."**
+> **"Sisteminiz siz açıkken çalışıyor. Biz kapalıyken çalışıyoruz."**
 
-Bu doğru bir iddia, çünkü doğrulanabilir bir gerçeğe dayanıyor: ClinicFlow, AgentFix ve AI Calls'un hiçbirinde hasta kaydı, hekim takvimi, tahsilat ve bakiye yok. Üçü de "sizin mevcut yazılımınıza bağlanırız" diyor. Deniz Dent'in **zaten böyle bir yazılımı yok** — Clinician OS + özel panel olarak bizde var.
+Kliniğin mevcut yazılımına dokunmuyoruz — bunu açıkça, erken ve tekrar tekrar söylüyoruz. Satın
+alma önündeki en büyük korku "yeni yazılıma geçmek" korkusudur; onu daha ilk cümlede kaldırıyoruz.
 
-### 3.2 Rakip başına eleme cümlesi
+**Destekleyici aritmetik (uydurma değil, basit hesap):**
 
-| Rakip | Onların gücü | Eleme cümlesi (Deniz Dent'e söylenecek) |
+| | Saat |
+|---|---|
+| Bir hafta | 168 |
+| Klinik açık (hafta içi 09:00–18:00 + yarım gün cumartesi) | ~49 |
+| **Klinik kapalı** | **~119 (%70)** |
+
+Bu sayıyı toplantıda tahtaya yaz. Geri kalan her şey bunun üzerine kurulur.
+
+### 3.2 Asıl koz: ses
+
+Talep "7/24 ve mesai dışı" olunca ağırlık merkezi telefona kayıyor — gece ağrıyla uyanan hasta
+WhatsApp yazmaz, arar. Ve rakip tablosu tam burada açılıyor:
+
+| Rakip | Sesli karşılama | Sonuç |
 |---|---|---|
-| **ClinicFlow** | En olgun, en iyi pazarlanan, fiyatı net | *"En yakın rakip. Ama sesli telefon karşılamaları kendi sitelerinde 'Yakında' yazıyor — sizin en çok istediğiniz madde onlarda henüz yok. Ve bir diş kliniği ile bir diyetisyeni aynı motorla yönetiyorlar. Aynı fiyat bandında, size özel yazılmış ve sesi çalışan bir sistem veriyoruz."* |
-| **AgentFix** | Sesli canlı, sağlık odaklı | *"Sesi çalışıyor, doğru. Ama randevuyu otomatik oluşturmayı 'takvim bağlantısı kurulunca ekleyebiliriz' diye yazıyorlar — yani sizin bir klinik yazılımınız olduğunu varsayıyorlar. Hasta hafızası ve hekim ataması tekliflerinde hiç yok. Biz ikisini de ürünün çekirdeğine koyuyoruz."* |
-| **AI Calls** | Ucuz görünüyor, dakika net | *"Bu bir çağrı merkezi kampanya aracı, klinik asistanı değil. İkinci dili ayrıca satıyorlar; sizin 9 dile ihtiyacınız var. WhatsApp en üst pakette. Sağlık turizmi hastası için yanlış araç."* |
-| **AsIsta** | 999 ₺ |  *"999 liraya WhatsApp botu alırsınız, evet. Ama karşınızdaki firma bir gmail adresi ve bir cep telefonu. Hasta verisi özel nitelikli kişisel veri — KVKK'da en ağır kategori. Veri işleyen sözleşmesi imzalayamayacağınız bir tarafa hasta verisi veremezsiniz. Bu bir fiyat değil, bir risk."* |
+| **ClinicFlow** | **YOK** — sitesinde "Yakında" | Sesli konuşulduğunda masadan kalkıyor |
+| AsIsta | YOK | Zaten rakip değil |
+| AI Calls | Var, ama outbound kampanya aracı | Klinik resepsiyonisti değil |
+| **AgentFix** | **VAR** | **Tek gerçek rakip bu** |
 
-### 3.3 Savunmasız olduğumuz noktalar — önceden hazırlıklı olmalıyız
+Yani yeni kapsam bizi ClinicFlow'un boş bıraktığı yere koyuyor. Geriye tek rakip kalıyor.
 
-Dürüst olmak gerekirse rakiplerin bizden üstün olduğu üç şey var:
+### 3.3 Rakip başına eleme cümlesi
 
-1. **ClinicFlow şu anda canlı ve referanslı, biz değiliz.** Deniz Dent bizim ilk kliniğimiz. → Cevap: pilot yapısı, referans karşılığı indirim, aynı şehirde yüz yüze destek.
-2. **ClinicFlow 3.000 ₺ ile giriyor, biz kurulum ücreti istiyoruz.** → Cevap: onlarda kurulum yok çünkü hazır şablon; bizde kurulum var çünkü size özel yazılıyor ve panel dahil. Karşılaştırma "3.000 ₺ vs bizim aylığımız" değil, "3.000 ₺ + mevcut klinik yazılımı lisansı + sesli asistan yokluğu" olmalı.
-3. **AgentFix'in sesi bugün çalışıyor, bizimki Faz 3'te.** → Cevap: yol haritasını tarihli ver, faz sırasını kliniğin kendi acısına göre diz (WhatsApp trafiği önce, telefon sonra) ve bunu gizlemeden söyle.
+| Rakip | Eleme cümlesi |
+|---|---|
+| **ClinicFlow** | *"Ciddi bir ürün, doğru. Ama sizin asıl derdiniz gece çalan telefonun cevaplanması — sesli asistanları kendi sitelerinde 'Yakında' yazıyor. Ayda 3.000 lira mesaj katmanının fiyatı; gece telefonu kapatmıyor."* |
+| **AgentFix** | *"Sesi çalışıyor, en yakın rakip bu. Ama fiyatlarını yayınlamıyorlar, proje bazlı kurumsal satış yapıyorlar ve entegrasyonu 'sisteminizin desteklediği kadar' diye şarta bağlıyorlar. Biz sisteminizi önce ücretsiz test edip sonucu yazılı veriyoruz — ve aynı şehirdeyiz."* |
+| **AI Calls** | *"Bu bir çağrı merkezi kampanya aracı. Toplu arama ve ses klonlama için yapılmış. Gece gelen hastayı karşılayan bir klinik asistanı değil. İkinci dili bile ayrıca satıyorlar."* |
+| **AsIsta** | *"999 liraya WhatsApp botu alırsınız. Ama karşınızdaki firma bir gmail adresi ve bir cep telefonu. Hasta verisi kanunen en korumalı kategori — sözleşme imzalayamayacağınız tarafa hasta verisi veremezsiniz. Bu bir fiyat değil, bir risk."* |
 
-### 3.4 Deniz Dent'e söylemeyeceğimiz şey
+### 3.4 Zayıf olduğumuz noktalar — hazırlıklı ol
 
-Rakipleri kötülemekle geçen bir sunum, satın alma güveni yaratmaz. Rakip tablosunu **sadece sorulursa** aç. Sunumun ana gövdesi kliniğin kendi kaybı (cevaplanmayan telefon, mesai dışı kaçan hasta, boş koltuk) ve bizim çözümümüz üzerine kurulmalı.
+1. **Artık rakiplerle aynı kategorideyiz.** Panel kozu gitti. Tek ayrışma noktamız ses, yerellik ve
+   onların sistemine özel entegrasyon. Bunu bilerek konuş; genel "biz daha iyiyiz" cümlesi tutmaz.
+2. **AgentFix'in sesi bugün çalışıyor, bizimki 8. haftada.** Gizleme. Karşılığında ver: ücretsiz
+   bağlantı testi, yüz yüze destek, şeffaf fiyat, 30 gün çıkış hakkı.
+3. **ClinicFlow sesi yakında çıkarabilir.** Bu bir zaman penceresi. Deniz Dent'i hızlı kapatmak,
+   ilk referansı almak ve ürünü satılabilir hale getirmek önemli.
+4. **Sadece WhatsApp konuşulursa kaybederiz** — ClinicFlow orada hem ucuz hem canlı. Konuşmayı
+   sesin üzerinde tut.
 
----
+### 3.5 Toplantıda yapılmayacaklar
+
+- **Paneli gösterme.** Onlarda zaten var; göstermek "beni dinlememiş" mesajı verir.
+- **Rakip tablosunu kendin açma.** Sorulursa aç. Sunumun gövdesi kliniğin kendi kaybı (cevapsız
+  gece çağrıları) ve çözüm üzerine kurulu olmalı.
+- **Sistemlerini görmeden entegrasyon sözü verme.** "Önce ücretsiz test ederiz" de.
 
 ## 4. Kaynaklar
 
