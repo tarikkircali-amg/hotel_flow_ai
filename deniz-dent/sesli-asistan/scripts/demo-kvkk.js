@@ -2,7 +2,12 @@
 
 // KVKK KARSILAMA DEMOSU
 //
-//   node scripts/demo-kvkk.js
+//   node scripts/demo-kvkk.js               kendi sunucusunu baslatir (TEK KOMUT)
+//   node scripts/demo-kvkk.js --dis-sunucu  zaten calisan sunucuya baglanir
+//
+// Varsayilan olarak kendi sunucusunu bos bir portta baslatip is bitince
+// kapatir. Sebep: sunumda iki ayri terminal penceresi takip etmek zorunda
+// kalmak, gosterilecek seyin onune geciyor.
 //
 // Calisan sunucuya gercek bir WebSocket baglantisi kurar, gorusmeyi
 // bastan sonra yurutur ve ciktilari yazar.
@@ -17,15 +22,58 @@
 //   DEMO_MOD=true PORT=8787 npm start
 
 const WebSocket = require('ws');
+const net = require('node:net');
+const path = require('node:path');
+const { spawn } = require('node:child_process');
 
-const PORT = process.env.PORT || 8787;
+const DIS_SUNUCU = process.argv.includes('--dis-sunucu');
 
-// Windows'ta "localhost" once ::1 (IPv6) olarak cozuluyor ve bazi
-// kurulumlarda takiliyor. Once localhost, olmazsa 127.0.0.1 deniyoruz.
-// DEMO_WS ortam degiskeniyle elle de verilebilir.
-const ADRESLER = process.env.DEMO_WS
-  ? [process.env.DEMO_WS]
-  : [`ws://localhost:${PORT}/demo/ws`, `ws://127.0.0.1:${PORT}/demo/ws`];
+/** Isletim sisteminden bos bir port ister - sabit port catismasi olmasin. */
+function bosPort() {
+  return new Promise((coz, redet) => {
+    const s = net.createServer();
+    s.once('error', redet);
+    s.listen(0, '127.0.0.1', () => {
+      const { port } = s.address();
+      s.close(() => coz(port));
+    });
+  });
+}
+
+/**
+ * Sunucuyu alt surec olarak baslatir ve "dinleniyor" satirini bekler.
+ * Cikti yutulmaz; sunucu acilamazsa sebebi ekrana basilir.
+ */
+function sunucuBaslat(port) {
+  return new Promise((coz, redet) => {
+    const surec = spawn(process.execPath, [path.join(__dirname, '..', 'src', 'index.js')], {
+      env: { ...process.env, DEMO_MOD: 'true', PORT: String(port) },
+      stdio: ['ignore', 'pipe', 'pipe'],
+    });
+
+    let birikim = '';
+    const zamanAsimi = setTimeout(() => {
+      surec.kill();
+      redet(new Error(`Sunucu 20 saniyede acilmadi. Ciktisi:\n${birikim.slice(-1500)}`));
+    }, 20_000);
+
+    surec.stdout.on('data', (d) => {
+      birikim += d.toString();
+      if (birikim.includes('dinleniyor')) {
+        clearTimeout(zamanAsimi);
+        coz(surec);
+      }
+    });
+    surec.stderr.on('data', (d) => {
+      birikim += d.toString();
+    });
+
+    surec.once('exit', (kod) => {
+      clearTimeout(zamanAsimi);
+      redet(new Error(`Sunucu kapandi (kod ${kod}). Ciktisi:\n${birikim.slice(-1500)}`));
+    });
+  });
+}
 
 const mavi = (s) => `\x1b[36m${s}\x1b[0m`;
 const yesil = (s) => `\x1b[32m${s}\x1b[0m`;
@@ -62,10 +110,32 @@ async function main() {
   console.log(mavi('  Yapay zeka anahtari kullanilmiyor; bu yollarin hicbiri modele bagli degil.'));
   console.log(mavi('═'.repeat(80)));
 
+  // --- Sunucu ---------------------------------------------------------
+  let sunucu = null;
+  let port;
+
+  if (DIS_SUNUCU) {
+    port = process.env.PORT || 8787;
+    console.log(soluk(`  Calisan sunucuya baglaniliyor (port ${port})`));
+  } else {
+    port = await bosPort();
+    console.log(soluk(`  Sunucu baslatiliyor (port ${port})...`));
+    sunucu = await sunucuBaslat(port);
+    process.on('exit', () => sunucu?.kill());
+    process.on('SIGINT', () => {
+      sunucu?.kill();
+      process.exit(0);
+    });
+  }
+
+  // --- Baglanti -------------------------------------------------------
+  // Windows'ta "localhost" once ::1 olarak cozulup bazi kurulumlarda
+  // takildigi icin 127.0.0.1 de deneniyor.
+  const adresler = [`ws://127.0.0.1:${port}/demo/ws`, `ws://localhost:${port}/demo/ws`];
   let ws = null;
   const hatalar = [];
 
-  for (const adres of ADRESLER) {
+  for (const adres of adresler) {
     const aday = new WebSocket(adres);
     try {
       await new Promise((coz, redet) => {
@@ -83,12 +153,9 @@ async function main() {
   }
 
   if (!ws) {
+    sunucu?.kill();
     throw new Error(
-      `Sunucuya baglanilamadi.\n\n  Denenen adresler:\n    - ${hatalar.join('\n    - ')}\n\n` +
-        `  Sunucu ayri bir sekmede acik mi?\n` +
-        `    DEMO_MOD=true npm start\n\n` +
-        `  Sunucu baska bir portta ise:\n` +
-        `    $env:PORT=<port>; node scripts/demo-kvkk.js`
+      `Sunucuya baglanilamadi.\n\n  Denenen adresler:\n    - ${hatalar.join('\n    - ')}`
     );
   }
 
@@ -163,9 +230,15 @@ async function main() {
   console.log(soluk('─'.repeat(80)));
   console.log('');
   console.log(mavi('  DEMO BITTI.'));
-  console.log(soluk('  Sabah teslim kuyrugunu gormek icin: http://localhost:' + PORT + '/demo'));
+  if (!DIS_SUNUCU) {
+    console.log(soluk('  Sunum ekranini gormek isterseniz sunucuyu ayrica baslatin:'));
+    console.log(soluk('    npm start     ->  http://localhost:8787/demo'));
+  } else {
+    console.log(soluk(`  Sabah teslim kuyrugu: http://localhost:${port}/demo`));
+  }
   console.log('');
   ws.close();
+  sunucu?.kill();
   process.exit(0);
 }
 

@@ -381,3 +381,25 @@ Uretim veritabanina baglamayin.
 Sinadiklari: capraz kiraci okuma, baska kiraci kimligiyle yazma, kaydi
 baska kiraciya tasima, baska kiracinin kaydini silme, kiraci ayari
 yokken okuma/yazma, semanin iki kez uygulanabilmesi.
+
+## Hizli demo (tek komut)
+
+Sunucu baslatmaya, Anthropic anahtarina ve krediye gerek yok:
+
+```bash
+node scripts/demo-kvkk.js
+```
+
+Betik kendi sunucusunu bos bir portta baslatir, gorusmeyi yurutur ve
+is bitince sunucuyu kapatir. Gosterdigi uc yol da bilerek modelden
+bagimsiz tasarlandi:
+
+1. Karsilama + KVKK bilgilendirmesi (kelime sayisi ve sure ile)
+2. Acil tarama - LLM'den once calisir
+3. Zorunlu insana aktarim - sikayet ve KVKK talebinde model devreye girmez
+
+Zaten calisan bir sunucuya baglanmak icin:
+
+```bash
+node scripts/demo-kvkk.js --dis-sunucu
+```
