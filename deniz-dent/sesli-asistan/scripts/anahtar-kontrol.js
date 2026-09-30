@@ -34,6 +34,10 @@ function sekilRaporu(ad, ham) {
   console.log(`  ${ad}`);
   console.log(`    uzunluk      : ${temiz.length}`);
   console.log(`    basi         : ${temiz.slice(0, 10)}...`);
+  // Saglayici konsollari anahtarlari son 4 hanesiyle listeler.
+  // .env'deki anahtarin konsolda gordugunuz anahtar olup olmadigini
+  // buradan gozle karsilastirabilirsiniz. 4 hane sir sayilmaz.
+  console.log(`    sonu         : ...${temiz.slice(-4)}`);
 
   const sorunlar = [];
   if (deger !== temiz) sorunlar.push('basinda/sonunda bosluk var');
