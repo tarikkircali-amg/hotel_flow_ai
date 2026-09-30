@@ -6,6 +6,21 @@ const config = require('./config');
 
 const havuz = new Pool({ connectionString: config.db.url, ssl: config.db.ssl, max: 10 });
 
+// KIRACI AYARI (spesifikasyon §10)
+//
+// Her yeni baglantida oturum degiskenini kuruyoruz. RLS politikalari ve
+// tenant_id varsayilanlari bunu okuyor; kurulmazsa okumalar bos doner ve
+// yazmalar hata verir. Bilerek boyle: kiracisi belirsiz bir sorgunun
+// calismasindansa hic calismamasi dogru davranis.
+//
+// set_config'i parametreli cagiriyoruz - SET komutu parametre kabul etmiyor
+// ve kimlik degerini sorguya birlestirmek istemiyoruz.
+havuz.on('connect', (istemci) => {
+  istemci
+    .query('SELECT set_config($1, $2, false)', ['app.kiraci', config.kiraciId])
+    .catch((err) => console.error('[db] kiraci ayari kurulamadi:', err.message));
+});
+
 havuz.on('error', (err) => {
   console.error('[db] bosta duran baglantida hata:', err.message);
 });

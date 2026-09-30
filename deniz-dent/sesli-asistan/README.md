@@ -364,3 +364,20 @@ Bilerek kapsam dışı bırakıldı, teklifin sonraki adımlarında:
 | Asistan fiyat söylemiyor | Beklenen davranış — `onayli: false` |
 | Panel 401 veriyor | Oturum süresi doldu (`PANEL_OTURUM_SAAT`) |
 | `/saglik` 503 | Veritabanı erişilemiyor |
+
+## Kiraci izolasyonu testi (veritabani gerektirir)
+
+`npm test` veritabani istemez; kiraci izolasyonunun gercekten calistigini
+sinamak icin bos bir veritabani verin:
+
+```bash
+TEST_DATABASE_URL=postgres://postgres@localhost:5432/dentest \
+  node --test test/kiraci-db.test.js
+```
+
+Bu test verdiginiz veritabanindaki `public` semasini DUSURUR.
+Uretim veritabanina baglamayin.
+
+Sinadiklari: capraz kiraci okuma, baska kiraci kimligiyle yazma, kaydi
+baska kiraciya tasima, baska kiracinin kaydini silme, kiraci ayari
+yokken okuma/yazma, semanin iki kez uygulanabilmesi.

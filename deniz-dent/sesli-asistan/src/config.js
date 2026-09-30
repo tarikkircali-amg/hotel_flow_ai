@@ -152,6 +152,14 @@ const config = {
     ttsSes: istege('TTS_SES', ''),
   },
 
+  // Bu kurulumun hangi klinige (kiraciya) ait oldugu. Veritabanindaki
+  // her satir bu kimlige baglanir ve RLS bu kimlikle filtreler.
+  // Demo disinda zorunlu: yanlis/eksik kiraci kimligi, klinik verilerinin
+  // birbirine karismasi demektir.
+  kiraciId: demoMod
+    ? istege('KIRACI_ID', '00000000-0000-4000-8000-000000000001')
+    : zorunlu('KIRACI_ID'),
+
   gizlilik: {
     // Hasta token'i bu tuzla uretilir. Tuz degisirse eski token'lar
     // yeni token'larla eslesmez - bu yuzden uretimde SABIT kalmali ve

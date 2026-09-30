@@ -69,9 +69,25 @@ async function main() {
     return;
   }
 
+  const kiraci = process.env.KIRACI_ID;
+  if (!kiraci) {
+    console.error(kirmizi('KIRACI_ID tanimli degil.'));
+    console.error(sari('Hangi klinigin verisini temizleyecegimizi bilmeden calismam.'));
+    process.exitCode = 1;
+    return;
+  }
+
   const havuz = new Pool({
     connectionString: url,
     ssl: String(process.env.DB_SSL).toLowerCase() === 'true' ? { rejectUnauthorized: false } : false,
+  });
+
+  // RLS bu ayara gore filtreler: betik yalnizca KENDI kiracisinin
+  // verisine dokunur. Ayar olmadan silme sorgusu hicbir satir gormez.
+  havuz.on('connect', (istemci) => {
+    istemci
+      .query('SELECT set_config($1, $2, false)', ['app.kiraci', kiraci])
+      .catch((err) => console.error(kirmizi(`kiraci ayari kurulamadi: ${err.message}`)));
   });
 
   console.log('');

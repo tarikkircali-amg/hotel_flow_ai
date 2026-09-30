@@ -196,3 +196,76 @@ CREATE TABLE IF NOT EXISTS saklama_calismalari (
 --   node scripts/saklama.js            (kuru calisma - sadece raporlar)
 --   node scripts/saklama.js --uygula   (gercekten siler)
 -- ------------------------------------------------------------------
+
+-- ==================================================================
+-- KIRACI IZOLASYONU (spesifikasyon §10)
+--
+-- Bugun tek klinik var, ama ikinci klinik eklendigi an bu sart. Sonradan
+-- eklemek bastan koymaktan cok daha pahali - o yuzden simdi koyuyoruz.
+--
+-- Calisma mantigi:
+--   * Uygulama her baglantida  SET app.kiraci = '<uuid>'  yapar (db-pg.js).
+--   * OKUMA: politika bu ayara uymayan satirlari gostermez.
+--   * YAZMA: tenant_id varsayilani ayardan gelir; ayar yoksa INSERT
+--     HATA VERIR. Kiracisiz veri yazilamaz - fail-closed.
+--   * FORCE ROW LEVEL SECURITY: tablo sahibi bile politikadan muaf degil.
+--     Bu satir olmadan uygulama kullanicisi tablo sahibiyse RLS sessizce
+--     devre disi kalir ve izolasyon sadece kagit uzerinde olur.
+-- ==================================================================
+
+CREATE TABLE IF NOT EXISTS kiracilar (
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  ad          TEXT NOT NULL,
+  aktif       BOOLEAN NOT NULL DEFAULT TRUE,
+  olusturma   TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- Mevcut veriler icin varsayilan kiraci. Sabit UUID: migration tekrar
+-- calistirildiginda ayni kiraciya baglansin.
+INSERT INTO kiracilar (id, ad)
+VALUES ('00000000-0000-4000-8000-000000000001', 'Varsayilan Klinik')
+ON CONFLICT (id) DO NOTHING;
+
+DO $kiraci$
+DECLARE
+  t text;
+  varsayilan constant uuid := '00000000-0000-4000-8000-000000000001';
+  tablolar constant text[] := ARRAY[
+    'aramalar', 'mesajlar', 'randevu_talepleri', 'acil_olaylar',
+    'rizalar', 'denetim', 'oturumlar', 'aktarim_niyetleri',
+    'saklama_politikalari', 'saklama_calismalari'
+  ];
+BEGIN
+  FOREACH t IN ARRAY tablolar LOOP
+    -- 1) Sutun once BOS birakilarak eklenir - mevcut satirlar bozulmaz.
+    EXECUTE format('ALTER TABLE %I ADD COLUMN IF NOT EXISTS tenant_id UUID', t);
+
+    -- 2) Mevcut satirlar varsayilan kiraciya baglanir.
+    EXECUTE format('UPDATE %I SET tenant_id = %L WHERE tenant_id IS NULL', t, varsayilan);
+
+    -- 3) Varsayilan deger oturum ayarindan gelir. Ayar yoksa INSERT hata verir.
+    EXECUTE format(
+      'ALTER TABLE %I ALTER COLUMN tenant_id SET DEFAULT current_setting(''app.kiraci'')::uuid', t);
+
+    -- 4) Artik zorunlu.
+    EXECUTE format('ALTER TABLE %I ALTER COLUMN tenant_id SET NOT NULL', t);
+
+    EXECUTE format('ALTER TABLE %I ENABLE ROW LEVEL SECURITY', t);
+    EXECUTE format('ALTER TABLE %I FORCE ROW LEVEL SECURITY', t);
+
+    EXECUTE format('DROP POLICY IF EXISTS kiraci_izolasyon ON %I', t);
+    EXECUTE format(
+      'CREATE POLICY kiraci_izolasyon ON %I'
+      ' USING (tenant_id = current_setting(''app.kiraci'', true)::uuid)'
+      ' WITH CHECK (tenant_id = current_setting(''app.kiraci'', true)::uuid)', t);
+
+    EXECUTE format('CREATE INDEX IF NOT EXISTS %I ON %I (tenant_id)', t || '_tenant_idx', t);
+  END LOOP;
+END
+$kiraci$;
+
+-- Saklama politikasi kategori basina TEKTI; bu, ikinci klinigin kendi
+-- politikasini tanimlamasini engellerdi. Kiraci basina tek olmali.
+ALTER TABLE saklama_politikalari DROP CONSTRAINT IF EXISTS saklama_politikalari_veri_kategorisi_key;
+CREATE UNIQUE INDEX IF NOT EXISTS saklama_politikalari_kiraci_kategori_idx
+  ON saklama_politikalari (tenant_id, veri_kategorisi);
