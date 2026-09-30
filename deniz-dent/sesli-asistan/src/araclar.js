@@ -7,6 +7,7 @@
 
 const { fiyatBandi, tarihNormalize } = require('./klinik');
 const db = require('./db');
+const sms = require('./sms');
 
 const TANIMLAR = [
   {
@@ -58,6 +59,24 @@ const TANIMLAR = [
     },
   },
   {
+    name: 'aydinlatma_metni_gonder',
+    description:
+      'KVKK aydinlatma metnini hastaya SMS ile gonderir. Hasta metni istediginde ' +
+      'cagir. Metnin icerigi kliniktarafindan onaylanmistir; sen metin YAZMAZSIN. ' +
+      'Bu aracin listede olmasi SMS ozelliginin acik oldugu anlamina gelir.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        telefon: {
+          type: 'string',
+          description: 'Gonderilecek numara. Hasta baska numara vermediyse aradigi numara.',
+        },
+      },
+      required: [],
+      additionalProperties: false,
+    },
+  },
+  {
     name: 'insana_aktar',
     description:
       'Gorusmeyi bir insana aktarir. Su durumlarda cagir: hasta yetkiliyle konusmak istedi, ' +
@@ -85,11 +104,51 @@ function calistirici(baglam) {
         return fiyatAraci(baglam, girdi);
       case 'randevu_talebi_olustur':
         return randevuAraci(baglam, girdi);
+      case 'aydinlatma_metni_gonder':
+        return aydinlatmaAraci(baglam, girdi);
       case 'insana_aktar':
         return aktarimAraci(baglam, girdi);
       default:
         return { hata: `Bilinmeyen arac: ${ad}` };
     }
+  };
+}
+
+/**
+ * Aydinlatma metnini SMS ile yollar.
+ * Asistan metin YAZMAZ; metin klinik dosyasindan gelir.
+ */
+async function aydinlatmaAraci(baglam, { telefon } = {}) {
+  const hedef = telefon || baglam.arayanNo;
+  const sonuc = await sms.aydinlatmaGonder(hedef);
+
+  await db.denetim({
+    aktor: 'asistan',
+    eylem: 'aydinlatma_sms',
+    kaynak: 'arama',
+    kaynakId: baglam.aramaId,
+    // Numara maskeleme suzgecinden gececek (bkz. db.js).
+    detay: { hedef, demo: sonuc.demo, sebep: sonuc.sebep ?? null },
+    sonuc: sonuc.gonderildi ? 'gonderildi' : 'gonderilemedi',
+  });
+
+  if (sonuc.gonderildi && sonuc.demo) {
+    return {
+      durum: 'demo',
+      aciklama:
+        'DEMO: gercek SMS gonderilmedi. Hastaya "gonderildi" DEME; ' +
+        'bunun bir demo oldugunu belirt veya konuyu ekibe birak.',
+    };
+  }
+  if (sonuc.gonderildi) {
+    return { durum: 'gonderildi', aciklama: 'Aydinlatma metni SMS ile gonderildi.' };
+  }
+  return {
+    durum: 'gonderilemedi',
+    sebep: sonuc.sebep,
+    aciklama:
+      'SMS gonderilemedi. Hastaya gonderildi DEME. Metni klinik ekibinin ' +
+      'iletecegini soyle ve gerekirse insana aktar.',
   };
 }
 

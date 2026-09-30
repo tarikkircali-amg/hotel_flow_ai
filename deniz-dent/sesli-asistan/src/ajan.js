@@ -21,6 +21,7 @@ const {
 const { acilMi, acilYanit } = require('./acil');
 const { aktarimGerekli, aktarimMetni } = require('./aktarim');
 const gizlilik = require('./gizlilik');
+const sms = require('./sms');
 const soylem = require('./soylem');
 
 // SDK, apiKey verilse bile ortamdaki ANTHROPIC_AUTH_TOKEN'i okuyup
@@ -65,7 +66,7 @@ class Gorusme {
 
   /** Cagri baslarken calinacak karsilama. */
   karsilama() {
-    return karsilamaKur(this.klinik, mesaiIcinde(this.klinik));
+    return karsilamaKur(this.klinik, mesaiIcinde(this.klinik), sms.aktifMi());
   }
 
   /** Suren uretimi durdur (hasta sozu kesti). */
@@ -268,7 +269,9 @@ class Gorusme {
           cache_control: { type: 'ephemeral' },
         },
       ],
-      tools: TANIMLAR,
+      // SMS kapaliysa arac LISTEDE BILE OLMUYOR. Modele veremeyecegimiz
+      // bir yetenegi gostermek, onu o yetenegi vaat etmeye tesvik ediyor.
+      tools: TANIMLAR.filter((t) => t.name !== 'aydinlatma_metni_gonder' || sms.aktifMi()),
       messages: this.mesajlar,
     });
 

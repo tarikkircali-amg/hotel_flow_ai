@@ -210,11 +210,13 @@
     }
   },
   "kvkk": {
-    "metin_versiyonu": "demo-v3",
-    "sozlu_bilgilendirme": "Görüşme yazılı kaydediliyor, ses kaydı alınmıyor; detaylı metni SMS ile gönderebilirim.",
+    "metin_versiyonu": "demo-v4",
+    "sozlu_bilgilendirme": "Görüşme yazılı kaydediliyor, ses kaydı alınmıyor.",
     "ses_kaydi_aliniyor": false,
     "konum": "ortada",
-    "not": "konum: basta | ortada | sonda. Varsayilan 'ortada' - hasta once kiminle konustugunu ogrenir, sonra bilgilendirmeyi duyar, en son konusmaya davet edilir."
+    "not": "konum: basta | ortada | sonda. sms_teklifi yalnizca SMS ozelligi acikken karsilamaya eklenir. aydinlatma_sms_metni'ndeki baglantiyi klinigin gercek aydinlatma metni adresiyle degistirin.",
+    "sms_teklifi": "Detaylı aydınlatma metnini SMS ile gönderebilirim.",
+    "aydinlatma_sms_metni": "Deniz Dent Diş Polikliniği — Kişisel verilerin korunmasına ilişkin aydınlatma metnimiz: <KLINIK_AYDINLATMA_LINKI>"
   },
   "uslup": {
     "hitap": "siz",

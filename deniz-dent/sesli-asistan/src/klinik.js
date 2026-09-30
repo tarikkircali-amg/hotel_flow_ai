@@ -226,7 +226,7 @@ function bilgiHavuzuGecerli(klinik, simdi = new Date()) {
  * ('kapali' yalnizca yazili kanallar icin dusunulmustur; sesli kanalda
  *  kullanilmasi onerilmez ve uyari uretilir.)
  */
-function karsilamaKur(klinik, mesaiAcik) {
+function karsilamaKur(klinik, mesaiAcik, smsAktif = false) {
   const k = klinik?.karsilama ?? {};
   const kv = klinik?.kvkk ?? {};
 
@@ -239,7 +239,11 @@ function karsilamaKur(klinik, mesaiAcik) {
   const p = k.parcalar;
   const kapsam = mesaiAcik ? p.kapsam_mesai_ici : p.kapsam_mesai_disi;
 
-  const kvkkCumlesi = kv.sozlu_bilgilendirme ?? '';
+  // SMS teklifi yalnizca ozellik GERCEKTEN acikken cumleye giriyor.
+  // Kapaliyken teklif etmek, hasta "gonderin" dediginde gonderemeyecegimiz
+  // anlamina gelir; bu da aydinlatma yukumlulugunu karsilamaz.
+  const teklif = smsAktif ? (kv.sms_teklifi ?? '') : '';
+  const kvkkCumlesi = [kv.sozlu_bilgilendirme ?? '', teklif].filter(Boolean).join(' ');
   const konum = (kv.konum ?? 'ortada').toLowerCase();
 
   const oncesi = [p.selam, p.kimlik, kapsam].filter(Boolean);

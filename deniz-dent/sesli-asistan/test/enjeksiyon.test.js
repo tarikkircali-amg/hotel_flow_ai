@@ -17,9 +17,16 @@ const { TANIMLAR } = require('../src/araclar');
 const { acilMi } = require('../src/acil');
 const { maskele } = require('../src/gizlilik');
 
-const IZINLI = ['fiyat_bandi_sorgula', 'randevu_talebi_olustur', 'insana_aktar'];
+const IZINLI = [
+  'fiyat_bandi_sorgula',
+  'randevu_talebi_olustur',
+  'insana_aktar',
+  // SMS ozelligi kapaliyken ajan bu araci listeden CIKARIYOR (bkz. ajan.js).
+  // Tanimlarda durmasi sorun degil; onemli olan cagrilabilir olmamasi.
+  'aydinlatma_metni_gonder',
+];
 
-test('arac listesi tam olarak izinli uclu - fazlasi yok', () => {
+test('arac listesi tam olarak izinli kumeden ibaret - fazlasi yok', () => {
   assert.deepStrictEqual(TANIMLAR.map((t) => t.name).sort(), [...IZINLI].sort());
 });
 

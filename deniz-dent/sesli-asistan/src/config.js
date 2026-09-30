@@ -160,6 +160,15 @@ const config = {
     ? istege('KIRACI_ID', '00000000-0000-4000-8000-000000000001')
     : zorunlu('KIRACI_ID'),
 
+  sms: {
+    // Bos birakilirsa SMS ozelligi KAPALI sayilir ve asistan
+    // "SMS gonderebilirim" sozunu vermez. Tutamayacagimiz sozu
+    // hastaya hic verdirmemek, sonradan ozur dilemekten iyidir.
+    hesapSid: istege('TWILIO_ACCOUNT_SID', ''),
+    authToken: istege('TWILIO_AUTH_TOKEN', ''),
+    gonderenNo: telefonDogrula('SMS_GONDEREN_NO', istege('SMS_GONDEREN_NO', '')),
+  },
+
   gizlilik: {
     // Hasta token'i bu tuzla uretilir. Tuz degisirse eski token'lar
     // yeni token'larla eslesmez - bu yuzden uretimde SABIT kalmali ve
