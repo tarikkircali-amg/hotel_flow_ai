@@ -26,18 +26,22 @@ const sari = (s) => `\x1b[33m${s}\x1b[0m`;
 
 const HEDEFLER = {
   anthropic: { degisken: 'ANTHROPIC_API_KEY', ad: 'Anthropic', onek: 'sk-ant-' },
-  eleven: { degisken: 'ELEVENLABS_API_KEY', ad: 'ElevenLabs', onek: '' },
+  eleven: { degisken: 'ELEVENLABS_API_KEY', ad: 'ElevenLabs', onek: 'sk_' },
 };
 
 function kullanim() {
   console.log(`
   Kullanim:
 
-    1. Anahtari saglayicinin sitesinde Copy dugmesiyle kopyalayin
-    2. Sonra:
+    1. ONCE bu komutu calistirin:
 
        node scripts/anahtar-yaz.js anthropic
        node scripts/anahtar-yaz.js eleven
+
+    2. Betik beklemeye gecer. SONRA tarayiciya gecip anahtari
+       Copy dugmesiyle kopyalayin. Betik panoda gorunce yakalar.
+
+  (Komutu kopyalayip yapistirmaniz panoyu degistirdigi icin sira boyle.)
 `);
 }
 
@@ -138,7 +142,11 @@ function anahtariDogrula(ham, hedef) {
   return { anahtar };
 }
 
-function main() {
+const bekle = (ms) => new Promise((c) => setTimeout(c, ms));
+
+const AZAMI_BEKLEME_SN = 180;
+
+async function main() {
   const secim = (process.argv[2] || '').toLowerCase();
   const hedef = HEDEFLER[secim];
 
@@ -149,12 +157,39 @@ function main() {
     return;
   }
 
-  console.log(`\n  ${hedef.ad} anahtari panodan okunuyor...\n`);
+  const baslangicPano = String(panodanOku() ?? '').replace(/\s+/g, '');
 
-  const { anahtar, hata } = anahtariDogrula(panodanOku(), hedef);
-  if (hata) {
-    console.log(kirmizi(`  ! ${hata}`));
-    console.log('');
+  // Pano zaten gecerli bir anahtar tutuyorsa beklemeye gerek yok.
+  const ilk = anahtariDogrula(baslangicPano, hedef);
+  let anahtar = ilk.anahtar ?? null;
+
+  if (!anahtar) {
+    console.log(`\n  ${hedef.ad} anahtari bekleniyor.\n`);
+    console.log(sari('  Simdi tarayiciya gecin ve anahtari Copy dugmesiyle kopyalayin.'));
+    console.log(sari(`  Panoda gorur gormez yazacagim. Vazgecmek icin Ctrl+C.\n`));
+
+    for (let gecen = 0; gecen < AZAMI_BEKLEME_SN; gecen += 1) {
+      await bekle(1000);
+
+      const simdiki = String(panodanOku() ?? '').replace(/\s+/g, '');
+      if (!simdiki || simdiki === baslangicPano) {
+        if (gecen % 15 === 14) process.stdout.write('  bekliyorum...\n');
+        continue;
+      }
+
+      const sonuc = anahtariDogrula(simdiki, hedef);
+      if (sonuc.anahtar) {
+        anahtar = sonuc.anahtar;
+        break;
+      }
+
+      // Pano degisti ama anahtar degil - kullaniciyi bilgilendirip beklemeye devam.
+      console.log(kirmizi(`  ! ${panoOzeti(simdiki)} - anahtara benzemiyor, bekliyorum.`));
+    }
+  }
+
+  if (!anahtar) {
+    console.log(kirmizi(`\n  ${AZAMI_BEKLEME_SN} saniye boyunca anahtar gelmedi. Tekrar deneyin.\n`));
     process.exitCode = 1;
     return;
   }
@@ -183,7 +218,7 @@ function main() {
     return;
   }
 
-  console.log(`  ${yesil('YAZILDI')}`);
+  console.log(`\n  ${yesil('YAZILDI')}`);
   console.log(`  onceki : ${sonDort(onceki)}`);
   console.log(`  simdi  : ${yesil(sonDort(yazilan))}   (${yazilan.length} karakter)`);
   if (demoAcildi) console.log(sari('  DEMO_MOD=true yapildi.'));
@@ -192,9 +227,7 @@ function main() {
   console.log('  Sonra:  node scripts/anahtar-kontrol.js\n');
 }
 
-try {
-  main();
-} catch (err) {
+main().catch((err) => {
   console.error(kirmizi(`\n  Hata: ${err.message}\n`));
   process.exitCode = 1;
-}
+});
