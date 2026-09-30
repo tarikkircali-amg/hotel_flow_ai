@@ -11,8 +11,9 @@ const Anthropic = require('@anthropic-ai/sdk');
 const config = require('./config');
 const db = require('./db');
 const { TANIMLAR, calistirici } = require('./araclar');
-const { mesaiIcinde, sonrakiAcilis, mesaiMetni } = require('./klinik');
+const { mesaiIcinde, sonrakiAcilis, mesaiMetni, bilgiHavuzuGecerli } = require('./klinik');
 const { acilMi, acilYanit } = require('./acil');
+const { aktarimGerekli, aktarimMetni } = require('./aktarim');
 const gizlilik = require('./gizlilik');
 const soylem = require('./soylem');
 
@@ -105,7 +106,16 @@ class Gorusme {
       return this.acilAkis(acil, guvenliSoz, onParca, suzgec.kayit);
     }
 
-    // 3) Normal akis
+    // 3) ZORUNLU AKTARIM TARAMASI - spesifikasyon §21.
+    // Sikayet, hukuki talep ve KVKK talebinde model devreye GIRMEZ.
+    // Bu konularda "yardimci olmaya calisan" bir asistan, klinigi
+    // baglayan seyler soyleyebilir.
+    const zorunlu = aktarimGerekli(this.klinik, soz);
+    if (zorunlu.aktar) {
+      return this.zorunluAktarim(zorunlu, onParca, suzgec.kayit);
+    }
+
+    // 4) Normal akis
     this.mesajlar.push({ role: 'user', content: guvenliSoz });
 
     let tamMetin = '';
@@ -170,6 +180,36 @@ class Gorusme {
       await db.aktarimNiyetiYaz(this.callSid, hedef, 'GIZLILIK DUVARI HATASI');
       this.aktarim = { hedef, sebep: 'gizlilik duvari hatasi', acil: false };
     }
+    return { tamMetin: metin, acil: false, aktarim: this.aktarim };
+  }
+
+  /**
+   * Sikayet / hukuki talep / KVKK talebi: model calistirilmadan aktarilir.
+   * Aktarilacak numara yoksa sessiz kalmiyoruz - sozlu olarak bildirip
+   * kuyruga yaziyoruz ki ekip sabah mutlaka gorsun.
+   */
+  async zorunluAktarim(karar, onParca, gizlilikKaydi = null) {
+    const hedef = config.numaralar.resepsiyon || config.numaralar.nobetci;
+    const metin = aktarimMetni(this.klinik, karar.sebep);
+
+    onParca(metin);
+    await db.mesajEkle(this.aramaId, 'asistan', metin);
+
+    await db.denetim({
+      aktor: 'sistem',
+      eylem: 'zorunlu_aktarim',
+      kaynak: 'arama',
+      kaynakId: this.aramaId,
+      // Ham hasta sozu DEGIL - hangi tetikleyici ve hangi kategori.
+      detay: { sebep: karar.sebep, tetikleyen: karar.tetikleyen, ...(gizlilikKaydi ?? {}) },
+      sonuc: hedef ? 'insana_aktarildi' : 'sozlu_bildirim',
+    });
+
+    if (hedef) {
+      await db.aktarimNiyetiYaz(this.callSid, hedef, `ZORUNLU: ${karar.sebep}`);
+      this.aktarim = { hedef, sebep: `zorunlu aktarim: ${karar.sebep}`, acil: false };
+    }
+
     return { tamMetin: metin, acil: false, aktarim: this.aktarim };
   }
 
@@ -338,7 +378,23 @@ class Gorusme {
           .join('\n')
       : 'Bu numaradan daha once kayitli bir gorusme yok.';
 
+    const onay = bilgiHavuzuGecerli(k);
+
+    // Onay gecersizse asistan susmuyor, DARALIYOR: randevu alir, aktarir,
+    // ama onaylanmamis klinik bilgisi konusmaz (spesifikasyon §16).
+    const onayBloku = onay.gecerli
+      ? ''
+      : `
+# !! BILGI HAVUZU ONAYI GECERSIZ (${onay.sebep})
+Asagidaki klinik bilgileri ONAYSIZ veya SURESI DOLMUS. Bu bilgileri
+hastaya SOYLEME - fiyat, hizmet listesi, hekim bilgisi verme.
+Yapabileceklerin: randevu talebi almak, calisma saatlerini soylemek,
+insana aktarmak. Bilgi sorulursa: "Bu bilgiyi ekibimiz teyit edip size
+donus yapsin, randevu olusturabilirim." de.
+`;
+
     return `Sen ${k.klinik.ad} adli dis kliniginin telefon asistanisin. Turkce konusuyorsun.
+${onayBloku}
 
 # KIMLIGIN
 Sen bir yapay zeka asistanisin ve bunu gizlemezsin. Hasta sorarsa acikca soylersin.

@@ -277,5 +277,32 @@
         "seffaf plak"
       ]
     }
-  ]
+  ],
+  "bilgi_havuzu": {
+    "surum": "1.0",
+    "onaylayan": "DEMO - klinik yetkilisi tarafindan onaylanmadi",
+    "onay_zamani": "2026-09-30",
+    "gecerli_baslangic": "2026-09-01",
+    "gecerli_bitis": "2027-09-01",
+    "locale": "tr-TR",
+    "not": "Uretimde bu alanlari klinik yetkilisi doldurur. Onaylayan kisi ve tarih gercek olmali; suresi dolarsa asistan klinik bilgisi vermeyi keser."
+  },
+  "insana_aktar": {
+    "tetikleyiciler": [
+      {
+        "sebep": "randevu_iptali_itiraz",
+        "ipuclari": [
+          "iptal ucreti",
+          "para iademi istiyorum",
+          "iade edin"
+        ]
+      }
+    ],
+    "metinler": {
+      "sikayet": "Yasadiginiz sorun icin uzgunum. Bu konuyu klinik sorumlumuzun degerlendirmesi gerekiyor, sizi aktariyorum.",
+      "hukuki": "Bu konuda size ancak klinik yetkilimiz bilgi verebilir. Sizi aktariyorum.",
+      "kvkk": "Kisisel verilerinize iliskin talebinizi klinigimizin veri sorumlusu karsilayacak. Sizi ilgili birime aktariyorum."
+    },
+    "varsayilan_metin": "Bu konuyu klinik ekibimizin degerlendirmesi gerekiyor. Sizi ekibimize aktariyorum."
+  }
 }

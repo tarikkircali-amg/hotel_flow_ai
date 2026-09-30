@@ -156,6 +156,7 @@ function tarihNormalize(ham) {
 }
 
 module.exports = {
+  bilgiHavuzuGecerli,
   mesaiIcinde,
   tarihNormalize,
   sonrakiAcilis,
@@ -165,3 +166,41 @@ module.exports = {
   yerelAn,
   GUN_ADI,
 };
+
+/**
+ * BILGI HAVUZU ONAY KONTROLU - spesifikasyon §16
+ *
+ * Asistan yalnizca ONAYLI ve GECERLI surumden klinik bilgisi verebilir.
+ * Onay yoksa veya suresi dolmussa klinik bilgisi vermeyi keser; randevu
+ * almaya ve insana aktarmaya devam eder. Susmak degil, dar calismak.
+ *
+ * Bu kontrolun amaci, kliniginin aylar once onayladigi bir fiyat veya
+ * hizmet listesinin sessizce konusulmaya devam etmesini engellemek.
+ *
+ * @returns {{gecerli: boolean, sebep: string|null, surum: string|null}}
+ */
+function bilgiHavuzuGecerli(klinik, simdi = new Date()) {
+  const b = klinik?.bilgi_havuzu;
+
+  if (!b) return { gecerli: false, sebep: 'bilgi_havuzu bolumu yok', surum: null };
+  if (!b.onaylayan) return { gecerli: false, sebep: 'onaylayan bos', surum: b.surum ?? null };
+  if (!b.onay_zamani) return { gecerli: false, sebep: 'onay_zamani bos', surum: b.surum ?? null };
+
+  const baslangic = b.gecerli_baslangic ? new Date(b.gecerli_baslangic) : null;
+  const bitis = b.gecerli_bitis ? new Date(b.gecerli_bitis) : null;
+
+  if (baslangic && Number.isNaN(baslangic.getTime())) {
+    return { gecerli: false, sebep: 'gecerli_baslangic okunamadi', surum: b.surum ?? null };
+  }
+  if (bitis && Number.isNaN(bitis.getTime())) {
+    return { gecerli: false, sebep: 'gecerli_bitis okunamadi', surum: b.surum ?? null };
+  }
+  if (baslangic && simdi < baslangic) {
+    return { gecerli: false, sebep: 'gecerlilik henuz baslamadi', surum: b.surum ?? null };
+  }
+  if (bitis && simdi > bitis) {
+    return { gecerli: false, sebep: 'gecerlilik suresi dolmus', surum: b.surum ?? null };
+  }
+
+  return { gecerli: true, sebep: null, surum: b.surum ?? null };
+}
