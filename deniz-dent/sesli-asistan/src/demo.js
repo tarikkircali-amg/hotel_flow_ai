@@ -150,7 +150,12 @@ function wsKur() {
         if (m.tip === 'baslat') return await baslat(m, durum, yolla);
         if (m.tip === 'soz') {
           if (!durum.gorusme) return yolla({ tip: 'hata', mesaj: 'Önce görüşmeyi başlatın.' });
-          if (durum.mesgul) return undefined;
+          // Onceki yanit (ozellikle ses uretimi) surerken gelen sozu
+          // isleyemiyoruz. Ama SESSIZCE dusurmek, istemciyi cevap
+          // bekletip hata ayiklamayi imkansiz hale getiriyordu.
+          if (durum.mesgul) {
+            return yolla({ tip: 'mesgul', mesaj: 'Onceki yanit hala suruyor.' });
+          }
           durum.mesgul = true;
           try {
             await konus(m.metin, durum, yolla);

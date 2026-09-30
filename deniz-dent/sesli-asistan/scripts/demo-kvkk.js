@@ -183,7 +183,26 @@ async function main() {
   }
 
   let adim = 0;
-  let bekleyenYanit = null;
+
+  // Bekleme, mesaj GONDERILMEDEN once kuruluyor ve yalnizca o anda
+  // bekleniyorsa cozuluyor. Boylece onceki turdan artakalan bir 'bitti'
+  // sonraki turu erken bitiremiyor.
+  let cozucu = null;
+  const cozucuCagir = () => {
+    const c = cozucu;
+    cozucu = null;
+    c?.();
+  };
+  const yanitBekle = (saniye) =>
+    new Promise((c) => {
+      cozucu = c;
+      setTimeout(() => {
+        if (cozucu === c) {
+          cozucu = null;
+          c();
+        }
+      }, saniye * 1000);
+    });
 
   ws.on('message', (ham) => {
     let m;
@@ -202,7 +221,9 @@ async function main() {
       const kelime = String(m.karsilama).split(/\s+/).length;
       console.log(soluk(`\n  ${kelime} kelime, telefonda yaklasik ${(kelime / 2.5).toFixed(0)} saniye`));
       console.log('');
-      bekleyenYanit?.();
+      // BEKLEMEYI COZMUYORUZ. Karsilamadan sonra sunucu ses uretimini
+      // bitirip ayrica 'bitti' yolluyor; onu beklemezsek bir sonraki
+      // senaryoyu sunucu mesgulken gonderir ve mesaj SESSIZCE DUSER.
       return;
     }
 
@@ -219,17 +240,29 @@ async function main() {
       return;
     }
 
-    if (m.tip === 'bitti' || m.tip === 'yanit') {
-      bekleyenYanit?.();
+    if (m.tip === 'mesgul') {
+      // Bu satiri gorurseniz betik erken ilerlemis demektir - eskiden
+      // bu durum sessizdi ve senaryo bos gorunuyordu.
+      console.log(`\n${sari('  ! sunucu mesgul: ' + (m.mesaj ?? ''))}`);
+      return;
+    }
+
+    if (m.tip === 'hata') {
+      console.log(`\n${kirmizi('  HATA: ' + (m.mesaj ?? ''))}`);
+      cozucuCagir();
+      return;
+    }
+
+    if (m.tip === 'bitti') {
+      cozucuCagir();
     }
   });
 
   // Gorusmeyi baslat, karsilamanin gelmesini bekle.
+  // Ses uretimi acikken karsilama birkac saniye surebiliyor.
+  const karsilamaBekle = yanitBekle(25);
   ws.send(JSON.stringify({ tip: 'baslat', arayanNo: '+905321112233' }));
-  await new Promise((c) => {
-    bekleyenYanit = c;
-    setTimeout(c, 5000);
-  });
+  await karsilamaBekle;
 
   for (const s of SENARYO) {
     adim += 1;
@@ -240,12 +273,9 @@ async function main() {
     console.log('');
     process.stdout.write('  ' + yesil('ASİSTAN:') + ' ');
 
+    const yanit = yanitBekle(25);
     ws.send(JSON.stringify({ tip: 'soz', metin: s.soz }));
-
-    await new Promise((c) => {
-      bekleyenYanit = c;
-      setTimeout(c, 6000);
-    });
+    await yanit;
     console.log('\n');
     await bekle(300);
   }
