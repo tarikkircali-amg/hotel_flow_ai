@@ -21,36 +21,47 @@ Bilmediğiniz yerleri boş bırakın, birlikte bakarız.
 
 ## 1. WhatsApp
 
-Bu bölüm en önemlisi. Lütfen özellikle 1.2'yi dikkatle okuyun.
+Asistana **temiz bir hat** ayrılacağını teyit ettiniz; bu bölüm ona göre
+kısaltıldı. Yazışma kaybı endişesi kalmadı.
 
-**1.1 — Kliniğin WhatsApp'ta kullandığı numara nedir?**
+**1.1 — Asistana ayrılacak numara nedir?**
 
 ```
 Cevap: ......................................................
 ```
 
-**1.2 — Bu numara şu anda birinin telefonunda "WhatsApp Business"
-uygulamasında kullanılıyor mu?**
+**1.2 — Bu numara şu anda WhatsApp'a kayıtlı mı?**
 
-> **Neden soruyoruz:** Bir numara ya telefondaki uygulamada ya da otomatik
-> sistemde çalışabilir, ikisinde birden çalışamaz. Numarayı sisteme
-> taşıdığımız anda telefondaki uygulamadan düşer ve **o telefondaki geçmiş
-> yazışmalar kaybolur.**
->
-> Bu yüzden genellikle **asistan için ayrı bir numara** almanızı öneriyoruz.
-> Böylece resepsiyonun elindeki WhatsApp aynen çalışmaya devam eder.
+> Temiz hat olsa bile, numara geçmişte WhatsApp'a kaydedilmişse önce
+> uygulamadan silinmesi gerekiyor. Bir numara aynı anda hem uygulamada
+> hem otomatik sistemde çalışamıyor.
 
 ```
-[ ] Evet, telefonda aktif kullanılıyor
-[ ] Hayır, kullanılmıyor
+[ ] Hayır, hiç WhatsApp'a kaydedilmedi
+[ ] Evet, kayıtlı → uygulamadan sileceğiz
 [ ] Bilmiyorum
-
-Tercihiniz:
-[ ] Asistan için YENİ bir numara alalım (önerimiz)
-[ ] Mevcut numarayı taşıyalım, yazışma kaybını kabul ediyoruz
 ```
 
-**1.3 — Meta Business Manager hesabınız var mı?**
+**1.3 — Numara doğrulama kodunu alabilir mi?**
+
+> **Bu maddeyi atlamayın.** Meta, numarayı doğrulamak için tek kullanımlık
+> bir kod gönderiyor: SMS ile veya sesli arama ile.
+>
+> Klinik hattınız bir **santral arkasındaysa** sesli doğrulama çağrısı
+> karşılama anonsuna veya dahili menüye takılabiliyor; kod dinletilemeden
+> çağrı kapanıyor. En sık takıldığımız yer burası.
+>
+> Doğrulama anında o hattı doğrudan açabilecek bir kişinin hazır olması
+> işi kolaylaştırır.
+
+```
+[ ] SMS alabiliyor
+[ ] Sesli arama alabiliyor
+[ ] Santral arkasında  →  doğrudan ulaşılabilen dahili var mı: ..........
+[ ] Bilmiyoruz
+```
+
+**1.4 — Meta Business Manager hesabınız var mı?**
 
 > Yoksa sorun değil, birlikte açarız. Varsa kimlik numarasını
 > (Business Portfolio ID) iletin.
@@ -61,7 +72,7 @@ Tercihiniz:
 [ ] Bilmiyorum
 ```
 
-**1.4 — İşletme doğrulaması yapılmış mı?**
+**1.5 — İşletme doğrulaması yapılmış mı?**
 
 > Meta, WhatsApp'ı otomatik sistemle kullanmadan önce işletmenin gerçek
 > olduğunu doğruluyor. Vergi levhası ve faaliyet belgesi isteniyor,
@@ -72,12 +83,22 @@ Tercihiniz:
 [ ] Yapıldı   [ ] Yapılmadı   [ ] Bilmiyorum
 ```
 
-**1.5 — WhatsApp'ta hastaya görünecek işletme adı ne olsun?**
+**1.6 — WhatsApp'ta hastaya görünecek işletme adı ne olsun?**
 
 > Meta bu ismi onaylıyor; klinik tabelanızla uyumlu olması gerekiyor.
 
 ```
 Cevap: ......................................................
+```
+
+**1.7 — Asistan WhatsApp'ta ne zaman cevap versin?**
+
+> Önerimiz 7/24. Hat zaten asistana ayrıldığı için gündüz gelen mesaj
+> cevapsız kalmasın istiyoruz. Ekibiniz panelden istediği an devralabilir.
+
+```
+[ ] 7/24 asistan karşılasın (önerimiz)
+[ ] Sadece mesai dışında, gündüz ekibimiz cevaplasın
 ```
 
 ---
@@ -411,8 +432,8 @@ personel alımı için değerli olabilir, ama hasta iletişimi kanalı değil.
 
 Aşağıdaki üçü diğerlerinden önce başlatılırsa proje hiç beklemez:
 
-1. **İşletme doğrulaması** (madde 1.4) — en uzun süren adım
-2. **WhatsApp numarası kararı** (madde 1.2) — sonradan değiştirmek zor
+1. **İşletme doğrulaması** (madde 1.5) — en uzun süren adım
+2. **Doğrulama kodu erişimi** (madde 1.3) — santral arkasındaysa önceden hazırlık ister
 3. **Hesap sahipliği kontrolü** (madde 4.1) — sürpriz çıkarsa erken bilelim
 4. **Aydınlatma metinleri onayı** (madde 7) — KVKK danışmanınıza iletin,
    dönüş süresi size bağlı olduğu için erken başlatın
