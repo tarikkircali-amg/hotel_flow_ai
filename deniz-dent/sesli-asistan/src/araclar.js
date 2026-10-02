@@ -245,6 +245,20 @@ async function aktarimAraci(baglam, { sebep }) {
     sonuc: hedef ? 'aktariliyor' : 'numara_yok',
   });
 
+  // Yazili kanalda (WhatsApp) cagri aktarimi diye bir sey yok. "Bir saniye
+  // bekleyin" demek orada anlamsiz; gorusme ekibin kuyruguna dusurulur ve
+  // hastaya donus yapilacagi soylenir.
+  if (!baglam.canliAktarim) {
+    return {
+      aktarildi: false,
+      kuyruga_yazildi: true,
+      talimat:
+        'Hastaya konuyu klinik ekibine ilettigini ve en kisa surede donus ' +
+        'yapilacagini soyle. "Bekleyin" veya "baglıyorum" DEME - bu kanalda ' +
+        'canli aktarim yok.',
+    };
+  }
+
   if (!hedef) {
     return {
       aktarildi: false,

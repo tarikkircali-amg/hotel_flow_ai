@@ -141,3 +141,78 @@ test('metin disi icerik modele gitmiyor', () => {
   const yanitlaCagrisi = dal.indexOf('gorusme.yanitla');
   assert.ok(erkenDonus > 0 && erkenDonus < yanitlaCagrisi, 'metin disi icerik modele gidiyor');
 });
+
+// ------------------------------------------------- yazili kanal davranisi
+
+const { karsilamaKur } = require('../src/klinik');
+const { Gorusme } = require('../src/ajan');
+
+const K = {
+  karsilama: {
+    parcalar: {
+      selam: 'Hos geldiniz.',
+      kimlik: 'Ben yapay zeka asistaniyim.',
+      kapsam_mesai_ici: 'Yetkiliye baglayabilirim.',
+      kapsam_mesai_ici_yazili: 'Gerekirse ekibimize iletebilirim.',
+      kapsam_mesai_disi: 'Mesai disindayiz.',
+      secenek: '',
+      davet: 'Nasil yardimci olabilirim?',
+    },
+  },
+  kvkk: { konum: 'ortada', sozlu_bilgilendirme: 'Gorusme yazili kaydediliyor.' },
+};
+
+const gorusme = (kanal) =>
+  new Gorusme({ klinik: K, aramaId: 'wa-test', callSid: 'WA1', arayanNo: '905321112233', kanal });
+
+test('yazili kanalda karsilama CAGRI AKTARIMI vaat etmiyor', () => {
+  const m = karsilamaKur(K, true, { canliAktarim: false });
+  assert.ok(!m.includes('baglayabilirim'), `yazili kanalda baglama vaadi var: ${m}`);
+  assert.ok(m.includes('ekibimize iletebilirim'), m);
+});
+
+test('telefonda eski cumle korunuyor', () => {
+  assert.ok(karsilamaKur(K, true, { canliAktarim: true }).includes('baglayabilirim'));
+});
+
+test('yazili kanal cumlesi tanimli degilse normale duser', () => {
+  const k = JSON.parse(JSON.stringify(K));
+  delete k.karsilama.parcalar.kapsam_mesai_ici_yazili;
+  assert.ok(karsilamaKur(k, true, { canliAktarim: false }).includes('Yetkiliye baglayabilirim'));
+});
+
+test('canli aktarim kanala gore belirleniyor', () => {
+  assert.strictEqual(gorusme('telefon').canliAktarim, true);
+  assert.strictEqual(gorusme('whatsapp').canliAktarim, false);
+});
+
+test('WhatsApp aktariminda hastaya DONUS YAPILACAK deniyor', async () => {
+  const sonuc = await gorusme('whatsapp').insanaDevret({ sebep: 'test' });
+  assert.strictEqual(sonuc.canli, false);
+  assert.match(sonuc.metin, /dönüş yapılacak/i);
+});
+
+test('insana_aktar araci yazili kanalda BEKLEYIN dedirtmiyor', () => {
+  const fs = require('node:fs');
+  const path = require('node:path');
+  const kaynak = fs.readFileSync(path.join(__dirname, '..', 'src', 'araclar.js'), 'utf8');
+  assert.match(kaynak, /if \(!baglam\.canliAktarim\)/, 'arac kanal farkini gozetmiyor');
+  const dal = kaynak.slice(kaynak.indexOf('if (!baglam.canliAktarim)'));
+  assert.match(dal.slice(0, 600), /DEME/, 'modele "bekleyin deme" talimati verilmiyor');
+});
+
+test('WhatsApp kaydi mesai durumunu GERCEGE gore yaziyor', () => {
+  const fs = require('node:fs');
+  const path = require('node:path');
+  const kaynak = fs.readFileSync(path.join(__dirname, '..', 'src', 'whatsapp.js'), 'utf8');
+  assert.match(kaynak, /mesaiDisi: !mesaiIcinde\(config\.klinik\)/, 'mesai durumu sabit yazilmis');
+});
+
+test('demo klinigi yazili kanal metinlerini tanimliyor', () => {
+  const demo = require('../config/klinik.demo.json');
+  assert.ok(demo.karsilama.parcalar.kapsam_mesai_ici_yazili);
+  assert.ok(demo.insana_aktar.yazili_kanal_metni);
+  assert.ok(demo.whatsapp.metin_disi_yanit);
+  // Yazili kanal cumlesi canli aktarim vaat etmemeli.
+  assert.ok(!/bağlay/i.test(demo.karsilama.parcalar.kapsam_mesai_ici_yazili));
+});

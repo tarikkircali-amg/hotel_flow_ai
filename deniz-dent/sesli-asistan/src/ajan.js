@@ -62,12 +62,58 @@ class Gorusme {
       callSid,
       arayanNo,
       numaralar: config.numaralar,
+      canliAktarim: kanal === 'telefon' || kanal === 'demo',
     });
   }
 
   /** Tus (DTMF) yalnizca telefon hattinda var; yazili kanallarda yok. */
   get tusDestegi() {
     return this.kanal === 'telefon' || this.kanal === 'demo';
+  }
+
+  /**
+   * Canli aktarim (cagriyi bir insana baglamak) yalnizca telefonda mumkun.
+   * WhatsApp'ta boyle bir sey yok: orada "aktarim", gorusmeyi ekibin
+   * kuyruguna dusurup hastaya donus yapilacagini soylemek demektir.
+   */
+  get canliAktarim() {
+    return this.kanal === 'telefon' || this.kanal === 'demo';
+  }
+
+  /**
+   * Gorusmeyi insana devreder ve hastaya SOYLENECEK metni dondurur.
+   *
+   * Kanal farkini tek yerde cozuyoruz: dort ayri cagri yerinde
+   * "telefon mu, yazili mi" diye dusunmeye guvenmek yerine. Yazili
+   * kanalda telefon aktarim niyeti yazmak hicbir ise yaramaz; hasta
+   * "aktariyorum" cevabini alir ve kimse donmez.
+   *
+   * @returns {Promise<{metin: string, canli: boolean}>}
+   */
+  async insanaDevret({ sebep, hedef = null, metin = null }) {
+    const numara = hedef ?? config.numaralar.resepsiyon ?? config.numaralar.nobetci;
+
+    if (this.canliAktarim && numara) {
+      await db.aktarimNiyetiYaz(this.callSid, numara, sebep);
+      this.aktarim = { hedef: numara, sebep, acil: false };
+      return { metin: metin ?? '', canli: true };
+    }
+
+    // Yazili kanal (veya numara yok): kuyruga dusur, hastaya dogrusunu soyle.
+    await db.denetim({
+      aktor: 'sistem',
+      eylem: 'ekibe_birakildi',
+      kaynak: 'arama',
+      kaynakId: this.aramaId,
+      detay: { sebep, kanal: this.kanal },
+      sonuc: 'kuyruga_yazildi',
+    });
+
+    const yaziliMetin =
+      this.klinik.insana_aktar?.yazili_kanal_metni ??
+      'Bu konuyu klinik ekibimize ilettim. En kısa sürede size dönüş yapılacak.';
+
+    return { metin: yaziliMetin, canli: false };
   }
 
   /**
@@ -106,6 +152,7 @@ class Gorusme {
     return karsilamaKur(this.klinik, mesaiIcinde(this.klinik), {
       sms: sms.aktifMi(),
       tus: this.tusDestegi,
+      canliAktarim: this.canliAktarim,
     });
   }
 
@@ -235,8 +282,11 @@ class Gorusme {
    * kuyruga yaziyoruz ki ekip sabah mutlaka gorsun.
    */
   async zorunluAktarim(karar, onParca, gizlilikKaydi = null) {
-    const hedef = config.numaralar.resepsiyon || config.numaralar.nobetci;
-    const metin = aktarimMetni(this.klinik, karar.sebep);
+    const devir = await this.insanaDevret({ sebep: `ZORUNLU: ${karar.sebep}` });
+
+    // Telefonda klinigin yazdigi sebebe ozel metin okunur; yazili kanalda
+    // "aktariyorum" demek yanlis olur - donus yapilacagini soyluyoruz.
+    const metin = devir.canli ? aktarimMetni(this.klinik, karar.sebep) : devir.metin;
 
     onParca(metin);
     await db.mesajEkle(this.aramaId, 'asistan', metin);
@@ -248,13 +298,8 @@ class Gorusme {
       kaynakId: this.aramaId,
       // Ham hasta sozu DEGIL - hangi tetikleyici ve hangi kategori.
       detay: { sebep: karar.sebep, tetikleyen: karar.tetikleyen, ...(gizlilikKaydi ?? {}) },
-      sonuc: hedef ? 'insana_aktarildi' : 'sozlu_bildirim',
+      sonuc: devir.canli ? 'insana_aktarildi' : 'ekibe_birakildi',
     });
-
-    if (hedef) {
-      await db.aktarimNiyetiYaz(this.callSid, hedef, `ZORUNLU: ${karar.sebep}`);
-      this.aktarim = { hedef, sebep: `zorunlu aktarim: ${karar.sebep}`, acil: false };
-    }
 
     return { tamMetin: metin, acil: false, aktarim: this.aktarim };
   }
@@ -288,9 +333,16 @@ class Gorusme {
       sonuc: yanit.aktar ? 'aktariliyor' : 'sozlu_yonlendirme',
     });
 
+    // Yazili kanalda cagriyi birine baglayamayiz; acil yonlendirme metni
+    // yine de okunur (en yakin acil servise basvurun) ve gorusme ekibin
+    // kuyruguna duser. Acil olay kaydi her halukarda yazildi.
     if (yanit.aktar) {
-      await db.aktarimNiyetiYaz(this.callSid, yanit.hedef, `ACIL: ${acil.tetikleyen}`);
-      this.aktarim = { hedef: yanit.hedef, sebep: `ACIL: ${acil.tetikleyen}`, acil: true };
+      if (this.canliAktarim) {
+        await db.aktarimNiyetiYaz(this.callSid, yanit.hedef, `ACIL: ${acil.tetikleyen}`);
+        this.aktarim = { hedef: yanit.hedef, sebep: `ACIL: ${acil.tetikleyen}`, acil: true };
+      } else {
+        await this.insanaDevret({ sebep: `ACIL: ${acil.tetikleyen}` });
+      }
     }
 
     return { tamMetin: yanit.metin, acil: true, aktarim: this.aktarim };

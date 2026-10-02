@@ -231,7 +231,7 @@ function bilgiHavuzuGecerli(klinik, simdi = new Date()) {
  *   Cagri yerinde unutulursa asistan soz vermemis olur, fazladan vermez.
  */
 function karsilamaKur(klinik, mesaiAcik, yetenekler = {}) {
-  const { sms: smsAktif = false, tus: tusAktif = false } = yetenekler;
+  const { sms: smsAktif = false, tus: tusAktif = false, canliAktarim = false } = yetenekler;
   const k = klinik?.karsilama ?? {};
   const kv = klinik?.kvkk ?? {};
 
@@ -242,7 +242,11 @@ function karsilamaKur(klinik, mesaiAcik, yetenekler = {}) {
   }
 
   const p = k.parcalar;
-  const kapsam = mesaiAcik ? p.kapsam_mesai_ici : p.kapsam_mesai_disi;
+  // Yazili kanalda "yetkiliye baglayabilirim" demek yanlis: orada canli
+  // aktarim yok. Klinik dosyasi yazili kanal icin ayri cumle tanimlayabilir.
+  const ek = canliAktarim ? '' : '_yazili';
+  const anahtar = mesaiAcik ? 'kapsam_mesai_ici' : 'kapsam_mesai_disi';
+  const kapsam = p[anahtar + ek] ?? p[anahtar];
 
   // KISA BILDIRIM HER ZAMAN SOYLENIR. Tusun arkasina saklanamaz: 7'ye hic
   // basmayan hasta da bilgilendirilmis olmali. Tusun cozdugu sey AYRINTILI

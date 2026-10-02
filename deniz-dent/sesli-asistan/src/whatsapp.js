@@ -22,6 +22,7 @@ const express = require('express');
 const config = require('./config');
 const db = require('./db');
 const { Gorusme } = require('./ajan');
+const { mesaiIcinde } = require('./klinik');
 
 const YOL = '/whatsapp/webhook';
 
@@ -172,7 +173,9 @@ async function oturumAl(numara) {
     arayanNo: numara,
     arananNo: config.whatsapp.telefonId ?? null,
     dil: 'tr-TR',
-    mesaiDisi: true,
+    // Asistan WhatsApp'ta 7/24 karsiliyor, ama kayit GERCEGI yazmali:
+    // panel ve sabah kuyrugu "mesai disinda mi geldi" diye ayiriyor.
+    mesaiDisi: !mesaiIcinde(config.klinik),
   });
 
   await db.rizaKaydet({

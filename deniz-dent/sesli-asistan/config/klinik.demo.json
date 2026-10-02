@@ -206,7 +206,9 @@
       "kapsam_mesai_ici": "Bilgi verebilir, randevu oluşturabilir, yetkiliye bağlayabilirim.",
       "kapsam_mesai_disi": "Şu an mesai dışındayız; bilgi verebilir, randevu talebinizi alabilirim.",
       "secenek": "",
-      "davet": "Nasıl yardımcı olabilirim?"
+      "davet": "Nasıl yardımcı olabilirim?",
+      "kapsam_mesai_ici_yazili": "Bilgi verebilir, randevu talebinizi alabilir, gerekirse ekibimize iletebilirim.",
+      "kapsam_mesai_disi_yazili": "Şu an mesai dışındayız; bilgi verebilir, randevu talebinizi alabilirim."
     }
   },
   "kvkk": {
@@ -319,6 +321,10 @@
       "kvkk": "Kişisel verilerinize ilişkin talebinizi kliniğimizin veri sorumlusu karşılayacak. Sizi ilgili birime aktarıyorum.",
       "malpraktis": "Bu konuyu klinik sorumlumuzun değerlendirmesi gerekiyor. Sizi aktarıyorum."
     },
-    "varsayilan_metin": "Bu konuyu klinik ekibimizin değerlendirmesi gerekiyor. Sizi ekibimize aktarıyorum."
+    "varsayilan_metin": "Bu konuyu klinik ekibimizin değerlendirmesi gerekiyor. Sizi ekibimize aktarıyorum.",
+    "yazili_kanal_metni": "Bu konuyu klinik ekibimize ilettim. En kısa sürede size dönüş yapılacak."
+  },
+  "whatsapp": {
+    "metin_disi_yanit": "Şu anda yalnızca yazılı mesajları değerlendirebiliyorum. Gönderdiğinizi klinik ekibimize iletiyorum, en kısa sürede dönüş yapılacak."
   }
 }
