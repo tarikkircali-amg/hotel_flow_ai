@@ -8,6 +8,7 @@ const config = require('./config');
 const db = require('./db');
 const panel = require('./panel');
 const tw = require('./twilio');
+const wa = require('./whatsapp');
 
 const app = express();
 app.disable('x-powered-by');
@@ -30,6 +31,13 @@ app.get('/saglik', async (_req, res) => {
 // --- Twilio uclari ---
 app.post(tw.YOL_GELEN, tw.imzaDogrula, tw.gelenCagri);
 app.post(tw.YOL_BITTI, tw.imzaDogrula, tw.relayBitti);
+
+// --- WhatsApp (yalnizca yapilandirma tamsa) ---
+// Yarim yapilandirmayla acmak, hastanin mesajinin sessizce kaybolmasi
+// demek; o yuzden ya tam calisir ya hic acilmaz.
+if (wa.aktifMi()) {
+  app.use('/whatsapp', wa.yonlendirici());
+}
 
 // --- Demo (yalnizca DEMO_MOD acikken) ---
 let demo = null;
@@ -95,6 +103,7 @@ sunucu.listen(config.port, () => {
     `  anthropic       : ${config.claude.apiKey ? `...${config.claude.apiKey.slice(-4)}` : 'YOK'}`
   );
   console.log(`  klinik dosyasi  : ${config.klinikYolu}`);
+  console.log(`  whatsapp        : ${wa.aktifMi() ? 'ACIK' : 'kapali (yapilandirma eksik)'}`);
 
   if (config.demoMod) {
     console.log('');

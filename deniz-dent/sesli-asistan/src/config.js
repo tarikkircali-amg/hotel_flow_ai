@@ -160,6 +160,16 @@ const config = {
     ? istege('KIRACI_ID', '00000000-0000-4000-8000-000000000001')
     : zorunlu('KIRACI_ID'),
 
+  whatsapp: {
+    // Hepsi dolu degilse kanal ACILMAZ. Yarim yapilandirilmis bir kanal,
+    // hastanin mesajinin sessizce kaybolmasi demek.
+    dogrulamaToken: istege('WHATSAPP_DOGRULAMA_TOKEN', ''),
+    appSecret: istege('WHATSAPP_APP_SECRET', ''),
+    erisimToken: istege('WHATSAPP_ERISIM_TOKEN', ''),
+    telefonId: istege('WHATSAPP_TELEFON_ID', ''),
+    apiSurum: istege('WHATSAPP_API_SURUM', 'v21.0'),
+  },
+
   sms: {
     // Bos birakilirsa SMS ozelligi KAPALI sayilir ve asistan
     // "SMS gonderebilirim" sozunu vermez. Tutamayacagimiz sozu
