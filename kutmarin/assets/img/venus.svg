@@ -38,4 +38,7 @@
       <path d="M75 96L70 100L75 104M325 96L330 100L325 104"/>
     </g>
 </g>
+  <text x="378" y="282" fill="#123e69" opacity=".42"
+    font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="13"
+    font-weight="600" letter-spacing="2.4" text-anchor="end">KUT MARİNE</text>
 </svg>

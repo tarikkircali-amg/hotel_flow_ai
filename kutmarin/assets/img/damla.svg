@@ -33,4 +33,7 @@
   <path d="M186 140c-6 10-10 18-10 24" fill="none" stroke="#dfe5ec" stroke-width="4" opacity=".65"/>
   <path d="M116 192c-4 7-7 13-7 17" fill="none" stroke="#dfe5ec" stroke-width="3" opacity=".6"/>
   <path d="M268 192c-4 7-7 13-7 17" fill="none" stroke="#dfe5ec" stroke-width="3" opacity=".6"/></g>
+  <text x="378" y="282" fill="#123e69" opacity=".42"
+    font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="13"
+    font-weight="600" letter-spacing="2.4" text-anchor="end">KUT MARİNE</text>
 </svg>

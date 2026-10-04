@@ -318,5 +318,6 @@
       "price": null,
       "stock": "available"
     }
-  ]
+  ],
+  "_photos": "Kendi urun fotograflariniz: dosyayi assets/img/photos/ altina koyun ve ilgili kategoriye \"photo\": \"dosya-adi.jpg\" ekleyin. O kategorideki tum urunler fotografi kullanir; alan yoksa teknik cizim gosterilir. KUT MARINE markasi fotografin uzerine otomatik bindirilir, resmi duzenlemeniz gerekmez."
 }

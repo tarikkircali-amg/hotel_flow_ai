@@ -40,19 +40,37 @@
     return badge;
   }
 
+  /* ---------- Görsel: fotoğraf varsa fotoğraf, yoksa teknik çizim ----------
+     Kategoriye `photo` alanı eklendiği anda assets/img/photos/ altındaki
+     dosya kullanılır. Teknik çizimlerde KUT MARİNE markası dosyanın içinde
+     gömülüdür; fotoğrafta aynı marka üstüne bindirilir, böylece siz
+     fotoğrafları düzenlemek zorunda kalmazsınız.                              */
+  function buildMedia(category, altText, className) {
+    const figure = el('figure', className);
+    const img = el('img');
+    const isPhoto = Boolean(category.photo);
+
+    img.src = isPhoto
+      ? `${BASE}assets/img/photos/${category.photo}`
+      : `${BASE}assets/img/${category.drawing}.svg`;
+    img.alt = altText;
+    img.loading = 'lazy';
+    img.width = 400; img.height = 300;
+    figure.append(img);
+
+    if (isPhoto) {
+      figure.classList.add('media--photo');
+      figure.append(el('span', 'media__mark', 'KUT MARİNE'));
+    }
+    return figure;
+  }
+
   /* ---------- Tek ürün kartı ---------- */
   function productCard(product) {
     const category = state.data.categories.find((c) => c.id === product.category);
     const card = el('li', 'card product');
 
-    const figure = el('figure', 'product__media');
-    const img = el('img');
-    img.src = `${BASE}assets/img/${category.drawing}.svg`;
-    img.alt = window.I18N.t(`cat.${product.category}.name`);
-    img.loading = 'lazy';
-    img.width = 400; img.height = 300;
-    figure.append(img);
-    card.append(figure);
+    card.append(buildMedia(category, window.I18N.t(`cat.${product.category}.name`), 'product__media'));
 
     const body = el('div', 'product__body');
     body.append(el('h3', 'product__title', productName(product)));
@@ -170,13 +188,7 @@
       const link = el('a', 'group-card__link');
       link.href = `${BASE}urunler.html?group=${encodeURIComponent(group)}`;
 
-      const figure = el('figure', 'group-card__media');
-      const img = el('img');
-      img.src = `${BASE}assets/img/${sample.drawing}.svg`;
-      img.alt = window.I18N.t(`cat.${sample.id}.name`);
-      img.loading = 'lazy'; img.width = 400; img.height = 300;
-      figure.append(img);
-      link.append(figure);
+      link.append(buildMedia(sample, window.I18N.t(`cat.${sample.id}.name`), 'group-card__media'));
 
       link.append(el('h3', 'group-card__title', window.I18N.t(`group.${group}`)));
       link.append(el('p', 'group-card__list',

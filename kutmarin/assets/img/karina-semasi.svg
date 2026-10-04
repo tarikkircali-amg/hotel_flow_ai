@@ -94,4 +94,8 @@
     <text x="766" y="428" fill="#123e69" font-family="system-ui,sans-serif" font-size="15"
       font-weight="700" text-anchor="middle" dominant-baseline="central">4</text>
   </g>
+
+  <text x="958" y="528" fill="#123e69" opacity=".5"
+    font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="17"
+    font-weight="600" letter-spacing="3" text-anchor="end">KUT MARİNE</text>
 </svg>

@@ -132,9 +132,25 @@ alınmamıştır, telif sorunu yoktur.
 alınmış ve çevrilebilir yapılmıştır (karina şemasındaki 1–4 rakamları hariç;
 karşılıkları `.diagram__legend` listesinde durur).
 
-Gerçek ürün fotoğraflarınız olduğunda aynı adla değiştirmeniz yeterli:
-`saft.svg` → `saft.jpg` yaparsanız `products.json` içindeki `drawing` alanını
-ve `catalog.js` içindeki uzantıyı güncelleyin.
+Her çizimin sağ alt köşesinde **KUT MARİNE** yazar; başka hiçbir metin yoktur.
+
+### Kendi fotoğraflarınıza geçmek
+
+`assets/img/photos/` klasörüne fotoğrafı koyun ve ilgili kategoriye tek satır
+ekleyin:
+
+```json
+{ "id": "saft", "group": "shaft", "drawing": "saft",
+  "photo": "saft.jpg", "materials": ["zn", "al"] }
+```
+
+O kategorideki bütün ürünler fotoğrafı gösterir; satırı silerseniz çizime geri
+döner. **KUT MARİNE markası fotoğrafın üzerine site tarafından bindirilir** —
+resmi düzenlemeniz gerekmez. Çekim önerileri: `assets/img/photos/README.md`.
+
+> Başka sitelerden ya da üretici kataloglarından indirilen fotoğraflar
+> kullanılmamalıdır: bunlar başka firmaların telifli çekimleridir ve üzerine
+> kendi markanızı koymak telif ihlali ile haksız rekabet doğurur.
 
 ---
 

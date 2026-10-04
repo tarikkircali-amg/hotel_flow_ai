@@ -41,6 +41,22 @@
 .group-card__title { font-size: var(--font-size-18); }
 .group-card__list { font-size: var(--font-size-13); color: var(--text-tertiary); }
 
+/* ---------- Fotograf uzerindeki KUT MARİNE markasi ----------
+   Teknik cizimlerde marka dosyanin icinde; fotograflarda buradan gelir,
+   boylece musteri kendi fotografini duzenlemeden yukleyebilir. */
+.media--photo { position: relative; }
+.media__mark {
+  position: absolute;
+  inset-block-end: var(--spacing-12);
+  inset-inline-end: var(--spacing-16);
+  font-size: var(--font-size-12);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-uppercase);
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 65%), 0 0 10px rgb(0 0 0 / 45%);
+  pointer-events: none;
+}
+
 /* ---------- Ürün kartı ---------- */
 .product { padding: 0; overflow: hidden; gap: 0; }
 .product__media { margin: 0; background: var(--background-surface); }
