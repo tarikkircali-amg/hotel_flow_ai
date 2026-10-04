@@ -8,19 +8,41 @@ Dokuz dilli (Türkçe + 8 yabancı dil), sipariş WhatsApp üzerinden alınır.
 
 ---
 
-## Çalıştırma
+## Kendi bilgisayarınızda çalıştırma
 
-Site **bir web sunucusundan servis edilmelidir.** `index.html` dosyasına çift
-tıklayarak açarsanız ürün listesi ve diller yüklenmez: tarayıcılar `file://`
-üzerinden `fetch()` ile JSON okumaya izin vermez.
+Depoyu indirdikten sonra tek komut:
 
 ```bash
 cd kutmarin
-python3 -m http.server 3200       # ya da:  npx serve .
-# http://localhost:3200
+node serve.js
 ```
 
-Yayına alırken klasörün içeriğini olduğu gibi kopyalamak yeterlidir.
+Sonra tarayıcıda **http://localhost:4300** adresini açın. Durdurmak için
+terminalde `Ctrl + C`.
+
+Port doluysa başka bir tane verin: `node serve.js 8080`
+
+Depo kökünden de çalıştırabilirsiniz: `npm run kutmarin`
+
+`serve.js` hiçbir pakete bağımlı değildir, `npm install` gerekmez; yalnızca
+bilgisayarınızda Node.js kurulu olması yeterlidir ([nodejs.org](https://nodejs.org)).
+Sunucu yalnızca kendi bilgisayarınızı dinler, ağa açılmaz.
+
+> **`index.html` dosyasına çift tıklamayın.** Tarayıcı `file://` ile açar ve
+> güvenlik gereği ürün listesi ile dil dosyalarını okumayı engeller; site boş
+> görünür. Sunucu bunun için var.
+
+Node.js yoksa, bu klasörde şunlardan biri de işinizi görür:
+
+```bash
+python3 -m http.server 4300     # Python 3 kuruluysa
+npx serve .                     # npm varsa
+php -S localhost:4300           # PHP kuruluysa
+```
+
+Yayına alırken klasörün içeriğini olduğu gibi kopyalamak yeterlidir
+(Hostinger, Netlify, herhangi bir statik barındırma). `serve.js` yalnızca
+yerel geliştirme içindir, sunucuya atmanız gerekmez.
 **Derleme adımı yoktur** — Node, npm ya da build gerekmez.
 
 ### Sayfaları güncelleme
@@ -41,6 +63,7 @@ gerekmez, yalnızca sayfa yapısını değiştirince çalıştırın.
 ```
 kutmarin/
   index.html  urunler.html  rehber.html  hakkimizda.html  iletisim.html
+  serve.js              yerel sunucu (kurulum gerektirmez)
   build-pages.js        sayfa iskeleti (başlık, menü, altbilgi, çekmece)
   pages.js              sayfa içerikleri
   assets/
@@ -136,9 +159,9 @@ Numara değişirse `assets/data/company.json` → `whatsapp.number`.
 ## Doğrulama
 
 ```bash
-npm install --include=dev        # depo kökünde
-python3 -m http.server 3200      # kutmarin/ içinde, ayrı terminalde
-node tests/site-check.js
+npm install --include=dev        # depo kökünde, bir kereye mahsus
+node serve.js                    # kutmarin/ içinde, ayrı terminalde
+BASE_URL=http://localhost:4300/ node tests/site-check.js
 ```
 
 36 test: dokuz dilin yüklenmesi, tarayıcı diline göre açılış, Arapça RTL,

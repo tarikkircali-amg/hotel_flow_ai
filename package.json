@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "check": "node tests/site-check.js"
+    "check": "node tests/site-check.js",
+    "kutmarin": "node kutmarin/serve.js",
+    "kutmarin:check": "node kutmarin/tests/site-check.js"
   },
   "dependencies": {
     "express": "^4.19.2",
