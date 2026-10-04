@@ -60,6 +60,12 @@
       "sourceType": "github",
       "skillPath": "skills/writing-guidelines/SKILL.md",
       "computedHash": "e90462d4f801d823603b12c345ad0ff91a7489415274432681d21c7129123c26"
+    },
+    "youtube-transcript": {
+      "source": "intellectronica/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/youtube-transcript/SKILL.md",
+      "computedHash": "790a7240f43726fe8d25da049af9b771623d27d9b446eeab33f9aa5b3e0756c1"
     }
   }
 }
