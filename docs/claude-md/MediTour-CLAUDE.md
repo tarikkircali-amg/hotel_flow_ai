@@ -1,10 +1,10 @@
-# HotelFlow — çalışma notları
+# MediTour — çalışma notları
 
-Club Calimera otel operasyonu. Backend: Express + `node-sqlite3-wasm`, tek dosya (`server.js`), build adımı yok.
+Sağlık turizmi.
 
 ## Mimari kısıt
 
-Ailenin **backend'i olan tek ürünü**. Anahtar gerektiren entegrasyonlar buradan proxy'lenebilir; diğer dördünde böyle bir katman yok.
+Tek dosyalık HTML PWA (vanilla JS/CSS, build adımı yok, Hostinger). Backend yok.
 
 <!-- ORTAK BLOK BAŞLANGIÇ — beş üründe birebir aynı, tek yerden güncelle -->
 
@@ -48,26 +48,14 @@ Listedeki `Auth` sütunu toplulukla güncelleniyor ve eskiyor — üretime almad
 
 | API | Ne verir | Auth | Nereden |
 | --- | --- | --- | --- |
+| [Clinical Trials Directory](https://trials.starfile.org/api) | ClinicalTrials.gov klinik araştırmaları | No | İstemci |
+| [Can I enter](https://canienter.com) | Hastanın pasaportuna göre vize şartı | No | İstemci |
 | [Frankfurter](https://www.frankfurter.app/docs) | ECB döviz kuru | No | İstemci |
-| [Currency-api](https://github.com/fawazahmed0/currency-api#readme) | 150+ para birimi | No | İstemci |
-| [REST Countries](https://restcountries.com) | Ülke, telefon kodu, para birimi | No | İstemci |
-| [Can I enter](https://canienter.com) | 199 pasaport için vize şartı | No | İstemci |
-| [Nominatim](https://nominatim.org/release-docs/latest/api/Overview/) | Adres ↔ koordinat | No | İstemci |
-| [VATComply](https://www.vatcomply.com/documentation) | AB KDV doğrulama | No | İstemci |
-| [Open-Meteo](https://open-meteo.com/) | Hava tahmini | No | İstemci |
+| [REST Countries](https://restcountries.com) | Ülke, dil, telefon kodu | No | İstemci |
+| [Nominatim](https://nominatim.org/release-docs/latest/api/Overview/) | Klinik adresi ↔ koordinat | No | İstemci |
 
 ## Bu ürüne özel
 
-### Kurulu skill'ler (12)
-
-- 10 Vercel skill'i (`vercel-labs/skills` + `vercel-labs/agent-skills`)
-- `youtube-transcript` — hafif, `uv` ile tek Python dosyası, sistem paketi kurmaz
-- `youtube-transcript-ytdlp` — `yt-dlp` tabanlı, Whisper'a düşebilir, `sudo apt install` kullanabilir
-
-`youtube-transcript-ytdlp` elle yerleştirildi ve `skills-lock.json`'da **yok**. Upstream'de adı `youtube-transcript` ve CLI aynı adlı dizini uyarı vermeden eziyor. Bu repoda `npx skills add langbaseinc/agent-skills --skill youtube-transcript` **çalıştırma** — diğer skill'i siler. Gerekçe ve yeniden güncelleme adımları: `.claude/skills/youtube-transcript-ytdlp/VENDORED.md`.
-
-### Diğer
-
-- Vize şartları hukuki sonuç doğurur. `Can I enter` çıktısını misafire kesin bilgi diye sunma; kaynağını göster ve konsolosluğa yönlendir.
-- Diğer dört ürünün anahtarlı API ihtiyacı da bu backend'e proxy katmanı eklenerek karşılanabilir.
-- Bu ürünlerin `CLAUDE.md` dosyaları `docs/claude-md/gen.py` ile üretilir; ortak bloğu elle düzenleme.
+- **KVKK:** yukarıdaki API'lerin hiçbiri kişisel sağlık verisi almaz, hepsi tek yönlü referans sorgusu. Hasta verisini parametre olarak geçirirsen yurt dışına veri aktarımı olur. Sorguyu anonim tut.
+- Sağlık kategorisinin 42 kaydının çoğu 2020-2022 Covid API'si — ölü veya donmuş veri.
+- Hastane dizini, akreditasyon ve tedavi fiyatı için listede kaynak yok; bunlar ürünün çekirdeği, ayrı tedarik gerekiyor.

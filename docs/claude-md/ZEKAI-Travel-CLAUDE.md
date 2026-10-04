@@ -1,10 +1,10 @@
-# HotelFlow — çalışma notları
+# ZEKAI Travel — çalışma notları
 
-Club Calimera otel operasyonu. Backend: Express + `node-sqlite3-wasm`, tek dosya (`server.js`), build adımı yok.
+Seyahat planlama.
 
 ## Mimari kısıt
 
-Ailenin **backend'i olan tek ürünü**. Anahtar gerektiren entegrasyonlar buradan proxy'lenebilir; diğer dördünde böyle bir katman yok.
+Tek dosyalık HTML PWA (vanilla JS/CSS, build adımı yok, Hostinger). Backend yok.
 
 <!-- ORTAK BLOK BAŞLANGIÇ — beş üründe birebir aynı, tek yerden güncelle -->
 
@@ -48,26 +48,17 @@ Listedeki `Auth` sütunu toplulukla güncelleniyor ve eskiyor — üretime almad
 
 | API | Ne verir | Auth | Nereden |
 | --- | --- | --- | --- |
-| [Frankfurter](https://www.frankfurter.app/docs) | ECB döviz kuru | No | İstemci |
-| [Currency-api](https://github.com/fawazahmed0/currency-api#readme) | 150+ para birimi | No | İstemci |
-| [REST Countries](https://restcountries.com) | Ülke, telefon kodu, para birimi | No | İstemci |
 | [Can I enter](https://canienter.com) | 199 pasaport için vize şartı | No | İstemci |
-| [Nominatim](https://nominatim.org/release-docs/latest/api/Overview/) | Adres ↔ koordinat | No | İstemci |
-| [VATComply](https://www.vatcomply.com/documentation) | AB KDV doğrulama | No | İstemci |
+| [REST Countries](https://restcountries.com) | Ülke, para birimi, dil | No | İstemci |
+| [administrative-divisons-db](https://github.com/kamikazechaser/administrative-divisions-db) | İl/ilçe hiyerarşisi | No | İstemci |
+| [GeographQL](https://geographql.netlify.app) | Ülke, eyalet, şehir (GraphQL) | No | İstemci |
+| [Frankfurter](https://www.frankfurter.app/docs) | ECB döviz kuru | No | İstemci |
+| [Nominatim](https://nominatim.org/release-docs/latest/api/Overview/) | Adres ↔ koordinat, mekan arama | No | İstemci |
 | [Open-Meteo](https://open-meteo.com/) | Hava tahmini | No | İstemci |
+| [ConnectMeGuru](https://www.connectmeguru.com/api/mcp) | 190+ ülkede eSIM paketi | No | İstemci |
 
 ## Bu ürüne özel
 
-### Kurulu skill'ler (12)
-
-- 10 Vercel skill'i (`vercel-labs/skills` + `vercel-labs/agent-skills`)
-- `youtube-transcript` — hafif, `uv` ile tek Python dosyası, sistem paketi kurmaz
-- `youtube-transcript-ytdlp` — `yt-dlp` tabanlı, Whisper'a düşebilir, `sudo apt install` kullanabilir
-
-`youtube-transcript-ytdlp` elle yerleştirildi ve `skills-lock.json`'da **yok**. Upstream'de adı `youtube-transcript` ve CLI aynı adlı dizini uyarı vermeden eziyor. Bu repoda `npx skills add langbaseinc/agent-skills --skill youtube-transcript` **çalıştırma** — diğer skill'i siler. Gerekçe ve yeniden güncelleme adımları: `.claude/skills/youtube-transcript-ytdlp/VENDORED.md`.
-
-### Diğer
-
-- Vize şartları hukuki sonuç doğurur. `Can I enter` çıktısını misafire kesin bilgi diye sunma; kaynağını göster ve konsolosluğa yönlendir.
-- Diğer dört ürünün anahtarlı API ihtiyacı da bu backend'e proxy katmanı eklenerek karşılanabilir.
-- Bu ürünlerin `CLAUDE.md` dosyaları `docs/claude-md/gen.py` ile üretilir; ortak bloğu elle düzenleme.
+- Vize ve idarî bölüm verisi bu üründe çekirdek özellik; hepsi anahtarsız, mevcut PWA mimarisi değişmeden kullanılabilir.
+- `ConnectMeGuru` satış yapan ticari bir servis — şartlarını ve komisyon modelini okumadan bağlama.
+- Vize çıktısını kesin bilgi diye sunma; kaynağını göster.

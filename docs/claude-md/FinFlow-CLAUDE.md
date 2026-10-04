@@ -1,10 +1,10 @@
-# HotelFlow — çalışma notları
+# FinFlow — çalışma notları
 
-Club Calimera otel operasyonu. Backend: Express + `node-sqlite3-wasm`, tek dosya (`server.js`), build adımı yok.
+Finans.
 
 ## Mimari kısıt
 
-Ailenin **backend'i olan tek ürünü**. Anahtar gerektiren entegrasyonlar buradan proxy'lenebilir; diğer dördünde böyle bir katman yok.
+Tek dosyalık HTML PWA (vanilla JS/CSS, build adımı yok, Hostinger). Backend yok — aşağıdaki *Backend* satırları bu haliyle kullanılamaz, önce proxy katmanı gerekir.
 
 <!-- ORTAK BLOK BAŞLANGIÇ — beş üründe birebir aynı, tek yerden güncelle -->
 
@@ -48,26 +48,23 @@ Listedeki `Auth` sütunu toplulukla güncelleniyor ve eskiyor — üretime almad
 
 | API | Ne verir | Auth | Nereden |
 | --- | --- | --- | --- |
+| [Temsor](https://api.temsor.com/docs) | TCKN, vergi no, IBAN, telefon, plaka doğrulama | apiKey | **Backend** |
 | [Frankfurter](https://www.frankfurter.app/docs) | ECB döviz kuru | No | İstemci |
 | [Currency-api](https://github.com/fawazahmed0/currency-api#readme) | 150+ para birimi | No | İstemci |
-| [REST Countries](https://restcountries.com) | Ülke, telefon kodu, para birimi | No | İstemci |
-| [Can I enter](https://canienter.com) | 199 pasaport için vize şartı | No | İstemci |
-| [Nominatim](https://nominatim.org/release-docs/latest/api/Overview/) | Adres ↔ koordinat | No | İstemci |
 | [VATComply](https://www.vatcomply.com/documentation) | AB KDV doğrulama | No | İstemci |
-| [Open-Meteo](https://open-meteo.com/) | Hava tahmini | No | İstemci |
+| [CoinGecko](https://www.coingecko.com/api) | Kripto fiyat ve piyasa | No | İstemci |
+| [Coinpaprika](https://api.coinpaprika.com) | Kripto fiyat ve hacim | No | İstemci |
+| [DefiLlama](https://defillama.com/docs/api) | DeFi TVL, coin fiyatları | No | İstemci |
+| [FRED](https://fred.stlouisfed.org/docs/api/fred/) | Makro ekonomik seriler | apiKey | **Backend** |
+| [Twelve Data](https://twelvedata.com/) | Hisse, forex, kripto | apiKey | **Backend** |
+| [Finnhub](https://finnhub.io/docs/api) | Hisse, döviz + WebSocket | apiKey | **Backend** |
+| [Alpha Vantage](https://www.alphavantage.co/) | Hisse, teknik göstergeler | apiKey | **Backend** |
+| [EOD Historical Data](https://eodhd.com/) | 150+ borsa | apiKey | **Backend** |
 
 ## Bu ürüne özel
 
-### Kurulu skill'ler (12)
-
-- 10 Vercel skill'i (`vercel-labs/skills` + `vercel-labs/agent-skills`)
-- `youtube-transcript` — hafif, `uv` ile tek Python dosyası, sistem paketi kurmaz
-- `youtube-transcript-ytdlp` — `yt-dlp` tabanlı, Whisper'a düşebilir, `sudo apt install` kullanabilir
-
-`youtube-transcript-ytdlp` elle yerleştirildi ve `skills-lock.json`'da **yok**. Upstream'de adı `youtube-transcript` ve CLI aynı adlı dizini uyarı vermeden eziyor. Bu repoda `npx skills add langbaseinc/agent-skills --skill youtube-transcript` **çalıştırma** — diğer skill'i siler. Gerekçe ve yeniden güncelleme adımları: `.claude/skills/youtube-transcript-ytdlp/VENDORED.md`.
-
-### Diğer
-
-- Vize şartları hukuki sonuç doğurur. `Can I enter` çıktısını misafire kesin bilgi diye sunma; kaynağını göster ve konsolosluğa yönlendir.
-- Diğer dört ürünün anahtarlı API ihtiyacı da bu backend'e proxy katmanı eklenerek karşılanabilir.
-- Bu ürünlerin `CLAUDE.md` dosyaları `docs/claude-md/gen.py` ile üretilir; ortak bloğu elle düzenleme.
+- **Temsor** listedeki en değerli kayıt: Türkiye'ye özel iki kayıttan biri ve tam bu ürünün işi. Ama anahtar istiyor, yani proxy katmanı olmadan kullanılamaz.
+- **BIST verisi listede yok.** Borsa İstanbul fiyatı için ayrı sağlayıcıyla anlaşman gerekir.
+- `Frankfurter` günlük kapanış verir, anlık işlem için yetersiz.
+- `CoinGecko` listede `Auth: No` görünüyor ama birçok ucu artık demo anahtar istiyor — teyit et.
+- `Alpha Vantage` ücretsiz katmanı dakikada 5 istek; üretim için gerçekçi değil.
