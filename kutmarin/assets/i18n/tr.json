@@ -1,0 +1,246 @@
+{
+  "meta": {
+    "name": "Türkçe",
+    "dir": "ltr",
+    "locale": "tr-TR"
+  },
+  "nav": {
+    "home": "Ana sayfa",
+    "products": "Ürünler",
+    "guide": "Tutya rehberi",
+    "about": "Hakkımızda",
+    "contact": "İletişim",
+    "cart": "Sipariş listem"
+  },
+  "a11y": {
+    "skip": "İçeriğe geç",
+    "menuOpen": "Menüyü aç",
+    "menuClose": "Menüyü kapat",
+    "themeDark": "Koyu temayı aç",
+    "themeLight": "Açık temayı aç",
+    "lang": "Dil seçin",
+    "cartOpen": "Sipariş listesini aç",
+    "cartClose": "Sipariş listesini kapat"
+  },
+  "hero": {
+    "badge": "İzmir'de tutya ve kurşun dökümü",
+    "title": "Teknenizin su altındaki metalini koruyan tutya",
+    "lead": "Şaft, pervane, karina ve motor tutyaları ile dökme kurşun ağırlıklar. Kendi dökümümüz; standart ölçülerden seçin ya da kendi ölçünüze göre döktürün.",
+    "ctaProducts": "Ürünleri gör",
+    "ctaWhatsapp": "WhatsApp'tan sor",
+    "note": "Ölçüye göre özel döküm · Toptan ve perakende",
+    "diagramTitle": "Tekne altında tutya nereye takılır?",
+    "diagramCaption": "Su altındaki her metal parça ayrı bir tutya ister. Numaralar, en sık kullanılan dört bağlantı noktasını gösterir."
+  },
+  "trust": {
+    "t1": "Kendi dökümümüz",
+    "d1": "Tutyayı ve kurşunu aradan kimse geçmeden kendimiz döküyoruz.",
+    "t2": "Ölçüye göre üretim",
+    "d2": "Numune ya da ölçü gönderin, teknenize özel kalıpla dökelim.",
+    "t3": "Geniş ürün ağı",
+    "d3": "Şafttan pervaneye, Volvo Penta'dan Side Power'a kadar tek adres.",
+    "t4": "WhatsApp'tan sipariş",
+    "d4": "Listenizi hazırlayın, tek dokunuşla bize gönderin. Üyelik gerekmez."
+  },
+  "group": {
+    "shaft": "Şaft tutyaları",
+    "hull": "Karina ve gövde tutyaları",
+    "propeller": "Pervane tutyaları",
+    "engine": "Motor ve kuyruk tutyaları",
+    "lead": "Döküm kurşun"
+  },
+  "cat": {
+    "saft": {
+      "name": "Şaft tutyası",
+      "desc": "Pervane miline iki yarım kelepçe hâlinde cıvatalanır. Mil çapınıza göre seçilir."
+    },
+    "dar-saft": {
+      "name": "Dar şaft tutyası",
+      "desc": "Yer darlığı olan mil yataklarında kullanılan ince gövdeli şaft tutyası."
+    },
+    "venus": {
+      "name": "Venus tip tutya",
+      "desc": "Damla biçimli karina tutyası. Akışkan formu sürtünmeyi azaltır, iki saplamayla monte edilir."
+    },
+    "demirli": {
+      "name": "Demirli tutya",
+      "desc": "İçine demir lama gömülü blok tutya. Çinko eridikçe bağlantı kopmaz."
+    },
+    "ufo": {
+      "name": "UFO tutya",
+      "desc": "Alçak profilli disk tutya. Merkezden tek cıvatayla bağlanır, su akışını en az bozar."
+    },
+    "cubuk": {
+      "name": "Çubuk tutya",
+      "desc": "Dişli uçlu ince çubuk. Soğutma devresine veya boyler içine vidalanır."
+    },
+    "pervane": {
+      "name": "Pervane tutyası",
+      "desc": "Pervane göbeğinin arkasına, mil somununun üzerine geçer. Konik kamalı ve kare delikli tipleri vardır."
+    },
+    "max-prop": {
+      "name": "Max Prop tutyası",
+      "desc": "Katlanır Max Prop pervaneler için halka tutya. Göbek profiline oturur."
+    },
+    "bow-thruster": {
+      "name": "Baş pervane (bow thruster) tutyası",
+      "desc": "Baş pervane tüneli içindeki pervane göbeğine takılır. Side Power modelleri mevcuttur."
+    },
+    "kuyruk": {
+      "name": "Kuyruk tutyası",
+      "desc": "Kıç tahrik ünitesine cıvatalanan plaka tutya."
+    },
+    "volvo-penta": {
+      "name": "Volvo Penta tutyası",
+      "desc": "Volvo Penta kıç tahrik ve motor grupları için uyumlu tutya seti."
+    },
+    "evinrude": {
+      "name": "Evinrude tutyası",
+      "desc": "Evinrude dıştan takma motorlar için tutya."
+    },
+    "motor-tapa": {
+      "name": "Motor tutyası ve tapası",
+      "desc": "Pirinç tapaya vidalı çinko çubuk. Soğutma devresine takılarak motor bloğunu korur."
+    },
+    "ozel-tekne": {
+      "name": "Özel ölçü tutya",
+      "desc": "Numune ya da ölçüye göre dökülen, teknenize özel tutya."
+    },
+    "damla-kursun": {
+      "name": "Damla kurşun",
+      "desc": "Dökme damla kurşun ağırlık. Balıkçılık ve dengeleme için gramajlı."
+    },
+    "dalgic-kemer": {
+      "name": "Dalgıç kemer kurşunu",
+      "desc": "Dalgıç kemeri için kavisli kurşun ağırlık. Kayış yarıkları ve bele oturan tabanı vardır."
+    }
+  },
+  "material": {
+    "label": "Malzeme",
+    "zn": "Çinko (Zn)",
+    "al": "Alüminyum (Al)",
+    "mg": "Magnezyum (Mg)",
+    "znWater": "Tuzlu su",
+    "alWater": "Tuzlu ve acı su",
+    "mgWater": "Tatlı su"
+  },
+  "stock": {
+    "label": "Durum",
+    "available": "Stokta",
+    "madeToOrder": "Siparişe özel döküm",
+    "out": "Tükendi"
+  },
+  "product": {
+    "priceAsk": "Fiyat sorunuz",
+    "sku": "Model",
+    "size": "Ölçü",
+    "add": "Listeye ekle",
+    "added": "Listede",
+    "vat": "KDV dâhil",
+    "of": "ürün",
+    "noMatch": "Bu filtreyle eşleşen ürün yok.",
+    "noMatchHelp": "Filtreleri temizleyip tekrar deneyin ya da aradığınız ölçüyü bize WhatsApp'tan yazın."
+  },
+  "filter": {
+    "all": "Tümü",
+    "title": "Filtrele",
+    "group": "Ürün grubu",
+    "material": "Malzeme",
+    "clear": "Filtreleri temizle",
+    "results": "ürün listeleniyor"
+  },
+  "cart": {
+    "title": "Sipariş listem",
+    "empty": "Listeniz boş.",
+    "emptyHelp": "Ürünlerden seçtiklerinizi buraya ekleyin, sonra tek seferde WhatsApp'tan gönderin.",
+    "qty": "Adet",
+    "remove": "Listeden çıkar",
+    "clear": "Listeyi boşalt",
+    "total": "Fiyatı bilinenler toplamı",
+    "ask": "fiyatı sorulacak",
+    "send": "WhatsApp'tan gönder",
+    "note": "Gönderdiğinizde WhatsApp açılır ve liste mesaj olarak hazır gelir. Göndermeden önce mesajı düzenleyebilirsiniz. Sipariş, biz onaylayınca kesinleşir.",
+    "tooLong": "Liste uzun; WhatsApp mesajı kesilebilir. Birkaç ürünü çıkarıp iki parça hâlinde gönderin.",
+    "count": "ürün"
+  },
+  "wa": {
+    "hello": "Merhaba, aşağıdaki ürünler için fiyat ve stok bilgisi almak istiyorum.",
+    "header": "SİPARİŞ LİSTESİ",
+    "totalLine": "Bilinen fiyatlar toplamı",
+    "askLine": "Fiyatı sorulacak ürünler",
+    "footer": "Teslimat adresi ve ödeme için sizden bilgi bekliyorum.",
+    "quick": "Merhaba, tutya hakkında bilgi almak istiyorum."
+  },
+  "guide": {
+    "title": "Hangi tutyayı almalıyım?",
+    "lead": "Üç soruya cevap verin, doğru tutyayı bulun: suyunuz hangisi, parça hangisi, ölçü kaç?",
+    "s1t": "1. Suyunuz hangisi?",
+    "s1d": "Tutya malzemesi suya göre seçilir. Yanlış malzeme ya çok hızlı erir ya da hiç çalışmaz.",
+    "s1zn": "Deniz suyu → çinko (Zn). Türkiye kıyılarında en yaygın kullanım.",
+    "s1al": "Acı su, nehir ağzı, karışık kullanım → alüminyum (Al). Daha hafif, daha uzun ömürlü.",
+    "s1mg": "Tatlı su, göl, nehir → magnezyum (Mg). Deniz suyunda kullanılmaz, çok hızlı erir.",
+    "s2t": "2. Hangi parçayı koruyacaksınız?",
+    "s2d": "Su altındaki her metal parça kendi tutyasını ister. Biri eridi diye diğerleri korunmaz.",
+    "s3t": "3. Ölçüyü nasıl alırım?",
+    "s3zn": "Şaft tutyasında mil çapını ölçün (milin dış çapı, mm).",
+    "s3al": "Pervane tutyasında somun ya da göbek çapını ölçün.",
+    "s3mg": "Emin değilseniz eski tutyayı sökün, fotoğrafını ve kumpas ölçüsünü WhatsApp'tan gönderin.",
+    "whenT": "Ne zaman değiştirmeli?",
+    "whenD": "Genel kabul: tutya yarıya indiğinde değiştirilir. Tamamen erimesini beklemeyin — tutya bittiği andan itibaren korunan metal erimeye başlar. Teknenizin kullanım yoğunluğuna, bağlı olduğu limana ve elektrik kaçağına göre ömür ciddi biçimde değişir, bu yüzden her karaya çekişte kontrol edin.",
+    "warnT": "Tutyayı boyamayın",
+    "warnD": "Tutya suyla temas etmek zorundadır. Üzerine boya, antifouling ya da gres sürülürse hiç çalışmaz. Bağlantı yüzeyi de temiz metal olmalı; pas ve boya katmanı elektriksel teması keser.",
+    "askT": "Hâlâ emin değil misiniz?",
+    "askD": "Eski tutyanın fotoğrafını ve teknenizin markası ile motor modelini gönderin, uygun olanı biz söyleyelim.",
+    "askCta": "WhatsApp'tan sorun"
+  },
+  "about": {
+    "title": "Döküm bizim işimiz",
+    "p1": "<strong>KUT MARİN DÖKÜM</strong>, İzmir Karabağlar'da tutya ve döküm kurşun üretir. Tekne sahiplerine, marinalara, tersanelere ve dalış işletmelerine satış yapar.",
+    "p2": "Ürünlerimizi başkasından alıp etiketlemiyoruz: <strong>kendimiz döküyoruz.</strong> Standart ölçüler kataloğumuzda hazır; katalogda olmayan bir parça için numunenizi ya da ölçünüzü gönderirsiniz, kalıbını çıkarıp dökeriz.",
+    "p3": "Elimizde olmayan bir ürünü varmış gibi göstermeyiz. Stokta yoksa ne zaman dökebileceğimizi söyler, uygun değilse açıkça belirtiriz.",
+    "v1t": "Doğru malzeme",
+    "v1d": "Suyunuza uymayan tutyayı satmayız; önce nerede kullanacağınızı sorarız.",
+    "v2t": "Ölçü tutmazsa çözeriz",
+    "v2d": "Katalog ölçüsü oturmuyorsa özel döküm yaparız.",
+    "v3t": "Açık fiyat",
+    "v3d": "Bilinen fiyatlar sitede yazılıdır; bilinmeyen için uydurma rakam vermeyiz.",
+    "factTitle": "Firma bilgileri",
+    "fTitle": "Ünvan",
+    "fAddress": "Adres",
+    "fPhone": "Telefon",
+    "fTax": "Vergi dairesi",
+    "fTaxNo": "Vergi numarası",
+    "fHours": "Çalışma saatleri"
+  },
+  "contact": {
+    "title": "Bize ulaşın",
+    "lead": "En hızlı yol WhatsApp. Ürün fotoğrafı ve ölçü gönderirseniz aynı mesajda cevaplayabiliriz.",
+    "whatsapp": "WhatsApp'tan yazın",
+    "call": "Telefonla arayın",
+    "address": "Adres",
+    "hours": "Çalışma saatleri",
+    "hoursValue": "Hafta içi ve cumartesi mesai saatleri içinde",
+    "hoursNote": "Kesin saatler için arayın.",
+    "mapNote": "Adres: 3267 Sokak No:8/A, Karabağlar, İzmir."
+  },
+  "footer": {
+    "about": "Tutya ve döküm kurşun imalatı. Tekne, marina, tersane ve dalış işletmeleri için.",
+    "products": "Ürünler",
+    "corporate": "Kurumsal",
+    "contact": "İletişim",
+    "rights": "Tüm hakları saklıdır.",
+    "legal": "Fiyatlar KDV dâhildir ve haber verilmeksizin değişebilir."
+  },
+  "common": {
+    "currency": "TL",
+    "vatIncluded": "KDV dâhil",
+    "backHome": "Ana sayfaya dön",
+    "updated": "Fiyat güncelleme"
+  },
+  "products": {
+    "groupsTitle": "Ürün grupları",
+    "groupsLead": "Beş ana grup: şaft, karina, pervane, motor ve döküm kurşun. Grubu seçin, ölçünüzü bulun.",
+    "catalogTitle": "Ürün kataloğu",
+    "catalogLead": "Gruba ve malzemeye göre süzün, listenize ekleyin, WhatsApp'tan tek mesajda gönderin."
+  }
+}

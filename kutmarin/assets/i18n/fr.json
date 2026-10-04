@@ -1,0 +1,246 @@
+{
+  "meta": {
+    "name": "Français",
+    "dir": "ltr",
+    "locale": "fr-FR"
+  },
+  "nav": {
+    "home": "Accueil",
+    "products": "Produits",
+    "guide": "Guide des anodes",
+    "about": "À propos",
+    "contact": "Contact",
+    "cart": "Ma liste de commande"
+  },
+  "a11y": {
+    "skip": "Aller au contenu",
+    "menuOpen": "Ouvrir le menu",
+    "menuClose": "Fermer le menu",
+    "themeDark": "Activer le thème sombre",
+    "themeLight": "Activer le thème clair",
+    "lang": "Choisir la langue",
+    "cartOpen": "Ouvrir la liste de commande",
+    "cartClose": "Fermer la liste de commande"
+  },
+  "hero": {
+    "badge": "Fonderie d'anodes et de plomb à İzmir",
+    "title": "Des anodes qui protègent le métal sous votre bateau",
+    "lead": "Anodes d'arbre, d'hélice, de coque et de moteur, ainsi que des plombs coulés. Nous coulons nous-mêmes : choisissez une taille standard ou faites couler à vos mesures.",
+    "ctaProducts": "Voir les produits",
+    "ctaWhatsapp": "Demander sur WhatsApp",
+    "note": "Coulée sur mesure · Gros et détail",
+    "diagramTitle": "Où placer les anodes sous un bateau ?",
+    "diagramCaption": "Chaque pièce métallique immergée demande sa propre anode. Les numéros indiquent les quatre points de montage les plus courants."
+  },
+  "trust": {
+    "t1": "Notre propre fonderie",
+    "d1": "Sans intermédiaire : nous coulons le zinc et le plomb chez nous.",
+    "t2": "Fabrication sur mesure",
+    "d2": "Envoyez un échantillon ou les cotes, nous réalisons le moule pour votre bateau.",
+    "t3": "Gamme complète",
+    "d3": "De l'arbre à l'hélice, de Volvo Penta à Side Power, au même endroit.",
+    "t4": "Commande par WhatsApp",
+    "d4": "Composez votre liste et envoyez-la en un geste. Sans compte."
+  },
+  "group": {
+    "shaft": "Anodes d'arbre",
+    "hull": "Anodes de coque",
+    "propeller": "Anodes d'hélice",
+    "engine": "Anodes moteur et embase",
+    "lead": "Plomb coulé"
+  },
+  "cat": {
+    "saft": {
+      "name": "Anode d'arbre",
+      "desc": "Se boulonne autour de l'arbre d'hélice en deux demi-colliers. Choisie selon le diamètre d'arbre."
+    },
+    "dar-saft": {
+      "name": "Anode d'arbre étroite",
+      "desc": "Anode d'arbre à corps mince pour les paliers peu dégagés."
+    },
+    "venus": {
+      "name": "Anode type Venus",
+      "desc": "Anode de coque en goutte d'eau. Sa forme profilée réduit la traînée ; montage sur deux goujons."
+    },
+    "demirli": {
+      "name": "Anode à âme en fer",
+      "desc": "Anode bloc avec une barre de fer noyée : la fixation tient à mesure que le zinc se consomme."
+    },
+    "ufo": {
+      "name": "Anode UFO",
+      "desc": "Anode disque de faible épaisseur, fixée par un seul boulon central. Perturbe très peu l'écoulement."
+    },
+    "cubuk": {
+      "name": "Anode crayon",
+      "desc": "Barreau mince fileté. Se visse dans le circuit de refroidissement ou le chauffe-eau."
+    },
+    "pervane": {
+      "name": "Anode d'hélice",
+      "desc": "Se place derrière le moyeu, sur l'écrou d'arbre. Existe en version conique à clavette et à alésage carré."
+    },
+    "max-prop": {
+      "name": "Anode Max Prop",
+      "desc": "Anode annulaire pour hélices repliables Max Prop. Épouse le profil du moyeu."
+    },
+    "bow-thruster": {
+      "name": "Anode de propulseur d'étrave",
+      "desc": "Se monte sur le moyeu d'hélice à l'intérieur du tunnel. Modèles Side Power disponibles."
+    },
+    "kuyruk": {
+      "name": "Anode d'embase",
+      "desc": "Anode plaque boulonnée sur l'embase."
+    },
+    "volvo-penta": {
+      "name": "Anode Volvo Penta",
+      "desc": "Jeu d'anodes compatible avec les embases et groupes moteurs Volvo Penta."
+    },
+    "evinrude": {
+      "name": "Anode Evinrude",
+      "desc": "Anodes pour moteurs hors-bord Evinrude."
+    },
+    "motor-tapa": {
+      "name": "Anode moteur avec bouchon",
+      "desc": "Barreau de zinc sur bouchon laiton. Se visse dans le circuit de refroidissement et protège le bloc."
+    },
+    "ozel-tekne": {
+      "name": "Anode sur mesure",
+      "desc": "Coulée d'après votre échantillon ou vos cotes, propre à votre bateau."
+    },
+    "damla-kursun": {
+      "name": "Plomb goutte",
+      "desc": "Lest de plomb coulé en forme de goutte, au gramme, pour la pêche et l'équilibrage."
+    },
+    "dalgic-kemer": {
+      "name": "Plomb de ceinture de plongée",
+      "desc": "Lest de plomb galbé pour ceinture, avec passants de sangle et base épousant le corps."
+    }
+  },
+  "material": {
+    "label": "Matériau",
+    "zn": "Zinc (Zn)",
+    "al": "Aluminium (Al)",
+    "mg": "Magnésium (Mg)",
+    "znWater": "Eau salée",
+    "alWater": "Eau salée et saumâtre",
+    "mgWater": "Eau douce"
+  },
+  "stock": {
+    "label": "Disponibilité",
+    "available": "En stock",
+    "madeToOrder": "Coulée sur commande",
+    "out": "Épuisé"
+  },
+  "product": {
+    "priceAsk": "Prix sur demande",
+    "sku": "Modèle",
+    "size": "Taille",
+    "add": "Ajouter à la liste",
+    "added": "Dans la liste",
+    "vat": "TVA incluse",
+    "of": "produits",
+    "noMatch": "Aucun produit ne correspond à ce filtre.",
+    "noMatchHelp": "Effacez les filtres et réessayez, ou écrivez-nous la taille recherchée sur WhatsApp."
+  },
+  "filter": {
+    "all": "Tous",
+    "title": "Filtrer",
+    "group": "Groupe de produits",
+    "material": "Matériau",
+    "clear": "Effacer les filtres",
+    "results": "produits affichés"
+  },
+  "cart": {
+    "title": "Ma liste de commande",
+    "empty": "Votre liste est vide.",
+    "emptyHelp": "Ajoutez ici les produits souhaités, puis envoyez le tout d'un coup sur WhatsApp.",
+    "qty": "Qté",
+    "remove": "Retirer de la liste",
+    "clear": "Vider la liste",
+    "total": "Total des prix connus",
+    "ask": "prix à confirmer",
+    "send": "Envoyer sur WhatsApp",
+    "note": "WhatsApp s'ouvre avec votre liste déjà rédigée. Vous pouvez la modifier avant l'envoi. La commande est confirmée dès notre réponse.",
+    "tooLong": "La liste est longue, le message WhatsApp risque d'être tronqué. Retirez quelques articles et envoyez en deux fois.",
+    "count": "articles"
+  },
+  "wa": {
+    "hello": "Bonjour, je souhaite connaître le prix et la disponibilité des articles ci-dessous.",
+    "header": "LISTE DE COMMANDE",
+    "totalLine": "Total des prix connus",
+    "askLine": "Articles à chiffrer",
+    "footer": "Merci de m'indiquer la livraison et le paiement.",
+    "quick": "Bonjour, je souhaite des informations sur les anodes."
+  },
+  "guide": {
+    "title": "Quelle anode choisir ?",
+    "lead": "Trois questions : quelle eau, quelle pièce, quelle taille.",
+    "s1t": "1. Dans quelle eau naviguez-vous ?",
+    "s1d": "Le matériau se choisit selon l'eau. Un mauvais matériau se consume aussitôt ou ne fait rien du tout.",
+    "s1zn": "Eau de mer → zinc (Zn). Le choix habituel sur les côtes turques.",
+    "s1al": "Eau saumâtre, estuaires, usage mixte → aluminium (Al). Plus léger et plus durable.",
+    "s1mg": "Eau douce, lacs, rivières → magnésium (Mg). Jamais en eau de mer : il se consume beaucoup trop vite.",
+    "s2t": "2. Quelle pièce protégez-vous ?",
+    "s2d": "Chaque pièce métallique immergée demande sa propre anode. Une seule ne protège pas les autres.",
+    "s3t": "3. Comment mesurer ?",
+    "s3zn": "Pour une anode d'arbre, mesurez le diamètre de l'arbre (diamètre extérieur, mm).",
+    "s3al": "Pour une anode d'hélice, mesurez le diamètre de l'écrou ou du moyeu.",
+    "s3mg": "En cas de doute, déposez l'ancienne anode et envoyez-nous une photo et une mesure au pied à coulisse sur WhatsApp.",
+    "whenT": "Quand la remplacer ?",
+    "whenD": "Règle courante : remplacer l'anode dès qu'elle est à moitié consommée. N'attendez pas sa disparition : dès qu'elle est épuisée, le métal protégé commence à se corroder. La durée de vie varie beaucoup selon l'usage, le port d'attache et les courants vagabonds ; vérifiez à chaque sortie d'eau.",
+    "warnT": "Ne peignez jamais une anode",
+    "warnD": "Une anode doit toucher l'eau. Peinture, antifouling ou graisse dessus et elle ne fonctionne plus du tout. La portée de fixation doit aussi être du métal nu : rouille ou couche de peinture coupent le contact électrique.",
+    "askT": "Toujours un doute ?",
+    "askD": "Envoyez une photo de l'ancienne anode avec la marque du bateau et le modèle de moteur, nous vous dirons laquelle convient.",
+    "askCta": "Demander sur WhatsApp"
+  },
+  "about": {
+    "title": "La fonderie, c'est notre métier",
+    "p1": "<strong>KUT MARİN DÖKÜM</strong> produit des anodes et du plomb coulé à Karabağlar, İzmir, pour les propriétaires de bateaux, les marinas, les chantiers et les centres de plongée.",
+    "p2": "Nous n'achetons pas pour réétiqueter : <strong>nous coulons nous-mêmes.</strong> Les tailles standard sont au catalogue ; pour le reste, envoyez un échantillon ou les cotes, nous faisons le moule et nous coulons.",
+    "p3": "Nous ne présentons pas comme disponible un produit que nous n'avons pas. S'il n'est pas en stock, nous indiquons quand nous pouvons le couler ; s'il ne convient pas, nous le disons franchement.",
+    "v1t": "Le bon matériau",
+    "v1d": "Nous ne vendons pas une anode inadaptée à votre eau : nous demandons d'abord où elle servira.",
+    "v2t": "Si la taille ne va pas",
+    "v2d": "Quand une cote du catalogue ne se place pas, nous coulons sur mesure.",
+    "v3t": "Prix annoncés",
+    "v3d": "Les prix connus sont publiés ici ; pour les autres, nous n'inventons pas de chiffre.",
+    "factTitle": "Informations société",
+    "fTitle": "Raison sociale",
+    "fAddress": "Adresse",
+    "fPhone": "Téléphone",
+    "fTax": "Centre des impôts",
+    "fTaxNo": "Numéro fiscal",
+    "fHours": "Horaires"
+  },
+  "contact": {
+    "title": "Nous contacter",
+    "lead": "WhatsApp est le plus rapide. Envoyez une photo et la mesure, nous répondons dans le même message.",
+    "whatsapp": "Écrire sur WhatsApp",
+    "call": "Nous appeler",
+    "address": "Adresse",
+    "hours": "Horaires",
+    "hoursValue": "En semaine et le samedi aux heures ouvrables",
+    "hoursNote": "Appelez pour les horaires exacts.",
+    "mapNote": "Adresse : 3267 Sokak No:8/A, Karabağlar, İzmir, Türkiye."
+  },
+  "footer": {
+    "about": "Fabrication d'anodes et de plomb coulé pour bateaux, marinas, chantiers et centres de plongée.",
+    "products": "Produits",
+    "corporate": "Société",
+    "contact": "Contact",
+    "rights": "Tous droits réservés.",
+    "legal": "Prix TTC, susceptibles de modification sans préavis."
+  },
+  "common": {
+    "currency": "TRY",
+    "vatIncluded": "TVA incluse",
+    "backHome": "Retour à l'accueil",
+    "updated": "Prix mis à jour"
+  },
+  "products": {
+    "groupsTitle": "Groupes de produits",
+    "groupsLead": "Cinq groupes principaux : arbre, coque, hélice, moteur et plomb coulé. Choisissez un groupe et trouvez votre taille.",
+    "catalogTitle": "Catalogue produits",
+    "catalogLead": "Filtrez par groupe et matériau, ajoutez à votre liste et envoyez le tout en un seul message WhatsApp."
+  }
+}

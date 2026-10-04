@@ -1,0 +1,246 @@
+{
+  "meta": {
+    "name": "Italiano",
+    "dir": "ltr",
+    "locale": "it-IT"
+  },
+  "nav": {
+    "home": "Home",
+    "products": "Prodotti",
+    "guide": "Guida agli anodi",
+    "about": "Chi siamo",
+    "contact": "Contatti",
+    "cart": "La mia lista d'ordine"
+  },
+  "a11y": {
+    "skip": "Vai al contenuto",
+    "menuOpen": "Apri il menu",
+    "menuClose": "Chiudi il menu",
+    "themeDark": "Attiva il tema scuro",
+    "themeLight": "Attiva il tema chiaro",
+    "lang": "Scegli la lingua",
+    "cartOpen": "Apri la lista d'ordine",
+    "cartClose": "Chiudi la lista d'ordine"
+  },
+  "hero": {
+    "badge": "Fonderia di anodi e piombo a İzmir",
+    "title": "Anodi che proteggono il metallo sotto la tua barca",
+    "lead": "Anodi per asse, elica, scafo e motore, oltre a piombi fusi. Fondiamo noi: scegli una misura standard oppure fai fondere su misura.",
+    "ctaProducts": "Vedi i prodotti",
+    "ctaWhatsapp": "Chiedi su WhatsApp",
+    "note": "Fusione su misura · Ingrosso e dettaglio",
+    "diagramTitle": "Dove vanno gli anodi sotto una barca?",
+    "diagramCaption": "Ogni parte metallica immersa richiede il proprio anodo. I numeri indicano i quattro punti di montaggio più comuni."
+  },
+  "trust": {
+    "t1": "Fondiamo noi",
+    "d1": "Nessun intermediario: zinco e piombo li fondiamo nella nostra fonderia.",
+    "t2": "Produzione su misura",
+    "d2": "Inviaci un campione o le quote e realizziamo lo stampo per la tua barca.",
+    "t3": "Gamma completa",
+    "d3": "Dall'asse all'elica, da Volvo Penta a Side Power, in un unico posto.",
+    "t4": "Ordine via WhatsApp",
+    "d4": "Prepara la lista e inviala con un tocco. Senza registrazione."
+  },
+  "group": {
+    "shaft": "Anodi per asse",
+    "hull": "Anodi di scafo",
+    "propeller": "Anodi per elica",
+    "engine": "Anodi motore e piede",
+    "lead": "Piombo fuso"
+  },
+  "cat": {
+    "saft": {
+      "name": "Anodo per asse",
+      "desc": "Si imbullona attorno all'asse portaelica in due semigusci. Si sceglie in base al diametro dell'asse."
+    },
+    "dar-saft": {
+      "name": "Anodo per asse stretto",
+      "desc": "Anodo per asse a corpo sottile, per supporti con poco spazio."
+    },
+    "venus": {
+      "name": "Anodo tipo Venus",
+      "desc": "Anodo di scafo a goccia. La forma affusolata riduce la resistenza; montaggio su due prigionieri."
+    },
+    "demirli": {
+      "name": "Anodo con anima in ferro",
+      "desc": "Anodo a blocco con piattina di ferro annegata: il fissaggio tiene mentre lo zinco si consuma."
+    },
+    "ufo": {
+      "name": "Anodo UFO",
+      "desc": "Anodo a disco di basso spessore, fissato da un solo bullone centrale. Disturba pochissimo il flusso."
+    },
+    "cubuk": {
+      "name": "Anodo a barretta",
+      "desc": "Barretta sottile filettata. Si avvita nel circuito di raffreddamento o nel boiler."
+    },
+    "pervane": {
+      "name": "Anodo per elica",
+      "desc": "Si monta dietro il mozzo, sul dado dell'asse. Disponibile conico con cava per chiavetta e con foro quadro."
+    },
+    "max-prop": {
+      "name": "Anodo Max Prop",
+      "desc": "Anodo ad anello per eliche abbattibili Max Prop. Si adatta al profilo del mozzo."
+    },
+    "bow-thruster": {
+      "name": "Anodo per elica di prua",
+      "desc": "Si monta sul mozzo dell'elica dentro il tunnel. Disponibili modelli Side Power."
+    },
+    "kuyruk": {
+      "name": "Anodo per piede poppiero",
+      "desc": "Anodo a piastra imbullonato al piede poppiero."
+    },
+    "volvo-penta": {
+      "name": "Anodo Volvo Penta",
+      "desc": "Kit anodi compatibile con piedi e gruppi motore Volvo Penta."
+    },
+    "evinrude": {
+      "name": "Anodo Evinrude",
+      "desc": "Anodi per motori fuoribordo Evinrude."
+    },
+    "motor-tapa": {
+      "name": "Anodo motore con tappo",
+      "desc": "Barretta di zinco su tappo in ottone. Si avvita nel circuito di raffreddamento e protegge il monoblocco."
+    },
+    "ozel-tekne": {
+      "name": "Anodo su misura",
+      "desc": "Fuso dal tuo campione o dalle tue quote, specifico per la tua barca."
+    },
+    "damla-kursun": {
+      "name": "Piombo a goccia",
+      "desc": "Zavorra di piombo fuso a goccia, a grammatura, per pesca e assetto."
+    },
+    "dalgic-kemer": {
+      "name": "Piombo per cintura da sub",
+      "desc": "Zavorra di piombo sagomata per cintura, con asole per il nastro e base anatomica."
+    }
+  },
+  "material": {
+    "label": "Materiale",
+    "zn": "Zinco (Zn)",
+    "al": "Alluminio (Al)",
+    "mg": "Magnesio (Mg)",
+    "znWater": "Acqua salata",
+    "alWater": "Acqua salata e salmastra",
+    "mgWater": "Acqua dolce"
+  },
+  "stock": {
+    "label": "Disponibilità",
+    "available": "Disponibile",
+    "madeToOrder": "Fusione su ordinazione",
+    "out": "Esaurito"
+  },
+  "product": {
+    "priceAsk": "Prezzo su richiesta",
+    "sku": "Modello",
+    "size": "Misura",
+    "add": "Aggiungi alla lista",
+    "added": "Nella lista",
+    "vat": "IVA inclusa",
+    "of": "prodotti",
+    "noMatch": "Nessun prodotto corrisponde a questo filtro.",
+    "noMatchHelp": "Azzera i filtri e riprova, oppure scrivici su WhatsApp la misura che cerchi."
+  },
+  "filter": {
+    "all": "Tutti",
+    "title": "Filtra",
+    "group": "Gruppo prodotto",
+    "material": "Materiale",
+    "clear": "Azzera i filtri",
+    "results": "prodotti mostrati"
+  },
+  "cart": {
+    "title": "La mia lista d'ordine",
+    "empty": "La tua lista è vuota.",
+    "emptyHelp": "Aggiungi qui i prodotti che ti servono, poi inviali tutti insieme su WhatsApp.",
+    "qty": "Qtà",
+    "remove": "Togli dalla lista",
+    "clear": "Svuota la lista",
+    "total": "Totale dei prezzi noti",
+    "ask": "prezzo da confermare",
+    "send": "Invia su WhatsApp",
+    "note": "Si apre WhatsApp con la lista già pronta come messaggio. Puoi modificarla prima di inviarla. L'ordine è confermato quando rispondiamo.",
+    "tooLong": "La lista è lunga e il messaggio WhatsApp potrebbe essere troncato. Togli qualche articolo e invia in due parti.",
+    "count": "articoli"
+  },
+  "wa": {
+    "hello": "Buongiorno, vorrei prezzo e disponibilità degli articoli qui sotto.",
+    "header": "LISTA D'ORDINE",
+    "totalLine": "Totale dei prezzi noti",
+    "askLine": "Articoli da quotare",
+    "footer": "Attendo indicazioni su consegna e pagamento.",
+    "quick": "Buongiorno, vorrei informazioni sugli anodi."
+  },
+  "guide": {
+    "title": "Quale anodo mi serve?",
+    "lead": "Tre domande: quale acqua, quale pezzo, quale misura.",
+    "s1t": "1. In quale acqua navighi?",
+    "s1d": "Il materiale si sceglie in base all'acqua. Il materiale sbagliato o si consuma subito o non funziona affatto.",
+    "s1zn": "Acqua di mare → zinco (Zn). La scelta abituale sulle coste turche.",
+    "s1al": "Acqua salmastra, foci, uso misto → alluminio (Al). Più leggero e più duraturo.",
+    "s1mg": "Acqua dolce, laghi, fiumi → magnesio (Mg). Mai in acqua di mare: si consuma troppo in fretta.",
+    "s2t": "2. Quale pezzo vuoi proteggere?",
+    "s2d": "Ogni parte metallica immersa richiede il proprio anodo. Uno solo non protegge gli altri.",
+    "s3t": "3. Come si misura?",
+    "s3zn": "Per l'anodo d'asse, misura il diametro dell'asse (diametro esterno, mm).",
+    "s3al": "Per l'anodo d'elica, misura il diametro del dado o del mozzo.",
+    "s3mg": "Se hai dubbi, smonta il vecchio anodo e inviaci su WhatsApp una foto e la misura col calibro.",
+    "whenT": "Quando va sostituito?",
+    "whenD": "Regola comune: si sostituisce quando l'anodo è consumato a metà. Non aspettare che sparisca: da quel momento il metallo protetto inizia a corrodersi. La durata varia molto con l'uso, l'ormeggio e le correnti vaganti, quindi controlla a ogni alaggio.",
+    "warnT": "Non verniciare mai un anodo",
+    "warnD": "L'anodo deve toccare l'acqua. Vernice, antivegetativa o grasso sopra e non funziona più. Anche la superficie di appoggio deve essere metallo nudo: ruggine o uno strato di vernice interrompono il contatto elettrico.",
+    "askT": "Ancora in dubbio?",
+    "askD": "Inviaci una foto del vecchio anodo con marca della barca e modello del motore: ti diciamo quale va bene.",
+    "askCta": "Chiedi su WhatsApp"
+  },
+  "about": {
+    "title": "La fusione è il nostro mestiere",
+    "p1": "<strong>KUT MARİN DÖKÜM</strong> produce anodi e piombo fuso a Karabağlar, İzmir, per armatori, marina, cantieri e centri diving.",
+    "p2": "Non compriamo per rietichettare: <strong>fondiamo noi.</strong> Le misure standard sono a catalogo; per il resto inviaci un campione o le quote, facciamo lo stampo e fondiamo.",
+    "p3": "Non presentiamo come disponibile un prodotto che non abbiamo. Se non è a magazzino diciamo quando possiamo fonderlo; se non è adatto lo diciamo chiaramente.",
+    "v1t": "Il materiale giusto",
+    "v1d": "Non ti vendiamo un anodo sbagliato per la tua acqua: prima chiediamo dove andrà usato.",
+    "v2t": "Se la misura non va",
+    "v2d": "Quando una misura di catalogo non si adatta, fondiamo su misura.",
+    "v3t": "Prezzi dichiarati",
+    "v3d": "I prezzi noti sono pubblicati qui; dove non li sappiamo, non inventiamo cifre.",
+    "factTitle": "Dati aziendali",
+    "fTitle": "Ragione sociale",
+    "fAddress": "Indirizzo",
+    "fPhone": "Telefono",
+    "fTax": "Ufficio delle imposte",
+    "fTaxNo": "Partita fiscale",
+    "fHours": "Orari"
+  },
+  "contact": {
+    "title": "Contattaci",
+    "lead": "WhatsApp è il canale più rapido. Inviaci una foto e la misura e rispondiamo nello stesso messaggio.",
+    "whatsapp": "Scrivi su WhatsApp",
+    "call": "Chiamaci",
+    "address": "Indirizzo",
+    "hours": "Orari",
+    "hoursValue": "Dal lunedì al sabato in orario di lavoro",
+    "hoursNote": "Per gli orari esatti, chiamaci.",
+    "mapNote": "Indirizzo: 3267 Sokak No:8/A, Karabağlar, İzmir, Türkiye."
+  },
+  "footer": {
+    "about": "Produzione di anodi e piombo fuso per barche, marina, cantieri e centri diving.",
+    "products": "Prodotti",
+    "corporate": "Azienda",
+    "contact": "Contatti",
+    "rights": "Tutti i diritti riservati.",
+    "legal": "Prezzi IVA inclusa, soggetti a variazione senza preavviso."
+  },
+  "common": {
+    "currency": "TRY",
+    "vatIncluded": "IVA inclusa",
+    "backHome": "Torna alla home",
+    "updated": "Prezzi aggiornati"
+  },
+  "products": {
+    "groupsTitle": "Gruppi di prodotti",
+    "groupsLead": "Cinque gruppi principali: asse, scafo, elica, motore e piombo fuso. Scegli il gruppo e trova la tua misura.",
+    "catalogTitle": "Catalogo prodotti",
+    "catalogLead": "Filtra per gruppo e materiale, aggiungi alla lista e invia tutto in un solo messaggio WhatsApp."
+  }
+}

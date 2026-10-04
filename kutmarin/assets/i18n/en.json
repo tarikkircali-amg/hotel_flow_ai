@@ -1,0 +1,246 @@
+{
+  "meta": {
+    "name": "English",
+    "dir": "ltr",
+    "locale": "en-GB"
+  },
+  "nav": {
+    "home": "Home",
+    "products": "Products",
+    "guide": "Anode guide",
+    "about": "About us",
+    "contact": "Contact",
+    "cart": "My order list"
+  },
+  "a11y": {
+    "skip": "Skip to content",
+    "menuOpen": "Open menu",
+    "menuClose": "Close menu",
+    "themeDark": "Switch to dark theme",
+    "themeLight": "Switch to light theme",
+    "lang": "Choose language",
+    "cartOpen": "Open order list",
+    "cartClose": "Close order list"
+  },
+  "hero": {
+    "badge": "Anode and lead casting in İzmir",
+    "title": "Anodes that protect the metal under your boat",
+    "lead": "Shaft, propeller, hull and engine anodes, plus cast lead weights. We cast them ourselves — pick a standard size or have one cast to your measurements.",
+    "ctaProducts": "See products",
+    "ctaWhatsapp": "Ask on WhatsApp",
+    "note": "Custom casting to measure · Wholesale and retail",
+    "diagramTitle": "Where do anodes go under a boat?",
+    "diagramCaption": "Every submerged metal part needs its own anode. The numbers mark the four most common mounting points."
+  },
+  "trust": {
+    "t1": "We cast it ourselves",
+    "d1": "No middleman — we pour the zinc and the lead in our own foundry.",
+    "t2": "Made to your measure",
+    "d2": "Send a sample or the dimensions and we cast a mould for your boat.",
+    "t3": "Full range",
+    "d3": "From shaft to propeller, Volvo Penta to Side Power, in one place.",
+    "t4": "Order on WhatsApp",
+    "d4": "Build your list and send it in one tap. No account needed."
+  },
+  "group": {
+    "shaft": "Shaft anodes",
+    "hull": "Hull anodes",
+    "propeller": "Propeller anodes",
+    "engine": "Engine and drive anodes",
+    "lead": "Cast lead"
+  },
+  "cat": {
+    "saft": {
+      "name": "Shaft anode",
+      "desc": "Bolts around the propeller shaft as two half clamps. Chosen by shaft diameter."
+    },
+    "dar-saft": {
+      "name": "Narrow shaft anode",
+      "desc": "Slim-bodied shaft anode for tight shaft bearings."
+    },
+    "venus": {
+      "name": "Venus type anode",
+      "desc": "Teardrop hull anode. The streamlined shape cuts drag; mounted on two studs."
+    },
+    "demirli": {
+      "name": "Iron-cored anode",
+      "desc": "Block anode with an embedded iron strap, so the fixing holds as the zinc wastes away."
+    },
+    "ufo": {
+      "name": "UFO anode",
+      "desc": "Low-profile disc anode, fixed by a single central bolt. Minimal disturbance to water flow."
+    },
+    "cubuk": {
+      "name": "Pencil anode",
+      "desc": "Slim threaded bar. Screws into a cooling circuit or calorifier."
+    },
+    "pervane": {
+      "name": "Propeller anode",
+      "desc": "Fits over the shaft nut behind the propeller hub. Available in conical keyed and square-bore types."
+    },
+    "max-prop": {
+      "name": "Max Prop anode",
+      "desc": "Ring anode for folding Max Prop propellers. Seats on the hub profile."
+    },
+    "bow-thruster": {
+      "name": "Bow thruster anode",
+      "desc": "Fits the propeller hub inside the thruster tunnel. Side Power models available."
+    },
+    "kuyruk": {
+      "name": "Sterndrive anode",
+      "desc": "Plate anode bolted to the sterndrive unit."
+    },
+    "volvo-penta": {
+      "name": "Volvo Penta anode",
+      "desc": "Anode set compatible with Volvo Penta sterndrive and engine groups."
+    },
+    "evinrude": {
+      "name": "Evinrude anode",
+      "desc": "Anodes for Evinrude outboard engines."
+    },
+    "motor-tapa": {
+      "name": "Engine anode and plug",
+      "desc": "Zinc pencil on a brass plug. Screws into the cooling circuit to protect the engine block."
+    },
+    "ozel-tekne": {
+      "name": "Custom-size anode",
+      "desc": "Cast from your sample or dimensions, specific to your boat."
+    },
+    "damla-kursun": {
+      "name": "Teardrop lead",
+      "desc": "Cast teardrop lead weight, sold by gram, for fishing and ballast."
+    },
+    "dalgic-kemer": {
+      "name": "Diving belt lead",
+      "desc": "Curved lead weight for a diving belt, with webbing slots and a contoured base."
+    }
+  },
+  "material": {
+    "label": "Material",
+    "zn": "Zinc (Zn)",
+    "al": "Aluminium (Al)",
+    "mg": "Magnesium (Mg)",
+    "znWater": "Salt water",
+    "alWater": "Salt and brackish water",
+    "mgWater": "Fresh water"
+  },
+  "stock": {
+    "label": "Availability",
+    "available": "In stock",
+    "madeToOrder": "Cast to order",
+    "out": "Out of stock"
+  },
+  "product": {
+    "priceAsk": "Ask for price",
+    "sku": "Model",
+    "size": "Size",
+    "add": "Add to list",
+    "added": "On the list",
+    "vat": "VAT included",
+    "of": "products",
+    "noMatch": "No product matches this filter.",
+    "noMatchHelp": "Clear the filters and try again, or message us on WhatsApp with the size you need."
+  },
+  "filter": {
+    "all": "All",
+    "title": "Filter",
+    "group": "Product group",
+    "material": "Material",
+    "clear": "Clear filters",
+    "results": "products shown"
+  },
+  "cart": {
+    "title": "My order list",
+    "empty": "Your list is empty.",
+    "emptyHelp": "Add the products you want here, then send them all at once on WhatsApp.",
+    "qty": "Qty",
+    "remove": "Remove from list",
+    "clear": "Empty the list",
+    "total": "Total of known prices",
+    "ask": "price to be confirmed",
+    "send": "Send on WhatsApp",
+    "note": "This opens WhatsApp with your list ready as a message. You can edit it before sending. The order is confirmed once we reply.",
+    "tooLong": "The list is long and the WhatsApp message may be cut off. Remove a few items and send it in two parts.",
+    "count": "items"
+  },
+  "wa": {
+    "hello": "Hello, I would like the price and availability of the items below.",
+    "header": "ORDER LIST",
+    "totalLine": "Total of known prices",
+    "askLine": "Items to be priced",
+    "footer": "Please let me know about delivery and payment.",
+    "quick": "Hello, I would like some information about anodes."
+  },
+  "guide": {
+    "title": "Which anode do I need?",
+    "lead": "Answer three questions: which water, which part, what size.",
+    "s1t": "1. Which water are you in?",
+    "s1d": "Anode material is chosen by the water. The wrong material either wastes away at once or does nothing at all.",
+    "s1zn": "Sea water → zinc (Zn). The usual choice on the Turkish coast.",
+    "s1al": "Brackish water, river mouths, mixed use → aluminium (Al). Lighter and longer lasting.",
+    "s1mg": "Fresh water, lakes, rivers → magnesium (Mg). Never in sea water; it wastes away far too fast.",
+    "s2t": "2. Which part are you protecting?",
+    "s2d": "Every submerged metal part needs its own anode. One anode does not protect the rest.",
+    "s3t": "3. How do I measure?",
+    "s3zn": "For a shaft anode, measure the shaft diameter (outside diameter, mm).",
+    "s3al": "For a propeller anode, measure the nut or hub diameter.",
+    "s3mg": "If you are unsure, remove the old anode and send us a photo and a caliper reading on WhatsApp.",
+    "whenT": "When should it be replaced?",
+    "whenD": "The common rule: replace the anode once it is half gone. Do not wait for it to disappear — the moment the anode is spent, the metal it protects starts to corrode. Service life varies a great deal with how much the boat is used, the marina it lies in and any stray current, so check at every haul-out.",
+    "warnT": "Never paint an anode",
+    "warnD": "An anode has to touch the water. Paint, antifouling or grease on it and it stops working entirely. The mounting face must be clean bare metal too — rust or a layer of paint breaks the electrical contact.",
+    "askT": "Still not sure?",
+    "askD": "Send a photo of the old anode along with your boat make and engine model, and we will tell you which one fits.",
+    "askCta": "Ask on WhatsApp"
+  },
+  "about": {
+    "title": "Casting is what we do",
+    "p1": "<strong>KUT MARİN DÖKÜM</strong> produces anodes and cast lead in Karabağlar, İzmir, supplying boat owners, marinas, shipyards and diving businesses.",
+    "p2": "We do not buy in and relabel: <strong>we cast our own.</strong> Standard sizes are in the catalogue; for anything that is not, send a sample or the dimensions and we make the mould and cast it.",
+    "p3": "We do not present a product we do not have as if we did. If it is not in stock we tell you when we can cast it, and if it is not suitable we say so plainly.",
+    "v1t": "The right material",
+    "v1d": "We will not sell you an anode that is wrong for your water; we ask where it will be used first.",
+    "v2t": "If the size does not fit",
+    "v2d": "When a catalogue size does not seat properly, we cast a custom one.",
+    "v3t": "Open pricing",
+    "v3d": "Known prices are published here; where we do not know one, we do not invent a figure.",
+    "factTitle": "Company details",
+    "fTitle": "Registered name",
+    "fAddress": "Address",
+    "fPhone": "Phone",
+    "fTax": "Tax office",
+    "fTaxNo": "Tax number",
+    "fHours": "Opening hours"
+  },
+  "contact": {
+    "title": "Get in touch",
+    "lead": "WhatsApp is quickest. Send a photo and the measurement and we can answer in the same message.",
+    "whatsapp": "Message on WhatsApp",
+    "call": "Call us",
+    "address": "Address",
+    "hours": "Opening hours",
+    "hoursValue": "Weekdays and Saturday during business hours",
+    "hoursNote": "Call for exact hours.",
+    "mapNote": "Address: 3267 Sokak No:8/A, Karabağlar, İzmir, Türkiye."
+  },
+  "footer": {
+    "about": "Anode and cast lead manufacturing for boats, marinas, shipyards and diving businesses.",
+    "products": "Products",
+    "corporate": "Company",
+    "contact": "Contact",
+    "rights": "All rights reserved.",
+    "legal": "Prices include VAT and may change without notice."
+  },
+  "common": {
+    "currency": "TRY",
+    "vatIncluded": "VAT included",
+    "backHome": "Back to home",
+    "updated": "Prices updated"
+  },
+  "products": {
+    "groupsTitle": "Product groups",
+    "groupsLead": "Five main groups: shaft, hull, propeller, engine and cast lead. Pick a group and find your size.",
+    "catalogTitle": "Product catalogue",
+    "catalogLead": "Filter by group and material, add to your list and send it in a single WhatsApp message."
+  }
+}

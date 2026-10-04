@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" width="1000" height="560"
+  role="img" aria-labelledby="ht hd">
+  <title id="ht">Tekne karinasında tutya yerleşimi</title>
+  <desc id="hd">Bir motor teknenin su altı yan kesiti. Baş pervane tüneli, karina gövdesi, pervane mili ve pervane üzerinde tutyaların takıldığı dört nokta numaralandırılarak gösterilir.</desc>
+  <defs>
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d9ecf8"/><stop offset="1" stop-color="#8fbddd"/>
+    </linearGradient>
+    <linearGradient id="hull" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f4f7fa"/><stop offset=".5" stop-color="#d2dce6"/>
+      <stop offset="1" stop-color="#9eacbb"/>
+    </linearGradient>
+    <linearGradient id="deck" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e2e9f0"/>
+    </linearGradient>
+    <linearGradient id="met" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#eef2f6"/><stop offset=".5" stop-color="#b6c2cf"/>
+      <stop offset="1" stop-color="#7d8b9b"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1000" height="560" rx="20" fill="#eef4fa"/>
+  <path d="M0 250h1000v290a20 20 0 0 1-20 20H20a20 20 0 0 1-20-20z" fill="url(#water)"/>
+  <g stroke="#ffffff" stroke-width="2" opacity=".4" fill="none">
+    <path d="M44 330q28-11 56 0t56 0"/><path d="M120 452q28-11 56 0t56 0"/>
+    <path d="M840 500q28-11 56 0t56 0"/>
+  </g>
+  <path d="M0 250h1000" stroke="#123e69" stroke-width="2.5" opacity=".5" stroke-dasharray="10 7"/>
+
+  <!-- ustyapi -->
+  <path d="M300 250v-52a8 8 0 0 1 8-8h146l44 60z" fill="url(#deck)" stroke="#123e69" stroke-width="2.5"/>
+  <g fill="#bcd3e6" stroke="#123e69" stroke-width="2">
+    <rect x="326" y="208" width="40" height="25" rx="4"/>
+    <rect x="382" y="208" width="40" height="25" rx="4"/>
+  </g>
+
+  <!-- karina: kic sagda (x=700), bas solda -->
+  <path d="M120 250h580c-10 58-38 104-86 128-46 23-106 32-168 29-80-4-146-33-192-79-32-31-58-62-78-78z"
+    fill="url(#hull)" stroke="#123e69" stroke-width="3"/>
+  <path d="M152 278h516" stroke="#fff" stroke-width="4" opacity=".5"/>
+
+  <!-- 1 · bas pervane tuneli -->
+  <circle cx="196" cy="306" r="33" fill="#9fb3c5" stroke="#123e69" stroke-width="2.5"/>
+  <circle cx="196" cy="306" r="21" fill="#eef4fa" stroke="#123e69" stroke-width="2"/>
+  <path d="M196 288l8 5v9l8-5 8 5-4 8h9l5 8-5 8h-9l4 8-8 5-8-5v9l-8 5-8-5v-9l-8 5-8-5 4-8h-9l-5-8 5-8h9l-4-8 8-5 8 5v-9z"
+    fill="url(#met)" stroke="#123e69" stroke-width="1.8"/>
+  <circle cx="196" cy="306" r="6" fill="#5d6974"/>
+
+  <!-- 2 · karina govde tutyasi -->
+  <path d="M352 372c0-17 19-29 51-29s51 12 51 29c0 7-6 10-15 10h-72c-9 0-15-3-15-10z"
+    fill="url(#met)" stroke="#123e69" stroke-width="2.5"/>
+  <path d="M367 363c0-9 17-17 36-17s36 8 36 17" fill="none" stroke="#fff" stroke-width="2.5" opacity=".55"/>
+
+  <!-- mil · 3 saft tutyasi · pervane · 4 konik tutya -->
+  <path d="M526 344l150 62" stroke="#5d6974" stroke-width="13"/>
+  <g transform="rotate(22.5 586 369)">
+    <rect x="556" y="347" width="60" height="44" rx="7" fill="url(#met)" stroke="#123e69" stroke-width="2.5"/>
+    <path d="M556 369h60" stroke="#123e69" stroke-width="1.8" stroke-dasharray="5 4"/>
+    <rect x="570" y="339" width="14" height="10" rx="2" fill="#c9a257" stroke="#123e69" stroke-width="1.6"/>
+    <rect x="588" y="389" width="14" height="10" rx="2" fill="#c9a257" stroke="#123e69" stroke-width="1.6"/>
+  </g>
+  <g transform="rotate(22.5 686 411)">
+    <ellipse cx="686" cy="411" rx="12" ry="40" fill="url(#met)" stroke="#123e69" stroke-width="2.5"/>
+    <path d="M697 394c21-4 36-2 45 5 7 5 7 21 0 26-9 7-24 9-45 5z" fill="url(#met)" stroke="#123e69" stroke-width="2.5"/>
+    <path d="M742 398c10 4 16 8 16 13s-6 9-16 13z" fill="url(#met)" stroke="#123e69" stroke-width="2.5"/>
+    <rect x="758" y="404" width="14" height="14" rx="2" fill="#c9a257" stroke="#123e69" stroke-width="1.8"/>
+  </g>
+
+  
+  <g>
+    <path d="M196 306L236 142" stroke="#1f72bd" stroke-width="1.6" stroke-dasharray="5 4"/>
+    <circle cx="196" cy="306" r="15" fill="#fff" stroke="#1f72bd" stroke-width="2.5"/>
+    <text x="196" y="306" fill="#123e69" font-family="system-ui,sans-serif" font-size="15"
+      font-weight="700" text-anchor="middle" dominant-baseline="central">1</text>
+  </g>
+  
+  <g>
+    <path d="M403 358L470 170" stroke="#1f72bd" stroke-width="1.6" stroke-dasharray="5 4"/>
+    <circle cx="403" cy="358" r="15" fill="#fff" stroke="#1f72bd" stroke-width="2.5"/>
+    <text x="403" y="358" fill="#123e69" font-family="system-ui,sans-serif" font-size="15"
+      font-weight="700" text-anchor="middle" dominant-baseline="central">2</text>
+  </g>
+  
+  <g>
+    <path d="M586 369L648 212" stroke="#1f72bd" stroke-width="1.6" stroke-dasharray="5 4"/>
+    <circle cx="586" cy="369" r="15" fill="#fff" stroke="#1f72bd" stroke-width="2.5"/>
+    <text x="586" y="369" fill="#123e69" font-family="system-ui,sans-serif" font-size="15"
+      font-weight="700" text-anchor="middle" dominant-baseline="central">3</text>
+  </g>
+  
+  <g>
+    <path d="M766 428L906 352" stroke="#1f72bd" stroke-width="1.6" stroke-dasharray="5 4"/>
+    <circle cx="766" cy="428" r="15" fill="#fff" stroke="#1f72bd" stroke-width="2.5"/>
+    <text x="766" y="428" fill="#123e69" font-family="system-ui,sans-serif" font-size="15"
+      font-weight="700" text-anchor="middle" dominant-baseline="central">4</text>
+  </g>
+</svg>

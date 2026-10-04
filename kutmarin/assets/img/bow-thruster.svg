@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300" role="img" aria-labelledby="t d">
+  <title id="t">Bow thruster tutyası</title>
+  <desc id="d">Baş pervane (bow thruster) tüneli için dişli tutya; pervane göbeğine vidalanır, tünel içindeki akışa dayanacak biçimde alçak profillidir.</desc>
+  <defs>
+    <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f2f5f8"/><stop offset=".38" stop-color="#cbd5e0"/>
+      <stop offset=".62" stop-color="#aab7c6"/><stop offset="1" stop-color="#7d8b9b"/>
+    </linearGradient>
+    <linearGradient id="metalV" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#8f9dac"/><stop offset=".3" stop-color="#dbe2ea"/>
+      <stop offset=".6" stop-color="#b4c0cd"/><stop offset="1" stop-color="#808e9e"/>
+    </linearGradient>
+    <linearGradient id="lead" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9aa4ae"/><stop offset=".45" stop-color="#6d7883"/>
+      <stop offset="1" stop-color="#48515b"/>
+    </linearGradient>
+    <linearGradient id="brass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e8c98a"/><stop offset=".5" stop-color="#c9a257"/>
+      <stop offset="1" stop-color="#9a7735"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#bfe0f5"/><stop offset="1" stop-color="#5f9fd0"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" rx="16" fill="#e9eff6"/>
+  <rect x=".75" y=".75" width="398.5" height="298.5" rx="15.25" fill="none" stroke="#cfdbe8"/>
+  <g stroke-linejoin="round" stroke-linecap="round">
+  <path d="M40 150a160 56 0 0 1 320 0a160 56 0 0 1-320 0z" fill="url(#sea)" opacity=".3"/>
+  <path d="M40 150a160 56 0 0 1 320 0" fill="none" stroke="#123e69" stroke-width="2" opacity=".5" stroke-dasharray="7 6"/>
+  <path d="M40 150a160 56 0 0 0 320 0" fill="none" stroke="#123e69" stroke-width="2" opacity=".5"/>
+  <g fill="url(#metal)" stroke="#123e69" stroke-width="2.5">
+    <path d="M200 92l15 9v18l15-9 15 9-9 15h18l9 15-9 15h-18l9 15-15 9-15-9v18l-15 9-15-9v-18l-15 9-15-9 9-15h-18l-9-15 9-15h18l-9-15 15-9 15 9v-18z"/>
+  </g>
+  <circle cx="200" cy="150" r="26" fill="#e9eff6" stroke="#123e69" stroke-width="2.5"/>
+  <circle cx="200" cy="150" r="11" fill="#5d6974"/></g>
+</svg>

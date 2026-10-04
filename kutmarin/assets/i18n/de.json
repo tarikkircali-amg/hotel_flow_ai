@@ -1,0 +1,246 @@
+{
+  "meta": {
+    "name": "Deutsch",
+    "dir": "ltr",
+    "locale": "de-DE"
+  },
+  "nav": {
+    "home": "Startseite",
+    "products": "Produkte",
+    "guide": "Anoden-Ratgeber",
+    "about": "Über uns",
+    "contact": "Kontakt",
+    "cart": "Meine Bestellliste"
+  },
+  "a11y": {
+    "skip": "Zum Inhalt springen",
+    "menuOpen": "Menü öffnen",
+    "menuClose": "Menü schließen",
+    "themeDark": "Dunkles Design einschalten",
+    "themeLight": "Helles Design einschalten",
+    "lang": "Sprache wählen",
+    "cartOpen": "Bestellliste öffnen",
+    "cartClose": "Bestellliste schließen"
+  },
+  "hero": {
+    "badge": "Anoden- und Bleiguss in İzmir",
+    "title": "Anoden, die das Metall unter Ihrem Boot schützen",
+    "lead": "Wellen-, Propeller-, Rumpf- und Motoranoden sowie gegossene Bleigewichte. Wir gießen selbst — wählen Sie eine Standardgröße oder lassen Sie nach Maß gießen.",
+    "ctaProducts": "Produkte ansehen",
+    "ctaWhatsapp": "Auf WhatsApp fragen",
+    "note": "Sonderguss nach Maß · Groß- und Einzelhandel",
+    "diagramTitle": "Wo sitzen die Anoden unter einem Boot?",
+    "diagramCaption": "Jedes Metallteil unter Wasser braucht seine eigene Anode. Die Nummern zeigen die vier häufigsten Montagepunkte."
+  },
+  "trust": {
+    "t1": "Eigener Guss",
+    "d1": "Kein Zwischenhändler — Zink und Blei gießen wir in der eigenen Gießerei.",
+    "t2": "Fertigung nach Maß",
+    "d2": "Senden Sie ein Muster oder die Maße, wir bauen die Form für Ihr Boot.",
+    "t3": "Komplettes Programm",
+    "d3": "Von der Welle bis zum Propeller, von Volvo Penta bis Side Power — alles aus einer Hand.",
+    "t4": "Bestellung per WhatsApp",
+    "d4": "Liste zusammenstellen und mit einem Tippen senden. Kein Konto nötig."
+  },
+  "group": {
+    "shaft": "Wellenanoden",
+    "hull": "Rumpfanoden",
+    "propeller": "Propelleranoden",
+    "engine": "Motor- und Antriebsanoden",
+    "lead": "Gegossenes Blei"
+  },
+  "cat": {
+    "saft": {
+      "name": "Wellenanode",
+      "desc": "Wird als zwei Halbschalen um die Propellerwelle geschraubt. Auswahl nach Wellendurchmesser."
+    },
+    "dar-saft": {
+      "name": "Schmale Wellenanode",
+      "desc": "Schmal bauende Wellenanode für enge Wellenlager."
+    },
+    "venus": {
+      "name": "Venus-Anode",
+      "desc": "Tropfenförmige Rumpfanode. Die strömungsgünstige Form senkt den Widerstand; Montage auf zwei Stehbolzen."
+    },
+    "demirli": {
+      "name": "Anode mit Eisenkern",
+      "desc": "Blockanode mit eingegossenem Eisenband, damit die Befestigung hält, während das Zink abträgt."
+    },
+    "ufo": {
+      "name": "UFO-Anode",
+      "desc": "Flache Scheibenanode, mit einer zentralen Schraube befestigt. Stört die Strömung kaum."
+    },
+    "cubuk": {
+      "name": "Stabanode",
+      "desc": "Schlanker Gewindestab. Wird in den Kühlkreislauf oder den Boiler geschraubt."
+    },
+    "pervane": {
+      "name": "Propelleranode",
+      "desc": "Sitzt hinter der Propellernabe auf der Wellenmutter. Als Kegelanode mit Keilnut und mit Vierkantbohrung erhältlich."
+    },
+    "max-prop": {
+      "name": "Max-Prop-Anode",
+      "desc": "Ringanode für Max-Prop-Faltpropeller. Liegt am Nabenprofil an."
+    },
+    "bow-thruster": {
+      "name": "Bugstrahlruder-Anode",
+      "desc": "Sitzt auf der Propellernabe im Tunnel des Bugstrahlruders. Side-Power-Ausführungen verfügbar."
+    },
+    "kuyruk": {
+      "name": "Z-Antriebs-Anode",
+      "desc": "Plattenanode, die am Z-Antrieb verschraubt wird."
+    },
+    "volvo-penta": {
+      "name": "Volvo-Penta-Anode",
+      "desc": "Anodensatz passend zu Volvo-Penta-Antrieben und Motorgruppen."
+    },
+    "evinrude": {
+      "name": "Evinrude-Anode",
+      "desc": "Anoden für Evinrude-Außenbordmotoren."
+    },
+    "motor-tapa": {
+      "name": "Motoranode mit Stopfen",
+      "desc": "Zinkstab auf einem Messingstopfen. Wird in den Kühlkreislauf geschraubt und schützt den Motorblock."
+    },
+    "ozel-tekne": {
+      "name": "Anode nach Maß",
+      "desc": "Nach Ihrem Muster oder Ihren Maßen gegossen, passend zu Ihrem Boot."
+    },
+    "damla-kursun": {
+      "name": "Tropfenblei",
+      "desc": "Gegossenes Tropfenbleigewicht, nach Gramm, für Angelei und Trimm."
+    },
+    "dalgic-kemer": {
+      "name": "Tauchgurtblei",
+      "desc": "Gebogenes Bleigewicht für den Tauchgurt, mit Gurtschlitzen und körpernaher Auflage."
+    }
+  },
+  "material": {
+    "label": "Material",
+    "zn": "Zink (Zn)",
+    "al": "Aluminium (Al)",
+    "mg": "Magnesium (Mg)",
+    "znWater": "Salzwasser",
+    "alWater": "Salz- und Brackwasser",
+    "mgWater": "Süßwasser"
+  },
+  "stock": {
+    "label": "Verfügbarkeit",
+    "available": "Auf Lager",
+    "madeToOrder": "Guss auf Bestellung",
+    "out": "Nicht verfügbar"
+  },
+  "product": {
+    "priceAsk": "Preis auf Anfrage",
+    "sku": "Modell",
+    "size": "Größe",
+    "add": "Zur Liste",
+    "added": "Auf der Liste",
+    "vat": "inkl. MwSt.",
+    "of": "Produkte",
+    "noMatch": "Kein Produkt passt zu diesem Filter.",
+    "noMatchHelp": "Filter zurücksetzen und erneut versuchen oder uns die gesuchte Größe per WhatsApp schreiben."
+  },
+  "filter": {
+    "all": "Alle",
+    "title": "Filtern",
+    "group": "Produktgruppe",
+    "material": "Material",
+    "clear": "Filter zurücksetzen",
+    "results": "Produkte angezeigt"
+  },
+  "cart": {
+    "title": "Meine Bestellliste",
+    "empty": "Ihre Liste ist leer.",
+    "emptyHelp": "Fügen Sie hier die gewünschten Produkte hinzu und senden Sie alles auf einmal per WhatsApp.",
+    "qty": "Menge",
+    "remove": "Von der Liste nehmen",
+    "clear": "Liste leeren",
+    "total": "Summe der bekannten Preise",
+    "ask": "Preis auf Anfrage",
+    "send": "Per WhatsApp senden",
+    "note": "Damit öffnet sich WhatsApp mit Ihrer Liste als fertige Nachricht. Sie können sie vor dem Senden ändern. Die Bestellung gilt, sobald wir antworten.",
+    "tooLong": "Die Liste ist lang, die WhatsApp-Nachricht könnte abgeschnitten werden. Nehmen Sie einige Positionen heraus und senden Sie in zwei Teilen.",
+    "count": "Positionen"
+  },
+  "wa": {
+    "hello": "Guten Tag, ich hätte gern Preis und Verfügbarkeit der folgenden Artikel.",
+    "header": "BESTELLLISTE",
+    "totalLine": "Summe der bekannten Preise",
+    "askLine": "Artikel mit Preis auf Anfrage",
+    "footer": "Bitte teilen Sie mir Lieferung und Zahlung mit.",
+    "quick": "Guten Tag, ich hätte gern Informationen zu Anoden."
+  },
+  "guide": {
+    "title": "Welche Anode brauche ich?",
+    "lead": "Drei Fragen: welches Wasser, welches Teil, welche Größe.",
+    "s1t": "1. In welchem Wasser fahren Sie?",
+    "s1d": "Das Anodenmaterial richtet sich nach dem Wasser. Das falsche Material trägt entweder sofort ab oder wirkt gar nicht.",
+    "s1zn": "Meerwasser → Zink (Zn). An der türkischen Küste die übliche Wahl.",
+    "s1al": "Brackwasser, Flussmündungen, gemischter Einsatz → Aluminium (Al). Leichter und langlebiger.",
+    "s1mg": "Süßwasser, Seen, Flüsse → Magnesium (Mg). Nie im Meerwasser, es trägt viel zu schnell ab.",
+    "s2t": "2. Welches Teil wollen Sie schützen?",
+    "s2d": "Jedes Metallteil unter Wasser braucht seine eigene Anode. Eine schützt die anderen nicht mit.",
+    "s3t": "3. Wie messe ich?",
+    "s3zn": "Bei der Wellenanode den Wellendurchmesser messen (Außendurchmesser, mm).",
+    "s3al": "Bei der Propelleranode den Muttern- oder Nabendurchmesser messen.",
+    "s3mg": "Im Zweifel die alte Anode abnehmen und uns Foto und Messschieberwert per WhatsApp senden.",
+    "whenT": "Wann wechseln?",
+    "whenD": "Faustregel: wechseln, sobald die Anode zur Hälfte abgetragen ist. Warten Sie nicht, bis sie ganz weg ist — ab diesem Moment beginnt das geschützte Metall zu korrodieren. Die Standzeit hängt stark von Nutzung, Liegeplatz und Kriechströmen ab, prüfen Sie daher bei jedem Kranen.",
+    "warnT": "Anoden nie lackieren",
+    "warnD": "Eine Anode muss Wasserkontakt haben. Farbe, Antifouling oder Fett darauf, und sie wirkt überhaupt nicht mehr. Auch die Auflagefläche muss blankes Metall sein — Rost oder eine Lackschicht unterbricht den elektrischen Kontakt.",
+    "askT": "Noch unsicher?",
+    "askD": "Senden Sie ein Foto der alten Anode mit Bootstyp und Motormodell, wir sagen Ihnen, welche passt.",
+    "askCta": "Auf WhatsApp fragen"
+  },
+  "about": {
+    "title": "Gießen ist unser Handwerk",
+    "p1": "<strong>KUT MARİN DÖKÜM</strong> fertigt Anoden und Gussblei in Karabağlar, İzmir, für Bootseigner, Marinas, Werften und Tauchbetriebe.",
+    "p2": "Wir kaufen nicht zu und etikettieren um: <strong>wir gießen selbst.</strong> Standardgrößen stehen im Katalog; für alles andere senden Sie ein Muster oder die Maße, wir bauen die Form und gießen.",
+    "p3": "Wir stellen kein Produkt als vorrätig dar, das wir nicht haben. Ist es nicht am Lager, nennen wir den Gusstermin; passt es nicht, sagen wir das klar.",
+    "v1t": "Das richtige Material",
+    "v1d": "Wir verkaufen keine Anode, die nicht zu Ihrem Wasser passt — wir fragen zuerst, wo sie eingesetzt wird.",
+    "v2t": "Wenn das Maß nicht passt",
+    "v2d": "Sitzt eine Katalogabmessung nicht, gießen wir nach Maß.",
+    "v3t": "Offene Preise",
+    "v3d": "Bekannte Preise stehen hier; wo wir keinen kennen, erfinden wir keine Zahl.",
+    "factTitle": "Firmendaten",
+    "fTitle": "Firmenname",
+    "fAddress": "Anschrift",
+    "fPhone": "Telefon",
+    "fTax": "Finanzamt",
+    "fTaxNo": "Steuernummer",
+    "fHours": "Öffnungszeiten"
+  },
+  "contact": {
+    "title": "Kontakt aufnehmen",
+    "lead": "Am schnellsten per WhatsApp. Senden Sie Foto und Maß, dann können wir in derselben Nachricht antworten.",
+    "whatsapp": "Auf WhatsApp schreiben",
+    "call": "Anrufen",
+    "address": "Anschrift",
+    "hours": "Öffnungszeiten",
+    "hoursValue": "Werktags und samstags zu den Geschäftszeiten",
+    "hoursNote": "Genaue Zeiten bitte telefonisch erfragen.",
+    "mapNote": "Anschrift: 3267 Sokak No:8/A, Karabağlar, İzmir, Türkei."
+  },
+  "footer": {
+    "about": "Herstellung von Anoden und Gussblei für Boote, Marinas, Werften und Tauchbetriebe.",
+    "products": "Produkte",
+    "corporate": "Unternehmen",
+    "contact": "Kontakt",
+    "rights": "Alle Rechte vorbehalten.",
+    "legal": "Preise inkl. MwSt., Änderungen vorbehalten."
+  },
+  "common": {
+    "currency": "TRY",
+    "vatIncluded": "inkl. MwSt.",
+    "backHome": "Zur Startseite",
+    "updated": "Preisstand"
+  },
+  "products": {
+    "groupsTitle": "Produktgruppen",
+    "groupsLead": "Fünf Hauptgruppen: Welle, Rumpf, Propeller, Motor und Gussblei. Gruppe wählen und Größe finden.",
+    "catalogTitle": "Produktkatalog",
+    "catalogLead": "Nach Gruppe und Material filtern, zur Liste hinzufügen und in einer WhatsApp-Nachricht senden."
+  }
+}

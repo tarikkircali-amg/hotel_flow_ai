@@ -1,0 +1,332 @@
+/* ============================================================
+   KUT MARİN DÖKÜM — TASARIM TOKEN'LARI
+   Hiyerarsi: foundation -> semantic -> component -> theme
+   Bilesenler YALNIZCA semantic token tuketir. Sabit deger yok.
+   ============================================================ */
+
+:root {
+  /* ---------- FOUNDATION · RENK ---------- */
+  /* brand — derin deniz mavisi */
+  --color-brand-50:  #edf5fc;
+  --color-brand-100: #d6e9f8;
+  --color-brand-200: #aed3f1;
+  --color-brand-300: #79b4e6;
+  --color-brand-400: #4291d6;
+  --color-brand-500: #1f72bd;
+  --color-brand-600: #145a9e;
+  --color-brand-700: #11497f;
+  --color-brand-800: #123e69;
+  --color-brand-900: #133558;
+  --color-brand-950: #0b2138;
+
+  /* accent — eritilmis metal / dokumhane bakiri */
+  --color-accent-50:  #fff7ed;
+  --color-accent-100: #ffedd5;
+  --color-accent-200: #fed7aa;
+  --color-accent-300: #fdba74;
+  --color-accent-400: #fb923c;
+  --color-accent-500: #f97316;
+  --color-accent-600: #ea580c;
+  --color-accent-700: #c2410c;
+  --color-accent-800: #9a3412;
+  --color-accent-900: #7c2d12;
+  --color-accent-950: #431407;
+
+  /* neutral — celik grisi */
+  --color-neutral-0:   #ffffff;
+  --color-neutral-50:  #f6f8fa;
+  --color-neutral-100: #eceff3;
+  --color-neutral-200: #dbe1e8;
+  --color-neutral-300: #bfc9d4;
+  --color-neutral-400: #8e9cad;
+  --color-neutral-500: #697786;
+  --color-neutral-600: #515d6b;
+  --color-neutral-700: #3f4955;
+  --color-neutral-800: #2b333c;
+  --color-neutral-900: #1b2128;
+  --color-neutral-950: #0e1216;
+
+  /* durum renkleri */
+  --color-success-50:  #ecfdf5;
+  --color-success-100: #d1fae5;
+  --color-success-500: #10b981;
+  --color-success-600: #059669;
+  --color-success-700: #047857;
+
+  --color-warning-50:  #fffbeb;
+  --color-warning-100: #fef3c7;
+  --color-warning-500: #f59e0b;
+  --color-warning-600: #d97706;
+  --color-warning-700: #b45309;
+
+  --color-danger-50:  #fef2f2;
+  --color-danger-100: #fee2e2;
+  --color-danger-500: #ef4444;
+  --color-danger-600: #dc2626;
+  --color-danger-700: #b91c1c;
+
+  --color-info-50:  #eff6ff;
+  --color-info-100: #dbeafe;
+  --color-info-500: #3b82f6;
+  --color-info-600: #2563eb;
+  --color-info-700: #1d4ed8;
+
+  /* WhatsApp — YALNIZCA WhatsApp eylemlerinde kullanilir, dekoratif degil */
+  --color-whatsapp-500: #25d366;
+  --color-whatsapp-600: #1ebe5a;
+  --color-whatsapp-700: #128c7e;
+  --color-whatsapp-950: #073d33;
+
+  /* ---------- FOUNDATION · BOSLUK (8px taban) ---------- */
+  --spacing-0: 0;      --spacing-2: 2px;    --spacing-4: 4px;
+  --spacing-6: 6px;    --spacing-8: 8px;    --spacing-12: 12px;
+  --spacing-16: 16px;  --spacing-20: 20px;  --spacing-24: 24px;
+  --spacing-32: 32px;  --spacing-40: 40px;  --spacing-48: 48px;
+  --spacing-56: 56px;  --spacing-64: 64px;  --spacing-80: 80px;
+  --spacing-96: 96px;  --spacing-112: 112px; --spacing-128: 128px;
+
+  /* ---------- FOUNDATION · TIPOGRAFI ---------- */
+  /* Dis kaynaktan yazi tipi yuklenmez (gizlilik + hiz). Sistem zinciri. */
+  --font-family-primary: "Inter", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --font-family-mono: "JetBrains Mono", ui-monospace, SFMono-Regular,
+    "SF Mono", Menlo, Consolas, monospace;
+  /* Arapca icin okunakli yedek zincir */
+  --font-family-arabic: "Noto Naskh Arabic", "Geeza Pro", "Segoe UI",
+    Tahoma, var(--font-family-primary);
+
+  --font-size-11: 0.6875rem; --font-size-12: 0.75rem;  --font-size-13: 0.8125rem;
+  --font-size-14: 0.875rem;  --font-size-15: 0.9375rem; --font-size-16: 1rem;
+  --font-size-18: 1.125rem;  --font-size-20: 1.25rem;  --font-size-24: 1.5rem;
+  --font-size-28: 1.75rem;   --font-size-32: 2rem;     --font-size-40: 2.5rem;
+  --font-size-48: 3rem;      --font-size-56: 3.5rem;   --font-size-64: 4rem;
+
+  --font-weight-regular: 400; --font-weight-medium: 500;
+  --font-weight-semibold: 600; --font-weight-bold: 700;
+
+  --line-height-display: 1.08; --line-height-heading: 1.2;
+  --line-height-body: 1.55;    --line-height-caption: 1.4;
+
+  --letter-spacing-display: -0.025em; --letter-spacing-heading: -0.012em;
+  --letter-spacing-body: 0;           --letter-spacing-uppercase: 0.06em;
+
+  /* ---------- FOUNDATION · YARICAP / KENAR / GOLGE ---------- */
+  --radius-none: 0;   --radius-4: 4px;   --radius-6: 6px;   --radius-8: 8px;
+  --radius-12: 12px;  --radius-16: 16px; --radius-20: 20px; --radius-24: 24px;
+  --radius-full: 9999px;
+
+  --border-width-0: 0; --border-width-1: 1px; --border-width-2: 2px;
+  --border-width-3: 3px;
+
+  --shadow-xs: 0 1px 2px rgb(14 18 22 / 6%);
+  --shadow-sm: 0 1px 3px rgb(14 18 22 / 8%), 0 1px 2px rgb(14 18 22 / 6%);
+  --shadow-md: 0 4px 12px rgb(14 18 22 / 9%), 0 2px 4px rgb(14 18 22 / 5%);
+  --shadow-lg: 0 12px 28px rgb(14 18 22 / 11%), 0 4px 10px rgb(14 18 22 / 6%);
+  --shadow-xl: 0 24px 48px rgb(14 18 22 / 13%), 0 8px 16px rgb(14 18 22 / 7%);
+
+  /* ---------- FOUNDATION · HAREKET ---------- */
+  --motion-duration-instant: 75ms; --motion-duration-fast: 120ms;
+  --motion-duration-normal: 180ms; --motion-duration-slow: 320ms;
+  --motion-easing-standard: cubic-bezier(0.2, 0, 0.2, 1);
+  --motion-easing-decelerate: cubic-bezier(0, 0, 0.2, 1);
+
+  /* ---------- FOUNDATION · Z-INDEX ---------- */
+  --z-index-content: 1;  --z-index-sticky: 100; --z-index-header: 200;
+  --z-index-drawer: 300; --z-index-modal: 400;  --z-index-toast: 500;
+
+  /* ---------- FOUNDATION · YERLESIM ---------- */
+  --layout-max-width: 1280px;
+  --layout-reading-width: 68ch;
+  --layout-gutter: var(--spacing-24);
+  --layout-gutter-mobile: var(--spacing-16);
+}
+
+/* ============================================================
+   SEMANTIC · ACIK TEMA
+   ============================================================ */
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --text-primary:   var(--color-neutral-900);
+  --text-secondary: var(--color-neutral-700);
+  /* neutral-500 (#697786) acik yuzey uzerinde 4.3:1 veriyordu — AA esigi 4.5.
+     neutral-600 hem beyaz hem --background-surface uzerinde esigi gecer. */
+  --text-tertiary:  var(--color-neutral-600);
+  --text-muted:     var(--color-neutral-500);
+  --text-inverse:   var(--color-neutral-0);
+  --text-link:      var(--color-brand-700);
+  --text-brand:     var(--color-brand-700);
+  --text-accent:    var(--color-accent-700);
+  --text-success:   var(--color-success-700);
+  --text-warning:   var(--color-warning-700);
+  --text-danger:    var(--color-danger-700);
+
+  --background-app:        var(--color-neutral-0);
+  --background-surface:    var(--color-neutral-50);
+  --background-card:       var(--color-neutral-0);
+  --background-panel:      var(--color-brand-50);
+  --background-navigation: rgb(255 255 255 / 90%);
+  --background-inverse:    var(--color-brand-950);
+  --background-hover:      var(--color-neutral-100);
+  --background-selected:   var(--color-brand-50);
+  --background-accent-subtle:  var(--color-accent-50);
+  --background-success-subtle: var(--color-success-50);
+  --background-warning-subtle: var(--color-warning-50);
+  --background-danger-subtle:  var(--color-danger-50);
+
+  --border-default: var(--color-neutral-200);
+  --border-subtle:  var(--color-neutral-100);
+  --border-strong:  var(--color-neutral-300);
+  --border-focus:   var(--color-brand-600);
+  --border-accent:  var(--color-accent-300);
+  --border-danger:  var(--color-danger-500);
+  --border-success: var(--color-success-500);
+
+  --icon-primary:   var(--color-neutral-700);
+  --icon-secondary: var(--color-neutral-500);
+  --icon-inverse:   var(--color-neutral-0);
+  --icon-brand:     var(--color-brand-600);
+  --icon-accent:    var(--color-accent-600);
+  --icon-success:   var(--color-success-600);
+  --icon-danger:    var(--color-danger-600);
+
+  --action-primary-background:       var(--color-brand-600);
+  --action-primary-background-hover: var(--color-brand-700);
+  --action-primary-text:             var(--color-neutral-0);
+  --action-secondary-background:       var(--color-neutral-0);
+  --action-secondary-background-hover: var(--color-neutral-100);
+  --action-secondary-text:             var(--color-neutral-800);
+  /* Beyaz yazi WhatsApp yesili uzerinde 2.45:1 kaliyor ve WCAG AA'yi gecmiyor.
+     Marka yesili korunur, yazi koyulastirilir: 9.5:1. Erisilebilirlik gorsel
+     cilanin onunde gelir ve marka rengi yine taninir. */
+  --action-whatsapp-background:       var(--color-whatsapp-500);
+  --action-whatsapp-background-hover: var(--color-whatsapp-600);
+  --action-whatsapp-text:             var(--color-neutral-950);
+
+  /* Teknik cizim yuzeyleri */
+  --drawing-surface: var(--color-brand-50);
+  --drawing-metal:   var(--color-neutral-300);
+  --drawing-metal-light: var(--color-neutral-100);
+  --drawing-metal-dark:  var(--color-neutral-500);
+  --drawing-line:    var(--color-brand-800);
+  --drawing-dim:     var(--color-brand-500);
+  --drawing-core:    var(--color-neutral-600);
+
+  /* Anot malzemesi — renk tek basina anlam tasimaz, etiketle birlikte kullanilir */
+  /* Rozet metni kucuk ve kalin; neutral-500 acik yuzeyde 4.3:1 kaliyordu. */
+  --material-zinc:      var(--color-neutral-700);
+  --material-aluminium: var(--color-info-700);
+  --material-magnesium: var(--color-accent-700);
+
+  /* Stok durumu */
+  --stock-available: var(--color-success-600);
+  --stock-made-to-order: var(--color-warning-600);
+  --stock-out: var(--color-neutral-400);
+
+  --gradient-hero:
+    radial-gradient(1100px 620px at 12% -15%, var(--color-brand-100) 0%, transparent 62%),
+    radial-gradient(900px 520px at 92% 5%, var(--color-accent-100) 0%, transparent 55%);
+}
+
+/* ============================================================
+   SEMANTIC · KOYU TEMA — kullanilabilirlik ve kontrast dusmez
+   ============================================================ */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --text-primary:   var(--color-neutral-50);
+  --text-secondary: var(--color-neutral-300);
+  --text-tertiary:  var(--color-neutral-300);
+  --text-muted:     var(--color-neutral-400);
+  --text-inverse:   var(--color-neutral-950);
+  --text-link:      var(--color-brand-300);
+  --text-brand:     var(--color-brand-300);
+  --text-accent:    var(--color-accent-300);
+  --text-success:   #6ee7b7;
+  --text-warning:   #fcd34d;
+  --text-danger:    #fca5a5;
+
+  --background-app:        var(--color-neutral-950);
+  --background-surface:    #141a21;
+  --background-card:       var(--color-neutral-900);
+  --background-panel:      #0d2033;
+  --background-navigation: rgb(14 18 22 / 88%);
+  --background-inverse:    var(--color-neutral-50);
+  --background-hover:      var(--color-neutral-800);
+  --background-selected:   #13304d;
+  --background-accent-subtle:  #3a1a07;
+  --background-success-subtle: #052e22;
+  --background-warning-subtle: #3a2a05;
+  --background-danger-subtle:  #3f1414;
+
+  --border-default: #2c353f;
+  --border-subtle:  #1f272f;
+  --border-strong:  #3e4955;
+  --border-focus:   var(--color-brand-300);
+  --border-accent:  var(--color-accent-800);
+  --border-danger:  var(--color-danger-500);
+  --border-success: var(--color-success-500);
+
+  --icon-primary:   var(--color-neutral-200);
+  --icon-secondary: var(--color-neutral-400);
+  --icon-inverse:   var(--color-neutral-950);
+  --icon-brand:     var(--color-brand-300);
+  --icon-accent:    var(--color-accent-400);
+  --icon-success:   var(--color-success-500);
+  --icon-danger:    var(--color-danger-500);
+
+  --action-primary-background:       var(--color-brand-500);
+  --action-primary-background-hover: var(--color-brand-400);
+  --action-primary-text:             var(--color-neutral-950);
+  --action-secondary-background:       transparent;
+  --action-secondary-background-hover: var(--color-neutral-800);
+  --action-secondary-text:             var(--color-neutral-100);
+  --action-whatsapp-background:       var(--color-whatsapp-500);
+  --action-whatsapp-background-hover: var(--color-whatsapp-600);
+  --action-whatsapp-text:             var(--color-neutral-950);
+
+  --drawing-surface: #0d2033;
+  --drawing-metal:   var(--color-neutral-600);
+  --drawing-metal-light: var(--color-neutral-500);
+  --drawing-metal-dark:  var(--color-neutral-800);
+  --drawing-line:    var(--color-brand-200);
+  --drawing-dim:     var(--color-brand-300);
+  --drawing-core:    var(--color-neutral-400);
+
+  --material-zinc:      var(--color-neutral-300);
+  --material-aluminium: var(--color-info-500);
+  --material-magnesium: var(--color-accent-400);
+
+  --stock-available: var(--color-success-500);
+  --stock-made-to-order: var(--color-warning-500);
+  --stock-out: var(--color-neutral-500);
+
+  --shadow-sm: 0 1px 3px rgb(0 0 0 / 45%);
+  --shadow-md: 0 4px 12px rgb(0 0 0 / 50%);
+  --shadow-lg: 0 12px 28px rgb(0 0 0 / 55%);
+  --shadow-xl: 0 24px 48px rgb(0 0 0 / 60%);
+
+  --gradient-hero:
+    radial-gradient(1100px 620px at 12% -15%, #10263d 0%, transparent 62%),
+    radial-gradient(900px 520px at 92% 5%, #3a1a07 0%, transparent 55%);
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --border-default: var(--color-neutral-500);
+    --border-strong:  var(--color-neutral-700);
+    --text-secondary: var(--color-neutral-900);
+    --text-tertiary:  var(--color-neutral-800);
+  }
+}
+
+@media print {
+  :root {
+    --background-app: #fff; --background-card: #fff;
+    --background-surface: #fff; --background-panel: #fff;
+    --text-primary: #000; --text-secondary: #1a1a1a;
+    --gradient-hero: none;
+    --shadow-sm: none; --shadow-md: none; --shadow-lg: none; --shadow-xl: none;
+  }
+}

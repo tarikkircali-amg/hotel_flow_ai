@@ -1,0 +1,17 @@
+{
+  "_comment": "Firma bilgilerinin TEK kaynagi. Telefon, adres veya vergi bilgisi degisirse yalnizca burasi guncellenir; tum sayfalar buradan okur.",
+  "legalName": "KUT MARİN DÖKÜM - Hüseyin Okan Kut",
+  "shortName": "Kut Marin",
+  "phone": { "display": "0544 732 93 06", "e164": "+905447329306", "tel": "+905447329306" },
+  "whatsapp": { "number": "905447329306", "base": "https://wa.me/" },
+  "address": {
+    "street": "3267 Sokak No:8/A",
+    "district": "Karabağlar",
+    "city": "İzmir",
+    "country": "Türkiye",
+    "full": "3267 Sokak No:8/A, Karabağlar, İzmir"
+  },
+  "tax": { "office": "Kadifekale V.D.", "number": "338 838 170 90" },
+  "founded": null,
+  "social": {}
+}

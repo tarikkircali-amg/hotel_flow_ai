@@ -1,0 +1,343 @@
+/* ============================================================
+   KUT MARİN — BİLEŞENLER
+   Kart, ürün, filtre, sipariş çekmecesi, rehber, altbilgi.
+   ============================================================ */
+
+/* ---------- Izgara ve kart ---------- */
+.grid { display: grid; gap: var(--spacing-24); }
+.grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.grid--products { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+
+.card {
+  display: flex; flex-direction: column; gap: var(--spacing-12);
+  padding: var(--spacing-24);
+  background: var(--background-card);
+  border: var(--border-width-1) solid var(--border-default);
+  border-radius: var(--radius-16);
+}
+.card__icon {
+  display: grid; place-items: center;
+  inline-size: var(--spacing-48); block-size: var(--spacing-48);
+  border-radius: var(--radius-12);
+  background: var(--background-panel); color: var(--icon-brand);
+}
+.card__title { font-size: var(--font-size-20); }
+.card__text { color: var(--text-secondary); font-size: var(--font-size-15); }
+
+@media (max-width: 1079px) { .grid--3, .grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 639px)  { .grid--2, .grid--3, .grid--4 { grid-template-columns: 1fr; } }
+
+/* ---------- Ürün grubu kartı ---------- */
+.group-card { padding: 0; overflow: hidden; }
+.group-card__link {
+  display: grid; gap: var(--spacing-12); padding: var(--spacing-16);
+  color: inherit; text-decoration: none; block-size: 100%;
+}
+.group-card__link:hover { background: var(--background-hover); }
+.group-card__media { margin: 0; border-radius: var(--radius-12); overflow: hidden; }
+.group-card__media img { inline-size: 100%; height: auto; }
+.group-card__title { font-size: var(--font-size-18); }
+.group-card__list { font-size: var(--font-size-13); color: var(--text-tertiary); }
+
+/* ---------- Ürün kartı ---------- */
+.product { padding: 0; overflow: hidden; gap: 0; }
+.product__media { margin: 0; background: var(--background-surface); }
+.product__media img { inline-size: 100%; height: auto; }
+.product__body {
+  display: flex; flex-direction: column; gap: var(--spacing-8);
+  padding: var(--spacing-20); flex: 1;
+}
+.product__title { font-size: var(--font-size-18); }
+.product__meta { display: flex; flex-wrap: wrap; gap: var(--spacing-8); align-items: center; }
+.product__sku {
+  font-family: var(--font-family-mono); font-size: var(--font-size-12);
+  font-weight: var(--font-weight-medium); color: var(--text-tertiary);
+  padding: var(--spacing-2) var(--spacing-8);
+  background: var(--background-surface); border-radius: var(--radius-4);
+}
+.product__brand { font-size: var(--font-size-12); color: var(--text-tertiary); }
+.product__desc { font-size: var(--font-size-14); color: var(--text-secondary); }
+.product__badges { display: flex; flex-wrap: wrap; gap: var(--spacing-6); margin-block-start: var(--spacing-4); }
+.product__foot {
+  display: flex; flex-wrap: wrap; gap: var(--spacing-12);
+  align-items: center; justify-content: space-between;
+  margin-block-start: auto; padding-block-start: var(--spacing-16);
+}
+.product__price { display: grid; }
+.product__amount {
+  font-size: var(--font-size-20); font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums; color: var(--text-primary);
+}
+.product__vat { font-size: var(--font-size-11); color: var(--text-tertiary); }
+.product__price--ask { font-size: var(--font-size-15); font-weight: var(--font-weight-semibold); color: var(--text-accent); }
+.product__add { min-height: var(--spacing-40); padding-inline: var(--spacing-16); font-size: var(--font-size-14); }
+.product__add.is-added {
+  background: var(--background-success-subtle);
+  border-color: var(--border-success); color: var(--text-success);
+}
+
+/* ---------- Filtreler ---------- */
+.filters {
+  display: grid; gap: var(--spacing-16);
+  padding: var(--spacing-20);
+  background: var(--background-surface);
+  border: var(--border-width-1) solid var(--border-default);
+  border-radius: var(--radius-16);
+  margin-block-end: var(--spacing-32);
+}
+.filters__row { display: grid; gap: var(--spacing-8); }
+.filters__label {
+  font-size: var(--font-size-12); font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-uppercase); text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+.filters__chips { display: flex; flex-wrap: wrap; gap: var(--spacing-8); }
+.filters__foot {
+  display: flex; flex-wrap: wrap; gap: var(--spacing-12);
+  align-items: center; justify-content: space-between;
+}
+.chip {
+  min-block-size: var(--spacing-40); padding-inline: var(--spacing-16);
+  border: var(--border-width-1) solid var(--border-default);
+  border-radius: var(--radius-full);
+  background: var(--background-card); color: var(--text-secondary);
+  font: inherit; font-size: var(--font-size-14); font-weight: var(--font-weight-medium);
+  cursor: pointer;
+}
+.chip:hover { background: var(--background-hover); }
+.chip[aria-pressed="true"] {
+  background: var(--action-primary-background); color: var(--action-primary-text);
+  border-color: var(--action-primary-background); font-weight: var(--font-weight-semibold);
+}
+.result-count { font-size: var(--font-size-14); color: var(--text-tertiary); font-variant-numeric: tabular-nums; }
+
+.empty-state {
+  grid-column: 1 / -1; display: grid; gap: var(--spacing-8);
+  padding: var(--spacing-48) var(--spacing-24); text-align: center;
+  border: var(--border-width-2) dashed var(--border-default);
+  border-radius: var(--radius-16);
+}
+.empty-state__title { font-size: var(--font-size-18); font-weight: var(--font-weight-semibold); }
+.empty-state__text { color: var(--text-secondary); font-size: var(--font-size-15); }
+
+/* ---------- Sipariş çekmecesi ---------- */
+body.has-drawer { overflow: hidden; }
+.drawer {
+  position: fixed; inset: 0; z-index: var(--z-index-drawer);
+  background: rgb(14 18 22 / 55%);
+  display: flex; justify-content: flex-end;
+}
+.drawer[hidden] { display: none; }
+.drawer__panel {
+  inline-size: min(440px, 100%); block-size: 100%;
+  display: flex; flex-direction: column;
+  background: var(--background-app);
+  box-shadow: var(--shadow-xl);
+}
+.drawer__head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--spacing-16); padding: var(--spacing-20) var(--spacing-24);
+  border-block-end: var(--border-width-1) solid var(--border-default);
+}
+.drawer__title { font-size: var(--font-size-20); }
+.drawer__body { flex: 1; overflow-y: auto; padding: var(--spacing-20) var(--spacing-24); }
+.drawer__foot {
+  display: grid; gap: var(--spacing-12);
+  padding: var(--spacing-20) var(--spacing-24);
+  border-block-start: var(--border-width-1) solid var(--border-default);
+  background: var(--background-surface);
+}
+
+.cart-empty { display: grid; gap: var(--spacing-8); padding-block: var(--spacing-32); text-align: center; }
+.cart-empty__title { font-weight: var(--font-weight-semibold); }
+.cart-empty__text { color: var(--text-secondary); font-size: var(--font-size-14); }
+
+.cart-items { display: grid; gap: var(--spacing-12); }
+.cart-item {
+  display: grid; align-items: center; gap: var(--spacing-12);
+  grid-template-columns: 1fr auto auto auto;
+  padding-block-end: var(--spacing-12);
+  border-block-end: var(--border-width-1) solid var(--border-subtle);
+}
+.cart-item__name { font-size: var(--font-size-14); font-weight: var(--font-weight-semibold); }
+.cart-item__sku { font-family: var(--font-family-mono); font-size: var(--font-size-11); color: var(--text-tertiary); }
+.cart-item__input {
+  inline-size: var(--spacing-64); min-block-size: var(--spacing-40);
+  padding-inline: var(--spacing-8); text-align: center;
+  border: var(--border-width-1) solid var(--border-strong);
+  border-radius: var(--radius-6);
+  background: var(--background-card); color: var(--text-primary);
+  font: inherit; font-size: var(--font-size-14); font-variant-numeric: tabular-nums;
+}
+.cart-item__price {
+  font-size: var(--font-size-14); font-weight: var(--font-weight-semibold);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.cart-item__price--ask { font-size: var(--font-size-12); font-weight: var(--font-weight-medium); color: var(--text-accent); white-space: normal; }
+.cart-item__remove {
+  display: grid; place-items: center;
+  inline-size: var(--spacing-40); block-size: var(--spacing-40);
+  border: 0; border-radius: var(--radius-full);
+  background: transparent; color: var(--icon-secondary); cursor: pointer;
+}
+.cart-item__remove:hover { background: var(--background-danger-subtle); color: var(--icon-danger); }
+
+.cart-total {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: var(--spacing-12); font-size: var(--font-size-15);
+}
+.cart-total__value {
+  font-size: var(--font-size-20); font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums;
+}
+.cart-ask, .cart-note { font-size: var(--font-size-12); color: var(--text-tertiary); }
+.cart-warn {
+  display: flex; gap: var(--spacing-8);
+  padding: var(--spacing-12);
+  background: var(--background-warning-subtle);
+  border: var(--border-width-1) solid var(--color-warning-500);
+  border-radius: var(--radius-8);
+  font-size: var(--font-size-13); color: var(--text-warning);
+}
+.cart-warn[hidden] { display: none; }
+
+/* ---------- Rehber ---------- */
+.step-list { display: grid; gap: var(--spacing-24); }
+.step {
+  display: grid; grid-template-columns: var(--spacing-48) 1fr;
+  gap: var(--spacing-20); align-items: start;
+}
+.step__badge {
+  display: grid; place-items: center;
+  inline-size: var(--spacing-48); block-size: var(--spacing-48);
+  border-radius: var(--radius-full);
+  background: var(--action-primary-background); color: var(--action-primary-text);
+  font-size: var(--font-size-18); font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums;
+}
+.step__body { display: grid; gap: var(--spacing-8); }
+.step__title { font-size: var(--font-size-20); }
+.step__text { color: var(--text-secondary); }
+.water-list { display: grid; gap: var(--spacing-12); margin-block-start: var(--spacing-8); }
+.water {
+  display: grid; grid-template-columns: auto 1fr; gap: var(--spacing-12);
+  align-items: start; padding: var(--spacing-16);
+  border: var(--border-width-1) solid var(--border-default);
+  border-radius: var(--radius-12); background: var(--background-card);
+  font-size: var(--font-size-15); color: var(--text-secondary);
+}
+.water__symbol {
+  font-family: var(--font-family-mono); font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-14);
+  padding: var(--spacing-4) var(--spacing-8); border-radius: var(--radius-6);
+  background: var(--background-surface);
+  border: var(--border-width-1) solid var(--border-default);
+}
+.water--zn .water__symbol { color: var(--material-zinc); }
+.water--al .water__symbol { color: var(--material-aluminium); }
+.water--mg .water__symbol { color: var(--material-magnesium); }
+
+.notice {
+  display: grid; grid-template-columns: var(--spacing-24) 1fr;
+  gap: var(--spacing-16); padding: var(--spacing-20);
+  border-radius: var(--radius-12);
+  border: var(--border-width-1) solid var(--border-default);
+  background: var(--background-card);
+}
+.notice--warning { background: var(--background-warning-subtle); border-color: var(--color-warning-500); }
+.notice__title { font-size: var(--font-size-18); margin-block-end: var(--spacing-8); }
+.notice__text { color: var(--text-secondary); font-size: var(--font-size-15); }
+.notice svg { color: var(--icon-brand); }
+.notice--warning svg { color: var(--color-warning-600); }
+
+/* ---------- Hakkımızda ve iletişim ---------- */
+.split {
+  display: grid; gap: var(--spacing-56);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr); align-items: start;
+}
+.prose { display: grid; gap: var(--spacing-16); max-width: var(--layout-reading-width); }
+.prose p { color: var(--text-secondary); }
+.prose strong { color: var(--text-primary); font-weight: var(--font-weight-semibold); }
+.fact-list {
+  display: grid; gap: var(--spacing-16); padding: var(--spacing-24);
+  background: var(--background-panel);
+  border: var(--border-width-1) solid var(--border-default);
+  border-radius: var(--radius-16);
+}
+.fact-list__term {
+  font-size: var(--font-size-12); font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-uppercase); text-transform: uppercase;
+  color: var(--text-brand);
+}
+.fact-list__desc { color: var(--text-secondary); font-size: var(--font-size-15); margin-inline-start: 0; }
+.fact-list__desc--mono { font-family: var(--font-family-mono); font-size: var(--font-size-14); }
+.contact-list { display: grid; gap: var(--spacing-16); }
+.contact-list__item {
+  display: grid; grid-template-columns: var(--spacing-24) 1fr;
+  gap: var(--spacing-12); align-items: start;
+  font-size: var(--font-size-15); color: var(--text-secondary);
+}
+.contact-list__item svg { color: var(--icon-brand); margin-block-start: var(--spacing-2); }
+.contact-list__item strong { display: block; color: var(--text-primary); }
+@media (max-width: 1079px) { .split { grid-template-columns: 1fr; gap: var(--spacing-40); } }
+
+/* ---------- Altbilgi ---------- */
+.site-footer {
+  padding-block: var(--spacing-56) var(--spacing-32);
+  background: var(--background-surface);
+  border-block-start: var(--border-width-1) solid var(--border-default);
+}
+.site-footer__grid {
+  display: grid; gap: var(--spacing-32);
+  grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(0, 1fr));
+  margin-block-end: var(--spacing-40);
+}
+.site-footer__about { max-width: 38ch; color: var(--text-secondary); font-size: var(--font-size-14); margin-block-start: var(--spacing-12); }
+.site-footer__heading {
+  margin-block-end: var(--spacing-16);
+  font-size: var(--font-size-12); font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-uppercase); text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+.site-footer__list { display: grid; gap: var(--spacing-8); }
+.site-footer__list a, .site-footer__list span {
+  display: inline-flex; align-items: center; min-block-size: var(--spacing-32);
+  font-size: var(--font-size-14); color: var(--text-secondary); text-decoration: none;
+}
+.site-footer__list a:hover { color: var(--text-link); text-decoration: underline; }
+.site-footer__bottom {
+  display: flex; flex-wrap: wrap; gap: var(--spacing-16);
+  align-items: center; justify-content: space-between;
+  padding-block-start: var(--spacing-24);
+  border-block-start: var(--border-width-1) solid var(--border-default);
+  font-size: var(--font-size-13); color: var(--text-tertiary);
+}
+@media (max-width: 1079px) { .site-footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 639px)  { .site-footer__grid { grid-template-columns: 1fr; } }
+
+/* ---------- Sabit WhatsApp düğmesi ---------- */
+.wa-float {
+  position: fixed; inset-block-end: var(--spacing-24);
+  inset-inline-end: var(--spacing-24); z-index: var(--z-index-sticky);
+  display: inline-flex; align-items: center; gap: var(--spacing-8);
+  min-block-size: var(--spacing-56); padding-inline: var(--spacing-20);
+  border-radius: var(--radius-full);
+  background: var(--action-whatsapp-background); color: var(--action-whatsapp-text);
+  font-weight: var(--font-weight-semibold); text-decoration: none;
+  box-shadow: var(--shadow-lg);
+}
+.wa-float:hover { background: var(--action-whatsapp-background-hover); }
+@media (max-width: 639px) {
+  .wa-float { inset-inline-end: var(--spacing-16); inset-block-end: var(--spacing-16); }
+  .wa-float__label { display: none; }
+  .wa-float { padding-inline: var(--spacing-16); }
+  .cart-item { grid-template-columns: 1fr auto auto; }
+  .cart-item__price { grid-column: 1 / -1; text-align: end; }
+}
+
+@media print {
+  .site-header, .u-skip-link, .wa-float, .drawer, .filters, .product__add { display: none; }
+  .section { padding-block: var(--spacing-24); }
+}

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300" role="img" aria-labelledby="t d">
+  <title id="t">Dar şaft tutyası</title>
+  <desc id="d">Dar gövdeli şaft tutyası; sınırlı yer olan mil yataklarında kullanılır, iki cıvatayla sıkılır.</desc>
+  <defs>
+    <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f2f5f8"/><stop offset=".38" stop-color="#cbd5e0"/>
+      <stop offset=".62" stop-color="#aab7c6"/><stop offset="1" stop-color="#7d8b9b"/>
+    </linearGradient>
+    <linearGradient id="metalV" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#8f9dac"/><stop offset=".3" stop-color="#dbe2ea"/>
+      <stop offset=".6" stop-color="#b4c0cd"/><stop offset="1" stop-color="#808e9e"/>
+    </linearGradient>
+    <linearGradient id="lead" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9aa4ae"/><stop offset=".45" stop-color="#6d7883"/>
+      <stop offset="1" stop-color="#48515b"/>
+    </linearGradient>
+    <linearGradient id="brass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e8c98a"/><stop offset=".5" stop-color="#c9a257"/>
+      <stop offset="1" stop-color="#9a7735"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#bfe0f5"/><stop offset="1" stop-color="#5f9fd0"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" rx="16" fill="#e9eff6"/>
+  <rect x=".75" y=".75" width="398.5" height="298.5" rx="15.25" fill="none" stroke="#cfdbe8"/>
+  <g stroke-linejoin="round" stroke-linecap="round">
+  <path d="M30 150h340" stroke="#5d6974" stroke-width="24" opacity=".35"/>
+  <path d="M30 150h340" stroke="#5d6974" stroke-width="20"/>
+  <rect x="160" y="106" width="80" height="88" rx="8" fill="url(#metal)" stroke="#123e69" stroke-width="2.5"/>
+  <path d="M160 150h80" stroke="#123e69" stroke-width="2" stroke-dasharray="6 4"/>
+  <rect x="160" y="140" width="80" height="20" fill="#5d6974" opacity=".25"/>
+  <g fill="url(#brass)" stroke="#123e69" stroke-width="2">
+    <rect x="189" y="97" width="22" height="14" rx="3"/><rect x="189" y="189" width="22" height="14" rx="3"/>
+  </g>
+  <path d="M200 111v78" stroke="#123e69" stroke-width="2" opacity=".45"/>
+  <g stroke="#1f72bd" stroke-width="1.2" fill="none">
+      <path d="M160 236L240 236"/>
+      <path d="M165 232L160 236L165 240M235 232L240 236L235 240"/>
+    </g>
+</g>
+</svg>

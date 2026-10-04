@@ -1,0 +1,246 @@
+{
+  "meta": {
+    "name": "Español",
+    "dir": "ltr",
+    "locale": "es-ES"
+  },
+  "nav": {
+    "home": "Inicio",
+    "products": "Productos",
+    "guide": "Guía de ánodos",
+    "about": "Quiénes somos",
+    "contact": "Contacto",
+    "cart": "Mi lista de pedido"
+  },
+  "a11y": {
+    "skip": "Ir al contenido",
+    "menuOpen": "Abrir el menú",
+    "menuClose": "Cerrar el menú",
+    "themeDark": "Activar el tema oscuro",
+    "themeLight": "Activar el tema claro",
+    "lang": "Elegir idioma",
+    "cartOpen": "Abrir la lista de pedido",
+    "cartClose": "Cerrar la lista de pedido"
+  },
+  "hero": {
+    "badge": "Fundición de ánodos y plomo en İzmir",
+    "title": "Ánodos que protegen el metal bajo su barco",
+    "lead": "Ánodos de eje, hélice, casco y motor, además de plomos fundidos. Fundimos nosotros mismos: elija una medida estándar o encargue la fundición a su medida.",
+    "ctaProducts": "Ver productos",
+    "ctaWhatsapp": "Preguntar por WhatsApp",
+    "note": "Fundición a medida · Mayorista y minorista",
+    "diagramTitle": "¿Dónde se montan los ánodos bajo un barco?",
+    "diagramCaption": "Cada pieza metálica sumergida necesita su propio ánodo. Los números señalan los cuatro puntos de montaje más habituales."
+  },
+  "trust": {
+    "t1": "Fundición propia",
+    "d1": "Sin intermediarios: el zinc y el plomo los fundimos nosotros.",
+    "t2": "Fabricación a medida",
+    "d2": "Envíe una muestra o las cotas y hacemos el molde para su barco.",
+    "t3": "Gama completa",
+    "d3": "Del eje a la hélice, de Volvo Penta a Side Power, en un solo sitio.",
+    "t4": "Pedido por WhatsApp",
+    "d4": "Prepare su lista y envíela con un toque. Sin registro."
+  },
+  "group": {
+    "shaft": "Ánodos de eje",
+    "hull": "Ánodos de casco",
+    "propeller": "Ánodos de hélice",
+    "engine": "Ánodos de motor y cola",
+    "lead": "Plomo fundido"
+  },
+  "cat": {
+    "saft": {
+      "name": "Ánodo de eje",
+      "desc": "Se atornilla alrededor del eje de la hélice en dos medias abrazaderas. Se elige por el diámetro del eje."
+    },
+    "dar-saft": {
+      "name": "Ánodo de eje estrecho",
+      "desc": "Ánodo de eje de cuerpo fino para alojamientos con poco espacio."
+    },
+    "venus": {
+      "name": "Ánodo tipo Venus",
+      "desc": "Ánodo de casco en forma de gota. Su perfil hidrodinámico reduce la resistencia; se monta con dos espárragos."
+    },
+    "demirli": {
+      "name": "Ánodo con alma de hierro",
+      "desc": "Ánodo en bloque con pletina de hierro embebida: la fijación aguanta mientras el zinc se consume."
+    },
+    "ufo": {
+      "name": "Ánodo UFO",
+      "desc": "Ánodo de disco de bajo perfil, fijado con un solo tornillo central. Apenas altera el flujo de agua."
+    },
+    "cubuk": {
+      "name": "Ánodo de barra",
+      "desc": "Barra fina roscada. Se enrosca en el circuito de refrigeración o en el calderín."
+    },
+    "pervane": {
+      "name": "Ánodo de hélice",
+      "desc": "Se coloca tras el núcleo, sobre la tuerca del eje. Disponible cónico con chavetero y con agujero cuadrado."
+    },
+    "max-prop": {
+      "name": "Ánodo Max Prop",
+      "desc": "Ánodo anular para hélices plegables Max Prop. Se asienta en el perfil del núcleo."
+    },
+    "bow-thruster": {
+      "name": "Ánodo de hélice de proa",
+      "desc": "Se monta en el núcleo de la hélice dentro del túnel. Hay modelos Side Power."
+    },
+    "kuyruk": {
+      "name": "Ánodo de cola",
+      "desc": "Ánodo de placa atornillado a la cola."
+    },
+    "volvo-penta": {
+      "name": "Ánodo Volvo Penta",
+      "desc": "Juego de ánodos compatible con colas y grupos motores Volvo Penta."
+    },
+    "evinrude": {
+      "name": "Ánodo Evinrude",
+      "desc": "Ánodos para motores fueraborda Evinrude."
+    },
+    "motor-tapa": {
+      "name": "Ánodo de motor con tapón",
+      "desc": "Barra de zinc sobre tapón de latón. Se enrosca en el circuito de refrigeración y protege el bloque."
+    },
+    "ozel-tekne": {
+      "name": "Ánodo a medida",
+      "desc": "Fundido según su muestra o sus cotas, específico para su barco."
+    },
+    "damla-kursun": {
+      "name": "Plomo de gota",
+      "desc": "Lastre de plomo fundido en forma de gota, por gramos, para pesca y equilibrado."
+    },
+    "dalgic-kemer": {
+      "name": "Plomo de cinturón de buceo",
+      "desc": "Lastre de plomo curvado para cinturón, con ranuras para la cincha y base anatómica."
+    }
+  },
+  "material": {
+    "label": "Material",
+    "zn": "Zinc (Zn)",
+    "al": "Aluminio (Al)",
+    "mg": "Magnesio (Mg)",
+    "znWater": "Agua salada",
+    "alWater": "Agua salada y salobre",
+    "mgWater": "Agua dulce"
+  },
+  "stock": {
+    "label": "Disponibilidad",
+    "available": "En stock",
+    "madeToOrder": "Fundición bajo pedido",
+    "out": "Agotado"
+  },
+  "product": {
+    "priceAsk": "Precio a consultar",
+    "sku": "Modelo",
+    "size": "Medida",
+    "add": "Añadir a la lista",
+    "added": "En la lista",
+    "vat": "IVA incluido",
+    "of": "productos",
+    "noMatch": "Ningún producto coincide con este filtro.",
+    "noMatchHelp": "Borre los filtros e inténtelo de nuevo, o escríbanos por WhatsApp la medida que busca."
+  },
+  "filter": {
+    "all": "Todos",
+    "title": "Filtrar",
+    "group": "Grupo de producto",
+    "material": "Material",
+    "clear": "Borrar filtros",
+    "results": "productos mostrados"
+  },
+  "cart": {
+    "title": "Mi lista de pedido",
+    "empty": "Su lista está vacía.",
+    "emptyHelp": "Añada aquí los productos que necesite y envíelos todos a la vez por WhatsApp.",
+    "qty": "Cant.",
+    "remove": "Quitar de la lista",
+    "clear": "Vaciar la lista",
+    "total": "Total de precios conocidos",
+    "ask": "precio a confirmar",
+    "send": "Enviar por WhatsApp",
+    "note": "Se abre WhatsApp con su lista ya redactada. Puede editarla antes de enviarla. El pedido queda confirmado cuando respondemos.",
+    "tooLong": "La lista es larga y el mensaje de WhatsApp puede cortarse. Quite algunos artículos y envíelo en dos partes.",
+    "count": "artículos"
+  },
+  "wa": {
+    "hello": "Hola, quisiera precio y disponibilidad de los artículos siguientes.",
+    "header": "LISTA DE PEDIDO",
+    "totalLine": "Total de precios conocidos",
+    "askLine": "Artículos por presupuestar",
+    "footer": "Quedo a la espera de los datos de entrega y pago.",
+    "quick": "Hola, quisiera información sobre ánodos."
+  },
+  "guide": {
+    "title": "¿Qué ánodo necesito?",
+    "lead": "Tres preguntas: qué agua, qué pieza, qué medida.",
+    "s1t": "1. ¿En qué agua navega?",
+    "s1d": "El material se elige según el agua. El material equivocado se consume de inmediato o no hace nada.",
+    "s1zn": "Agua de mar → zinc (Zn). La opción habitual en la costa turca.",
+    "s1al": "Agua salobre, desembocaduras, uso mixto → aluminio (Al). Más ligero y más duradero.",
+    "s1mg": "Agua dulce, lagos, ríos → magnesio (Mg). Nunca en agua de mar: se consume demasiado rápido.",
+    "s2t": "2. ¿Qué pieza quiere proteger?",
+    "s2d": "Cada pieza metálica sumergida necesita su propio ánodo. Uno solo no protege a los demás.",
+    "s3t": "3. ¿Cómo se mide?",
+    "s3zn": "Para el ánodo de eje, mida el diámetro del eje (diámetro exterior, mm).",
+    "s3al": "Para el ánodo de hélice, mida el diámetro de la tuerca o del núcleo.",
+    "s3mg": "Si tiene dudas, desmonte el ánodo viejo y envíenos una foto y la medida con calibre por WhatsApp.",
+    "whenT": "¿Cuándo hay que cambiarlo?",
+    "whenD": "Regla general: se cambia cuando el ánodo se ha consumido a la mitad. No espere a que desaparezca: desde ese momento el metal protegido empieza a corroerse. La duración varía mucho según el uso, el amarre y las corrientes parásitas, así que revíselo en cada varada.",
+    "warnT": "Nunca pinte un ánodo",
+    "warnD": "El ánodo tiene que estar en contacto con el agua. Pintura, antiincrustante o grasa encima y deja de funcionar por completo. La superficie de apoyo también debe ser metal limpio: el óxido o una capa de pintura cortan el contacto eléctrico.",
+    "askT": "¿Sigue con dudas?",
+    "askD": "Envíenos una foto del ánodo viejo con la marca del barco y el modelo de motor y le diremos cuál encaja.",
+    "askCta": "Preguntar por WhatsApp"
+  },
+  "about": {
+    "title": "La fundición es nuestro oficio",
+    "p1": "<strong>KUT MARİN DÖKÜM</strong> fabrica ánodos y plomo fundido en Karabağlar, İzmir, para propietarios de embarcaciones, puertos deportivos, astilleros y centros de buceo.",
+    "p2": "No compramos para reetiquetar: <strong>fundimos nosotros.</strong> Las medidas estándar están en el catálogo; para lo demás, envíe una muestra o las cotas, hacemos el molde y fundimos.",
+    "p3": "No presentamos como disponible un producto que no tenemos. Si no hay stock, decimos cuándo podemos fundirlo; si no es adecuado, lo decimos claramente.",
+    "v1t": "El material correcto",
+    "v1d": "No le vendemos un ánodo que no corresponda a su agua: primero preguntamos dónde se va a usar.",
+    "v2t": "Si la medida no encaja",
+    "v2d": "Cuando una medida de catálogo no asienta, fundimos a medida.",
+    "v3t": "Precios publicados",
+    "v3d": "Los precios conocidos están aquí; donde no lo sabemos, no inventamos una cifra.",
+    "factTitle": "Datos de la empresa",
+    "fTitle": "Razón social",
+    "fAddress": "Dirección",
+    "fPhone": "Teléfono",
+    "fTax": "Delegación de Hacienda",
+    "fTaxNo": "Número fiscal",
+    "fHours": "Horario"
+  },
+  "contact": {
+    "title": "Contacte con nosotros",
+    "lead": "WhatsApp es lo más rápido. Envíe una foto y la medida y le respondemos en el mismo mensaje.",
+    "whatsapp": "Escribir por WhatsApp",
+    "call": "Llámenos",
+    "address": "Dirección",
+    "hours": "Horario",
+    "hoursValue": "De lunes a sábado en horario laboral",
+    "hoursNote": "Llame para conocer el horario exacto.",
+    "mapNote": "Dirección: 3267 Sokak No:8/A, Karabağlar, İzmir, Türkiye."
+  },
+  "footer": {
+    "about": "Fabricación de ánodos y plomo fundido para embarcaciones, puertos deportivos, astilleros y centros de buceo.",
+    "products": "Productos",
+    "corporate": "Empresa",
+    "contact": "Contacto",
+    "rights": "Todos los derechos reservados.",
+    "legal": "Precios con IVA incluido, sujetos a cambios sin previo aviso."
+  },
+  "common": {
+    "currency": "TRY",
+    "vatIncluded": "IVA incluido",
+    "backHome": "Volver al inicio",
+    "updated": "Precios actualizados"
+  },
+  "products": {
+    "groupsTitle": "Grupos de productos",
+    "groupsLead": "Cinco grupos principales: eje, casco, hélice, motor y plomo fundido. Elija un grupo y encuentre su medida.",
+    "catalogTitle": "Catálogo de productos",
+    "catalogLead": "Filtre por grupo y material, añada a su lista y envíela en un solo mensaje de WhatsApp."
+  }
+}
