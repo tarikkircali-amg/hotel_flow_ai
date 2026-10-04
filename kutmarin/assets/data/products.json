@@ -1,55 +1,322 @@
 {
-  "_comment": "Tek dogruluk kaynagi. Urun adi = kategori adi (i18n) + olcu etiketi + model kodu, boylece katalog 9 dile otomatik cevrilir. Fiyati bilinmeyen urun 'price: null' tasir ve sitede 'fiyat sorunuz' olarak gosterilir — uydurma fiyat yazilmaz.",
+  "_comment": "Tek dogruluk kaynagi. Urun adi = kategori adi (i18n) + olcu etiketi + model kodu, boylece katalog 9 dile otomatik cevrilir. FIYAT YAYINLANMIYOR: tum urunlerde price=null, site \"Fiyat sorunuz\" gosterir. Fiyat yayinlamak isterseniz ilgili urune sayi yazmaniz yeterli; arayuz fiyat gostermeye kendiliginden gecer.",
   "currency": "TRY",
   "vatIncluded": true,
-  "priceUpdatedAt": "2026-10-04",
   "materials": {
-    "zn": { "symbol": "Zn", "water": "salt" },
-    "al": { "symbol": "Al", "water": "brackish" },
-    "mg": { "symbol": "Mg", "water": "fresh" }
+    "zn": {
+      "symbol": "Zn",
+      "water": "salt"
+    },
+    "al": {
+      "symbol": "Al",
+      "water": "brackish"
+    },
+    "mg": {
+      "symbol": "Mg",
+      "water": "fresh"
+    }
   },
   "categories": [
-    { "id": "saft",        "group": "shaft",     "drawing": "saft",        "materials": ["zn", "al"] },
-    { "id": "dar-saft",    "group": "shaft",     "drawing": "dar-saft",    "materials": ["zn"] },
-    { "id": "venus",       "group": "hull",      "drawing": "venus",       "materials": ["zn", "al"] },
-    { "id": "demirli",     "group": "hull",      "drawing": "demirli",     "materials": ["zn"] },
-    { "id": "ufo",         "group": "hull",      "drawing": "ufo",         "materials": ["zn", "al"] },
-    { "id": "cubuk",       "group": "hull",      "drawing": "cubuk",       "materials": ["zn", "al", "mg"] },
-    { "id": "pervane",     "group": "propeller", "drawing": "pervane",     "materials": ["zn"] },
-    { "id": "max-prop",    "group": "propeller", "drawing": "max-prop",    "materials": ["zn"] },
-    { "id": "bow-thruster","group": "propeller", "drawing": "bow-thruster","materials": ["zn", "al"] },
-    { "id": "kuyruk",      "group": "engine",    "drawing": "kuyruk",      "materials": ["zn", "al"] },
-    { "id": "volvo-penta", "group": "engine",    "drawing": "kuyruk",      "materials": ["zn", "al"] },
-    { "id": "evinrude",    "group": "engine",    "drawing": "kuyruk",      "materials": ["zn", "al"] },
-    { "id": "motor-tapa",  "group": "engine",    "drawing": "motor-tapa",  "materials": ["zn"] },
-    { "id": "ozel-tekne",  "group": "hull",      "drawing": "ozel",        "materials": ["zn", "al", "mg"] },
-    { "id": "damla-kursun","group": "lead",      "drawing": "damla",       "materials": [] },
-    { "id": "dalgic-kemer","group": "lead",      "drawing": "kemer",       "materials": [] }
+    {
+      "id": "saft",
+      "group": "shaft",
+      "drawing": "saft",
+      "materials": [
+        "zn",
+        "al"
+      ]
+    },
+    {
+      "id": "dar-saft",
+      "group": "shaft",
+      "drawing": "dar-saft",
+      "materials": [
+        "zn"
+      ]
+    },
+    {
+      "id": "venus",
+      "group": "hull",
+      "drawing": "venus",
+      "materials": [
+        "zn",
+        "al"
+      ]
+    },
+    {
+      "id": "demirli",
+      "group": "hull",
+      "drawing": "demirli",
+      "materials": [
+        "zn"
+      ]
+    },
+    {
+      "id": "ufo",
+      "group": "hull",
+      "drawing": "ufo",
+      "materials": [
+        "zn",
+        "al"
+      ]
+    },
+    {
+      "id": "cubuk",
+      "group": "hull",
+      "drawing": "cubuk",
+      "materials": [
+        "zn",
+        "al",
+        "mg"
+      ]
+    },
+    {
+      "id": "pervane",
+      "group": "propeller",
+      "drawing": "pervane",
+      "materials": [
+        "zn"
+      ]
+    },
+    {
+      "id": "max-prop",
+      "group": "propeller",
+      "drawing": "max-prop",
+      "materials": [
+        "zn"
+      ]
+    },
+    {
+      "id": "bow-thruster",
+      "group": "propeller",
+      "drawing": "bow-thruster",
+      "materials": [
+        "zn",
+        "al"
+      ]
+    },
+    {
+      "id": "kuyruk",
+      "group": "engine",
+      "drawing": "kuyruk",
+      "materials": [
+        "zn",
+        "al"
+      ]
+    },
+    {
+      "id": "volvo-penta",
+      "group": "engine",
+      "drawing": "kuyruk",
+      "materials": [
+        "zn",
+        "al"
+      ]
+    },
+    {
+      "id": "evinrude",
+      "group": "engine",
+      "drawing": "kuyruk",
+      "materials": [
+        "zn",
+        "al"
+      ]
+    },
+    {
+      "id": "motor-tapa",
+      "group": "engine",
+      "drawing": "motor-tapa",
+      "materials": [
+        "zn"
+      ]
+    },
+    {
+      "id": "ozel-tekne",
+      "group": "hull",
+      "drawing": "ozel",
+      "materials": [
+        "zn",
+        "al",
+        "mg"
+      ]
+    },
+    {
+      "id": "damla-kursun",
+      "group": "lead",
+      "drawing": "damla",
+      "materials": []
+    },
+    {
+      "id": "dalgic-kemer",
+      "group": "lead",
+      "drawing": "kemer",
+      "materials": []
+    }
   ],
   "products": [
-    { "sku": "K-ST 70",  "category": "saft", "size": "70 mm",  "spec": { "bore": 70 },  "price": null, "stock": "available" },
-    { "sku": "K-ST 80",  "category": "saft", "size": "80 mm",  "spec": { "bore": 80 },  "price": null, "stock": "available" },
-    { "sku": "K-ST 100", "category": "saft", "size": "100 mm", "spec": { "bore": 100 }, "price": 1600, "stock": "available" },
-    { "sku": "K-ST 120", "category": "saft", "size": "120 mm", "spec": { "bore": 120 }, "price": 2650, "stock": "available" },
-
-    { "sku": "K-DST 50", "category": "dar-saft", "size": "50 mm", "spec": { "bore": 50 }, "price": null, "stock": "available" },
-
-    { "sku": "K-VT 80",  "category": "venus", "size": "80 mm",  "spec": {},                "price": null, "stock": "available" },
-    { "sku": "K-VT 200", "category": "venus", "size": "200 mm", "spec": {},                "price": null, "stock": "available" },
-    { "sku": "K-VT 225", "category": "venus", "size": "225 mm", "spec": { "weightKg": 6.2 }, "price": 2500, "stock": "available" },
-
-    { "sku": "K-DT 5000", "category": "demirli", "size": "5 kg", "spec": { "weightKg": 5 }, "price": null, "stock": "available" },
-
-    { "sku": "P 050",   "category": "pervane", "size": "50 mm", "spec": { "nut": 50 }, "price": null, "stock": "available", "variantKey": "conicalKeyed" },
-    { "sku": "4P 047",  "category": "pervane", "size": "47 mm", "spec": { "bore": 47 }, "price": 365,  "stock": "available", "variantKey": "squareBore4" },
-
-    { "sku": "MP 046", "category": "max-prop", "size": "46 mm", "spec": {}, "price": null, "stock": "madeToOrder" },
-
-    { "sku": "SP 075", "category": "bow-thruster", "size": "75",  "spec": {}, "price": null, "stock": "available", "brand": "Side Power" },
-    { "sku": "SP 250", "category": "bow-thruster", "size": "250", "spec": {}, "price": null, "stock": "available", "brand": "Side Power" },
-
-    { "sku": "KM-DK 100", "category": "damla-kursun", "size": "100 g",  "spec": { "weightKg": 0.1 },  "price": 65,  "stock": "available" },
-    { "sku": "KM-DKK 750","category": "dalgic-kemer", "size": "750 g",  "spec": { "weightKg": 0.75 }, "price": 135, "stock": "available" },
-    { "sku": "KM-DK 2000","category": "dalgic-kemer", "size": "2000 g", "spec": { "weightKg": 2 },    "price": 360, "stock": "available" }
+    {
+      "sku": "K-ST 70",
+      "category": "saft",
+      "size": "70 mm",
+      "spec": {
+        "bore": 70
+      },
+      "price": null,
+      "stock": "available"
+    },
+    {
+      "sku": "K-ST 80",
+      "category": "saft",
+      "size": "80 mm",
+      "spec": {
+        "bore": 80
+      },
+      "price": null,
+      "stock": "available"
+    },
+    {
+      "sku": "K-ST 100",
+      "category": "saft",
+      "size": "100 mm",
+      "spec": {
+        "bore": 100
+      },
+      "price": null,
+      "stock": "available"
+    },
+    {
+      "sku": "K-ST 120",
+      "category": "saft",
+      "size": "120 mm",
+      "spec": {
+        "bore": 120
+      },
+      "price": null,
+      "stock": "available"
+    },
+    {
+      "sku": "K-DST 50",
+      "category": "dar-saft",
+      "size": "50 mm",
+      "spec": {
+        "bore": 50
+      },
+      "price": null,
+      "stock": "available"
+    },
+    {
+      "sku": "K-VT 80",
+      "category": "venus",
+      "size": "80 mm",
+      "spec": {},
+      "price": null,
+      "stock": "available"
+    },
+    {
+      "sku": "K-VT 200",
+      "category": "venus",
+      "size": "200 mm",
+      "spec": {},
+      "price": null,
+      "stock": "available"
+    },
+    {
+      "sku": "K-VT 225",
+      "category": "venus",
+      "size": "225 mm",
+      "spec": {
+        "weightKg": 6.2
+      },
+      "price": null,
+      "stock": "available"
+    },
+    {
+      "sku": "K-DT 5000",
+      "category": "demirli",
+      "size": "5 kg",
+      "spec": {
+        "weightKg": 5
+      },
+      "price": null,
+      "stock": "available"
+    },
+    {
+      "sku": "P 050",
+      "category": "pervane",
+      "size": "50 mm",
+      "spec": {
+        "nut": 50
+      },
+      "price": null,
+      "stock": "available",
+      "variantKey": "conicalKeyed"
+    },
+    {
+      "sku": "4P 047",
+      "category": "pervane",
+      "size": "47 mm",
+      "spec": {
+        "bore": 47
+      },
+      "price": null,
+      "stock": "available",
+      "variantKey": "squareBore4"
+    },
+    {
+      "sku": "MP 046",
+      "category": "max-prop",
+      "size": "46 mm",
+      "spec": {},
+      "price": null,
+      "stock": "madeToOrder"
+    },
+    {
+      "sku": "SP 075",
+      "category": "bow-thruster",
+      "size": "75",
+      "spec": {},
+      "price": null,
+      "stock": "available",
+      "brand": "Side Power"
+    },
+    {
+      "sku": "SP 250",
+      "category": "bow-thruster",
+      "size": "250",
+      "spec": {},
+      "price": null,
+      "stock": "available",
+      "brand": "Side Power"
+    },
+    {
+      "sku": "KM-DK 100",
+      "category": "damla-kursun",
+      "size": "100 g",
+      "spec": {
+        "weightKg": 0.1
+      },
+      "price": null,
+      "stock": "available"
+    },
+    {
+      "sku": "KM-DKK 750",
+      "category": "dalgic-kemer",
+      "size": "750 g",
+      "spec": {
+        "weightKg": 0.75
+      },
+      "price": null,
+      "stock": "available"
+    },
+    {
+      "sku": "KM-DK 2000",
+      "category": "dalgic-kemer",
+      "size": "2000 g",
+      "spec": {
+        "weightKg": 2
+      },
+      "price": null,
+      "stock": "available"
+    }
   ]
 }

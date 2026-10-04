@@ -48,8 +48,8 @@ const r = []; const ok = (n,p,d='') => r.push({n,p,d});
   ok('filtre temizlendi', (await page.locator('#product-grid .product').count()) === all);
   // Fiyat gosterimi
   const priceTexts = await page.locator('.product__price').allTextContents();
-  ok('fiyati bilinmeyen "sorunuz" diyor', priceTexts.some(t=>/sorunuz/i.test(t)));
-  ok('fiyati bilinen TL gosteriyor', priceTexts.some(t=>/₺|TRY/.test(t)));
+  ok('tum urunler "fiyat sorunuz" diyor', priceTexts.length > 0 && priceTexts.every(t=>/sorunuz/i.test(t)));
+  ok('sayfada hic fiyat yok', !priceTexts.some(t=>/₺|TRY|\d/.test(t)));
 
   // --- Sepet + WhatsApp mesaji ---
   await page.locator('.product__add').first().click();
@@ -63,6 +63,8 @@ const r = []; const ok = (n,p,d='') => r.push({n,p,d});
   const sendHref = await page.getAttribute('#cart-send', 'href');
   const msg = decodeURIComponent((sendHref||'').split('?text=')[1]||'');
   ok('siparis mesaji olustu', msg.includes('SİPARİŞ LİSTESİ'), '');
+  ok('mesajda fiyat gecmiyor', !/₺|TRY|toplam/i.test(msg));
+  ok('sepette toplam satiri gizli', await page.locator('.cart-total').isHidden());
   console.log('\n--- OLUSAN WHATSAPP MESAJI ---\n'+msg+'\n------------------------------\n');
   // Adet degistir
   await page.locator('.cart-item__input').first().fill('3');

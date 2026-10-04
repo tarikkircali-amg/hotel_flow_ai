@@ -68,11 +68,17 @@ Yalnızca `assets/data/products.json`. Başka hiçbir dosyaya dokunmanız gerekm
 
 ```json
 { "sku": "K-ST 90", "category": "saft", "size": "90 mm",
-  "spec": { "bore": 90 }, "price": 1900, "stock": "available" }
+  "spec": { "bore": 90 }, "price": null, "stock": "available" }
 ```
 
-- `price: null` yazarsanız sitede **"Fiyat sorunuz"** görünür. **Bilmediğiniz
-  fiyata uydurma rakam yazmayın** — müşteri WhatsApp'tan sorar.
+- **Şu an hiçbir üründe fiyat yayınlanmıyor:** tümünde `price: null` ve sitede
+  **"Fiyat sorunuz"** görünüyor. Müşteri ürünü listesine ekleyip WhatsApp'tan
+  soruyor.
+- Bir ürünün fiyatını yayınlamak isterseniz `null` yerine sayı yazmanız yeterli
+  (`"price": 1900`). Arayüz kendiliğinden fiyat göstermeye geçer: ürün kartında
+  tutar ve "KDV dâhil" çıkar, sipariş listesinde toplam satırı açılır, WhatsApp
+  mesajına tutarlar ve toplam eklenir. Karışık kullanım da olur — bazı ürünlerde
+  fiyat, bazılarında "sorunuz".
 - `stock`: `available` · `madeToOrder` · `out`
 - `category`: `categories` listesindeki bir kimlik olmalı.
 
@@ -118,8 +124,10 @@ Sunucu yoktur, üyelik yoktur, sitede ödeme alınmaz.
 3. Müşteri göndermeden önce mesajı görür ve düzenleyebilir.
 4. **Sipariş siz onaylayınca kesinleşir.** Site bunu açıkça yazar.
 
-Mesaj müşterinin dilinde oluşur. Liste çok uzarsa WhatsApp mesajı kesebilir;
-site bu durumda uyarı gösterir ve iki parça hâlinde göndermeyi önerir.
+Mesaj müşterinin dilinde oluşur ve fiyat yayınlanmadığı için tutar içermez:
+müşteri ürün ve adetlerini iletir, fiyatı siz verirsiniz. Liste çok uzarsa
+WhatsApp mesajı kesebilir; site bu durumda uyarı gösterir ve iki parça hâlinde
+göndermeyi önerir.
 
 Numara değişirse `assets/data/company.json` → `whatsapp.number`.
 
@@ -161,9 +169,8 @@ Yayına almadan önce tamamlanması gerekenler:
   çok daha fazlası var (Volvo Penta ~32, motor tutyaları ~22, kuyruk ~8,
   pervane ~11 vb.). Kategoriler hazır; ürünler `products.json` dosyasına
   eklenecek.
-- **Fiyatlar eksik.** 17 üründen 7'sinin fiyatı biliniyor, 10'u "Fiyat sorunuz"
-  olarak görünüyor. Bilinen fiyatlar da doğrulanmalı ve `priceUpdatedAt`
-  güncellenmeli.
+- **Fiyat yayınlanmıyor.** Bu bilinçli bir tercih: tüm ürünler "Fiyat sorunuz"
+  gösteriyor. Yayınlamaya karar verirseniz altyapı hazır (yukarıya bakın).
 - **Ürün fotoğrafı yok.** Teknik çizimler geçici; gerçek fotoğraflarla
   değiştirilmeli.
 - **Çalışma saatleri doğrulanmadı.** `contact.hoursValue` şu an genel bir ifade.

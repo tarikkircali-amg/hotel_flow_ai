@@ -181,14 +181,17 @@
       list.append(row);
     });
 
+    // Hicbir urunde yayinlanmis fiyat yoksa toplam satiri anlamsizdir:
+    // "toplam —" yazmak yerine blok tamamen gizlenir.
+    const totalRow = document.querySelector('.cart-total');
     const totalNode = document.getElementById('cart-total');
-    if (totalNode) {
-      totalNode.textContent = known > 0
-        ? window.I18N.formatPrice(known, catalog.currency) : '—';
+    if (totalRow) totalRow.hidden = known === 0;
+    if (totalNode && known > 0) {
+      totalNode.textContent = window.I18N.formatPrice(known, catalog.currency);
     }
     const askNode = document.getElementById('cart-ask');
     if (askNode) {
-      askNode.hidden = askCount === 0;
+      askNode.hidden = askCount === 0 || known === 0;
       askNode.textContent = `${askCount} ${t('cart.ask')}`;
     }
 
