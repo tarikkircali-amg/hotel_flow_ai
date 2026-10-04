@@ -21,6 +21,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // --- Orta katmanlar ---
+app.set('trust proxy', 1);             // Railway/vekil arkasinda gercek istemci IP'si
 app.use(cors());                       // farklı kaynaktan erişime izin (geliştirme)
 app.use(express.json({ limit: '5mb' }));
 app.use(express.static(path.join(__dirname, 'public'))); // HTML'i de buradan sunabilirsiniz
@@ -48,6 +49,13 @@ db.exec(`
   CREATE TABLE IF NOT EXISTS audit (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT, action TEXT, key TEXT, at INTEGER
+  );
+  CREATE TABLE IF NOT EXISTS leads (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL, hotel TEXT NOT NULL, email TEXT NOT NULL,
+    phone TEXT, rooms TEXT, message TEXT,
+    consent_at INTEGER NOT NULL,
+    source TEXT, created_at INTEGER NOT NULL
   );
 `);
 
@@ -118,6 +126,112 @@ app.put('/api/data/:key', auth, (req, res) => {
   run('INSERT INTO audit (username, action, key, at) VALUES (?,?,?,?)',
       [req.user.username, 'write', key, Date.now()]);
   res.json({ ok: true });
+});
+
+// ============================================================
+// DEMO TALEP FORMU (public/index.html → POST /api/contact)
+// Herkese açık uçtur: doğrulama + hız sınırı + KVKK rızası zorunlu.
+// ============================================================
+
+// Basit, bellek içi hız sınırı. Tek örnek (instance) için yeterlidir;
+// çok örnekli dağıtımda Redis tabanlı bir sınırlayıcıya taşınmalıdır.
+//
+// İki ayrı kova kullanılır. Doğrulama hatası (400) KAYIT kovasını tüketmez:
+// e-postasını yanlış yazan bir kullanıcı kendini formdan kilitlemiş olmaz.
+// Sel/kötüye kullanım ayrı ve daha gevşek bir DENEME kovasıyla engellenir.
+const RATE_LIMIT = {
+  windowMs: 15 * 60 * 1000,
+  attempts: 30,      // her istek (hatalı doğrulama dâhil)
+  submissions: 5,    // yalnızca başarıyla kaydedilen talepler
+};
+const rateBuckets = new Map();   // ip -> { attempts: number[], submissions: number[] }
+
+function bucketFor(ip) {
+  if (rateBuckets.size > 5000) rateBuckets.clear();   // sınırsız bellek büyümesini önle
+  if (!rateBuckets.has(ip)) rateBuckets.set(ip, { attempts: [], submissions: [] });
+  return rateBuckets.get(ip);
+}
+
+// Kovadaki süresi geçmiş kayıtları atar ve sınırın aşıldığını bildirir.
+function overLimit(ip, kind) {
+  const bucket = bucketFor(ip);
+  const now = Date.now();
+  bucket[kind] = bucket[kind].filter(t => now - t < RATE_LIMIT.windowMs);
+  return bucket[kind].length >= RATE_LIMIT[kind];
+}
+
+function record(ip, kind) {
+  bucketFor(ip)[kind].push(Date.now());
+}
+
+const trim = (v, max) => String(v ?? '').trim().slice(0, max);
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+// Hata mesajları ne olduğunu, nedenini ve nasıl düzeltileceğini söyler.
+function validateLead(body) {
+  const lead = {
+    name:    trim(body.name, 120),
+    hotel:   trim(body.hotel, 160),
+    email:   trim(body.email, 160),
+    phone:   trim(body.phone, 40),
+    rooms:   trim(body.rooms, 40),
+    message: trim(body.message, 2000),
+  };
+  if (lead.name.length < 2)  return { error: 'Ad soyad alanı en az 2 karakter olmalı.' };
+  if (lead.hotel.length < 2) return { error: 'Otel adı alanı en az 2 karakter olmalı.' };
+  if (!EMAIL_PATTERN.test(lead.email)) {
+    return { error: 'E-posta adresi geçerli görünmüyor. “ad@otel.com” biçiminde yazın.' };
+  }
+  if (body.consent !== true && body.consent !== 'on' && body.consent !== 'true') {
+    return { error: 'KVKK onayı olmadan talebi kaydedemiyoruz. Onay kutusunu işaretleyin.' };
+  }
+  return { lead };
+}
+
+app.post('/api/contact', (req, res) => {
+  const tooManyAttempts = overLimit(req.ip, 'attempts');
+  const tooManySubmissions = overLimit(req.ip, 'submissions');
+  if (tooManyAttempts || tooManySubmissions) {
+    return res.status(429).json({
+      error: 'Kısa sürede çok fazla talep gönderildi. Birkaç dakika sonra tekrar deneyin ' +
+             'veya info@inovatifzeka.com adresine yazın.'
+    });
+  }
+  record(req.ip, 'attempts');
+
+  // Doğrulama hatası kayıt kovasını tüketmez — kullanıcı düzeltip tekrar gönderebilir.
+  const { error, lead } = validateLead(req.body || {});
+  if (error) return res.status(400).json({ error });
+
+  const now = Date.now();
+  try {
+    run(`INSERT INTO leads (name, hotel, email, phone, rooms, message, consent_at, source, created_at)
+         VALUES (?,?,?,?,?,?,?,?,?)`,
+        [lead.name, lead.hotel, lead.email, lead.phone, lead.rooms, lead.message,
+         now, 'web:index', now]);
+    run('INSERT INTO audit (username, action, key, at) VALUES (?,?,?,?)',
+        ['anonim', 'lead_created', lead.email, now]);
+  } catch (e) {
+    console.error('[contact] kayıt başarısız:', e.message);
+    return res.status(500).json({
+      error: 'Talebiniz kaydedilemedi; sorun bizde. info@inovatifzeka.com adresine ' +
+             'doğrudan yazabilirsiniz.'
+    });
+  }
+
+  record(req.ip, 'submissions');
+  res.status(201).json({
+    ok: true,
+    message: 'Talebiniz bize ulaştı. Bir iş günü içinde e-posta ile dönüş yapacağız.'
+  });
+});
+
+// Talepleri okumak YÖNETİCİ yetkisi ister — herkese açık değildir.
+app.get('/api/leads', auth, (req, res) => {
+  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Yetki yok' });
+  run('INSERT INTO audit (username, action, key, at) VALUES (?,?,?,?)',
+      [req.user.username, 'lead_export', 'leads', Date.now()]);
+  res.json({ leads: many('SELECT * FROM leads ORDER BY created_at DESC LIMIT 500') });
 });
 
 // --- Sağlık kontrolü (Railway healthcheck) ---

@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="tr" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HotelFlow AI — Otelinize 7/24 çalışan yapay zekâ ekibi</title>
+<meta name="description" content="HotelFlow AI misafir sorularını yanıtlar, talebi rezervasyon fırsatına çevirir, günlük operasyonu kayıt altına alır ve raporlar. Türkçe, Almanca, İngilizce ve Arapça. KVKK uyumlu.">
+<meta name="theme-color" content="#0c8178" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#022827" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:title" content="HotelFlow AI — Otelinize 7/24 çalışan yapay zekâ ekibi">
+<meta property="og:description" content="Chatbot değil, işini bilen bir dijital çalışan. Misafirle konuşur, kaydeder, harekete geçer ve raporlar.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230c8178'/%3E%3Cpath d='M10 9v14M22 9v14M10 16h12' stroke='white' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E">
+<!-- Yazi tipi bilerek DISARIDAN yuklenmiyor. Google Fonts, ziyaretcinin IP
+     adresini ucuncu tarafa gonderir; Alman mahkemeleri bunu GDPR ihlali saydi
+     ve birincil pazarlarimiz Turkiye ile DACH. Inter'i oz-barindirmaya gecene
+     kadar isletim sistemi yazi tipi zinciri kullanilir (tokens.css).
+     Oz-barindirma adimi: README.md → "Yazi tipi" -->
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/sections.css">
+</head>
+<body>
+<a class="u-skip-link" href="#main">İçeriğe geç</a>
+
+<!-- Lucide ikon seti · 24x24 izgara, 2px kontur. Dekoratif ikonlar aria-hidden. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+<symbol id="i-sparkles" viewBox="0 0 24 24"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/><path d="M19 17v4M17 19h4"/></symbol>
+<symbol id="i-message" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
+<symbol id="i-trending" viewBox="0 0 24 24"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .738-1.674C19.79 14.251 19 12.31 19 9a7 7 0 1 0-14 0c0 3.31-.79 5.251-1.738 6.326"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9M13 17V5M8 17v-3"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></symbol>
+<symbol id="i-link" viewBox="0 0 24 24"><path d="M9 17H7A5 5 0 0 1 7 7h2"/><path d="M15 7h2a5 5 0 1 1 0 10h-2"/><path d="M8 12h8"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></symbol>
+<symbol id="i-zap" viewBox="0 0 24 24"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></symbol>
+<symbol id="i-check-circle" viewBox="0 0 24 24"><path d="M21.8 10A10 10 0 1 1 17 3.3"/><path d="m9 11 3 3L22 4"/></symbol>
+<symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="m16 11 2 2 4-4"/></symbol>
+<symbol id="i-key" viewBox="0 0 24 24"><path d="M2.6 13.4a5.5 5.5 0 1 1 7.8 0L21 24"/><circle cx="16.5" cy="7.5" r="1"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v5h6"/><path d="m9 15 2 2 4-4"/></symbol>
+<symbol id="i-layers" viewBox="0 0 24 24"><path d="m12.8 2.5 8.6 4.3a1 1 0 0 1 0 1.8l-8.6 4.3a2 2 0 0 1-1.6 0L2.6 8.6a1 1 0 0 1 0-1.8l8.6-4.3a2 2 0 0 1 1.6 0Z"/><path d="m3 12.5 8.2 4.1a2 2 0 0 0 1.6 0L21 12.5"/><path d="m3 17.5 8.2 4.1a2 2 0 0 0 1.6 0L21 17.5"/></symbol>
+<symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a2 2 0 0 1-2.06 0L2 7"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 5-5.5 10.2-7.4 11.8a1 1 0 0 1-1.2 0C9.5 20.2 4 15 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
+</defs></svg>
+
+<header class="site-header">
+  <div class="u-container site-header__inner">
+    <a class="brand" href="#main">
+      <span class="brand__mark" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M7 5v14M17 5v14M7 12h10"/></svg></span>
+      HotelFlow&nbsp;AI
+    </a>
+
+    <nav class="site-nav" id="site-nav" aria-label="Ana menü">
+      <ul class="site-nav__list">
+        <li><a class="site-nav__link" href="#cozumler">Çözümler</a></li>
+        <li><a class="site-nav__link" href="#nasil-calisir">Nasıl çalışır</a></li>
+        <li><a class="site-nav__link" href="#guvenlik">Güvenlik</a></li>
+        <li><a class="site-nav__link" href="#hakkimizda">Hakkımızda</a></li>
+        <li><a class="site-nav__link" href="#fiyatlandirma">Fiyatlandırma</a></li>
+        <li><a class="site-nav__link" href="#sss">SSS</a></li>
+        <li><a class="site-nav__link" href="#iletisim">İletişim</a></li>
+      </ul>
+    </nav>
+
+    <div class="site-header__actions">
+      <button class="icon-button" type="button" id="theme-toggle" aria-pressed="false">
+        <span class="u-visually-hidden">Koyu temayı aç</span>
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-theme-icon><use href="#i-moon"/></svg>
+      </button>
+      <button class="icon-button site-header__toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+        <span class="u-visually-hidden">Menüyü aç</span>
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><use href="#i-menu"/></svg>
+      </button>
+      <a class="button button--primary site-header__cta" href="#iletisim">Demo talep et</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="u-container hero__grid">
+      <div>
+        <p class="badge badge--ai">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-sparkles"/></svg>
+          Yapay zekâ destekli otel operasyonu
+        </p>
+        <h1 class="hero__title">Otelinize 7/24 çalışan bir yapay zekâ ekibi</h1>
+        <p class="hero__lead">
+          HotelFlow AI misafirle konuşur, talebi rezervasyon fırsatına çevirir, günlük
+          operasyonu kayıt altına alır ve size raporlar. Soru yanıtlayıp duran bir chatbot
+          değil — <strong>işini bilen bir dijital çalışan.</strong>
+        </p>
+        <div class="hero__actions">
+          <a class="button button--primary" href="#iletisim">Demo talep et</a>
+          <a class="button button--secondary" href="#nasil-calisir">Nasıl çalışır?</a>
+        </div>
+        <p class="hero__note">Pilot programa açık · Başlangıç paketinde kurulum ücreti yok · PMS entegrasyonu</p>
+
+        <ul class="hero__proof">
+          <li class="hero__proof-item">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--icon-brand)"><use href="#i-clock"/></svg>
+            <p class="hero__proof-value">Kesintisiz 7/24</p>
+            <p class="hero__proof-label">Gece 02.00'de gelen talep de yanıtlanır</p>
+          </li>
+          <li class="hero__proof-item">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--icon-brand)"><use href="#i-globe"/></svg>
+            <p class="hero__proof-value">Türkçe · Almanca · İngilizce · Arapça</p>
+            <p class="hero__proof-label">Misafirin kendi dilinde</p>
+          </li>
+          <li class="hero__proof-item">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--icon-brand)"><use href="#i-shield"/></svg>
+            <p class="hero__proof-value">KVKK uyumlu, kiracı bazında izole</p>
+            <p class="hero__proof-label">Verileriniz başka otelle karışmaz</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="chat-preview">
+        <div class="chat-preview__head">
+          <span class="brand__mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M7 5v14M17 5v14M7 12h10"/></svg></span>
+          <span>
+            <span class="chat-preview__title">AI Resepsiyonist</span>
+            <span class="chat-preview__meta">WhatsApp · 02:41</span>
+          </span>
+        </div>
+        <ul class="chat-preview__log">
+          <li class="bubble bubble--guest">
+            <span class="bubble__who">Misafir</span>
+            Merhaba, yarın deniz manzaralı bir oda istiyorum. İki kişi, iki gece.
+          </li>
+          <li class="bubble bubble--ai">
+            <span class="bubble__who">HotelFlow AI</span>
+            İyi akşamlar. Yarın için deniz manzaralı iki kişilik odamız müsait.
+            İki gece, kahvaltı dâhil. Rezervasyonu adınıza hazırlayabilmem için
+            ad–soyad ve telefon bilgisini alabilir miyim?
+          </li>
+          <li class="bubble bubble--guest">
+            <span class="bubble__who">Misafir</span>
+            Geç check-in yapabilir miyim? Uçağım 23.30'da iniyor.
+          </li>
+          <li class="bubble bubble--ai">
+            <span class="bubble__who">HotelFlow AI</span>
+            Elbette, geç giriş notunu rezervasyona ekliyorum ve resepsiyon
+            vardiyasını bilgilendiriyorum. Onayınız sonrası kayıt oluşturulacak.
+          </li>
+        </ul>
+        <p class="chat-preview__foot">
+          Örnek görüşme. Rezervasyon kaydı, fiyat değişikliği ve misafire gönderilen
+          teklif gibi sonuç doğuran işlemler <strong>insan onayından</strong> sonra uygulanır.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SORUN ============ -->
+  <section class="section section--surface" aria-labelledby="sorun-baslik">
+    <div class="u-container">
+      <div class="section__head">
+        <p class="section__eyebrow">Sorun</p>
+        <h2 class="section__title" id="sorun-baslik">Göremediğiniz rezervasyonları kaybediyorsunuz</h2>
+        <p class="section__lead">
+          Otelinizin sorunu yazılım eksikliği değil; ekibinizin yetişebildiğinden daha
+          fazla misafir iletişimi olması. Kayıp, raporda görünmez — çünkü hiç kaydedilmez.
+        </p>
+      </div>
+      <ul class="card-grid card-grid--4">
+        <li class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-clock"/></svg></span>
+          <h3 class="card__title">Mesai dışı sessizlik</h3>
+          <p class="card__text">Akşam ve hafta sonu gelen talepler sabaha kalıyor. Misafir o arada başka otelde rezervasyon yapıyor.</p>
+        </li>
+        <li class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-message"/></svg></span>
+          <h3 class="card__title">Aynı soru, kırk kez</h3>
+          <p class="card__text">Fiyat, müsaitlik, havalimanı transferi, evcil hayvan politikası. Ekibiniz günün yarısını tekrarlı sorulara harcıyor.</p>
+        </li>
+        <li class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-layers"/></svg></span>
+          <h3 class="card__title">Dağınık kanallar</h3>
+          <p class="card__text">WhatsApp, Instagram, e-posta, telefon ve web formu ayrı yerlerde. Hangi talep ne oldu, kimse izleyemiyor.</p>
+        </li>
+        <li class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-chart"/></svg></span>
+          <h3 class="card__title">Ölçülemeyen kayıp</h3>
+          <p class="card__text">Kaç talep geldi, kaçı yanıtlandı, kaçı rezervasyona döndü? Kayıt yoksa iyileştirme de yok.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ ÇÖZÜMLER ============ -->
+  <section class="section" id="cozumler" aria-labelledby="cozumler-baslik">
+    <div class="u-container">
+      <div class="section__head">
+        <p class="section__eyebrow">Çözümler</p>
+        <h2 class="section__title" id="cozumler-baslik">Dört modül, tek platform</h2>
+        <p class="section__lead">
+          Tek bir AI resepsiyonistle başlayın. İhtiyaç büyüdükçe satış, misafir desteği ve
+          operasyon modüllerini ekleyin — yeni bir kurulum gerekmez.
+        </p>
+      </div>
+      <ul class="card-grid card-grid--2">
+        <li class="card card--ai">
+          <span class="card__icon" aria-hidden="true"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-message"/></svg></span>
+          <h3 class="card__title">AI Resepsiyonist</h3>
+          <p class="card__text">WhatsApp, web sitesi, e-posta ve sosyal medyadan gelen her talebi saniyeler içinde yanıtlar.</p>
+          <ul class="card__list">
+            <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>Müsaitlik, fiyat ve oda tipi bilgisi</li>
+            <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>Dört dilde doğal konuşma</li>
+            <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>Yanıtlayamadığında insana devreder</li>
+          </ul>
+        </li>
+        <li class="card card--ai">
+          <span class="card__icon" aria-hidden="true"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-trending"/></svg></span>
+          <h3 class="card__title">AI Satış</h3>
+          <p class="card__text">Soruyu kaydedip bırakmaz; rezervasyon fırsatına çevirir ve takibini yapar.</p>
+          <ul class="card__list">
+            <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>Teklif hazırlar, insan onayına sunar</li>
+            <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>Yanıtsız kalan talebi hatırlatır</li>
+            <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>Direkt rezervasyonu önceler</li>
+          </ul>
+        </li>
+        <li class="card card--ai">
+          <span class="card__icon" aria-hidden="true"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-bell"/></svg></span>
+          <h3 class="card__title">Misafir Desteği</h3>
+          <p class="card__text">Check-in sonrası isteklerin tamamını karşılar, ilgili departmana iletir ve kapanışını izler.</p>
+          <ul class="card__list">
+                <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>Kat hizmetleri ve teknik servis talebi</li>
+            <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>Şikâyet kaydı ve eskalasyon</li>
+            <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>Geç çıkış, transfer, restoran rezervasyonu</li>
+          </ul>
+        </li>
+        <li class="card card--ai">
+          <span class="card__icon" aria-hidden="true"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-chart"/></svg></span>
+          <h3 class="card__title">Operasyon &amp; Raporlama</h3>
+          <p class="card__text">Oda durumu, vardiya devri ve günlük özet tek ekranda. Elli kişilik ekip aynı anda çalışabilir.</p>
+          <ul class="card__list">
+            <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>Oda durumu: müsait, rezerve, temizlik, bakım</li>
+            <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>Rol bazlı yetki: ön büro, kat, raporlama</li>
+            <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>Günlük rapor ve denetim kaydı</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ NASIL ÇALIŞIR ============ -->
+  <section class="section section--surface" id="nasil-calisir" aria-labelledby="nasil-baslik">
+    <div class="u-container">
+      <div class="section__head">
+        <p class="section__eyebrow">Nasıl çalışır</p>
+        <h2 class="section__title" id="nasil-baslik">Dört adımda yayına</h2>
+        <p class="section__lead">
+          Teknik ekip kurmanız gerekmez. Kurulumu biz yapar, otelinizi biz öğretiriz.
+        </p>
+      </div>
+      <ol class="card-grid card-grid--4">
+        <li class="card step">
+          <span class="step__number" aria-hidden="true">1</span>
+          <h3 class="card__title">Bağlan</h3>
+          <p class="card__text">PMS'iniz, WhatsApp Business hattınız, web siteniz ve e-posta kanallarınız bağlanır. Mevcut sisteminizi değiştirmiyoruz.</p>
+        </li>
+        <li class="card step">
+          <span class="step__number" aria-hidden="true">2</span>
+          <h3 class="card__title">Öğret</h3>
+          <p class="card__text">Oda tipleri, fiyat politikası, konsept, sık sorulanlar ve kurumsal ses tonunuz sisteme işlenir.</p>
+        </li>
+        <li class="card step">
+          <span class="step__number" aria-hidden="true">3</span>
+          <h3 class="card__title">Yayına al</h3>
+          <p class="card__text">Tek kanalda, insan onaylı modda başlar. Güven oluştukça onay eşiğini siz gevşetirsiniz.</p>
+        </li>
+        <li class="card step">
+          <span class="step__number" aria-hidden="true">4</span>
+          <h3 class="card__title">Ölç ve büyüt</h3>
+          <p class="card__text">Yanıt süresi, yanıtlanan talep oranı ve rezervasyona dönüş raporlanır. Sonra bir sonraki modül.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ GÜVENLİK ============ -->
+  <section class="section" id="guvenlik" aria-labelledby="guvenlik-baslik">
+    <div class="u-container">
+      <div class="section__head">
+        <p class="section__eyebrow">Güvenlik ve uyum</p>
+        <h2 class="section__title" id="guvenlik-baslik">BT yöneticinizin soracağı sorular</h2>
+        <p class="section__lead">
+          Cevapları sormadan önce veriyoruz. Güvenlik bizde pazarlama başlığı değil,
+          ürünün mimari kuralı.
+        </p>
+      </div>
+      <ul class="card-grid card-grid--3">
+        <li class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-shield"/></svg></span>
+          <h3 class="card__title">Kiracı izolasyonu</h3>
+          <p class="card__text">Her kayıt bir kurum kimliği taşır ve bu kimlik oturum belirtecinden türetilir, istekten değil. A oteli B otelinin verisini — yapay zekâ hafızası ve belgeleri dâhil — hiçbir koşulda göremez.</p>
+        </li>
+        <li class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-users"/></svg></span>
+          <h3 class="card__title">Sonuç doğuran işlemde insan onayı</h3>
+          <p class="card__text">Yapay zekâ serbestçe okur, taslak hazırlar ve özetler. Silme, ödeme, misafire gönderim, toplu güncelleme ve yetki değişikliği açık insan onayı ister.</p>
+        </li>
+        <li class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-file"/></svg></span>
+          <h3 class="card__title">Denetim kaydı</h3>
+          <p class="card__text">Giriş, yetki değişikliği, veri değişikliği, dışa aktarım, yapay zekâ işlemi ve ödeme kaydedilir: kim, ne, ne zaman, nereden, sonuç.</p>
+        </li>
+        <li class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-key"/></svg></span>
+          <h3 class="card__title">Anahtarlar tarayıcıda değil</h3>
+          <p class="card__text">API anahtarları ve kimlik bilgileri sunucu tarafında, ortam değişkeni veya kasada tutulur. İstemci koduna, depoya veya düz metin veri alanına hiçbir zaman yazılmaz.</p>
+        </li>
+        <li class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-globe"/></svg></span>
+          <h3 class="card__title">KVKK ve GDPR</h3>
+          <p class="card__text">Açık rıza, amaçla sınırlı işleme, saklama süresi, silme ve veri taşınabilirliği talepleri süreç olarak tanımlı. Veri işleyen sözleşmesi (DPA) sağlanır.</p>
+        </li>
+        <li class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check-circle"/></svg></span>
+          <h3 class="card__title">Erişilebilirlik varsayılan</h3>
+          <p class="card__text">WCAG 2.2 AA tabanı: klavyeyle tam kullanım, ekran okuyucu desteği, görünür odak, %200 yakınlaştırma. Renk hiçbir zaman tek başına anlam taşımaz.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ HAKKIMIZDA ============ -->
+  <section class="section section--surface" id="hakkimizda" aria-labelledby="hakkimizda-baslik">
+    <div class="u-container about__grid">
+      <div>
+        <p class="section__eyebrow">Hakkımızda</p>
+        <h2 class="section__title" id="hakkimizda-baslik">Turizmi bilen bir ekip, yazılım satan bir ekip değil</h2>
+        <div class="about__prose">
+          <p>
+            <strong>HotelFlow AI, İnovatif Zeka tarafından geliştirilir.</strong> Genel amaçlı bir
+            yapay zekâ aracını otelcilik diline çevirmeye çalışmıyoruz; işin kendisinden
+            başlayıp ürüne gidiyoruz.
+          </p>
+          <p>
+            Arkasında <strong>otuz yıllık sektör deneyimi</strong> var. Rezervasyon departmanının
+            sabah 09.00'da neye baktığını, bir acentenin hangi soruyu neden sorduğunu, DACH
+            pazarından gelen misafirin neyi beklediğini tahmin ederek değil, yaşayarak biliyoruz.
+            <strong>Almanca pazar kabiliyeti</strong> bizim için bir çeviri ayarı değil, bir
+            pazar erişimi.
+          </p>
+          <p>
+            Ürünü biz kuruyoruz, biz yazıyoruz, biz devreye alıyoruz. Bu <strong>küçük bir
+            ekip</strong> olduğumuz anlamına gelir — ve bunu gizlemiyoruz. Avantajı şudur:
+            muhatabınız satış temsilcisi değil, ürünü yapan kişidir. Konuştuğunuz şey aynı
+            hafta içinde değişebilir.
+          </p>
+          <p>
+            Bu nedenle <strong>pilotla başlıyoruz.</strong> Önce ölçülebilir bir sonuç
+            üretelim; ondan sonra büyük konuşalım. Elimizde olmayan bir referansı,
+            doğrulamadığımız bir oranı ya da ürünün henüz yapmadığı bir özelliği
+            sunumumuza koymayız.
+          </p>
+        </div>
+
+        <ul class="values">
+          <li>
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check-circle"/></svg>
+            <span><strong>Ölçülebilir sonuç.</strong> Yatırımın geri dönüşü gösterilemiyorsa o özellik satılmaz.</span>
+          </li>
+          <li>
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-users"/></svg>
+            <span><strong>İnsan kararda kalır.</strong> Yapay zekâ işi hızlandırır; sorumluluğu devralmaz.</span>
+          </li>
+          <li>
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-shield"/></svg>
+            <span><strong>Güvenlik önce gelir.</strong> Görsel cilâ, güvenlik ve erişilebilirliğin önüne geçmez.</span>
+          </li>
+          <li>
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-book"/></svg>
+            <span><strong>Bilmediğimizi söyleriz.</strong> Uydurulmuş bir rakam, kabul edilmiş bir boşluktan kötüdür.</span>
+          </li>
+        </ul>
+      </div>
+
+      <dl class="fact-list">
+        <div class="fact-list__item">
+          <dt class="fact-list__term">Geliştirici</dt>
+          <dd class="fact-list__desc">İnovatif Zeka · yapay zekâ ürün stüdyosu</dd>
+        </div>
+        <div class="fact-list__item">
+          <dt class="fact-list__term">Ürün ailesi</dt>
+          <dd class="fact-list__desc">HotelFlow AI (otel) · ZEKAI Travel (acente) · MediTour (sağlık turizmi) · FinFlow (finans) · DurakAI (filo)</dd>
+        </div>
+        <div class="fact-list__item">
+          <dt class="fact-list__term">Odak pazar</dt>
+          <dd class="fact-list__desc">Türkiye ve DACH bölgesi · 50+ odalı oteller ve otel grupları</dd>
+        </div>
+        <div class="fact-list__item">
+          <dt class="fact-list__term">Çalışma dilleri</dt>
+          <dd class="fact-list__desc">Türkçe, Almanca, İngilizce, Arapça</dd>
+        </div>
+        <div class="fact-list__item">
+          <dt class="fact-list__term">Çalışma modeli</dt>
+          <dd class="fact-list__desc">Pilot öncelikli. İlk müşterilere, referans ve yazılı vaka çalışması karşılığında kontrollü indirim.</dd>
+        </div>
+        <div class="fact-list__item">
+          <dt class="fact-list__term">Teknik yaklaşım</dt>
+          <dd class="fact-list__desc">Çok kiracılı mimari, denetim kaydı, KVKK/GDPR uyumu ve WCAG 2.2 AA erişilebilirlik tabanı</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ============ FİYATLANDIRMA ============ -->
+  <section class="section" id="fiyatlandirma" aria-labelledby="fiyat-baslik">
+    <div class="u-container">
+      <div class="section__head">
+        <p class="section__eyebrow">Fiyatlandırma</p>
+        <h2 class="section__title" id="fiyat-baslik">Açık fiyat, gizli kalem yok</h2>
+        <p class="section__lead">
+          Tek bir AI resepsiyonistle başlayıp modül ekleyerek büyüyün. Paket değiştirmek
+          yeniden kurulum gerektirmez.
+        </p>
+      </div>
+      <ul class="card-grid card-grid--4">
+        <li class="card plan">
+          <h3 class="plan__name">Başlangıç</h3>
+          <p class="plan__price">1.990&nbsp;TL<span class="plan__period"> / ay</span></p>
+          <p class="plan__for">Tek tesis, tek kanal. Butik oteller için.</p>
+          <ul class="card__list">
+            <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>AI Resepsiyonist</li>
+            <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>Tek kanal (WhatsApp veya web)</li>
+            <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>Kurulum ücreti yok</li>
+            <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>E-posta desteği</li>
+          </ul>
+          <a class="button button--secondary" href="#iletisim">Teklif al</a>
+        </li>
+        <li class="card plan plan--featured">
+          <p class="badge badge--ai plan__badge">En çok tercih edilen</p>
+          <h3 class="plan__name">Profesyonel</h3>
+          <p class="plan__price">5.990&nbsp;TL<span class="plan__period"> / ay</span></p>
+          <p class="plan__for">Rezervasyon departmanı olan 50+ odalı oteller.</p>
+          <ul class="card__list">
+            <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>Resepsiyonist + AI Satış</li>
+            <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>Tüm kanallar, dört dil</li>
+            <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>PMS entegrasyonu</li>
+            <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>Kurulum ~10.000 TL (tek seferlik)</li>
+          </ul>
+          <a class="button button--primary" href="#iletisim">Teklif al</a>
+        </li>
+        <li class="card plan">
+          <h3 class="plan__name">Business</h3>
+          <p class="plan__price">14.990&nbsp;TL<span class="plan__period"> / ay</span></p>
+          <p class="plan__for">Çok tesisli işletmeler ve oteller grubu.</p>
+          <ul class="card__list">
+            <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>Dört modülün tamamı</li>
+            <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>Çok tesis, rol bazlı yetki</li>
+            <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>Denetim kaydı ve dışa aktarım</li>
+            <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>Kurulum ~25.000 TL (tek seferlik)</li>
+          </ul>
+          <a class="button button--secondary" href="#iletisim">Teklif al</a>
+        </li>
+        <li class="card plan">
+          <h3 class="plan__name">Kurumsal</h3>
+          <p class="plan__price">50.000+&nbsp;TL<span class="plan__period"> / ay</span></p>
+          <p class="plan__for">Zincir, özel entegrasyon ve SLA ihtiyacı.</p>
+          <ul class="card__list">
+            <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>Özel entegrasyon ve API</li>
+            <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>Hizmet seviyesi taahhüdü (SLA)</li>
+            <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>Marka uyarlaması</li>
+            <li><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-check"/></svg>Atanmış teknik muhatap</li>
+          </ul>
+          <a class="button button--secondary" href="#iletisim">Görüşme planla</a>
+        </li>
+      </ul>
+      <p class="pricing__note">
+        Fiyatlar aylık, KDV hariçtir. <strong>Yıllık sözleşmede 12 ay için 10 ay ödenir.</strong>
+        Yapay zekâ mesajı, sesli görüşme dakikası, belge işleme ve depolama gibi kalemlerde
+        kullanım bazlı ek ücret uygulanabilir; sözleşme öncesi kalem kalem paylaşılır.
+        Avrupa fiyatlandırması euro üzerinden ayrıca sunulur.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ SSS ============ -->
+  <section class="section section--surface" id="sss" aria-labelledby="sss-baslik">
+    <div class="u-container">
+      <div class="section__head">
+        <p class="section__eyebrow">Sık sorulanlar</p>
+        <h2 class="section__title" id="sss-baslik">Merak edilenler</h2>
+      </div>
+      <ul class="faq" id="faq">
+        <li class="faq__item">
+          <h3><button class="faq__question" type="button" aria-expanded="false" aria-controls="faq-1">
+            Mevcut PMS'imizi değiştirmemiz gerekir mi?
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><use href="#i-chevron"/></svg>
+          </button></h3>
+          <div class="faq__answer" id="faq-1" hidden>
+            Hayır. HotelFlow AI mevcut sisteminizin yerine geçmez, üstüne oturur ve onunla
+            konuşur. Entegrasyon mümkün değilse sistem tek başına da çalışır; bu durumda
+            müsaitlik bilgisini sizin tanımladığınız kurallardan okur.
+          </div>
+        </li>
+        <li class="faq__item">
+          <h3><button class="faq__question" type="button" aria-expanded="false" aria-controls="faq-2">
+            Yapay zekâ misafire yanlış bilgi verirse ne olur?
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><use href="#i-chevron"/></svg>
+          </button></h3>
+          <div class="faq__answer" id="faq-2" hidden>
+            Sistem emin olmadığı durumda cevap uydurmaz; konuşmayı insana devreder ve
+            nedenini kaydeder. Fiyat değişikliği, rezervasyon oluşturma ve misafire
+            gönderilen teklif gibi sonuç doğuran işlemler zaten insan onayından geçer.
+            Yayına ilk alışta onay eşiği en yüksek seviyededir; gevşetme kararı sizde.
+          </div>
+        </li>
+        <li class="faq__item">
+          <h3><button class="faq__question" type="button" aria-expanded="false" aria-controls="faq-3">
+            Misafir verisi nerede tutuluyor? KVKK açısından durum nedir?
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><use href="#i-chevron"/></svg>
+          </button></h3>
+          <div class="faq__answer" id="faq-3" hidden>
+            Veriler kiracı bazında izole edilir; her kayıt bir kurum kimliği taşır ve bu
+            kimlik oturum belirtecinden türetilir. Açık rıza, saklama süresi, silme ve veri
+            taşınabilirliği talepleri süreç olarak tanımlıdır. Veri işleyen sözleşmesi (DPA)
+            sağlanır. Barındırma bölgesi sözleşmede belirtilir.
+          </div>
+        </li>
+        <li class="faq__item">
+          <h3><button class="faq__question" type="button" aria-expanded="false" aria-controls="faq-4">
+            Kaç kullanıcı aynı anda çalışabilir?
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><use href="#i-chevron"/></svg>
+          </button></h3>
+          <div class="faq__answer" id="faq-4" hidden>
+            Operasyon modülü 50+ eş zamanlı kullanıcı için tasarlandı: ön büro, kat
+            hizmetleri, teknik servis ve raporlama rolleri aynı veriyi farklı yetkilerle
+            görür. Daha yüksek eş zamanlılık ihtiyacı Business ve Kurumsal paketlerde
+            ölçeklendirilir.
+          </div>
+        </li>
+        <li class="faq__item">
+          <h3><button class="faq__question" type="button" aria-expanded="false" aria-controls="faq-5">
+            Pilot nasıl işliyor?
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><use href="#i-chevron"/></svg>
+          </button></h3>
+          <div class="faq__answer" id="faq-5" hidden>
+            Tek bir kanalda, sınırlı kapsamda ve ölçülebilir hedeflerle başlıyoruz. İlk
+            müşterilerimize kontrollü indirim uyguluyoruz; karşılığında adını
+            kullanabileceğimiz bir referans, gerçek sayılarla yazılı bir vaka çalışması ve
+            pilot boyunca dürüst geri bildirim istiyoruz. Pilot sonunda devam etmemeyi
+            seçerseniz veriniz dışa aktarılır ve silinir.
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ İLETİŞİM ============ -->
+  <section class="section" id="iletisim" aria-labelledby="iletisim-baslik">
+    <div class="u-container contact__grid">
+      <div>
+        <p class="section__eyebrow">İletişim</p>
+        <h2 class="section__title" id="iletisim-baslik">Otelinizle 30 dakikalık bir demo</h2>
+        <p class="section__lead">
+          Satış sunumu değil: kendi oda tipleriniz ve kendi sık sorulan sorularınızla
+          canlı bir deneme. Sonunda ne işe yaradığını da, henüz yapamadığını da
+          açıkça söyleriz.
+        </p>
+        <ul class="values">
+          <li>
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-mail"/></svg>
+            <span><a href="mailto:info@inovatifzeka.com">info@inovatifzeka.com</a></span>
+          </li>
+          <li>
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-pin"/></svg>
+            <span>İzmir, Türkiye · uzaktan çalışıyoruz</span>
+          </li>
+          <li>
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-clock"/></svg>
+            <span>Formu bırakın, bir iş günü içinde dönüş yapıyoruz.</span>
+          </li>
+        </ul>
+      </div>
+
+      <form class="form card" id="contact-form" method="post" action="/api/contact" novalidate>
+        <h3 class="card__title">Demo talep formu</h3>
+
+        <div class="form__status" id="form-status" role="status" aria-live="polite" hidden>
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-status-icon><use href="#i-check-circle"/></svg>
+          <span data-status-text></span>
+        </div>
+
+        <div class="form__row">
+          <div class="field" data-field>
+            <label class="field__label" for="f-name">Ad soyad <span class="field__required" aria-hidden="true">*</span></label>
+            <input class="field__control" id="f-name" name="name" type="text" required autocomplete="name" maxlength="120" aria-describedby="e-name">
+            <p class="field__error" id="e-name" hidden><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><use href="#i-alert"/></svg><span></span></p>
+          </div>
+          <div class="field" data-field>
+            <label class="field__label" for="f-hotel">Otel adı <span class="field__required" aria-hidden="true">*</span></label>
+            <input class="field__control" id="f-hotel" name="hotel" type="text" required autocomplete="organization" maxlength="160" aria-describedby="e-hotel">
+            <p class="field__error" id="e-hotel" hidden><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><use href="#i-alert"/></svg><span></span></p>
+          </div>
+        </div>
+
+        <div class="form__row">
+          <div class="field" data-field>
+            <label class="field__label" for="f-email">E-posta <span class="field__required" aria-hidden="true">*</span></label>
+            <input class="field__control" id="f-email" name="email" type="email" required autocomplete="email" maxlength="160" aria-describedby="h-email e-email">
+            <p class="field__help" id="h-email">Kurumsal e-posta tercih ederiz.</p>
+            <p class="field__error" id="e-email" hidden><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><use href="#i-alert"/></svg><span></span></p>
+          </div>
+          <div class="field" data-field>
+            <label class="field__label" for="f-phone">Telefon</label>
+            <input class="field__control" id="f-phone" name="phone" type="tel" autocomplete="tel" maxlength="40" aria-describedby="h-phone">
+            <p class="field__help" id="h-phone">İsteğe bağlı. WhatsApp'tan da yazabiliriz.</p>
+          </div>
+        </div>
+
+        <div class="field" data-field>
+          <label class="field__label" for="f-rooms">Oda sayısı</label>
+          <select class="field__control" id="f-rooms" name="rooms">
+            <option value="">Seçiniz</option>
+            <option value="1-49">50'den az</option>
+            <option value="50-149">50 – 149</option>
+            <option value="150-399">150 – 399</option>
+            <option value="400+">400 ve üzeri</option>
+            <option value="grup">Otel grubu / çok tesis</option>
+          </select>
+        </div>
+
+        <div class="field" data-field>
+          <label class="field__label" for="f-message">Neyi çözmek istiyorsunuz?</label>
+          <textarea class="field__control" id="f-message" name="message" rows="4" maxlength="2000" aria-describedby="h-message"></textarea>
+          <p class="field__help" id="h-message">Örneğin: gece gelen WhatsApp talepleri cevapsız kalıyor.</p>
+        </div>
+
+        <div class="field field--consent" data-field>
+          <input id="f-consent" name="consent" type="checkbox" required aria-describedby="e-consent">
+          <label class="field__label" for="f-consent">
+            Verilerimin bu talep kapsamında, KVKK kapsamındaki aydınlatma metnine uygun olarak
+            işlenmesine onay veriyorum. <span class="field__required" aria-hidden="true">*</span>
+          </label>
+          <p class="field__error" id="e-consent" hidden><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><use href="#i-alert"/></svg><span></span></p>
+        </div>
+
+        <button class="button button--primary" type="submit" id="form-submit">Demo talep et</button>
+        <p class="field__help">Bu form yalnızca talebinizi iletir. Hiçbir pazarlama listesine eklenmez.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="u-container">
+    <div class="site-footer__grid">
+      <div>
+        <a class="brand" href="#main">
+          <span class="brand__mark" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M7 5v14M17 5v14M7 12h10"/></svg></span>
+          HotelFlow&nbsp;AI
+        </a>
+        <p class="site-footer__about">
+          Otellere yapay zekâ destekli misafir iletişimi, satış ve operasyon yönetimi.
+          İnovatif Zeka tarafından geliştirilir.
+        </p>
+      </div>
+      <div>
+        <h2 class="site-footer__heading">Ürün</h2>
+        <ul class="site-footer__list">
+          <li><a href="#cozumler">Çözümler</a></li>
+          <li><a href="#nasil-calisir">Nasıl çalışır</a></li>
+          <li><a href="#fiyatlandirma">Fiyatlandırma</a></li>
+          <li><a href="#guvenlik">Güvenlik ve uyum</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="site-footer__heading">Kurumsal</h2>
+        <ul class="site-footer__list">
+          <li><a href="#hakkimizda">Hakkımızda</a></li>
+          <li><a href="#sss">Sık sorulanlar</a></li>
+          <li><a href="#iletisim">İletişim</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="site-footer__heading">İletişim</h2>
+        <ul class="site-footer__list">
+          <li><a href="mailto:info@inovatifzeka.com">info@inovatifzeka.com</a></li>
+          <li><span>İzmir, Türkiye</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <p>© <span id="year">2026</span> İnovatif Zeka · HotelFlow AI. Tüm hakları saklıdır.</p>
+      <p>KVKK aydınlatma metni ve veri işleyen sözleşmesi talep üzerine paylaşılır.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/site.js" defer></script>
+</body>
+</html>

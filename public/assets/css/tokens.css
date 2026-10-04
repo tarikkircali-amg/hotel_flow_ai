@@ -1,0 +1,368 @@
+/* ============================================================
+   HOTELFLOW AI — DESIGN TOKENS
+   AI_PRODUCT_OS · 03-design-tokens.md
+   Hiyerarsi: foundation -> semantic -> component -> theme
+   Bilesenler YALNIZCA semantic token tuketir.
+   ============================================================ */
+
+:root {
+  /* ---------- FOUNDATION · COLOR ---------- */
+  /* brand / primary — Ege turkuazi */
+  --color-brand-50:  #ecfbf9;
+  --color-brand-100: #d1f5f0;
+  --color-brand-200: #a6eae2;
+  --color-brand-300: #6fd8cd;
+  --color-brand-400: #39bdb2;
+  --color-brand-500: #16a094;
+  --color-brand-600: #0c8178;
+  --color-brand-700: #0b6761;
+  --color-brand-800: #0d524e;
+  --color-brand-900: #0e4441;
+  --color-brand-950: #022827;
+
+  /* secondary — kum / pirinc (otel sicakligi) */
+  --color-secondary-50:  #fdf8ec;
+  --color-secondary-100: #faefcf;
+  --color-secondary-200: #f4dc9b;
+  --color-secondary-300: #edc461;
+  --color-secondary-400: #e7ae35;
+  --color-secondary-500: #d9941b;
+  --color-secondary-600: #bc7114;
+  --color-secondary-700: #964f14;
+  --color-secondary-800: #7c3f17;
+  --color-secondary-900: #6a3516;
+  --color-secondary-950: #3d1b08;
+
+  /* neutral */
+  --color-neutral-0:   #ffffff;
+  --color-neutral-50:  #f8fafc;
+  --color-neutral-100: #f1f5f9;
+  --color-neutral-200: #e2e8f0;
+  --color-neutral-300: #cbd5e1;
+  --color-neutral-400: #94a3b8;
+  --color-neutral-500: #64748b;
+  --color-neutral-600: #475569;
+  --color-neutral-700: #334155;
+  --color-neutral-800: #1e293b;
+  --color-neutral-900: #0f172a;
+  --color-neutral-950: #020817;
+
+  /* ai — YALNIZCA yapay zeka ozelliklerine ayrilmistir. Baska hicbir yerde kullanilmaz. */
+  --color-ai-50:  #f2f0ff;
+  --color-ai-100: #e7e2ff;
+  --color-ai-200: #d1c8ff;
+  --color-ai-300: #b3a2ff;
+  --color-ai-400: #9170ff;
+  --color-ai-500: #7645f5;
+  --color-ai-600: #6629e8;
+  --color-ai-700: #581dcb;
+  --color-ai-800: #4a1ba6;
+  --color-ai-900: #3e1a84;
+  --color-ai-950: #250b57;
+
+  /* success / warning / danger / info */
+  --color-success-50:  #ecfdf5;
+  --color-success-100: #d1fae5;
+  --color-success-500: #10b981;
+  --color-success-600: #059669;
+  --color-success-700: #047857;
+  --color-success-900: #064e3b;
+
+  --color-warning-50:  #fffbeb;
+  --color-warning-100: #fef3c7;
+  --color-warning-500: #f59e0b;
+  --color-warning-600: #d97706;
+  --color-warning-700: #b45309;
+  --color-warning-900: #78350f;
+
+  --color-danger-50:  #fef2f2;
+  --color-danger-100: #fee2e2;
+  --color-danger-500: #ef4444;
+  --color-danger-600: #dc2626;
+  --color-danger-700: #b91c1c;
+  --color-danger-900: #7f1d1d;
+
+  --color-info-50:  #eff6ff;
+  --color-info-100: #dbeafe;
+  --color-info-500: #3b82f6;
+  --color-info-600: #2563eb;
+  --color-info-700: #1d4ed8;
+  --color-info-900: #1e3a8a;
+
+  /* ---------- FOUNDATION · SPACING (8px taban) ---------- */
+  --spacing-0: 0;      --spacing-2: 2px;    --spacing-4: 4px;
+  --spacing-6: 6px;    --spacing-8: 8px;    --spacing-12: 12px;
+  --spacing-16: 16px;  --spacing-20: 20px;  --spacing-24: 24px;
+  --spacing-32: 32px;  --spacing-40: 40px;  --spacing-48: 48px;
+  --spacing-56: 56px;  --spacing-64: 64px;  --spacing-80: 80px;
+  --spacing-96: 96px;  --spacing-112: 112px; --spacing-128: 128px;
+  --spacing-160: 160px;
+
+  /* ---------- FOUNDATION · TYPOGRAPHY ---------- */
+  --font-family-primary: "Inter", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-family-mono: "JetBrains Mono", ui-monospace, SFMono-Regular,
+    "SF Mono", Menlo, Consolas, monospace;
+
+  --font-size-11: 0.6875rem; --font-size-12: 0.75rem;  --font-size-13: 0.8125rem;
+  --font-size-14: 0.875rem;  --font-size-15: 0.9375rem; --font-size-16: 1rem;
+  --font-size-18: 1.125rem;  --font-size-20: 1.25rem;  --font-size-24: 1.5rem;
+  --font-size-28: 1.75rem;   --font-size-32: 2rem;     --font-size-40: 2.5rem;
+  --font-size-48: 3rem;      --font-size-56: 3.5rem;   --font-size-64: 4rem;
+
+  --font-weight-regular: 400; --font-weight-medium: 500;
+  --font-weight-semibold: 600; --font-weight-bold: 700;
+
+  --line-height-display: 1.1;  --line-height-heading: 1.2;
+  --line-height-body: 1.5;     --line-height-caption: 1.4;
+
+  --letter-spacing-display: -0.02em; --letter-spacing-heading: -0.01em;
+  --letter-spacing-body: 0;          --letter-spacing-caption: 0.01em;
+  --letter-spacing-uppercase: 0.03em;
+
+  /* ---------- FOUNDATION · RADIUS / BORDER / SHADOW ---------- */
+  --radius-none: 0;   --radius-4: 4px;   --radius-6: 6px;   --radius-8: 8px;
+  --radius-12: 12px;  --radius-16: 16px; --radius-20: 20px; --radius-24: 24px;
+  --radius-32: 32px;  --radius-full: 9999px;
+
+  --border-width-0: 0; --border-width-1: 1px; --border-width-2: 2px;
+  --border-width-3: 3px;
+
+  --shadow-xs: 0 1px 2px rgb(2 8 23 / 6%);
+  --shadow-sm: 0 1px 3px rgb(2 8 23 / 8%), 0 1px 2px rgb(2 8 23 / 6%);
+  --shadow-md: 0 4px 12px rgb(2 8 23 / 8%), 0 2px 4px rgb(2 8 23 / 4%);
+  --shadow-lg: 0 12px 28px rgb(2 8 23 / 10%), 0 4px 10px rgb(2 8 23 / 5%);
+  --shadow-xl: 0 24px 48px rgb(2 8 23 / 12%), 0 8px 16px rgb(2 8 23 / 6%);
+  --shadow-ai: 0 8px 28px rgb(118 69 245 / 22%);
+
+  /* ---------- FOUNDATION · MOTION ---------- */
+  --motion-duration-instant: 75ms; --motion-duration-fast: 120ms;
+  --motion-duration-normal: 180ms; --motion-duration-slow: 320ms;
+  --motion-easing-standard: cubic-bezier(0.2, 0, 0.2, 1);
+  --motion-easing-decelerate: cubic-bezier(0, 0, 0.2, 1);
+
+  /* ---------- FOUNDATION · Z-INDEX ---------- */
+  --z-index-content: 1;  --z-index-sticky: 100; --z-index-header: 200;
+  --z-index-drawer: 300; --z-index-modal: 400;  --z-index-toast: 500;
+
+  /* ---------- FOUNDATION · LAYOUT ---------- */
+  --layout-max-width: 1200px;
+  --layout-reading-width: 68ch;
+  --layout-gutter: var(--spacing-24);
+  --layout-gutter-mobile: var(--spacing-16);
+}
+
+/* ============================================================
+   SEMANTIC TOKENS · LIGHT (varsayilan)
+   ============================================================ */
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --text-primary:   var(--color-neutral-900);
+  --text-secondary: var(--color-neutral-700);
+  --text-tertiary:  var(--color-neutral-500);
+  --text-muted:     var(--color-neutral-400);
+  --text-inverse:   var(--color-neutral-0);
+  --text-link:      var(--color-brand-700);
+  --text-brand:     var(--color-brand-700);
+  --text-success:   var(--color-success-700);
+  --text-warning:   var(--color-warning-700);
+  --text-danger:    var(--color-danger-700);
+  --text-ai:        var(--color-ai-700);
+
+  --background-app:        var(--color-neutral-0);
+  --background-surface:    var(--color-neutral-50);
+  --background-card:       var(--color-neutral-0);
+  --background-panel:      var(--color-brand-50);
+  --background-navigation: rgb(255 255 255 / 88%);
+  --background-inverse:    var(--color-brand-950);
+  --background-hover:      var(--color-neutral-100);
+  --background-ai-subtle:  var(--color-ai-50);
+  --background-success-subtle: var(--color-success-50);
+  --background-danger-subtle:  var(--color-danger-50);
+
+  --border-default: var(--color-neutral-200);
+  --border-subtle:  var(--color-neutral-100);
+  --border-strong:  var(--color-neutral-300);
+  --border-focus:   var(--color-brand-600);
+  --border-ai:      var(--color-ai-200);
+  --border-danger:  var(--color-danger-500);
+  --border-success: var(--color-success-500);
+
+  --icon-primary:   var(--color-neutral-700);
+  --icon-secondary: var(--color-neutral-500);
+  --icon-inverse:   var(--color-neutral-0);
+  --icon-brand:     var(--color-brand-600);
+  --icon-ai:        var(--color-ai-600);
+  --icon-success:   var(--color-success-600);
+  --icon-danger:    var(--color-danger-600);
+
+  --action-primary-background:       var(--color-brand-600);
+  --action-primary-background-hover: var(--color-brand-700);
+  --action-primary-text:             var(--color-neutral-0);
+  --action-secondary-background:       var(--color-neutral-0);
+  --action-secondary-background-hover: var(--color-neutral-100);
+  --action-secondary-text:             var(--color-neutral-800);
+
+  /* Otel alan tokenlari — her biri metin/ikon ile eslenir, renk tek basina anlam tasimaz */
+  --status-available:   var(--color-success-600);
+  --status-reserved:    var(--color-info-600);
+  --status-occupied:    var(--color-neutral-600);
+  --status-cleaning:    var(--color-warning-600);
+  --status-maintenance: var(--color-danger-600);
+  --status-vip:         var(--color-secondary-600);
+
+  --gradient-hero: radial-gradient(
+      1200px 600px at 15% -10%, var(--color-brand-100) 0%, transparent 60%),
+    radial-gradient(900px 500px at 90% 0%, var(--color-ai-100) 0%, transparent 55%);
+}
+
+/* ============================================================
+   SEMANTIC TOKENS · DARK
+   Dark mode zorunludur: kullanilabilirlik ve kontrast dusmez.
+   ============================================================ */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --text-primary:   var(--color-neutral-50);
+  --text-secondary: var(--color-neutral-300);
+  --text-tertiary:  var(--color-neutral-400);
+  --text-muted:     var(--color-neutral-500);
+  --text-inverse:   var(--color-neutral-950);
+  --text-link:      var(--color-brand-300);
+  --text-brand:     var(--color-brand-300);
+  --text-success:   #6ee7b7;
+  --text-warning:   #fcd34d;
+  --text-danger:    #fca5a5;
+  --text-ai:        var(--color-ai-300);
+
+  --background-app:        var(--color-neutral-950);
+  --background-surface:    #0a1220;
+  --background-card:       var(--color-neutral-900);
+  --background-panel:      #072725;
+  --background-navigation: rgb(2 8 23 / 86%);
+  --background-inverse:    var(--color-neutral-50);
+  --background-hover:      var(--color-neutral-800);
+  --background-ai-subtle:  #1a1040;
+  --background-success-subtle: #052e22;
+  --background-danger-subtle:  #3f1414;
+
+  --border-default: #22304a;
+  --border-subtle:  #16203360;
+  --border-strong:  #33415a;
+  --border-focus:   var(--color-brand-300);
+  --border-ai:      var(--color-ai-800);
+  --border-danger:  var(--color-danger-500);
+  --border-success: var(--color-success-500);
+
+  --icon-primary:   var(--color-neutral-200);
+  --icon-secondary: var(--color-neutral-400);
+  --icon-inverse:   var(--color-neutral-950);
+  --icon-brand:     var(--color-brand-300);
+  --icon-ai:        var(--color-ai-300);
+  --icon-success:   var(--color-success-500);
+  --icon-danger:    var(--color-danger-500);
+
+  --action-primary-background:       var(--color-brand-500);
+  --action-primary-background-hover: var(--color-brand-400);
+  --action-primary-text:             var(--color-brand-950);
+  --action-secondary-background:       transparent;
+  --action-secondary-background-hover: var(--color-neutral-800);
+  --action-secondary-text:             var(--color-neutral-100);
+
+  --status-available:   var(--color-success-500);
+  --status-reserved:    var(--color-info-500);
+  --status-occupied:    var(--color-neutral-400);
+  --status-cleaning:    var(--color-warning-500);
+  --status-maintenance: var(--color-danger-500);
+  --status-vip:         var(--color-secondary-400);
+
+  --shadow-sm: 0 1px 3px rgb(0 0 0 / 40%);
+  --shadow-md: 0 4px 12px rgb(0 0 0 / 45%);
+  --shadow-lg: 0 12px 28px rgb(0 0 0 / 50%);
+  --shadow-xl: 0 24px 48px rgb(0 0 0 / 55%);
+
+  --gradient-hero: radial-gradient(
+      1200px 600px at 15% -10%, #06302e 0%, transparent 60%),
+    radial-gradient(900px 500px at 90% 0%, #1c1150 0%, transparent 55%);
+}
+
+/* Isletim sistemi tercihi — kullanici secimi yoksa */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --text-primary:   var(--color-neutral-50);
+    --text-secondary: var(--color-neutral-300);
+    --text-tertiary:  var(--color-neutral-400);
+    --text-muted:     var(--color-neutral-500);
+    --text-inverse:   var(--color-neutral-950);
+    --text-link:      var(--color-brand-300);
+    --text-brand:     var(--color-brand-300);
+    --text-success:   #6ee7b7;
+    --text-warning:   #fcd34d;
+    --text-danger:    #fca5a5;
+    --text-ai:        var(--color-ai-300);
+
+    --background-app:        var(--color-neutral-950);
+    --background-surface:    #0a1220;
+    --background-card:       var(--color-neutral-900);
+    --background-panel:      #072725;
+    --background-navigation: rgb(2 8 23 / 86%);
+    --background-inverse:    var(--color-neutral-50);
+    --background-hover:      var(--color-neutral-800);
+    --background-ai-subtle:  #1a1040;
+    --background-success-subtle: #052e22;
+    --background-danger-subtle:  #3f1414;
+
+    --border-default: #22304a;
+    --border-subtle:  #16203360;
+    --border-strong:  #33415a;
+    --border-focus:   var(--color-brand-300);
+    --border-ai:      var(--color-ai-800);
+
+    --icon-primary:   var(--color-neutral-200);
+    --icon-secondary: var(--color-neutral-400);
+    --icon-inverse:   var(--color-neutral-950);
+    --icon-brand:     var(--color-brand-300);
+    --icon-ai:        var(--color-ai-300);
+
+    --action-primary-background:       var(--color-brand-500);
+    --action-primary-background-hover: var(--color-brand-400);
+    --action-primary-text:             var(--color-brand-950);
+    --action-secondary-background:       transparent;
+    --action-secondary-background-hover: var(--color-neutral-800);
+    --action-secondary-text:             var(--color-neutral-100);
+
+    --shadow-sm: 0 1px 3px rgb(0 0 0 / 40%);
+    --shadow-md: 0 4px 12px rgb(0 0 0 / 45%);
+    --shadow-lg: 0 12px 28px rgb(0 0 0 / 50%);
+    --shadow-xl: 0 24px 48px rgb(0 0 0 / 55%);
+
+    --gradient-hero: radial-gradient(
+        1200px 600px at 15% -10%, #06302e 0%, transparent 60%),
+      radial-gradient(900px 500px at 90% 0%, #1c1150 0%, transparent 55%);
+  }
+}
+
+/* Yuksek kontrast */
+@media (prefers-contrast: more) {
+  :root {
+    --border-default: var(--color-neutral-500);
+    --border-strong:  var(--color-neutral-700);
+    --text-secondary: var(--color-neutral-900);
+    --text-tertiary:  var(--color-neutral-800);
+  }
+}
+
+/* Baski */
+@media print {
+  :root {
+    --background-app: #ffffff;    --background-card: #ffffff;
+    --background-surface: #ffffff; --background-panel: #ffffff;
+    --text-primary: #000000;      --text-secondary: #1a1a1a;
+    --gradient-hero: none;
+    --shadow-sm: none; --shadow-md: none; --shadow-lg: none; --shadow-xl: none;
+  }
+}
