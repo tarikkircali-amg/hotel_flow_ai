@@ -358,8 +358,8 @@ for i, b in enumerate(bsl):
 senaryolar = [
     ('A — Twilio (bugünkü varsayım)', 0.07, 0.0701, 1.00,
      'Referans. ConversationRelay + Twilio Türkiye gelen çağrı.'),
-    ('B — Gelen çağrı Türk operatörden', 0.07, 0.010, 1.00,
-     'Kliniğin hattı Türk SIP sağlayıcıyla bağlanır. Gelen dakika ücreti DÜŞER. Teklif alınmalı.'),
+    ('B — Türk operatör + Twilio BYOC', 0.07, 0.010, 1.00,
+     'Kendi operatorumuz Twilio ya BYOC ile baglanir. Relay aynen calisir, kod degismez. Teklif alinmali.'),
     ('C — Kendi STT + TTS (relay yok)', 0.015, 0.010, 1.00,
      'ConversationRelay yerine kendi akışımız. Geliştirme işi var, dakika ücreti düşer.'),
     ('D — Sadece mesai dışı', 0.07, 0.0701, 0.35,
@@ -394,15 +394,22 @@ for i, (ad, relay, gelen, oran, aciklama) in enumerate(senaryolar):
     for k in range(1, 8):
         kl.cell(s, k).border = cerceve
 
-kl['A15'] = 'ÖNEMLİ: B ve C senaryolarındaki dakika ücretleri VARSAYIMDIR. Türk SIP sağlayıcılardan'
-kl['A15'].font = Font(name=F, size=10, bold=True, color='B91C1C')
-kl['A16'] = 'teklif alınmadan bu sayılar müşteriye verilmemelidir.'
-kl['A16'].font = Font(name=F, size=10, bold=True, color='B91C1C')
+kl['A15'] = 'B senaryosu MİMARİ OLARAK DOĞRULANDI: Twilio BYOC (Bring Your Own Carrier) ile kendi'
+kl['A15'].font = Font(name=F, size=10, bold=True, color='047857')
+kl['A16'] = 'operatörümüzü bağlayıp ConversationRelay i aynen kullanmaya devam edebiliyoruz — kod değişmiyor.'
+kl['A16'].font = Font(name=F, size=10, bold=True, color='047857')
+kl['A17'] = 'EKSİK: Twilio nun BYOC dakika ücreti. Twilio ya sorulacak, modele eklenecek.'
+kl['A17'].font = Font(name=F, size=10, bold=True, color='B45309')
 
-kl['A18'] = 'Yapay zekâ maliyeti neden küçük: görüşme başına yaklaşık 1 ₺. Model değiştirmek toplam'
-kl['A18'].font = b_not
-kl['A19'] = 'maliyeti ancak %4 oynatıyor. Telefon kalemi ise %76 — iyileştirme oraya yapılmalı.'
-kl['A19'].font = b_not
+kl['A19'] = 'ÖNEMLİ: B ve C senaryolarındaki dakika ücretleri VARSAYIMDIR. Türk SIP sağlayıcılardan'
+kl['A15'].font = Font(name=F, size=10, bold=True, color='B91C1C')
+kl['A20'] = 'teklif alınmadan bu sayılar müşteriye verilmemelidir.'
+kl['A20'].font = Font(name=F, size=10, bold=True, color='B91C1C')
+
+kl['A22'] = 'Yapay zekâ maliyeti neden küçük: görüşme başına yaklaşık 1 ₺. Model değiştirmek toplam'
+kl['A22'].font = b_not
+kl['A23'] = 'maliyeti ancak %4 oynatıyor. Telefon kalemi ise %76 — iyileştirme oraya yapılmalı.'
+kl['A23'].font = b_not
 
 kl.column_dimensions['A'].width = 32
 for c in 'BCDEFG':
