@@ -183,6 +183,22 @@ Best regards,
 
 ---
 
+## 1b. GÖNDERİM DURUMU
+
+| Kanal | Kapsam | Durum |
+|---|---|---|
+| **Support bileti #29847256** | B (teknik) + D (KVKK veri işleme) | **Açıldı — 06.10.2026 15:09, P3, durum: New** |
+| **Sales formu** | A (fiyat) + C (BYOC) | Gönderilecek |
+
+Bilet: `help.twilio.com/tickets/29847256`
+Hesap: HOTEL_FLOW_AI · Destek planı: Developer Support (ücretsiz, yanıt
+süresi garantisi yok)
+
+**Üç engelleyici sorunun üçü de Sales tarafında** (A1, A3, C2). Bilet
+teknik soruları kapsıyor ama maliyet modelini kapatan rakamlar orada değil.
+
+---
+
 ## 2. Cevaplar gelince ne yapacağız
 
 | Cevap | Nereye işlenecek |
