@@ -1,6 +1,7 @@
 'use strict';
 
-// Erisim listesi markdown -> doldurulabilir Word belgesi.
+// Markdown -> Word belgesi. Kullanim:
+//   node word-uret.js <kaynak.md> <hedef.docx> "<belge basligi>"
 
 const fs = require('node:fs');
 const path = require('node:path');
@@ -10,8 +11,13 @@ const {
   Table, TableRow, TableCell, WidthType, ShadingType, BorderStyle, LevelFormat,
 } = d;
 
-const KAYNAK = '/home/user/hotel_flow_ai/deniz-dent/sosyal-medya-erisim-listesi.md';
-const HEDEF = '/home/user/hotel_flow_ai/deniz-dent/Deniz-Dent-Erisim-ve-KVKK-Onay-Formu.docx';
+const KAYNAK = path.resolve(process.argv[2]);
+const HEDEF = path.resolve(process.argv[3]);
+const BASLIK = process.argv[4] || path.basename(HEDEF, '.docx');
+if (!process.argv[2] || !process.argv[3]) {
+  console.error('kullanim: node word-uret.js <kaynak.md> <hedef.docx> "<baslik>"');
+  process.exit(1);
+}
 
 const MARKA = '0F766E';   // teal
 const KOYU = '134E4A';
@@ -20,14 +26,17 @@ const ALINTI = 'FEF3C7';  // acik amber - "neden soruyoruz" notlari
 
 const SAYFA_GENISLIK = 9360; // 12240 - 2*1440 kenar bosluk
 
-/** **kalin** isaretlerini TextRun dizisine cevirir. */
+/** **kalin** ve *egik* isaretlerini TextRun dizisine cevirir. */
 function metin(ham, ek = {}) {
   const parcalar = [];
-  const re = /\*\*(.+?)\*\*/g;
+  // Once kalin denenir; aksi halde '**x**' icindeki ilk yildiz cifti
+  // egik olarak yakalanirdi.
+  const re = /\*\*(.+?)\*\*|\*([^*\n]+?)\*/g;
   let son = 0, m;
   while ((m = re.exec(ham)) !== null) {
     if (m.index > son) parcalar.push(new TextRun({ text: ham.slice(son, m.index), ...ek }));
-    parcalar.push(new TextRun({ text: m[1], bold: true, ...ek }));
+    if (m[1] !== undefined) parcalar.push(new TextRun({ text: m[1], bold: true, ...ek }));
+    else parcalar.push(new TextRun({ text: m[2], italics: true, ...ek }));
     son = m.index + m[0].length;
   }
   if (son < ham.length) parcalar.push(new TextRun({ text: ham.slice(son), ...ek }));
@@ -307,7 +316,7 @@ while (i < ham.length) {
 
 const belge = new Document({
   creator: 'MİZ / My İnovatif Zeka',
-  title: 'Deniz Dent — Erişim ve KVKK Onay Formu',
+  title: BASLIK,
   numbering: {
     config: [
       {
