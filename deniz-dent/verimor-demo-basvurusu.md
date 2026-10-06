@@ -36,7 +36,19 @@ daha hızlı sonuç verir.
 
 ---
 
-## 1. GÖNDERİLECEK E-POSTA
+## 0b. DURUM
+
+**Gönderildi — 06.10.2026.** Cevap bekleniyor.
+
+Takip edilecek üç şey:
+1. Demoya **SIP Trunk dahil mi** — dahil değilse demo bizim senaryomuzu
+   test etmez, ısrar edilmeli
+2. Paket fiyatı teyidi (12 aylık dönem toplamı tezi)
+3. Gelen dakikanın ücretsizliğinin **yazılı** teyidi
+
+---
+
+## 1. GÖNDERİLEN E-POSTA
 
 > Aşağıdaki metni olduğu gibi kullanabilirsiniz.
 
