@@ -39,6 +39,15 @@ Seçenek 2 = kendi medya katmanımız (20–28 iş günü geliştirme).*
 
 **En kötü hâlde aylık 212.500 ₺.** Beklenenin 4,8 katı.
 
+> **06.10.2026 — düzeltme notu.** Yukarıdaki Seçenek 1 rakamları, seslendirme
+> (ElevenLabs) kaleminin Twilio'dan **ayrıca** faturalandığını varsayıyor.
+> Kodumuz telefon yolunda ElevenLabs'i doğrudan çağırmıyor; seslendirmeyi
+> ConversationRelay yapıyor. Bu kalem $0,07/dk içindeyse **A kademesi
+> 44.279 ₺ değil 33.029 ₺.** Yani Seçenek 1 beklenen maliyeti
+> **33.029 – 44.279 ₺ aralığında.** Twilio'ya soruldu
+> (`twilio-soru-listesi.md`, soru A3). Seçenek 2'de seslendirme kesin olarak
+> bizde olduğu için o kolon etkilenmiyor.
+
 ---
 
 ## 2. Bu 4,8 kat nereden geliyor
@@ -262,7 +271,8 @@ Dürüstlük gereği: aşağıdakiler **bilinmiyor** ve modeli etkiliyor.
 |---|---|---|
 | Gerçek çağrı sayısı | **Çok yüksek** — 4,8 katın kaynağı | 1 ay gerçek veri |
 | Gerçek görüşme süresi | Yüksek | Aynı |
-| Twilio BYOC dakika ücreti | Yüksek | Twilio'dan cevap |
+| Twilio BYOC dakika ücreti | Yüksek | Twilio'dan cevap (soru C2) |
+| Seslendirme $0,07'ye dahil mi | **Yüksek — toplamın %25'i** | Twilio'dan cevap (soru A3) |
 | Verimor gelen dakika gerçekten ücretsiz mi | Orta | Yazılı teyit |
 | Verimor paket fiyatı (liste vs e-posta çelişkisi) | Orta | Verimor'a soruldu |
 | STT sağlayıcı ve fiyatı (Seçenek 2) | Orta | 2 günlük ölçüm |
