@@ -188,11 +188,17 @@ Best regards,
 | Kanal | Kapsam | Durum |
 |---|---|---|
 | **Support bileti #29847256** | B (teknik) + D (KVKK veri işleme) | **Açıldı — 06.10.2026 15:09, P3, durum: New** |
-| **Sales formu** | A (fiyat) + C (BYOC) | Gönderilecek |
+| **Sales formu** | A (fiyat) + C (BYOC) | **Gönderildi — 06.10.2026 15:18. Twilio 1–2 gün içinde dönüş sözü verdi** |
 
 Bilet: `help.twilio.com/tickets/29847256`
 Hesap: HOTEL_FLOW_AI · Destek planı: Developer Support (ücretsiz, yanıt
 süresi garantisi yok)
+
+**Sales formunda seçilenler:** Country: Turkey · Primary Product Interest:
+Voice AI & Conversational AI · How would you like to build: Build your own
+solution by using Twilio APIs. Formda serbest mesaj alanı yok; üç
+engelleyici soru temsilci dönünce e-postayla iletilecek (metin bu belgenin
+1. bölümünde hazır).
 
 **Üç engelleyici sorunun üçü de Sales tarafında** (A1, A3, C2). Bilet
 teknik soruları kapsıyor ama maliyet modelini kapatan rakamlar orada değil.
