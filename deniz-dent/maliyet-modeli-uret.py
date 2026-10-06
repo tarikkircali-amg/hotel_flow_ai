@@ -416,5 +416,102 @@ for c in 'BCDEFG':
     kl.column_dimensions[c].width = 14
 kl.column_dimensions['H'].width = 60
 
+# =====================================================================
+# 7. VERİMOR TEKLİFİ
+# =====================================================================
+vm = wb.create_sheet('Verimor')
+basliklandir(vm, 'Verimor Teklifi — 06.10.2026',
+             'Kaynak: Verimor e-postasi ve Bulut Santral fiyat listesi PDF. Fiyatlar KDV HARIC.')
+
+vm['A4'] = 'EN ÖNEMLİ MADDE: Verimor numaralarına gelen çağrılarda DAKİKA ÜCRETİ YOK.'
+vm['A4'].font = Font(name=F, size=11, bold=True, color='047857')
+vm['A5'] = 'Maliyetin en büyük kalemi (gelen çağrı dakikası) tamamen ortadan kalkıyor.'
+vm['A5'].font = Font(name=F, size=10, bold=True, color='047857')
+
+bolum(vm, 7, 'VERİMOR SABİT ÜCRETLER (₺/ay, KDV hariç)')
+v_santral = girdi(vm, 8, 'Bulut Santral paketi', 565, PARA_TRY,
+                  'X Small: 5 kullanıcı / 3 dış hat, 6 aylık periyot (aylık 565 ₺)')
+v_sip     = girdi(vm, 9, 'SIP Trunk modülü', 899, PARA_TRY,
+                  'Aylık periyot. 6 aylıkta 824 ₺, 12 aylıkta 768 ₺')
+v_kdv     = girdi(vm, 10, 'KDV oranı', 0.20, YUZDE, '')
+hesap(vm, 11, 'Verimor toplam (KDV dahil)', f'=(B8+B9)*(1+B10)', PARA_TRY, kalin=True)
+
+vm['A13'] = 'Gelen çağrı dakika ücreti'
+vm['A13'].font = b_normal
+h = vm.cell(13, 2, 0); h.number_format = PARA_TRY; h.fill = TURETILEN
+vm.cell(13, 3, 'Verimor: "gelen çağrılarda dakika başına ücretlendirme yansımaz"').font = b_not
+
+vm['A14'] = 'Numara taşıma / tahsis'
+vm['A14'].font = b_normal
+vm.cell(14, 3, 'Taşıma ücretsiz. Yeni numara tahsisi 468 ₺ tek seferlik; ilk numara ücretsiz.').font = b_not
+
+vm['A15'] = 'Eşzamanlı kanal'
+vm['A15'].font = b_normal
+vm.cell(15, 2, 6).number_format = SAYI
+vm.cell(15, 3, 'Artırılabilir. 100 çağrı/gün için yeterli (yoğun saatte bile ~1 kanal doluluk).').font = b_not
+
+vm['A16'] = 'Taahhüt'
+vm['A16'].font = b_normal
+vm.cell(16, 3, 'Yok. Ön ödemeli ilerliyor.').font = b_not
+
+bolum(vm, 18, 'İKİ MİMARİ SEÇENEK')
+bsl2 = ['Seçenek', 'Relay $/dk', 'STT $/dk', 'Maliyet (₺/ay)', 'Çağrı başı (₺)', 'Önerilen fiyat (₺/ay)']
+for i, bb in enumerate(bsl2):
+    h = vm.cell(19, 1 + i, bb)
+    h.font = b_alt
+    h.fill = BASLIK_DOLGU
+    h.alignment = Alignment(wrap_text=True, vertical='center')
+
+secenekler = [
+    ('1 — Verimor → Twilio BYOC → Relay', 0.07, 0.000,
+     'Kod DEĞİŞMEZ. Twilio BYOC dakika ücreti henüz bilinmiyor, eklenecek.'),
+    ('2 — Verimor → kendi medya katmanı', 0.000, 0.010,
+     'Twilio tamamen çıkar. Verimor LiveKit + ElevenLabs entegrasyonunu belgeliyor. Geliştirme işi var.'),
+]
+cagri_f = f'(Varsayimlar!{g_cagri}*Varsayimlar!{g_gun})'
+dk_f = f'({cagri_f}*Varsayimlar!{g_sure})'
+
+for i, (ad, relay, stt, aciklama) in enumerate(secenekler):
+    s2 = 20 + i
+    vm.cell(s2, 1, ad).font = b_kalin
+    for sut, deger in ((2, relay), (3, stt)):
+        h = vm.cell(s2, sut, deger)
+        h.font = b_girdi
+        h.fill = GIRDI_DOLGU
+        h.border = cerceve
+        h.number_format = '$#,##0.000'
+    vm.cell(s2, 4,
+        f'=($B$11)+({dk_f}*(B{s2}+C{s2})'
+        f'+{cagri_f}*{B}{u_karakter}/1000*{B}{u_tts}'
+        f'+{cagri_f}*(({tok_yeni}+{tok_yaz})/1000000*{f_girdi}'
+        f'+{tok_oku}/1000000*{f_onbellek}'
+        f'+{tok_cikti}/1000000*{f_cikti})'
+        f'+{B}{u_sunucu})*Varsayimlar!{g_kur}').number_format = PARA_TRY
+    vm.cell(s2, 4).font = b_kalin
+    vm.cell(s2, 5, f'=IF({cagri_f}=0,0,D{s2}/{cagri_f})').number_format = '#,##0.00 ₺'
+    vm.cell(s2, 6, f"=(D{s2}+Fiyatlandirma!$B$7)/(1-Varsayimlar!{g_marj})").number_format = PARA_TRY
+    vm.cell(s2, 7, aciklama).font = b_not
+    for k in range(1, 7):
+        vm.cell(s2, k).border = cerceve
+
+vm['A23'] = 'STT (konuşmayı metne çevirme) ücreti VARSAYIMDIR — $0,010/dk. Sağlayıcıdan teklif alınmadı.'
+vm['A23'].font = Font(name=F, size=10, bold=True, color='B45309')
+
+vm['A25'] = 'CEVAPLANMASI GEREKENLER'
+vm['A25'].font = b_kalin
+for i, soru in enumerate([
+    'Twilio BYOC dakika ücreti nedir? (Seçenek 1 bunsuz tamamlanmıyor)',
+    'STT sağlayıcı ve fiyatı? (Seçenek 2 bunsuz tamamlanmıyor)',
+    'E-postadaki paket fiyatları (5.731 / 7.576 ₺) fiyat listesiyle eşleşmiyor — hangisi geçerli?',
+    'SIP Trunk modülü dışında başka zorunlu modül var mı?',
+    'WhatsApp: Verimor şu an yalnızca OTP gönderiyor; çift yönlü sohbet için Meta Cloud API gerekiyor.',
+]):
+    vm.cell(26 + i, 1, f'{i+1}. {soru}').font = b_normal
+
+vm.column_dimensions['A'].width = 40
+for c in 'BCDEF':
+    vm.column_dimensions[c].width = 16
+vm.column_dimensions['G'].width = 60
+
 wb.save(HEDEF)
 print(f'yazildi: {HEDEF}')
