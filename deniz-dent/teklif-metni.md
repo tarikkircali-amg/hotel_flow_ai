@@ -18,26 +18,36 @@ Sistem **bugün çalışır durumda.** Size demo olarak gösterdiğimiz yapı, t
 
 ---
 
-## 2. İki seçenek
+## 2. Teklifimiz: 7/24 tam kapsam
 
-İhtiyacınıza göre iki kapsam sunuyoruz. İstediğiniz zaman birinden diğerine geçebilirsiniz.
+Kliniğinizin talebi doğrultusunda hazırladığımız asıl teklif budur.
 
-| | **A — 7/24 Tam Kapsam** | **B — Mesai Dışı ve Hafta Sonu** |
-|---|---|---|
-| Asistan ne zaman karşılıyor | Her an, 24 saat | Mesai bitince, hafta sonu, tatil |
-| Gündüz çağrıları | Asistan karşılar | Resepsiyonunuz karşılar |
-| **Aylık ücret** | **45.000 ₺** | **24.900 ₺** |
-| Pakete dahil görüşme süresi | 7.500 dakika | 2.625 dakika |
-| Paket aşımı | 7,50 ₺ / dakika | 7,50 ₺ / dakika |
-| Kurulum (tek seferlik) | 55.000 ₺ | 55.000 ₺ |
+| | |
+|---|---|
+| Asistan ne zaman karşılıyor | **Her an — 24 saat, hafta sonu ve tatil dahil** |
+| **Aylık ücret** | **45.000 ₺** |
+| Pakete dahil görüşme süresi | 7.500 dakika |
+| Paket aşımı | 7,50 ₺ / dakika |
+| **Kurulum (tek seferlik)** | **55.000 ₺** |
 
 *Tüm fiyatlar KDV hariçtir.*
 
-**Hangisi size uygun:** 7.500 dakika, günde yaklaşık 100 çağrının her birinin ortalama 2,5 dakika sürmesi demek. Mesai dışı seçeneğindeki 2.625 dakika ise bu çağrıların yaklaşık üçte birine karşılık geliyor.
+7.500 dakika, günde yaklaşık 100 çağrının her birinin ortalama 2,5 dakika sürmesine karşılık gelir. Gerçek rakamlarınızı ilk ay birlikte ölçecek ve paketi ona göre düzelteceğiz.
 
-Gerçek rakamlarınızı ilk ay birlikte ölçeceğiz ve paketi ona göre düzelteceğiz.
+### Küçük başlamak isterseniz
 
----
+7/24'e doğrudan geçmek yerine kademeli ilerlemeyi tercih ederseniz, asistanın yalnızca **mesai dışı ve hafta sonu** çalıştığı bir başlangıç paketi sunabiliriz. Gündüz çağrılarını resepsiyonunuz karşılamaya devam eder.
+
+| | |
+|---|---|
+| Aylık ücret | 24.900 ₺ |
+| Pakete dahil görüşme süresi | 2.625 dakika |
+| Paket aşımı | 7,50 ₺ / dakika |
+| Kurulum | 55.000 ₺ |
+
+Bu paketten 7/24'e geçiş **istediğiniz ay yapılabilir**, ek kurulum ücreti alınmaz. Teknik olarak aynı sistemdir; yalnızca asistanın çalıştığı saatler değişir.
+
+**Önerimiz 7/24'tür.** Sebebi şu: hastaların randevu arayışı akşam ve hafta sonu yoğunlaşıyor, ama asıl fark gündüz ortaya çıkıyor — resepsiyonunuz meşgulken düşen çağrılar da karşılanmış oluyor. Mesai dışı paketi bu kazancı kapsamıyor.
 
 ## 3. Fiyata neler dahil
 
@@ -158,6 +168,3 @@ Bu teklifi onaylarsanız:
 4. 4 hafta içinde sistem canlıya alınır
 
 Sorularınız için her zaman ulaşabilirsiniz.
-
-**MİZ / My İnovatif Zeka**
-İzmir
