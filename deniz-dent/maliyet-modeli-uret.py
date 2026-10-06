@@ -513,5 +513,159 @@ for c in 'BCDEF':
     vm.column_dimensions[c].width = 16
 vm.column_dimensions['G'].width = 60
 
+
+# =====================================================================
+# 8. EN KÖTÜ SENARYO
+# =====================================================================
+ek = wb.create_sheet('En Kotu Senaryo')
+basliklandir(ek, 'En Kötü Senaryo — üç kademe',
+             'Her kademe kendi varsayimlariyla bagimsiz hesaplanir. Sari hucreleri degistirebilirsiniz.')
+
+ek['A4'] = 'A = beklenen · B = kötü (hacim ve süre yüksek) · C = en kötü (her kalem aleyhimize)'
+ek['A4'].font = b_not
+ek['A5'] = 'Kademeler arasinda degisen tek sey varsayimlardir; formuller aynidir.'
+ek['A5'].font = b_not
+
+KAD = ['A — Beklenen', 'B — Kötü', 'C — En Kötü']
+for i, ad in enumerate(KAD):
+    h = ek.cell(7, 2 + i, ad)
+    h.font = b_alt
+    h.fill = BASLIK_DOLGU
+    h.alignment = Alignment(wrap_text=True, horizontal='center')
+ek.cell(7, 1, 'Varsayım').font = b_alt
+ek.cell(7, 1).fill = BASLIK_DOLGU
+ek.cell(7, 5, 'Neden bu değer').font = b_alt
+ek.cell(7, 5).fill = BASLIK_DOLGU
+
+# (etiket, [A,B,C], bicim, aciklama)
+GIRDILER = [
+    ('Günlük çağrı',                  [100, 150, 200],        SAYI,     'Klinik 100 dedi. Gerçek sayı bilinmiyor; 2 katına kadar açtık.'),
+    ('Ortalama süre (dakika)',        [2.5, 3.0, 3.5],        ONDALIK,  'Klinik tahmini 2,5. Yapay zekâ ilk aylarda daha uzun konuşur.'),
+    ('Ayda gün',                      [30, 30, 30],           SAYI,     '7/24'),
+    ('USD/TRY',                       [50, 55, 60],           ONDALIK,  'Kur riski bizde değil, modelde görünür olmalı.'),
+    ('ConversationRelay ($/dk)',      [0.07, 0.07, 0.07],     PARA_USD, 'Twilio liste fiyatı. Seçenek 2 de bu 0 olur.'),
+    ('Twilio BYOC ($/dk)',            [0.0, 0.015, 0.020],    PARA_USD, 'BİLİNMİYOR. Twilio\'ya soruldu. A\'da 0 kabul edildi, B ve C\'de ücret var varsayıldı.'),
+    ('Gelen çağrı (₺/dk)',            [0.0, 0.0, 0.20],       '#,##0.00 ₺', 'Verimor gelen dakikayı ücretsiz yazdı. C\'de bu sözün tutmadığı varsayıldı.'),
+    ('Seslendirme ($/1.000 karakter)',[0.05, 0.05, 0.08],     PARA_USD, 'ElevenLabs Flash. C\'de daha pahalı modele geçildiği varsayıldı.'),
+    ('Görüşme başına karakter',       [1500, 1800, 2100],     SAYI,     'Süreyle doğru orantılı.'),
+    ('Görüşme başına tur',            [6, 8, 10],             SAYI,     'Hasta–asistan karşılıklı konuşma sayısı.'),
+    ('Sistem metni (token)',          [2500, 3000, 4000],     SAYI,     'Klinik bilgisi büyüdükçe artar.'),
+    ('Tur başına yeni girdi (token)', [350, 400, 500],        SAYI,     ''),
+    ('Tur başına çıktı (token)',      [120, 140, 180],        SAYI,     ''),
+    ('Verimor sabit (₺/ay, KDV dahil)',[1757, 1757, 7956],    PARA_TRY, 'A ve B: fiyat listesi (X Small + SIP Trunk). C: e-postadaki yüksek rakam.'),
+    ('Sunucu + izleme ($/ay)',        [40, 60, 170],          PARA_USD, 'C: yedekli kurulum + LiveKit/medya sunucusu.'),
+]
+
+s = 8
+hucre = {}
+for etiket, degerler, bic, aciklama in GIRDILER:
+    ek.cell(s, 1, etiket).font = b_normal
+    for i, d in enumerate(degerler):
+        h = ek.cell(s, 2 + i, d)
+        h.font = b_girdi
+        h.fill = GIRDI_DOLGU
+        h.border = cerceve
+        h.number_format = bic
+        h.alignment = Alignment(horizontal='center')
+    if aciklama:
+        ek.cell(s, 5, aciklama).font = b_not
+    hucre[etiket] = s
+    s += 1
+
+R = hucre
+def c(etiket, kol):
+    return f'{kol}{R[etiket]}'
+
+bolum(ek, 24, 'HESAPLANAN — SEÇENEK 1 (Twilio ConversationRelay kalıyor)', 4)
+SATIR = {
+    'Aylık çağrı':  lambda k: f"={c('Günlük çağrı',k)}*{c('Ayda gün',k)}",
+    'Aylık dakika': lambda k: f"=B25_*{c('Ortalama süre (dakika)',k)}".replace('B25_', f'{k}25'),
+}
+ek.cell(25, 1, 'Aylık çağrı').font = b_normal
+ek.cell(26, 1, 'Aylık dakika').font = b_normal
+for k in 'BCD':
+    h = ek[f'{k}25']; h.value = f"={c('Günlük çağrı',k)}*{c('Ayda gün',k)}"; h.number_format = SAYI; h.fill = TURETILEN
+    h = ek[f'{k}26']; h.value = f"={k}25*{c('Ortalama süre (dakika)',k)}"; h.number_format = SAYI; h.fill = TURETILEN
+
+# maliyet kalemleri (TL)
+KALEMLER = [
+    ('Telefon — Relay + BYOC',
+     lambda k: f"={k}26*({c('ConversationRelay ($/dk)',k)}+{c('Twilio BYOC ($/dk)',k)})*{c('USD/TRY',k)}"),
+    ('Telefon — gelen dakika',
+     lambda k: f"={k}26*{c('Gelen çağrı (₺/dk)',k)}"),
+    ('Telefon — Verimor sabit',
+     lambda k: f"={c('Verimor sabit (₺/ay, KDV dahil)',k)}"),
+    ('Seslendirme (ElevenLabs)',
+     lambda k: f"={k}25*{c('Görüşme başına karakter',k)}/1000*{c('Seslendirme ($/1.000 karakter)',k)}*{c('USD/TRY',k)}"),
+    ('Yapay zekâ (Claude Sonnet 5.5)',
+     lambda k: (f"={k}25*(({c('Tur başına yeni girdi (token)',k)}*{c('Görüşme başına tur',k)}"
+                f"+{c('Sistem metni (token)',k)}*1.25)/1000000*2"
+                f"+({c('Sistem metni (token)',k)}*({c('Görüşme başına tur',k)}-1))/1000000*0.2"
+                f"+({c('Tur başına çıktı (token)',k)}*{c('Görüşme başına tur',k)})/1000000*10)"
+                f"*{c('USD/TRY',k)}")),
+    ('Sunucu + izleme',
+     lambda k: f"={c('Sunucu + izleme ($/ay)',k)}*{c('USD/TRY',k)}"),
+]
+s = 28
+for etiket, f in KALEMLER:
+    ek.cell(s, 1, etiket).font = b_normal
+    for k in 'BCD':
+        h = ek[f'{k}{s}']
+        h.value = f(k)
+        h.number_format = PARA_TRY
+        h.fill = TURETILEN
+    s += 1
+
+ek.cell(35, 1, 'TOPLAM (₺/ay)').font = b_kalin
+for k in 'BCD':
+    h = ek[f'{k}35']
+    h.value = f'=SUM({k}28:{k}33)'
+    h.number_format = PARA_TRY
+    h.font = Font(name=F, size=12, bold=True, color='B91C1C')
+    h.fill = TURETILEN
+
+ek.cell(36, 1, 'Çağrı başına (₺)').font = b_normal
+ek.cell(37, 1, 'Dakika başına (₺)').font = b_normal
+ek.cell(38, 1, 'Sabit kalemler (₺/ay)').font = b_normal
+ek.cell(39, 1, 'Değişken — dakika başına (₺)').font = b_kalin
+for k in 'BCD':
+    for satir, formul, bic in (
+        (36, f'=IF({k}25=0,0,{k}35/{k}25)', '#,##0.00 ₺'),
+        (37, f'=IF({k}26=0,0,{k}35/{k}26)', '#,##0.00 ₺'),
+        (38, f'={k}30+{k}33', PARA_TRY),
+        (39, f'=IF({k}26=0,0,({k}35-{k}38)/{k}26)', '#,##0.00 ₺'),
+    ):
+        h = ek[f'{k}{satir}']
+        h.value = formul
+        h.number_format = bic
+        h.fill = TURETILEN
+        if satir == 39:
+            h.font = b_kalin
+
+ek['E39'] = 'EN ÖNEMLİ SATIR: maliyet neredeyse tamamen dakika başına. Fiyat da dakika başına kurulmalı.'
+ek['E39'].font = Font(name=F, size=10, bold=True, color='B45309')
+
+bolum(ek, 41, 'KARŞILAŞTIRMA — 7/24 İNSAN RESEPSİYON', 4)
+ek['A42'] = 'Haftada 168 saat · kişi başı 45 saat · izin/hastalık/bayram payı 1,2 kat = 4,5 kişi'
+ek['A42'].font = b_not
+ek.cell(43, 1, 'Kişi başı işveren maliyeti (₺/ay)').font = b_normal
+h = ek.cell(43, 2, 40000); h.font = b_girdi; h.fill = GIRDI_DOLGU; h.border = cerceve; h.number_format = PARA_TRY
+ek.cell(43, 5, 'DOĞRULANMALI — 2026 işveren maliyeti teyit edilmeli. Bu hücre varsayımdır.').font = b_not
+ek.cell(44, 1, 'Gereken kişi').font = b_normal
+h = ek.cell(44, 2, '=168/45*1.2'); h.number_format = ONDALIK; h.fill = TURETILEN
+ek.cell(45, 1, '7/24 insan resepsiyon maliyeti (₺/ay)').font = b_kalin
+h = ek.cell(45, 2, '=B43*B44')
+h.number_format = PARA_TRY
+h.font = Font(name=F, size=12, bold=True, color=MARKA)
+h.fill = PatternFill('solid', fgColor='CCFBF1')
+ek.cell(45, 5, 'Beklenen senaryo (A) bu rakamın belirgin altında. En kötü senaryo (C) ise aynı mertebeye çıkıyor —').font = b_not
+ek.cell(46, 5, 'yani asistanın maliyet avantajı garanti değil, çağrı hacmi ve dakika ücretine bağlı.').font = b_not
+
+ek.column_dimensions['A'].width = 34
+for col in 'BCD':
+    ek.column_dimensions[col].width = 15
+ek.column_dimensions['E'].width = 78
+
+
 wb.save(HEDEF)
 print(f'yazildi: {HEDEF}')
