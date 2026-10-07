@@ -134,6 +134,30 @@ karşılıkları `.diagram__legend` listesinde durur).
 
 Her çizimin sağ alt köşesinde **KUT MARİNE** yazar; başka hiçbir metin yoktur.
 
+### kutmarin.com'daki görselleri indirmek
+
+Mevcut sitedeki ürün görselleri sizin olduğu için doğrudan indirilebilir:
+
+```bash
+node tools/fetch-photos.js --dry     # önce ne bulduğuna bakın
+node tools/fetch-photos.js           # indir ve products.json'a bağla
+```
+
+Betik kutmarin.com'u gezer, katalog ve ürün sayfalarındaki görselleri
+kategorisine göre toplar, `assets/img/photos/` altına kaydeder ve ilgili
+kategorilere `photo` alanını ekler. Aynı görseli iki kez indirmez, ikonları
+ve çok küçük dosyaları eler, **yalnızca kutmarin.com'a bağlanır** — başka
+alan adından görsel almaz.
+
+Kategori başına varsayılan en çok 6 görsel; değiştirmek için `--limit 3`.
+
+Ayrıştırma mantığı siteye bağlanmadan test edilebilir:
+`node tools/fetch-photos.test.js`
+
+> Bu betiği bulut oturumundan çalıştırmak için ortamın ağ ayarlarında
+> `kutmarin.com` izinli olmalıdır. Kendi bilgisayarınızda böyle bir kısıt
+> yoktur, doğrudan çalışır.
+
 ### Kendi fotoğraflarınıza geçmek
 
 `assets/img/photos/` klasörüne fotoğrafı koyun ve ilgili kategoriye tek satır

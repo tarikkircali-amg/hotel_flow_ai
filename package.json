@@ -7,7 +7,8 @@
     "start": "node server.js",
     "check": "node tests/site-check.js",
     "kutmarin": "node kutmarin/serve.js",
-    "kutmarin:check": "node kutmarin/tests/site-check.js"
+    "kutmarin:check": "node kutmarin/tests/site-check.js",
+    "kutmarin:photos": "node kutmarin/tools/fetch-photos.js"
   },
   "dependencies": {
     "express": "^4.19.2",
