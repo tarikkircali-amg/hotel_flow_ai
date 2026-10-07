@@ -7,7 +7,7 @@
 | 1 | **Fiyat teklifi** | Deniz Dent — Şerif Bey | 06.10.2026 | **"Değerlendirip haber vereceğiz" (06.10.2026).** 13.10'da nazik hatırlatma |
 | 2 | **Twilio Sales** — A1 numara, A3 TTS dahil mi, C2 BYOC dakikası | Twilio — Isa Bell (isa@twilio.com), Digital Sales | 06.10.2026 | **CEVAPLANDI 07.10.2026.** Üç sorunun üçü de yanıtlandı. Modele işlendi |
 | 3 | **Twilio Support #29847256** — Türkçe STT, hazır ses, KVKK veri işleme | Twilio | 06.10.2026 | Yanıt süresi garantisiz |
-| 4 | **Verimor** — 15 günlük demo + paket fiyatı teyidi | Verimor | 06.10.2026 | Bekliyor |
+| 4 | **Verimor** — 15 günlük demo + paket fiyatı teyidi | Verimor | 06.10.2026 | Bekliyor. 07.10'da FQDN/BYOC ek sorusu gönderildi. 09.10'da hatırlatma |
 
 ---
 

@@ -48,6 +48,22 @@ Takip edilecek üç şey:
 
 ---
 
+## 0c. EK SORU (07.10.2026)
+
+Twilio BYOC'u teyit edince, Verimor'a sorulması gereken üç madde daha
+çıktı. İlk SIP teklif belgesinde vardı ama demo e-postasına koymayı
+atlamıştık:
+
+1. Çağrıları bir **FQDN'e** yönlendirebiliyor musunuz? (Twilio trunk'ları
+   IP değil alan adı üzerinden tanımlanıyor)
+2. Twilio'nun IP aralıklarına çağrı göndermede kısıt var mı?
+3. Daha önce Twilio BYOC entegrasyonu yapan müşteriniz oldu mu?
+
+Bu üçü, A-law desteği kadar belirleyici: olumsuzsa Seçenek 1 zinciri
+kurulamaz. Ayrı bir e-postayla gönderildi.
+
+---
+
 ## 1. GÖNDERİLEN E-POSTA
 
 > Aşağıdaki metni olduğu gibi kullanabilirsiniz.
@@ -140,6 +156,9 @@ Teşekkürler.
 
 > 15 gün kısa. Neyi ölçeceğimizi önceden bilmezsek demo biter, elimizde
 > yine veri olmaz.
+
+Ölçümü `hesap/cdr-cozumle.py` yapıyor — CDR dosyasını verip çalıştırmak
+yeterli, çıktı doğrudan maliyet modeline girilecek iki sayıyı veriyor.
 
 | Ölçüm | Neden | Nereden |
 |---|---|---|
