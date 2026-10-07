@@ -1,0 +1,467 @@
+{
+  "_aciklama": "Deniz Dent Turkce STT degerlendirme seti. Her cumle telefon hatti kalitesinde okunup saglayicinin dokumuyle karsilastirilir. Kritik alanlar SOYLENEN bicimi bekler, normalize edilmis degeri degil: \"on dort\" beklenir, \"14:00\" degil. Sayiya ve tarihe cevirmek anlama katmaninin isidir, STT nin degil. Eslesme govde oneki ile yapilir: \"ertele\" -> \"erteleyin\".",
+  "_surum": "1.1",
+  "_tarih": "07.10.2026",
+  "cumleler": [
+    {
+      "id": "acil-01",
+      "kategori": "acil",
+      "metin": "Dişim kırıldı ve kanama bir türlü durmuyor, ne yapmalıyım?",
+      "zorluk": "yuksek",
+      "kritik": {
+        "acil_tetikleyici": [
+          "kırıldı",
+          "kanama",
+          "durmuyor"
+        ]
+      },
+      "not": "Uc ayri tetikleyici var; birinin hayatta kalmasi yeterli."
+    },
+    {
+      "id": "acil-02",
+      "kategori": "acil",
+      "metin": "Çocuğum düştü, ön dişi koptu, ağzı kan içinde.",
+      "zorluk": "yuksek",
+      "kritik": {
+        "acil_tetikleyici": [
+          "koptu",
+          "kan"
+        ]
+      },
+      "not": "\"koptu\" tek heceli ve hizli soylenir, dusme ihtimali yuksek."
+    },
+    {
+      "id": "acil-03",
+      "kategori": "acil",
+      "metin": "Yüzüm şişti, apse olduğunu düşünüyorum, ateşim de var.",
+      "zorluk": "yuksek",
+      "kritik": {
+        "acil_tetikleyici": [
+          "şişti",
+          "apse",
+          "ateşim"
+        ]
+      },
+      "not": "\"apse\" kisa ve klinik bir terim; genel modeller \"abse\"/\"af se\" yazabilir."
+    },
+    {
+      "id": "acil-04",
+      "kategori": "acil",
+      "metin": "Ağrı dayanılmaz, iki gündür uyuyamıyorum.",
+      "zorluk": "orta",
+      "kritik": {
+        "acil_tetikleyici": [
+          "dayanılmaz",
+          "uyuyamıyorum"
+        ]
+      },
+      "not": "Uzun cekimli fiil; \"uyuyamıyorum\" -> \"uyuyamıyor um\" bolunebilir."
+    },
+    {
+      "id": "acil-05",
+      "kategori": "acil",
+      "metin": "Kaza geçirdim, çeneme darbe aldım, yutkunamıyorum.",
+      "zorluk": "yuksek",
+      "kritik": {
+        "acil_tetikleyici": [
+          "kaza",
+          "darbe",
+          "yutkunamıyorum"
+        ]
+      },
+      "not": "Ucu de tetikleyici. \"yutkunamıyorum\" en zor kelime."
+    },
+    {
+      "id": "acil-06",
+      "kategori": "acil",
+      "metin": "Dolgumun altı çok şiddetli zonkluyor, ağrı kesici işe yaramıyor.",
+      "zorluk": "orta",
+      "kritik": {
+        "acil_tetikleyici": [
+          "çok şiddetli"
+        ]
+      },
+      "not": "Cok kelimeli tetikleyici: ikisi birden ve bitisik gecmeli."
+    },
+    {
+      "id": "acil-07",
+      "kategori": "acil",
+      "metin": "Nefes almakta zorlanıyorum, dilimin altı şişti.",
+      "zorluk": "yuksek",
+      "kritik": {
+        "acil_tetikleyici": [
+          "nefes",
+          "şişti"
+        ]
+      },
+      "not": "En kritik vaka. Kacirilirsa klinik sorumluluk doğar."
+    },
+    {
+      "id": "rnd-01",
+      "kategori": "randevu",
+      "metin": "Önümüzdeki salı öğleden sonra randevu alabilir miyim?",
+      "zorluk": "orta",
+      "kritik": {
+        "tarih": "salı",
+        "zaman": "öğleden sonra"
+      }
+    },
+    {
+      "id": "rnd-02",
+      "kategori": "randevu",
+      "metin": "Perşembe günü saat on dörtte müsait yeriniz var mı?",
+      "zorluk": "yuksek",
+      "kritik": {
+        "tarih": "perşembe",
+        "saat": [
+          "on",
+          "dört"
+        ]
+      },
+      "not": "Saat yaziyla. \"on dört\" -> \"on4\" veya \"ondört\" cikabilir."
+    },
+    {
+      "id": "rnd-03",
+      "kategori": "randevu",
+      "metin": "Cumartesi sabah dokuz buçuk olur mu?",
+      "zorluk": "yuksek",
+      "kritik": {
+        "tarih": "cumartesi",
+        "saat": [
+          "dokuz",
+          "buçuk"
+        ]
+      },
+      "not": "\"dokuz buçuk\" en sik karistirilan saat ifadesi."
+    },
+    {
+      "id": "rnd-04",
+      "kategori": "randevu",
+      "metin": "Yarın değil öbür gün akşam üzeri gelebilirim.",
+      "zorluk": "yuksek",
+      "kritik": {
+        "tarih": [
+          "öbür",
+          "gün"
+        ],
+        "olumsuzlama": "değil",
+        "zaman": [
+          "akşam",
+          "üzeri"
+        ]
+      },
+      "not": "Goreli tarih. \"yarın değil öbür gün\" olumsuzlamasi kacarsa yanlis gune yazilir."
+    },
+    {
+      "id": "rnd-05",
+      "kategori": "randevu",
+      "metin": "On beş Ekim Çarşamba günü saat on bire randevum vardı, doğru mu?",
+      "zorluk": "yuksek",
+      "kritik": {
+        "tarih": [
+          "on",
+          "beş",
+          "ekim",
+          "çarşamba"
+        ],
+        "saat": [
+          "on",
+          "bire"
+        ]
+      },
+      "not": "Tarih + gun adi + saat ayni cumlede."
+    },
+    {
+      "id": "rnd-06",
+      "kategori": "randevu",
+      "metin": "Bu hafta hiç boş yoksa gelecek hafta pazartesiye bakalım.",
+      "zorluk": "orta",
+      "kritik": {
+        "tarih": [
+          "gelecek",
+          "hafta",
+          "pazartesi"
+        ]
+      }
+    },
+    {
+      "id": "rnd-07",
+      "kategori": "randevu",
+      "metin": "Saat on yedi otuzda olur mu, yoksa on sekiz mi daha uygun?",
+      "zorluk": "yuksek",
+      "kritik": {
+        "saat": [
+          "on",
+          "yedi",
+          "otuz"
+        ],
+        "alternatif": [
+          "on",
+          "sekiz"
+        ]
+      },
+      "not": "Iki saat bir arada; hangisi talep hangisi alternatif."
+    },
+    {
+      "id": "ted-01",
+      "kategori": "tedavi",
+      "metin": "Kanal tedavisi için fiyat öğrenebilir miyim?",
+      "zorluk": "orta",
+      "kritik": {
+        "tedavi": [
+          "kanal",
+          "tedavi"
+        ]
+      }
+    },
+    {
+      "id": "ted-02",
+      "kategori": "tedavi",
+      "metin": "İmplant yaptırmak istiyorum, kaç seans sürüyor?",
+      "zorluk": "orta",
+      "kritik": {
+        "tedavi": "implant"
+      },
+      "not": "Bas harf \"İ\" -> \"I\" karisikligi yaygin."
+    },
+    {
+      "id": "ted-03",
+      "kategori": "tedavi",
+      "metin": "Zirkonyum kaplama mı porselen kaplama mı daha iyi?",
+      "zorluk": "yuksek",
+      "kritik": {
+        "tedavi": [
+          "zirkonyum",
+          "porselen"
+        ]
+      },
+      "not": "\"Zirkonyum\" en sik bozulan terim: \"zirkonyom\", \"sirkonyum\"."
+    },
+    {
+      "id": "ted-04",
+      "kategori": "tedavi",
+      "metin": "Diş taşı temizliği yaptırmak istiyorum.",
+      "zorluk": "dusuk",
+      "kritik": {
+        "tedavi": [
+          "diş",
+          "taşı",
+          "temizl"
+        ]
+      }
+    },
+    {
+      "id": "ted-05",
+      "kategori": "tedavi",
+      "metin": "Ortodonti için şeffaf plak kullanıyor musunuz?",
+      "zorluk": "yuksek",
+      "kritik": {
+        "tedavi": [
+          "ortodonti",
+          "şeffaf",
+          "plak"
+        ]
+      }
+    },
+    {
+      "id": "ted-06",
+      "kategori": "tedavi",
+      "metin": "Yirmi yaş dişimin çekilmesi gerekiyormuş.",
+      "zorluk": "orta",
+      "kritik": {
+        "tedavi": [
+          "yirmi",
+          "yaş",
+          "çekil"
+        ]
+      },
+      "not": "\"Yirmi yaş dişi\" -> \"20 yaş dişi\" yazilabilir, kabul edilir."
+    },
+    {
+      "id": "ted-07",
+      "kategori": "tedavi",
+      "metin": "Diş beyazlatma işlemi kaç seans ve kalıcı mı?",
+      "zorluk": "dusuk",
+      "kritik": {
+        "tedavi": [
+          "beyazlat"
+        ]
+      }
+    },
+    {
+      "id": "isim-01",
+      "kategori": "isim",
+      "metin": "Adım Ayşe Yıldırım, soyadım ikinci kelime.",
+      "zorluk": "yuksek",
+      "kritik": {
+        "ad": "ayşe",
+        "soyad": "yıldırım"
+      },
+      "not": "Turkce ozel karakterler: ş, ı. En sik bozulan alan."
+    },
+    {
+      "id": "isim-02",
+      "kategori": "isim",
+      "metin": "İsmim Mehmet Çağatay Öztürk.",
+      "zorluk": "yuksek",
+      "kritik": {
+        "ad": [
+          "mehmet",
+          "çağatay"
+        ],
+        "soyad": "öztürk"
+      },
+      "not": "Uc parcali isim + c, g, o, u."
+    },
+    {
+      "id": "isim-03",
+      "kategori": "isim",
+      "metin": "Numaram sıfır beş otuz iki üç yüz kırk beş altmış yedi seksen dokuz.",
+      "zorluk": "yuksek",
+      "kritik": {
+        "telefon": [
+          "sıfır",
+          "beş",
+          "otuz",
+          "iki",
+          "üç",
+          "yüz",
+          "kırk",
+          "beş",
+          "altmış",
+          "yedi",
+          "seksen",
+          "dokuz"
+        ]
+      },
+      "not": "Rakamlar yaziyla. STT cogu zaman \"0532 345 67 89\" yazar; ikisi de kabul."
+    },
+    {
+      "id": "isim-04",
+      "kategori": "isim",
+      "metin": "Soyadım Şahin, Ş ile yazılıyor.",
+      "zorluk": "orta",
+      "kritik": {
+        "soyad": "şahin"
+      }
+    },
+    {
+      "id": "fyt-01",
+      "kategori": "fiyat",
+      "metin": "Dolgu ne kadar tutuyor?",
+      "zorluk": "dusuk",
+      "kritik": {
+        "tedavi": "dolgu"
+      }
+    },
+    {
+      "id": "fyt-02",
+      "kategori": "fiyat",
+      "metin": "Sigortam var, anlaşmanız hangi kurumlarla?",
+      "zorluk": "orta"
+    },
+    {
+      "id": "fyt-03",
+      "kategori": "fiyat",
+      "metin": "Taksit imkânınız var mı, kaça kadar bölünüyor?",
+      "zorluk": "orta"
+    },
+    {
+      "id": "ipt-01",
+      "kategori": "iptal",
+      "metin": "Yarınki randevumu iptal etmek istiyorum.",
+      "zorluk": "dusuk",
+      "kritik": {
+        "islem": "iptal"
+      }
+    },
+    {
+      "id": "ipt-02",
+      "kategori": "iptal",
+      "metin": "Randevumu iptal etmeyin, sadece bir saat erteleyin.",
+      "zorluk": "yuksek",
+      "kritik": {
+        "islem": [
+          "iptal",
+          "etmeyin",
+          "ertele"
+        ],
+        "olumsuzlama": "etmeyin"
+      },
+      "not": "Olumsuzlama kritik: \"iptal etmeyin\" -> \"iptal edin\" olursa randevu silinir."
+    },
+    {
+      "id": "ipt-03",
+      "kategori": "iptal",
+      "metin": "Cuma yerine pazartesiye alabilir miyiz?",
+      "zorluk": "orta",
+      "kritik": {
+        "eski": "cuma",
+        "yeni": "pazartesi"
+      },
+      "not": "Iki gun adi; sirasi karisirsa yanlis gun silinir."
+    },
+    {
+      "id": "gnl-01",
+      "kategori": "gunluk",
+      "metin": "Merhaba, bilgi almak için aramıştım.",
+      "zorluk": "dusuk"
+    },
+    {
+      "id": "gnl-02",
+      "kategori": "gunluk",
+      "metin": "Akşam kaça kadar açıksınız?",
+      "zorluk": "dusuk"
+    },
+    {
+      "id": "gnl-03",
+      "kategori": "gunluk",
+      "metin": "Karşıyaka'daki şubeniz mi burası?",
+      "zorluk": "orta",
+      "kritik": {
+        "yer": "karşıyaka"
+      }
+    },
+    {
+      "id": "gnl-04",
+      "kategori": "gunluk",
+      "metin": "Teşekkür ederim, iyi günler.",
+      "zorluk": "dusuk"
+    },
+    {
+      "id": "zor-01",
+      "kategori": "zor",
+      "metin": "Şey... şöyle bir sorun var, sağ alt azı dişim galiba, yani tam emin değilim ama ağrıyor.",
+      "zorluk": "yuksek",
+      "not": "Duraksama ve kendini duzeltme. Gercek cagrilarin cogu boyle."
+    },
+    {
+      "id": "zor-02",
+      "kategori": "zor",
+      "metin": "Ha bir de eşim için de randevu alabilir miyim aynı güne?",
+      "zorluk": "orta",
+      "not": "Konu ortasinda ikinci talep."
+    },
+    {
+      "id": "zor-03",
+      "kategori": "zor",
+      "metin": "Alo? Duyuyor musunuz? Ses gidip geliyor galiba.",
+      "zorluk": "orta",
+      "not": "Hat sorunu ifadesi; asistan buna makul cevap vermeli."
+    },
+    {
+      "id": "zor-04",
+      "kategori": "zor",
+      "metin": "Yok yok o değil, diğeri, kanal tedavisi olan diş.",
+      "zorluk": "yuksek",
+      "kritik": {
+        "tedavi": [
+          "kanal",
+          "tedavi"
+        ],
+        "olumsuzlama": "yok"
+      },
+      "not": "Ard arda olumsuzlama + duzeltme."
+    }
+  ]
+}
