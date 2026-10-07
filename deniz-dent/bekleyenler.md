@@ -18,6 +18,7 @@
 | ~~**A3** (TTS dahil mi)~~ | **Cevaplandı: STT dahil, ayrı TTS sayacı yok** |
 | ~~**C2** (BYOC dakikası)~~ | **Cevaplandı: $0,0040/dk** |
 | **Twilio ilk faturası** | TTS'in gerçekten ayrı faturalanmadığının kesin teyidi |
+| **Yuvarlama testi** (bizde) | ConversationRelay sayacı da yuvarlıyor mu — 5.250 ₺/ay. Bkz. `twilio-yuvarlama-testi.md` |
 | **Verimor demo** | Günde kaç çağrı, ortalama kaç dakika. **Modelin en büyük belirsizliği** |
 | **Verimor paket fiyatı** | Sabit giderin doğru rakamı |
 | **Twilio B1** (hazır ses dosyası) | Sabit cümle önbelleği Seçenek 1'de kullanılabilir mi (3.000 ₺/ay) |

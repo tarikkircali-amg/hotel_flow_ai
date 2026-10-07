@@ -274,10 +274,14 @@ Teklifte "5. hafta teknik doğrulama" diye yazdığımız madde budur ve
 
 Doğrulanacaklar:
 
-1. **`SES_DILI=tr-TR` Twilio tarafında destekleniyor mu?** Twilio'nun desteklenen
-   dil listesini resmî dokümanda doğrulayamadım. Test çağrısında ses gelmezse
-   veya İngilizce aksanla okursa, `TTS_SAGLAYICI` ve `TTS_SES` ile oynayın
-   (varsayılan sağlayıcı ElevenLabs ve Türkçesi iyidir).
+1. **`SES_DILI=tr-TR` Twilio tarafında destekleniyor mu?** Test çağrısında ses
+   gelmezse veya İngilizce aksanla okursa `TTS_SAGLAYICI` ve `TTS_SES` ile
+   oynayın. Varsayılan ses artık `IuRRIAcbQK5AQk1XevPj` — Twilio'nun
+   "Picking a voice" kılavuzunda tr-TR için açıkça listelenen ElevenLabs
+   sesi (Twilio Digital Sales teyidi, 07.10.2026). Önce hız, kararlılık ve
+   benzerlik ayarlarıyla oynayın; ses değiştirmek son çare olsun.
+   **Uyarı:** bazı ElevenLabs modelleri yalnızca belirli dillerde çalışıyor;
+   alternatif bir sese geçmeden önce Türkçe uyumluluğunu doğrulayın.
 2. **Konuşma tanıma Türkçe'yi doğru anlıyor mu?** Özellikle isim, tarih ve
    telefon numarası. Geri okuma teyidi bunun için var ama STT çok kötüyse
    `transcriptionProvider` değiştirilmeli.

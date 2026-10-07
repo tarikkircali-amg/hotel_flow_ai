@@ -149,7 +149,11 @@ const config = {
     authToken: gerekli('TWILIO_AUTH_TOKEN'),
     dil: istege('SES_DILI', 'tr-TR'),
     ttsSaglayici: istege('TTS_SAGLAYICI', 'ElevenLabs'),
-    ttsSes: istege('TTS_SES', ''),
+    // tr-TR icin Twilio'nun kilavuzunda listelenen ElevenLabs sesi.
+    // Bos birakilirsa Twilio dile gore varsayilan sesi secer; o sesin
+    // Turkce'yi aksansiz okuyacaginin garantisi yok, bu yuzden varsayilan
+    // olarak listelenen sesi veriyoruz.
+    ttsSes: istege('TTS_SES', 'IuRRIAcbQK5AQk1XevPj'),
   },
 
   // Bu kurulumun hangi klinige (kiraciya) ait oldugu. Veritabanindaki
