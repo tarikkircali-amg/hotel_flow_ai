@@ -5,7 +5,7 @@
 | # | Konu | Kimden | Gönderildi | Durum |
 |---|---|---|---|---|
 | 1 | **Fiyat teklifi** | Deniz Dent — Şerif Bey | 06.10.2026 | **"Değerlendirip haber vereceğiz" (06.10.2026).** 13.10'da nazik hatırlatma |
-| 2 | **Twilio Sales** — A1 numara, A3 TTS dahil mi, C2 BYOC dakikası | Twilio — Isa Bell (isa@twilio.com), Digital Sales | 06.10.2026 | **07.10: nitelendirme sorusu geldi, üç soru cevaplanmadı. Cevap gönderildi, sorular tekrarlandı** |
+| 2 | **Twilio Sales** — A1 numara, A3 TTS dahil mi, C2 BYOC dakikası | Twilio — Isa Bell (isa@twilio.com), Digital Sales | 06.10.2026 | **CEVAPLANDI 07.10.2026.** Üç sorunun üçü de yanıtlandı. Modele işlendi |
 | 3 | **Twilio Support #29847256** — Türkçe STT, hazır ses, KVKK veri işleme | Twilio | 06.10.2026 | Yanıt süresi garantisiz |
 | 4 | **Verimor** — 15 günlük demo + paket fiyatı teyidi | Verimor | 06.10.2026 | Bekliyor |
 
@@ -15,8 +15,9 @@
 
 | Cevap | Açtığı karar |
 |---|---|
-| **A3** (TTS $0,07'ye dahil mi) | Net maliyet 33.029 ₺ mi 44.279 ₺ mi. Teklifin kârlılığı buna bağlı |
-| **C2** (BYOC dakikası) | Seçenek 1'in maliyeti bunsuz tamamlanmıyor |
+| ~~**A3** (TTS dahil mi)~~ | **Cevaplandı: STT dahil, ayrı TTS sayacı yok** |
+| ~~**C2** (BYOC dakikası)~~ | **Cevaplandı: $0,0040/dk** |
+| **Twilio ilk faturası** | TTS'in gerçekten ayrı faturalanmadığının kesin teyidi |
 | **Verimor demo** | Günde kaç çağrı, ortalama kaç dakika. **Modelin en büyük belirsizliği** |
 | **Verimor paket fiyatı** | Sabit giderin doğru rakamı |
 | **Twilio B1** (hazır ses dosyası) | Sabit cümle önbelleği Seçenek 1'de kullanılabilir mi (3.000 ₺/ay) |

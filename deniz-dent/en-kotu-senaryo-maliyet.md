@@ -30,23 +30,39 @@ kliniğe verilecek fiyat değildir. Fiyat yapısı 6. bölümde.
 | Günlük çağrı | 100 | 150 | 200 |
 | Ortalama süre | 2,5 dk | 3,0 dk | 3,5 dk |
 | Aylık dakika | 7.500 | 13.500 | 21.000 |
-| **Aylık maliyet (Seçenek 1)** | **44.279 ₺** | **97.696 ₺** | **212.508 ₺** |
-| Çağrı başına | 14,76 ₺ | 21,71 ₺ | 35,42 ₺ |
-| **Aylık maliyet (Seçenek 2)** | **21.779 ₺** | **47.096 ₺** | **130.608 ₺** |
+| Aylık gerçek dakika | 7.500 | 13.500 | 21.000 |
+| **Aylık faturalanan dakika** | **9.000** | **15.750** | **24.000** |
+| **Aylık maliyet (Seçenek 1)** | **40.080 ₺** | **76.411 ₺** | **186.468 ₺** |
+| Çağrı başına | 13,36 ₺ | 16,98 ₺ | 31,08 ₺ |
+| **Aylık maliyet (Seçenek 2)** | **24.279 ₺** | **47.096 ₺** | **130.608 ₺** |
 
 *Seçenek 1 = Twilio ConversationRelay kalıyor (kod değişmiyor).
 Seçenek 2 = kendi medya katmanımız (20–28 iş günü geliştirme).*
 
-**En kötü hâlde aylık 212.500 ₺.** Beklenenin 4,8 katı.
+**En kötü hâlde aylık 186.500 ₺.** Beklenenin 4,7 katı.
 
-> **06.10.2026 — düzeltme notu.** Yukarıdaki Seçenek 1 rakamları, seslendirme
-> (ElevenLabs) kaleminin Twilio'dan **ayrıca** faturalandığını varsayıyor.
-> Kodumuz telefon yolunda ElevenLabs'i doğrudan çağırmıyor; seslendirmeyi
-> ConversationRelay yapıyor. Bu kalem $0,07/dk içindeyse **A kademesi
-> 44.279 ₺ değil 33.029 ₺.** Yani Seçenek 1 beklenen maliyeti
-> **33.029 – 44.279 ₺ aralığında.** Twilio'ya soruldu
-> (`twilio-soru-listesi.md`, soru A3). Seçenek 2'de seslendirme kesin olarak
-> bizde olduğu için o kolon etkilenmiyor.
+> **07.10.2026 — Twilio cevabı geldi, rakamlar güncellendi.**
+>
+> Twilio Digital Sales (Isa Bell) üç soruyu da cevapladı:
+>
+> - **Türkiye'de sesli yerel numara yok** → BYOC tek yol (teyit edildi)
+> - **STT, $0,07/dk'nın içinde.** TTS de ConversationRelay içinde yürüyor;
+>   ayrı bir TTS sayacı yayınlanmıyor. Kodumuz zaten ConversationRelay'e
+>   ElevenLabs anahtarı vermiyor, yalnızca sağlayıcı adını geçiyor — yani
+>   ayrı ElevenLabs faturası beklemiyoruz. **Seslendirme kalemi Seçenek 1
+>   için sıfırlandı.**
+> - **BYOC trunking: $0,0040/dk** — en kötü varsayımımızın (0,015–0,020)
+>   çok altında
+>
+> **Sormadığımız ama kritik çıkan madde:** Twilio kısmi dakikayı **yukarı
+> yuvarlıyor.** 2:31'lik görüşme 3 dakika faturalanıyor. Süreler bir
+> dağılıma yayıldığı için bu, çağrı başına ortalama ~0,5 dakika ekliyor —
+> aylık **5.550 ₺.** Seslendirmeden kazandığımızın çoğunu geri alıyor.
+>
+> Aşağıdaki tablo bu rakamlarla yeniden hesaplandı. Kalan tek varsayım,
+> TTS'in gerçekten ayrı faturalanmadığı: Isa'nın ifadesi "çektiğim fiyat
+> listesinde ayrı sayaç yok" şeklinde, yazılı garanti değil. İlk faturada
+> doğrulanacak.
 
 ---
 
@@ -271,8 +287,8 @@ Dürüstlük gereği: aşağıdakiler **bilinmiyor** ve modeli etkiliyor.
 |---|---|---|
 | Gerçek çağrı sayısı | **Çok yüksek** — 4,8 katın kaynağı | 1 ay gerçek veri |
 | Gerçek görüşme süresi | Yüksek | Aynı |
-| Twilio BYOC dakika ücreti | Yüksek | Twilio'dan cevap (soru C2) |
-| Seslendirme $0,07'ye dahil mi | **Yüksek — toplamın %25'i** | Twilio'dan cevap (soru A3) |
+| ~~Twilio BYOC dakika ücreti~~ | — | **CEVAPLANDI: $0,0040/dk** |
+| ~~Seslendirme $0,07'ye dahil mi~~ | — | **CEVAPLANDI: STT dahil, TTS ayrı sayaç yok. İlk faturada doğrulanacak** |
 | Verimor gelen dakika gerçekten ücretsiz mi | Orta | Yazılı teyit |
 | Verimor paket fiyatı (liste vs e-posta çelişkisi) | Orta | Verimor'a soruldu |
 | STT sağlayıcı ve fiyatı (Seçenek 2) | Orta | 2 günlük ölçüm |

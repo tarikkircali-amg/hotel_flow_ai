@@ -544,10 +544,11 @@ GIRDILER = [
     ('Ayda gün',                      [30, 30, 30],           SAYI,     '7/24'),
     ('USD/TRY',                       [50, 55, 60],           ONDALIK,  'Kur riski bizde değil, modelde görünür olmalı.'),
     ('ConversationRelay ($/dk)',      [0.07, 0.07, 0.07],     PARA_USD, 'Twilio liste fiyatı. Seçenek 2 de bu 0 olur.'),
-    ('Twilio BYOC ($/dk)',            [0.0, 0.015, 0.020],    PARA_USD, 'BİLİNMİYOR. Twilio\'ya soruldu. A\'da 0 kabul edildi, B ve C\'de ücret var varsayıldı.'),
+    ('Twilio BYOC ($/dk)',            [0.0040, 0.0040, 0.0060], '$#,##0.0000', 'TEYİTLİ (Twilio, 07.10.2026): Türkiye BYOC trunking $0,0040/dk. C\'de zam varsayıldı.'),
     ('Gelen çağrı (₺/dk)',            [0.0, 0.0, 0.20],       '#,##0.00 ₺', 'Verimor gelen dakikayı ücretsiz yazdı. C\'de bu sözün tutmadığı varsayıldı.'),
-    ('Seslendirme ($/1.000 karakter)',[0.05, 0.05, 0.08],     PARA_USD, 'ElevenLabs Flash. C\'de daha pahalı modele geçildiği varsayıldı.'),
-    ('Görüşme başına karakter',       [1500, 1800, 2100],     SAYI,     'Süreyle doğru orantılı.'),
+    ('Dakika yuvarlama (dk/çağrı)',   [0.5, 0.5, 0.5],        ONDALIK,  'TEYİTLİ: Twilio kısmi dakikayı YUKARI yuvarlıyor. Süreler bir dağılıma yayıldığı için çağrı başına ortalama ~0,5 dk ekler.'),
+    ('Seslendirme ($/1.000 karakter)',[0.0, 0.0, 0.05],       PARA_USD, 'TEYİTLİ: Seçenek 1\'de TTS ConversationRelay içinde, ayrı sayaç yok. C\'de ayrıca faturalandığı varsayıldı.'),
+    ('Görüşme başına karakter',       [1500, 1800, 2100],     SAYI,     'Yalnızca TTS ayrı faturalanırsa kullanılır.'),
     ('Görüşme başına tur',            [6, 8, 10],             SAYI,     'Hasta–asistan karşılıklı konuşma sayısı.'),
     ('Sistem metni (token)',          [2500, 3000, 4000],     SAYI,     'Klinik bilgisi büyüdükçe artar.'),
     ('Tur başına yeni girdi (token)', [350, 400, 500],        SAYI,     ''),
@@ -576,29 +577,35 @@ R = hucre
 def c(etiket, kol):
     return f'{kol}{R[etiket]}'
 
-bolum(ek, 24, 'HESAPLANAN — SEÇENEK 1 (Twilio ConversationRelay kalıyor)', 4)
+BAS = 8 + len(GIRDILER) + 1          # girdilerden sonraki ilk bos satir
+R_CAGRI, R_DK = BAS + 1, BAS + 2
+R_KALEM = BAS + 4
+R_TOPLAM = R_KALEM + 7
+bolum(ek, BAS, 'HESAPLANAN — SEÇENEK 1 (Twilio ConversationRelay kalıyor)', 4)
 SATIR = {
     'Aylık çağrı':  lambda k: f"={c('Günlük çağrı',k)}*{c('Ayda gün',k)}",
     'Aylık dakika': lambda k: f"=B25_*{c('Ortalama süre (dakika)',k)}".replace('B25_', f'{k}25'),
 }
-ek.cell(25, 1, 'Aylık çağrı').font = b_normal
-ek.cell(26, 1, 'Aylık dakika').font = b_normal
+ek.cell(R_CAGRI, 1, 'Aylık çağrı').font = b_normal
+ek.cell(R_DK, 1, 'Aylık faturalanan dakika').font = b_normal
 for k in 'BCD':
-    h = ek[f'{k}25']; h.value = f"={c('Günlük çağrı',k)}*{c('Ayda gün',k)}"; h.number_format = SAYI; h.fill = TURETILEN
-    h = ek[f'{k}26']; h.value = f"={k}25*{c('Ortalama süre (dakika)',k)}"; h.number_format = SAYI; h.fill = TURETILEN
+    h = ek[f'{k}{R_CAGRI}']; h.value = f"={c('Günlük çağrı',k)}*{c('Ayda gün',k)}"; h.number_format = SAYI; h.fill = TURETILEN
+    h = ek[f'{k}{R_DK}']
+    h.value = f"={k}{R_CAGRI}*({c('Ortalama süre (dakika)',k)}+{c('Dakika yuvarlama (dk/çağrı)',k)})"
+    h.number_format = SAYI; h.fill = TURETILEN
 
 # maliyet kalemleri (TL)
 KALEMLER = [
     ('Telefon — Relay + BYOC',
-     lambda k: f"={k}26*({c('ConversationRelay ($/dk)',k)}+{c('Twilio BYOC ($/dk)',k)})*{c('USD/TRY',k)}"),
+     lambda k: f"={k}{R_DK}*({c('ConversationRelay ($/dk)',k)}+{c('Twilio BYOC ($/dk)',k)})*{c('USD/TRY',k)}"),
     ('Telefon — gelen dakika',
-     lambda k: f"={k}26*{c('Gelen çağrı (₺/dk)',k)}"),
+     lambda k: f"={k}{R_DK}*{c('Gelen çağrı (₺/dk)',k)}"),
     ('Telefon — Verimor sabit',
      lambda k: f"={c('Verimor sabit (₺/ay, KDV dahil)',k)}"),
     ('Seslendirme (ElevenLabs)',
-     lambda k: f"={k}25*{c('Görüşme başına karakter',k)}/1000*{c('Seslendirme ($/1.000 karakter)',k)}*{c('USD/TRY',k)}"),
+     lambda k: f"={k}{R_CAGRI}*{c('Görüşme başına karakter',k)}/1000*{c('Seslendirme ($/1.000 karakter)',k)}*{c('USD/TRY',k)}"),
     ('Yapay zekâ (Claude Sonnet 5.5)',
-     lambda k: (f"={k}25*(({c('Tur başına yeni girdi (token)',k)}*{c('Görüşme başına tur',k)}"
+     lambda k: (f"={k}{R_CAGRI}*(({c('Tur başına yeni girdi (token)',k)}*{c('Görüşme başına tur',k)}"
                 f"+{c('Sistem metni (token)',k)}*1.25)/1000000*2"
                 f"+({c('Sistem metni (token)',k)}*({c('Görüşme başına tur',k)}-1))/1000000*0.2"
                 f"+({c('Tur başına çıktı (token)',k)}*{c('Görüşme başına tur',k)})/1000000*10)"
@@ -606,7 +613,7 @@ KALEMLER = [
     ('Sunucu + izleme',
      lambda k: f"={c('Sunucu + izleme ($/ay)',k)}*{c('USD/TRY',k)}"),
 ]
-s = 28
+s = R_KALEM
 for etiket, f in KALEMLER:
     ek.cell(s, 1, etiket).font = b_normal
     for k in 'BCD':
@@ -616,50 +623,51 @@ for etiket, f in KALEMLER:
         h.fill = TURETILEN
     s += 1
 
-ek.cell(35, 1, 'TOPLAM (₺/ay)').font = b_kalin
+ek.cell(R_TOPLAM, 1, 'TOPLAM (₺/ay)').font = b_kalin
 for k in 'BCD':
-    h = ek[f'{k}35']
-    h.value = f'=SUM({k}28:{k}33)'
+    h = ek[f'{k}{R_TOPLAM}']
+    h.value = f'=SUM({k}{R_KALEM}:{k}{R_KALEM+5})'
     h.number_format = PARA_TRY
     h.font = Font(name=F, size=12, bold=True, color='B91C1C')
     h.fill = TURETILEN
 
-ek.cell(36, 1, 'Çağrı başına (₺)').font = b_normal
-ek.cell(37, 1, 'Dakika başına (₺)').font = b_normal
-ek.cell(38, 1, 'Sabit kalemler (₺/ay)').font = b_normal
-ek.cell(39, 1, 'Değişken — dakika başına (₺)').font = b_kalin
+ek.cell(R_TOPLAM+1, 1, 'Çağrı başına (₺)').font = b_normal
+ek.cell(R_TOPLAM+2, 1, 'Faturalanan dakika başına (₺)').font = b_normal
+ek.cell(R_TOPLAM+3, 1, 'Sabit kalemler (₺/ay)').font = b_normal
+ek.cell(R_TOPLAM+4, 1, 'Değişken — dakika başına (₺)').font = b_kalin
 for k in 'BCD':
     for satir, formul, bic in (
-        (36, f'=IF({k}25=0,0,{k}35/{k}25)', '#,##0.00 ₺'),
-        (37, f'=IF({k}26=0,0,{k}35/{k}26)', '#,##0.00 ₺'),
-        (38, f'={k}30+{k}33', PARA_TRY),
-        (39, f'=IF({k}26=0,0,({k}35-{k}38)/{k}26)', '#,##0.00 ₺'),
+        (R_TOPLAM+1, f'=IF({k}{R_CAGRI}=0,0,{k}{R_TOPLAM}/{k}{R_CAGRI})', '#,##0.00 ₺'),
+        (R_TOPLAM+2, f'=IF({k}{R_DK}=0,0,{k}{R_TOPLAM}/{k}{R_DK})', '#,##0.00 ₺'),
+        (R_TOPLAM+3, f'={k}{R_KALEM+2}+{k}{R_KALEM+5}', PARA_TRY),
+        (R_TOPLAM+4, f'=IF({k}{R_DK}=0,0,({k}{R_TOPLAM}-{k}{R_TOPLAM+3})/{k}{R_DK})', '#,##0.00 ₺'),
     ):
         h = ek[f'{k}{satir}']
         h.value = formul
         h.number_format = bic
         h.fill = TURETILEN
-        if satir == 39:
+        if satir == R_TOPLAM+4:
             h.font = b_kalin
 
-ek['E39'] = 'EN ÖNEMLİ SATIR: maliyet neredeyse tamamen dakika başına. Fiyat da dakika başına kurulmalı.'
-ek['E39'].font = Font(name=F, size=10, bold=True, color='B45309')
+ek[f'E{R_TOPLAM+4}'] = 'EN ÖNEMLİ SATIR: maliyet neredeyse tamamen dakika başına. Fiyat da dakika başına kurulmalı.'
+ek[f'E{R_TOPLAM+4}'].font = Font(name=F, size=10, bold=True, color='B45309')
 
-bolum(ek, 41, 'KARŞILAŞTIRMA — 7/24 İNSAN RESEPSİYON', 4)
-ek['A42'] = 'Haftada 168 saat · kişi başı 45 saat · izin/hastalık/bayram payı 1,2 kat = 4,5 kişi'
-ek['A42'].font = b_not
-ek.cell(43, 1, 'Kişi başı işveren maliyeti (₺/ay)').font = b_normal
-h = ek.cell(43, 2, 40000); h.font = b_girdi; h.fill = GIRDI_DOLGU; h.border = cerceve; h.number_format = PARA_TRY
-ek.cell(43, 5, 'DOĞRULANMALI — 2026 işveren maliyeti teyit edilmeli. Bu hücre varsayımdır.').font = b_not
-ek.cell(44, 1, 'Gereken kişi').font = b_normal
-h = ek.cell(44, 2, '=168/45*1.2'); h.number_format = ONDALIK; h.fill = TURETILEN
-ek.cell(45, 1, '7/24 insan resepsiyon maliyeti (₺/ay)').font = b_kalin
-h = ek.cell(45, 2, '=B43*B44')
+K = R_TOPLAM + 6
+bolum(ek, K, 'KARŞILAŞTIRMA — 7/24 İNSAN RESEPSİYON', 4)
+ek[f'A{K+1}'] = 'Haftada 168 saat · kişi başı 45 saat · izin/hastalık/bayram payı 1,2 kat = 4,5 kişi'
+ek[f'A{K+1}'].font = b_not
+ek.cell(K+2, 1, 'Kişi başı işveren maliyeti (₺/ay)').font = b_normal
+h = ek.cell(K+2, 2, 40000); h.font = b_girdi; h.fill = GIRDI_DOLGU; h.border = cerceve; h.number_format = PARA_TRY
+ek.cell(K+2, 5, 'DOĞRULANMALI — 2026 işveren maliyeti teyit edilmeli. Bu hücre varsayımdır.').font = b_not
+ek.cell(K+3, 1, 'Gereken kişi').font = b_normal
+h = ek.cell(K+3, 2, '=168/45*1.2'); h.number_format = ONDALIK; h.fill = TURETILEN
+ek.cell(K+4, 1, '7/24 insan resepsiyon maliyeti (₺/ay)').font = b_kalin
+h = ek.cell(K+4, 2, f'=B{K+2}*B{K+3}')
 h.number_format = PARA_TRY
 h.font = Font(name=F, size=12, bold=True, color=MARKA)
 h.fill = PatternFill('solid', fgColor='CCFBF1')
-ek.cell(45, 5, 'Beklenen senaryo (A) bu rakamın belirgin altında. En kötü senaryo (C) ise aynı mertebeye çıkıyor —').font = b_not
-ek.cell(46, 5, 'yani asistanın maliyet avantajı garanti değil, çağrı hacmi ve dakika ücretine bağlı.').font = b_not
+ek.cell(K+4, 5, 'Beklenen senaryo (A) bu rakamın belirgin altında. En kötü senaryo (C) ise aynı mertebeye çıkıyor —').font = b_not
+ek.cell(K+5, 5, 'yani asistanın maliyet avantajı garanti değil, çağrı hacmi ve dakika ücretine bağlı.').font = b_not
 
 ek.column_dimensions['A'].width = 34
 for col in 'BCD':
