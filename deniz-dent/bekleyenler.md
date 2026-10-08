@@ -41,7 +41,21 @@
   kabul ediliyor mu, (b) 15 günlük demo için ücretsiz test numarası alırken
   bu evraklar gerçekten gerekli mi, daha hafif bir yol var mı.
 
-  **Demo zincirinin ilk halkası bu; çözülmeden gerçek çağrı verisi gelmiyor.**
+  **Verimor cevabı (08.10):** hafif yol yok. "Gerçek bir numara tahsis
+  ettiğiniz için imza sirküleri isteniyor; numara bağımsız hizmet
+  vermemekteyiz." Teknik sorular da (FQDN, Twilio IP aralıklarının
+  açılması) hesap içi destek kaydı gerektiriyor — yani aynı evraka bağlı.
+
+  **KARAR (08.10): Şerif Bey'in onayı beklenecek.** Onay gelmeden noter
+  evrakı çıkarmak ya da şirket adımı atmak erken. Onay geldiğinde iki yol
+  değerlendirilecek:
+  - **A** — MİZ adına imza sirküleri/beyannamesi çıkar, abonelik bizde
+    kalır, teklifteki "tek fatura" sözü korunur
+  - **B** — abone Deniz Dent olur; engel kalkar ama iki fatura doğar ve
+    hat bizim kontrolümüzde olmaz
+
+  **Sonuç: demo ve gerçek çağrı verisi onay sonrasına ertelendi.**
+  Teklifteki "ilk ay birlikte ölçeceğiz" maddesi bunu zaten karşılıyor.
 
 ---
 
