@@ -30,9 +30,18 @@
 
 ## Bizim yapacaklarımız
 
-- **Verimor ücretsiz numara başvurusu** — `oim.verimor.com.tr/abonelik-basvurusu`
-  üzerinden. Numara alınıp Verimor'a iletilecek, 15 günlük demoyu onlar açacak.
-  **Demo zincirinin ilk halkası bu.**
+- **Verimor ücretsiz numara başvurusu — TAKILDI (08.10.2026).**
+  `oim.verimor.com.tr/abonelik-basvurusu` akışı **şirket aboneliği** olarak
+  ilerliyor ve *imza sirkülerindeki yetkilinin* kimlik doğrulamasını
+  (TCKN, anne-baba adı, doğum tarihi, kimlik belgesi) zorunlu kılıyor.
+  Elimizde imza sirküleri yok. Başvuru **gönderilmeden iptal edildi** —
+  yanlış tipte abonelik açıp sonra düzeltmek daha zahmetli olurdu.
+
+  Verimor'a soruldu: (a) şahıs şirketlerinde imza beyannamesi + vergi levhası
+  kabul ediliyor mu, (b) 15 günlük demo için ücretsiz test numarası alırken
+  bu evraklar gerçekten gerekli mi, daha hafif bir yol var mı.
+
+  **Demo zincirinin ilk halkası bu; çözülmeden gerçek çağrı verisi gelmiyor.**
 
 ---
 
