@@ -88,7 +88,54 @@ X Small + SIP Trunk = 1.464 ₺ + KDV = **~1.757 ₺/ay**
 
 ---
 
-## 5. E-postadaki rakamlarla fiyat listesi uyuşmuyor
+## 4b. ÇÖZÜLDÜ — 08.10.2026 Verimor cevabı
+
+| Soru | Cevap |
+|---|---|
+| Paket fiyatı çelişkisi | **"Rakamlar yıllık rakamlar."** Tezimiz doğruydu. Güncel fiyat sitelerinde: `verimor.com.tr/bulut-santral-paketleri` |
+| Zorunlu modül | **Yok.** "AI entegrasyonu için bir modül ihtiyacınız yok." Görüşme kaydı yalnızca istenirse |
+| G.711 A-law | **Destekleniyor** |
+| Gelen çağrı dakikası | **Ücretsiz.** "Web sitemizde de açık bir şekilde yer alıyor" — yazılı teyit alındı |
+| Paket önerisi | 5 kullanıcı yeterli |
+| Demo | Ücretsiz numara alınıp kendilerine iletilecek, 15 günlük demo talebini onlar açacak |
+
+### Çıkan yeni konu: aktarım Bulut Santral gerektirebilir
+
+Verimor'un uyarısı: *"AI cevap veremedi ve müşteri temsilcisine bağlanması
+gibi senaryolar varsa bulut santral olmalı."*
+
+**Bizde bu senaryo var ve isteğe bağlı değil.** Asistan acil durumda,
+şikâyette, hukuki konuda, KVKK talebinde ve cevaplayamadığı her soruda
+insana aktarıyor (`ajan.js:93 insanaDevret`).
+
+Kodumuzda aktarım Twilio'nun `<Dial>`ı ile, yani **giden çağrı** olarak
+yapılıyor (`twilio.js:127`). İki yol var:
+
+| | Nasıl | Maliyet |
+|---|---|---|
+| **A — Bulut Santral** | Aktarımı Verimor yapar | Sabit paket ücreti (~565 ₺/ay, liste) |
+| **B — Santralsiz** | SIP trunk üzerinden giden çağrı açarız | Giden dakika × aktarım sayısı |
+
+**Yol B'nin maliyeti aktarım oranına çok duyarlı** (3.000 çağrı/ay,
+aktarım başına 3 dk varsayımıyla):
+
+| Aktarım oranı | $0,02/dk | $0,05/dk | $0,10/dk |
+|---|---|---|---|
+| %5 | 525 ₺ | 1.312 ₺ | 2.625 ₺ |
+| %10 | 1.050 ₺ | 2.625 ₺ | 5.250 ₺ |
+| %20 | 2.100 ₺ | 5.250 ₺ | 10.500 ₺ |
+| %30 | 3.150 ₺ | 7.875 ₺ | 15.750 ₺ |
+
+**Sabit 565 ₺'lik Bulut Santral, %10'un üzerindeki her aktarım oranında
+daha ucuz görünüyor.** Ama Verimor'un giden dakika ücretini bilmeden
+karar vermiyoruz — soruldu.
+
+**Modelde eksik kalan kalem buydu.** "Giden çağrı çok az" diye
+önemsememiştik; acil aktarımların zorunlu olduğu bir üründe öyle değil.
+
+---
+
+## 5. E-postadaki rakamlarla fiyat listesi uyuşmuyor (ÇÖZÜLDÜ — bkz. 4b)
 
 E-postada:
 - "2 kullanıcılı **5.731 ₺**+KDV"
