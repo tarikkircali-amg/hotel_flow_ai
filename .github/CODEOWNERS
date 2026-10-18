@@ -1,1 +1,31 @@
-* @affaan-m
+# ============================================================
+# Mizos Holding — CODEOWNERS
+# Takim + klasor bazli sahiplik. Son eslesen kural kazanir.
+# Takimlarin repo'da "write" erisimi olmali, yoksa atama yapilmaz.
+# ============================================================
+
+# Varsayilan: aksi belirtilmedikce tum dosyalar platform ekibine
+*                       @mizos-holding/platform
+
+# --- Uygulama katmanlari (klasorler olustukca aktiflesir) ---
+/backend/               @mizos-holding/backend
+/frontend/              @mizos-holding/frontend
+/mobile/                @mizos-holding/mobile
+
+# --- Veri & AI ---
+/db/                    @mizos-holding/data
+/migrations/            @mizos-holding/data
+/ai/                    @mizos-holding/ai
+/prompts/               @mizos-holding/ai
+
+# --- Altyapi & dagitim ---
+/infra/                 @mizos-holding/devops
+/deploy/                @mizos-holding/devops
+/.github/workflows/     @mizos-holding/devops
+
+# --- Guvenlik-hassas yollar (en ozel, en altta) ---
+/.github/CODEOWNERS     @mizos-holding/platform-leads
+/SECURITY.md            @mizos-holding/security
+
+# --- Mevcut repo kokundeki backend girisi ---
+/server.js              @mizos-holding/backend
