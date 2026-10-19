@@ -1,31 +1,31 @@
 # ============================================================
-# Mizos Holding — CODEOWNERS
-# Takim + klasor bazli sahiplik. Son eslesen kural kazanir.
-# Takimlarin repo'da "write" erisimi olmali, yoksa atama yapilmaz.
+# Mizos Holding — CODEOWNERS (15 kisilik baslangic)
+# Son eslesen kural kazanir. Takimlarin repo'da "write" erisimi olmali,
+# yoksa otomatik reviewer atamasi yapilmaz. Takim sozdizimi yalnizca
+# depo bir organizasyon (mizos-holding) altindayken calisir.
 # ============================================================
 
 # Varsayilan: aksi belirtilmedikce tum dosyalar platform ekibine
-*                       @mizos-holding/platform
+*                    @mizos-holding/platform
 
-# --- Uygulama katmanlari (klasorler olustukca aktiflesir) ---
-/backend/               @mizos-holding/backend
-/frontend/              @mizos-holding/frontend
-/mobile/                @mizos-holding/mobile
+# Backend
+/backend/            @mizos-holding/backend
+/server.js           @mizos-holding/backend
 
-# --- Veri & AI ---
-/db/                    @mizos-holding/data
-/migrations/            @mizos-holding/data
-/ai/                    @mizos-holding/ai
-/prompts/               @mizos-holding/ai
+# Frontend / statik
+/frontend/           @mizos-holding/frontend
+/public/             @mizos-holding/frontend
 
-# --- Altyapi & dagitim ---
-/infra/                 @mizos-holding/devops
-/deploy/                @mizos-holding/devops
-/.github/workflows/     @mizos-holding/devops
+# Depo yonetisimi (CODEOWNERS, workflow'lar, sablonlar)
+/.github/            @mizos-holding/platform
 
-# --- Guvenlik-hassas yollar (en ozel, en altta) ---
-/.github/CODEOWNERS     @mizos-holding/platform-leads
-/SECURITY.md            @mizos-holding/security
-
-# --- Mevcut repo kokundeki backend girisi ---
-/server.js              @mizos-holding/backend
+# ------------------------------------------------------------
+# 400 kisilik hedefte acilacak (simdilik pasif — yorum satiri).
+# Takimlar olusturulup write erisimi verilince yorumu kaldirin.
+# ------------------------------------------------------------
+# /ai/          @mizos-holding/ai
+# /prompts/     @mizos-holding/ai
+# /infra/       @mizos-holding/devops
+# /deploy/      @mizos-holding/devops
+# /db/          @mizos-holding/data
+# /migrations/  @mizos-holding/data
