@@ -1,0 +1,19 @@
+# Bagimliliklar
+node_modules/
+
+# SQLite veritabani (seed/parola hash'i icerir — repo'ya girmez)
+*.db
+calimera.db
+
+# Ortam / secret
+.env
+.env.*
+!.env.example
+
+# Log ve gecici
+*.log
+/tmp/
+
+# OS / editor
+.DS_Store
+Thumbs.db
